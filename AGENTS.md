@@ -18,6 +18,7 @@ Règles produit à respecter dans le code (décisions V1) :
 - Le tuteur ne donne la solution d'un exercice qu'après une tentative réelle (`src/server/learning/policies.ts`).
 - Une contestation de correction reçoit une réponse fixe, sans appel au modèle ni débat (`contestationReply`).
 - Essai gratuit de 24 h démarrant au premier import, un seul par numéro de téléphone.
+- Le nombre de quiz est limité par le forfait (table `plans`, `quiz_limit` par période ; `null` = sans limite). La base refuse le quiz de trop (`check_quiz_quota`) ; l'interface lit `quiz_quota()`.
 - Les anciens examens viennent de l'utilisateur ; LULU ne constitue ni annales ni programmes avant la V2.
 
 Règles techniques :

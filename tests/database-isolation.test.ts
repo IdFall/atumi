@@ -62,6 +62,11 @@ beforeAll(async () => {
       ('${B}', 'b@exemple.sn', '{"username": "bakary", "cycle": "lycee", "guardian_phone": "+221770000000", "cgu_accepted": true}');
     insert into public.modules (id, user_id, name) values
       ('${MODULE_A}', '${A}', 'Maths A'), ('${MODULE_B}', '${B}', 'Maths B');
+    insert into public.plans (code, country_code, kind, label, price_minor, currency, duration_days, quiz_limit)
+      values ('test-illimite', 'SN', 'abonnement', 'Test', 0, 'XOF', 30, null);
+    insert into public.subscriptions (user_id, plan_code, status, amount_minor, currency, payment_provider,
+      payment_reference, starts_at, ends_at)
+      values ('${A}', 'test-illimite', 'active', 0, 'XOF', 'test', 'ref-a', now() - interval '1 day', now() + interval '29 days');
     insert into public.quizzes (user_id, module_id) values ('${A}', '${MODULE_A}');
     insert into public.quiz_questions (user_id, quiz_id, position, kind, prompt, expected_answer)
       select '${A}', id, 1, 'qcm', '2+2 ?', '"4"' from public.quizzes;
@@ -203,6 +208,44 @@ describe("isolation des données entre utilisateurs", () => {
     await expect(
       db.exec(`insert into public.trials (user_id, phone_e164) values ('${B}', '+221771234567')`),
     ).rejects.toThrow();
+  });
+
+  it("limite le nombre de quiz selon le forfait", async () => {
+    const D = "00000000-0000-0000-0000-00000000000d";
+    const MODULE_D = "10000000-0000-0000-0000-00000000000d";
+    await asService();
+    await db.exec(`
+      insert into auth.users (id, phone, raw_user_meta_data) values
+        ('${D}', '+221770000001', '{"username": "dieynaba", "cycle": "universite", "cgu_accepted": true}');
+      insert into public.modules (id, user_id, name) values ('${MODULE_D}', '${D}', 'Physique');
+    `);
+    // Sans essai ni abonnement : pas de quiz.
+    await expect(
+      db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`),
+    ).rejects.toThrow(/ACCES_EXPIRE/);
+
+    // Essai en cours : 3 quiz, pas un de plus.
+    await db.exec(`insert into public.trials (user_id, phone_e164, started_at, ends_at)
+      values ('${D}', '+221770000001', now(), now() + interval '24 hours')`);
+    for (let i = 0; i < 3; i++) {
+      await db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`);
+    }
+    await expect(
+      db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`),
+    ).rejects.toThrow(/QUOTA_QUIZ_ATTEINT/);
+
+    await asUser(D);
+    const quota = await db.query<{ plan_code: string; quiz_limit: number; used: number; remaining: number }>(
+      `select plan_code, quiz_limit, used, remaining from public.quiz_quota()`,
+    );
+    expect(quota.rows).toEqual([{ plan_code: "sn-essai", quiz_limit: 3, used: 3, remaining: 0 }]);
+  });
+
+  it("les forfaits ne sont modifiables que par le serveur", async () => {
+    await asUser(A);
+    await expect(db.exec(`update public.plans set quiz_limit = null`)).rejects.toThrow();
+    const visibles = await db.query<{ code: string }>(`select code from public.plans order by code`);
+    expect(visibles.rows.map((r) => r.code)).toEqual(["sn-essai"]);
   });
 
   it("seul le Sénégal est ouvert au lancement", async () => {
