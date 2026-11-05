@@ -184,6 +184,19 @@ describe("isolation des données entre utilisateurs", () => {
     ).rejects.toThrow();
   });
 
+  it("la photo de profil reste dans le dossier de son propriétaire", async () => {
+    await asUser(A);
+    await db.exec(`insert into storage.objects (bucket_id, name) values ('avatars', '${A}/photo.jpg')`);
+    await expect(
+      db.exec(`insert into storage.objects (bucket_id, name) values ('avatars', '${B}/photo.jpg')`),
+    ).rejects.toThrow();
+    await db.exec(`update public.profiles set avatar_path = '${A}/photo.jpg'`);
+    await expect(db.exec(`update public.profiles set avatar_path = '${B}/photo.jpg'`)).rejects.toThrow();
+    await asUser(B);
+    const visible = await db.query(`select 1 from storage.objects where bucket_id = 'avatars'`);
+    expect(visible.rows).toHaveLength(0);
+  });
+
   it("un seul essai gratuit par numéro de téléphone", async () => {
     await asService();
     await db.exec(`insert into public.trials (user_id, phone_e164) values ('${A}', '+221771234567')`);
