@@ -1,0 +1,40 @@
+import { z } from "zod";
+
+/**
+ * Travaux lourds traités en arrière-plan par les workers.
+ * L'API dépose un travail et rend la main tout de suite ; l'apprenant est
+ * prévenu quand le résultat est prêt.
+ */
+export const QUEUES = {
+  /** Lecture du fichier (texte ou vision), découpage par chapitres, indexation. */
+  documentIngest: "document-ingest",
+  /** Synthèse d'un module ou d'un chapitre, générée une fois puis réutilisée. */
+  synthesisGenerate: "synthesis-generate",
+  /** Banque de questions d'un module ou d'un chapitre. */
+  quizGenerate: "quiz-generate",
+} as const;
+
+export type QueueName = (typeof QUEUES)[keyof typeof QUEUES];
+
+const uuid = z.uuid();
+
+export const payloadSchemas = {
+  [QUEUES.documentIngest]: z.object({ userId: uuid, documentId: uuid }),
+  [QUEUES.synthesisGenerate]: z.object({ userId: uuid, moduleId: uuid, chapterId: uuid.nullable() }),
+  [QUEUES.quizGenerate]: z.object({
+    userId: uuid,
+    moduleId: uuid,
+    chapterId: uuid.nullable(),
+    questionCount: z.number().int().min(3).max(30),
+  }),
+} satisfies Record<QueueName, z.ZodType>;
+
+export type Payload<Q extends QueueName> = z.infer<(typeof payloadSchemas)[Q]>;
+
+/** Réglages communs : nouvelles tentatives espacées, durée maximale par travail. */
+export const QUEUE_OPTIONS = {
+  retryLimit: 3,
+  retryDelay: 30,
+  retryBackoff: true,
+  expireInSeconds: 15 * 60,
+} as const;
