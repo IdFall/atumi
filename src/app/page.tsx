@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { getMessages } from "@/i18n/messages";
 
 const t = getMessages("fr");
@@ -26,6 +28,15 @@ export default function Home() {
       </ol>
 
       <div className="flex flex-col gap-2">
+        <Link
+          href="/inscription"
+          className="rounded-lg bg-blue-700 px-4 py-3 text-center font-semibold text-white"
+        >
+          {t.home.signUp}
+        </Link>
+        <Link href="/connexion" className="text-center text-sm text-blue-700 underline">
+          {t.home.signIn}
+        </Link>
         <p className="text-center text-sm text-neutral-500">{t.home.trial}</p>
       </div>
     </main>

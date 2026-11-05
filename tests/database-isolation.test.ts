@@ -28,9 +28,15 @@ async function asService() {
 beforeAll(async () => {
   db = new PGlite({ extensions: { vector } });
   await db.exec(`
+    create role anon;
     create role authenticated;
+    -- Comme sur Supabase : droits par défaut sur ce que créent les migrations.
+    grant usage on schema public to anon, authenticated;
+    alter default privileges in schema public grant all on tables to anon, authenticated;
+    alter default privileges in schema public grant all on sequences to anon, authenticated;
+    alter default privileges in schema public grant execute on functions to anon, authenticated;
     create schema auth;
-    create table auth.users (id uuid primary key);
+    create table auth.users (id uuid primary key, email text, phone text, raw_user_meta_data jsonb);
     create function auth.uid() returns uuid language sql stable as
       $$ select nullif(current_setting('request.jwt.sub', true), '')::uuid $$;
     create schema storage;
@@ -48,10 +54,12 @@ beforeAll(async () => {
   }
 
   await db.exec(`
-    grant usage on schema public, auth, storage to authenticated;
-    grant select, insert, update, delete on all tables in schema public, storage to authenticated;
-    grant execute on all functions in schema public, auth, storage to authenticated;
-    insert into auth.users values ('${A}'), ('${B}');
+    grant usage on schema auth, storage to authenticated;
+    grant select, insert, update, delete on all tables in schema storage to authenticated;
+    grant execute on all functions in schema auth, storage to authenticated;
+    insert into auth.users (id, email, raw_user_meta_data) values
+      ('${A}', 'a@exemple.sn', '{"username": "awa", "cycle": "universite", "cgu_accepted": true, "cgu_version": "2026-11"}'),
+      ('${B}', 'b@exemple.sn', '{"username": "bakary", "cycle": "lycee", "guardian_phone": "+221770000000", "cgu_accepted": true}');
     insert into public.modules (id, user_id, name) values
       ('${MODULE_A}', '${A}', 'Maths A'), ('${MODULE_B}', '${B}', 'Maths B');
     insert into public.quizzes (user_id, module_id) values ('${A}', '${MODULE_A}');
@@ -62,6 +70,70 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await db?.close();
+});
+
+const C = "00000000-0000-0000-0000-00000000000c";
+
+function insertUser(meta: Record<string, unknown>) {
+  return db.exec(
+    `insert into auth.users (id, raw_user_meta_data) values ('${C}', '${JSON.stringify(meta)}')`,
+  );
+}
+
+describe("inscription", () => {
+  it("crée le profil et le consentement aux CGU", async () => {
+    await asUser(A);
+    const profile = await db.query<{ username: string; country_code: string; cycle: string }>(
+      `select username, country_code, cycle from public.profiles`,
+    );
+    expect(profile.rows).toEqual([{ username: "awa", country_code: "SN", cycle: "universite" }]);
+    const consents = await db.query<{ kind: string }>(`select kind from public.consents`);
+    expect(consents.rows.map((r) => r.kind)).toEqual(["cgu"]);
+  });
+
+  it("enregistre l'accord parental d'un lycéen", async () => {
+    await asUser(B);
+    const consents = await db.query<{ kind: string; guardian_phone_e164: string | null }>(
+      `select kind, guardian_phone_e164 from public.consents order by kind`,
+    );
+    expect(consents.rows).toEqual([
+      { kind: "cgu", guardian_phone_e164: null },
+      { kind: "parental", guardian_phone_e164: "+221770000000" },
+    ]);
+  });
+
+  it("refuse un mineur sans accord parental", async () => {
+    await asService();
+    await expect(insertUser({ username: "cheikh", cycle: "college", cgu_accepted: true })).rejects.toThrow(
+      /ACCORD_PARENTAL/,
+    );
+  });
+
+  it("refuse une inscription sans acceptation des CGU", async () => {
+    await asService();
+    await expect(insertUser({ username: "cheikh", cycle: "universite" })).rejects.toThrow(/CGU/);
+  });
+
+  it("refuse un pays pas encore ouvert", async () => {
+    await asService();
+    await expect(
+      insertUser({ username: "cheikh", cycle: "universite", cgu_accepted: true, country_code: "CI" }),
+    ).rejects.toThrow(/PAYS_NON_OUVERT/);
+  });
+
+  it("refuse un pseudo déjà pris ou mal formé", async () => {
+    await asService();
+    await expect(insertUser({ username: "awa", cycle: "universite", cgu_accepted: true })).rejects.toThrow();
+    await expect(insertUser({ username: "A W A", cycle: "universite", cgu_accepted: true })).rejects.toThrow();
+  });
+
+  it("laisse modifier le niveau mais pas le pseudo ni le pays", async () => {
+    await asUser(A);
+    await db.exec(`update public.profiles set cycle = 'lycee'`);
+    await expect(db.exec(`update public.profiles set username = 'autre'`)).rejects.toThrow();
+    await expect(db.exec(`update public.profiles set country_code = 'CI'`)).rejects.toThrow();
+    await db.exec(`update public.profiles set cycle = 'universite'`);
+  });
 });
 
 describe("isolation des données entre utilisateurs", () => {
