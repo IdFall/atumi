@@ -104,9 +104,16 @@ describe("inscription", () => {
 
   it("refuse un mineur sans accord parental", async () => {
     await asService();
-    await expect(insertUser({ username: "cheikh", cycle: "college", cgu_accepted: true })).rejects.toThrow(
+    await expect(insertUser({ username: "cheikh", cycle: "lycee", cgu_accepted: true })).rejects.toThrow(
       /ACCORD_PARENTAL/,
     );
+  });
+
+  it("refuse le collège, pas encore ouvert en V1", async () => {
+    await asService();
+    await expect(
+      insertUser({ username: "cheikh", cycle: "college", guardian_phone: "+221770000000", cgu_accepted: true }),
+    ).rejects.toThrow(/NIVEAU_NON_OUVERT/);
   });
 
   it("refuse une inscription sans acceptation des CGU", async () => {
@@ -130,6 +137,7 @@ describe("inscription", () => {
   it("laisse modifier le niveau mais pas le pseudo ni le pays", async () => {
     await asUser(A);
     await db.exec(`update public.profiles set cycle = 'lycee'`);
+    await expect(db.exec(`update public.profiles set cycle = 'college'`)).rejects.toThrow(/NIVEAU_NON_OUVERT/);
     await expect(db.exec(`update public.profiles set username = 'autre'`)).rejects.toThrow();
     await expect(db.exec(`update public.profiles set country_code = 'CI'`)).rejects.toThrow();
     await db.exec(`update public.profiles set cycle = 'universite'`);

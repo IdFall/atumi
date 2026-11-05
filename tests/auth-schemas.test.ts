@@ -45,10 +45,15 @@ describe("inscription", () => {
 
   it("refuse que le parent ait le même numéro que l'élève", () => {
     const result = parseSignUp(
-      { ...base, identifier: "771234567", cycle: "college", guardianPhone: "+221771234567" },
+      { ...base, identifier: "771234567", cycle: "lycee", guardianPhone: "+221771234567" },
       "SN",
     );
     expect(result).toEqual({ ok: false, errors: { guardianPhone: "guardianPhoneSameAsUser" } });
+  });
+
+  it("refuse le collège, pas encore ouvert en V1", () => {
+    const result = parseSignUp({ ...base, cycle: "college", guardianPhone: "77 000 00 00" }, "SN");
+    expect(result).toEqual({ ok: false, errors: { cycle: "cycleNotOpen" } });
   });
 
   it("refuse un numéro d'un pays pas encore ouvert", () => {

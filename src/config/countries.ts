@@ -8,6 +8,9 @@
 
 export type Cycle = "college" | "lycee" | "universite";
 
+/** Tous les cycles connus, dans l'ordre d'affichage. */
+export const ALL_CYCLES: readonly Cycle[] = ["college", "lycee", "universite"];
+
 export type PaymentMethod = "wave" | "orange_money" | "free_money" | "mtn_momo" | "moov_money" | "card";
 
 export interface CountryConfig {
@@ -18,8 +21,12 @@ export interface CountryConfig {
   defaultLocale: Locale;
   timezone: string;
   paymentMethods: PaymentMethod[];
+  /** Cycles ouverts à l'inscription. V1 : lycée et université (le collège viendra plus tard). */
+  openCycles: readonly Cycle[];
   isActive: boolean;
 }
+
+const V1_CYCLES: readonly Cycle[] = ["lycee", "universite"];
 
 export type Locale = "fr";
 
@@ -32,6 +39,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     defaultLocale: "fr",
     timezone: "Africa/Dakar",
     paymentMethods: ["wave", "orange_money", "free_money"],
+    openCycles: V1_CYCLES,
     isActive: true,
   },
   {
@@ -42,6 +50,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     defaultLocale: "fr",
     timezone: "Africa/Abidjan",
     paymentMethods: ["wave", "orange_money", "mtn_momo", "moov_money"],
+    openCycles: V1_CYCLES,
     isActive: false,
   },
   {
@@ -52,6 +61,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     defaultLocale: "fr",
     timezone: "Africa/Bamako",
     paymentMethods: ["orange_money", "moov_money"],
+    openCycles: V1_CYCLES,
     isActive: false,
   },
   {
@@ -62,6 +72,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     defaultLocale: "fr",
     timezone: "Africa/Douala",
     paymentMethods: ["orange_money", "mtn_momo"],
+    openCycles: V1_CYCLES,
     isActive: false,
   },
 ];
@@ -72,6 +83,18 @@ export function getCountry(code: string): CountryConfig | undefined {
 
 export function activeCountries(): CountryConfig[] {
   return COUNTRIES.filter((c) => c.isActive);
+}
+
+/** Pays proposé par défaut (avant que l'indicatif du téléphone ne le précise). */
+export function defaultCountry(): CountryConfig {
+  const country = activeCountries()[0];
+  if (!country) throw new Error("Aucun pays actif dans la configuration.");
+  return country;
+}
+
+/** Vrai si le cycle est ouvert à l'inscription dans ce pays. */
+export function isCycleOpen(countryCode: string, cycle: string): cycle is Cycle {
+  return getCountry(countryCode)?.openCycles.includes(cycle as Cycle) ?? false;
 }
 
 /**
@@ -101,7 +124,7 @@ export function countryFromPhone(e164: string): CountryConfig | undefined {
     .find((c) => e164.startsWith(c.phonePrefix));
 }
 
-/** Les collégiens et lycéens sont traités comme mineurs : consentement parental requis. */
+/** Collégiens et lycéens, souvent mineurs : accord parental requis. */
 export function requiresParentalConsent(cycle: Cycle): boolean {
   return cycle === "college" || cycle === "lycee";
 }

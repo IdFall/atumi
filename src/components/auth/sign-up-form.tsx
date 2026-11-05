@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
-import { requiresParentalConsent, type Cycle } from "@/config/countries";
+import { defaultCountry, requiresParentalConsent, type Cycle } from "@/config/countries";
 import { getMessages } from "@/i18n/messages";
 import { signUpAction, type FormState } from "@/server/auth/actions";
 
 const t = getMessages("fr");
-const CYCLES: Cycle[] = ["college", "lycee", "universite"];
+const CYCLES = defaultCountry().openCycles;
 
 export function SignUpForm() {
   const [state, formAction, pending] = useActionState<FormState, FormData>(signUpAction, {});
@@ -64,7 +64,7 @@ export function SignUpForm() {
 
       <fieldset className="flex flex-col gap-2 text-sm">
         <legend className="mb-1 font-medium">{t.auth.fields.cycle}</legend>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {CYCLES.map((value) => (
             <label
               key={value}

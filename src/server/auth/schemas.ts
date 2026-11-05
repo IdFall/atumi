@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { countryFromPhone, getCountry, requiresParentalConsent, toE164, type Cycle } from "@/config/countries";
+import { countryFromPhone, getCountry, isCycleOpen, requiresParentalConsent, toE164, type Cycle } from "@/config/countries";
 import type { AuthErrorKey } from "@/i18n/messages";
 
 export const CGU_VERSION = "2026-11";
@@ -48,7 +48,6 @@ export interface SignUpInput {
 }
 
 const USERNAME = /^[a-z0-9_.]{3,32}$/;
-const CYCLES: readonly Cycle[] = ["college", "lycee", "universite"];
 
 function text(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -74,11 +73,14 @@ export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseRe
   const password = typeof input.password === "string" ? input.password : "";
   if (password.length < 8 || password.length > 72) errors.password = "passwordLength";
 
-  const cycle = text(input.cycle) as Cycle;
-  if (!CYCLES.includes(cycle)) errors.cycle = "cycleRequired";
+  // Seuls les cycles ouverts dans le pays sont acceptés (V1 : lycée et université).
+  const rawCycle = text(input.cycle);
+  const cycleOk = isCycleOpen(countryCode, rawCycle);
+  if (!cycleOk) errors.cycle = rawCycle ? "cycleNotOpen" : "cycleRequired";
+  const cycle = rawCycle as Cycle;
 
   let guardianPhone: string | null = null;
-  if (CYCLES.includes(cycle) && requiresParentalConsent(cycle)) {
+  if (cycleOk && requiresParentalConsent(cycle)) {
     guardianPhone = toE164(text(input.guardianPhone), countryCode);
     if (!guardianPhone) errors.guardianPhone = "guardianPhoneRequired";
     else if (identifier?.kind === "phone" && identifier.phone === guardianPhone) {

@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { activeCountries } from "@/config/countries";
+import { defaultCountry } from "@/config/countries";
 import type { AuthErrorKey } from "@/i18n/messages";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 
@@ -17,7 +17,7 @@ export interface FormState {
   values?: Record<string, string>;
 }
 
-const DEFAULT_COUNTRY = activeCountries()[0]?.code ?? "SN";
+const DEFAULT_COUNTRY = defaultCountry().code;
 
 function field(formData: FormData, name: string): string {
   const value = formData.get(name);

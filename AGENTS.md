@@ -14,7 +14,7 @@ Plateforme d'apprentissage par IA (Sénégal d'abord, conçue pour d'autres pays
 
 Règles produit à respecter dans le code (décisions V1) :
 
-- Inscription : nom d'utilisateur, e-mail ou téléphone, mot de passe, niveau (collège, lycée, université). Jamais le nom de l'établissement.
+- Inscription : nom d'utilisateur, e-mail ou téléphone, mot de passe, niveau. V1 : lycée et université seulement (`openCycles` dans `src/config/countries.ts`, `education_levels.is_open` en base) ; le collège reste dans le modèle pour plus tard. Jamais le nom de l'établissement.
 - Le tuteur ne donne la solution d'un exercice qu'après une tentative réelle (`src/server/learning/policies.ts`).
 - Une contestation de correction reçoit une réponse fixe, sans appel au modèle ni débat (`contestationReply`).
 - Essai gratuit de 24 h démarrant au premier import, un seul par numéro de téléphone.

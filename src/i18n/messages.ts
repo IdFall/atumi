@@ -7,7 +7,7 @@ import type { Locale } from "@/config/countries";
 const fr = {
   app: {
     name: "LULU",
-    tagline: "Ton compagnon d'apprentissage, de l'école à l'université.",
+    tagline: "Ton compagnon d'apprentissage, du lycée à l'université.",
   },
   home: {
     title: "Révise avec tes propres cours",
@@ -35,7 +35,7 @@ const fr = {
       passwordHint: "8 caractères minimum.",
       cycle: "Niveau d'étude en cours",
       guardianPhone: "Téléphone d'un parent ou tuteur",
-      guardianPhoneHint: "Les collégiens et lycéens ont besoin de l'accord d'un parent.",
+      guardianPhoneHint: "Les lycéens ont besoin de l'accord d'un parent.",
       acceptCgu: "J'accepte les conditions d'utilisation et la politique de confidentialité.",
       code: "Code reçu par SMS",
     },
@@ -60,6 +60,7 @@ const fr = {
       passwordLength: "Le mot de passe doit contenir entre 8 et 72 caractères.",
       passwordRequired: "Saisis ton mot de passe.",
       cycleRequired: "Choisis ton niveau d'étude.",
+      cycleNotOpen: "LULU est ouvert aux lycéens et aux étudiants pour le moment.",
       guardianPhoneRequired: "Saisis le numéro d'un parent ou tuteur.",
       guardianPhoneSameAsUser: "Le numéro du parent doit être différent du tien.",
       cguRequired: "Tu dois accepter les conditions pour continuer.",

@@ -11,6 +11,35 @@ drop policy "profil : création" on public.profiles;
 revoke update on public.profiles from anon, authenticated;
 grant update (cycle, education_level_id, locale, updated_at) on public.profiles to authenticated;
 
+-- V1 : seuls le lycée et l'université sont ouverts. Le collège reste dans le
+-- modèle ; l'ouvrir plus tard = passer ses niveaux à is_open = true.
+alter table public.education_levels add column is_open boolean not null default true;
+update public.education_levels set is_open = false where cycle = 'college';
+
+-- Refuse un cycle sans niveau ouvert dans le pays, à l'inscription comme à la modification du profil.
+create function public.check_profile_cycle_open()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if not exists (
+    select 1 from public.education_levels l
+    where l.country_code = new.country_code and l.cycle = new.cycle and l.is_open
+  ) then
+    raise exception 'LULU_NIVEAU_NON_OUVERT';
+  end if;
+  return new;
+end;
+$$;
+
+revoke execute on function public.check_profile_cycle_open() from public, anon, authenticated;
+
+create trigger profiles_cycle_open
+  before insert or update of cycle, country_code on public.profiles
+  for each row execute function public.check_profile_cycle_open();
+
 create function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -38,7 +67,7 @@ begin
   insert into public.consents (user_id, kind, evidence)
   values (new.id, 'cgu', jsonb_build_object('version', meta ->> 'cgu_version'));
 
-  -- Collégiens et lycéens : accord d'un parent, déclaré à l'inscription.
+  -- Lycéens (et collégiens quand le collège ouvrira) : accord d'un parent, déclaré à l'inscription.
   -- La vérification par code envoyé au parent viendra dans une étape suivante.
   if v_cycle in ('college', 'lycee') then
     if v_guardian is null then
