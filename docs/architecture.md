@@ -47,7 +47,7 @@ Le pays est un paramètre : `countries` et `education_levels` en base, `src/conf
 ## Reste à construire pour le MVP
 
 - Écrans d'inscription, d'import, de synthèse, de tuteur, de quiz et de progression.
-- Lecture des documents (PDF, photos) et embeddings dans le worker.
+- Lecture des documents (PDF et Word .docx ; pas de photos en V1) et embeddings dans le worker.
 - Génération et correction des quiz.
 - Paiement Mobile Money et contrôle de l'essai.
 - Recalcul de la maîtrise et tableau de bord.

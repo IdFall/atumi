@@ -12,9 +12,9 @@ const fr = {
   home: {
     title: "Révise avec tes propres cours",
     intro:
-      "Importe un cours en photo ou en PDF. LULU en fait une synthèse, t'explique ce que tu ne comprends pas et te fait réviser avec des quiz.",
+      "Importe un cours en PDF ou en Word. LULU en fait une synthèse, t'explique ce que tu ne comprends pas et te fait réviser avec des quiz.",
     steps: [
-      { title: "Importer", body: "Photo ou PDF de ton cours, rangé par module et chapitre." },
+      { title: "Importer", body: "PDF ou Word de ton cours, rangé par module et chapitre." },
       { title: "Comprendre", body: "Une synthèse et un professeur IA qui cite tes pages." },
       { title: "S'entraîner", body: "Des quiz par module ou par chapitre." },
       { title: "Progresser", body: "Tes chapitres maîtrisés et ceux à revoir." },
