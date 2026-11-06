@@ -1,13 +1,8 @@
 import type { PageText } from "./chunk";
 
-export const PDF_MIME = "application/pdf";
-export const DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+import { DOCX_MIME, PDF_MIME } from "../../config/documents";
 
-export const ACCEPTED_MIME_TYPES = [PDF_MIME, DOCX_MIME] as const;
-export type AcceptedMimeType = (typeof ACCEPTED_MIME_TYPES)[number];
-
-/** Taille maximale d'un document importé (doit correspondre au bucket « documents »). */
-export const MAX_DOCUMENT_BYTES = 20 * 1024 * 1024;
+export { ACCEPTED_MIME_TYPES, DOCX_MIME, MAX_DOCUMENT_BYTES, PDF_MIME, type AcceptedMimeType } from "../../config/documents";
 
 export class UnreadableDocumentError extends Error {
   constructor(public readonly reason: "empty" | "corrupted" | "unsupported") {

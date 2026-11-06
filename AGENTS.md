@@ -17,7 +17,7 @@ Règles produit à respecter dans le code (décisions V1) :
 - Inscription : nom d'utilisateur, e-mail ou téléphone, mot de passe, niveau. V1 : lycée et université seulement (`openCycles` dans `src/config/countries.ts`, `education_levels.is_open` en base) ; le collège reste dans le modèle pour plus tard. Jamais le nom de l'établissement.
 - Le tuteur ne donne la solution d'un exercice qu'après une tentative réelle (`src/server/learning/policies.ts`).
 - Une contestation de correction reçoit une réponse fixe, sans appel au modèle ni débat (`contestationReply`).
-- Essai gratuit de 24 h démarrant au premier import, un seul par numéro de téléphone.
+- Essai gratuit de 24 h démarrant au premier import, un seul par numéro de téléphone (un par compte pour les comptes e-mail). Démarré par la base (`before_document_insert`), qui refuse aussi l'import sans droit ; l'interface lit `my_access()`.
 - Le nombre de quiz est limité par le forfait (table `plans`, `quiz_limit` par période ; `null` = sans limite). La base refuse le quiz de trop (`check_quiz_quota`) ; l'interface lit `quiz_quota()`.
 - Appels avec le professeur IA (voix, vidéo en option) : minutes limitées par forfait (`plans.call_minutes_limit`, `call_quota()`), appels créés et clôturés par le serveur (`tutor_calls`), transcription dans `tutor_messages`, aucun enregistrement audio ou vidéo conservé.
 - Les anciens examens viennent de l'utilisateur ; LULU ne constitue ni annales ni programmes avant la V2.

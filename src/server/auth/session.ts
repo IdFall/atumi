@@ -37,3 +37,15 @@ export async function getCurrentUser(): Promise<CurrentUser> {
     countryCode: profile.country_code,
   };
 }
+
+/**
+ * Identifiant de l'utilisateur connecté, pour les Server Actions : chacune
+ * vérifie elle-même la session (une action est appelable directement).
+ */
+export async function requireUserId(): Promise<string> {
+  const supabase = await createUserClient();
+  const { data } = await supabase.auth.getClaims();
+  const userId = data?.claims?.sub;
+  if (!userId) redirect("/connexion");
+  return userId;
+}
