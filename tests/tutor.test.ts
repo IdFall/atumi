@@ -36,8 +36,24 @@ describe("professeur IA", () => {
     expect(provider.requests[0].system).toContain("approfondir le chapitre");
   });
 
+  it("explique un sujet libre sans cours importé, en le signalant", async () => {
+    const provider = new FakeProvider({ status: "ok", text: "La photosynthèse, c'est…", usage });
+    const output = await askTutor(provider, {
+      mode: "decouvrir",
+      cycle: "lycee",
+      question: "C'est quoi la photosynthèse ?",
+      history: [],
+      passages: [],
+      exerciseAttempts: [],
+    });
+    expect(provider.requests[0].system).toContain("découvrir un sujet");
+    expect(provider.requests[0].system).toContain("ne vient pas de son cours");
+    expect(provider.requests[0].messages.at(-1)?.content).toContain("aucun passage trouvé");
+    expect(output.citedChunkIds).toEqual([]);
+  });
+
   it("garde la règle de la tentative dans toutes les langues et tous les modes", () => {
-    for (const mode of ["expliquer", "approfondir", "exercer"] as const) {
+    for (const mode of ["expliquer", "approfondir", "exercer", "decouvrir"] as const) {
       for (const language of ["fr", "en", "wo"] as const) {
         expect(tutorSystemPrompt(mode, "lycee", language)).toContain("<solution_autorisee>oui</solution_autorisee>");
       }

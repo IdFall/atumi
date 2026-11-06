@@ -5,9 +5,10 @@ import type { SourcePassage } from "./types";
 /**
  * expliquer : question précise sur une notion ;
  * approfondir : explication complète d'un chapitre quand l'apprenant a besoin de plus d'éclaircissements ;
- * exercer : accompagnement sur un exercice, solution seulement après une tentative.
+ * exercer : accompagnement sur un exercice, solution seulement après une tentative ;
+ * decouvrir : concept simple sur un sujet choisi par l'apprenant, même sans cours importé.
  */
-export type TutorMode = "expliquer" | "approfondir" | "exercer";
+export type TutorMode = "expliquer" | "approfondir" | "exercer" | "decouvrir";
 
 const CYCLE_LABEL: Record<Cycle, string> = {
   college: "un collégien",
@@ -35,6 +36,7 @@ Règles :
 const MODE_RULES: Record<TutorMode, string> = {
   expliquer: `Mode « expliquer » : explique la notion étape par étape, vérifie la compréhension par une question courte à la fin.`,
   approfondir: `Mode « approfondir le chapitre » : l'apprenant a besoin de plus d'éclaircissements. Explique le chapitre en entier, à partir de ses passages : d'abord le plan en quelques lignes, puis chaque notion clé une par une avec un exemple résolu, les erreurs fréquentes, et termine par deux questions courtes pour vérifier la compréhension. Avance par étapes et propose de continuer plutôt que de tout dire d'un coup.`,
+  decouvrir: `Mode « découvrir un sujet » : l'apprenant veut comprendre un concept simple sur un sujet de son choix, qui n'est pas forcément dans ses cours. Les passages peuvent être absents : appuie-toi alors sur des connaissances générales sûres et dis en une phrase que l'explication ne vient pas de son cours. Explique avec des mots simples, une image ou une analogie de la vie quotidienne, un exemple concret, puis l'essentiel à retenir en trois points au plus. Termine par une question courte pour vérifier la compréhension et propose d'aller plus loin. Si un passage de ses cours traite du sujet, utilise-le et cite-le. Si tu n'es pas sûr d'un fait, dis-le plutôt que d'inventer.`,
   exercer: `Mode « s'exercer » : accompagne la résolution sans donner la solution. Donne des indices progressifs et pose des questions. Quand la solution est autorisée, corrige d'abord la démarche de l'apprenant avant de donner la tienne.`,
 };
 

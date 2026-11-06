@@ -88,7 +88,14 @@ const fr = {
     languageLabel: "Langue du professeur",
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "bêta",
-    modes: { expliquer: "Expliquer", approfondir: "Approfondir le chapitre", exercer: "S'exercer" },
+    modes: {
+      expliquer: "Expliquer",
+      approfondir: "Approfondir le chapitre",
+      exercer: "S'exercer",
+      decouvrir: "Découvrir un sujet",
+    },
+    discoverPlaceholder: "Sur quel sujet veux-tu une explication simple ?",
+    discoverNotice: "Explication générale : elle ne vient pas de tes cours.",
     quickReplies: {
       otherWay: "Explique autrement",
       example: "Un exemple",
