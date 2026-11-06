@@ -269,6 +269,67 @@ describe("isolation des données entre utilisateurs", () => {
     expect(others.rows).toHaveLength(0);
   });
 
+  it("démarre l'essai de 24 h au premier import, une seule fois par numéro", async () => {
+    const E = "00000000-0000-0000-0000-00000000000e";
+    const F = "00000000-0000-0000-0000-00000000000f";
+    const G = "00000000-0000-0000-0000-000000000010";
+    await asService();
+    await db.exec(`
+      insert into auth.users (id, phone, raw_user_meta_data) values
+        ('${E}', '221770000002', '{"username": "elhadji", "cycle": "universite", "cgu_accepted": true}'),
+        ('${F}', '221770000002', '{"username": "fatou", "cycle": "universite", "cgu_accepted": true}');
+      insert into auth.users (id, email, raw_user_meta_data) values
+        ('${G}', 'g@exemple.sn', '{"username": "gora", "cycle": "universite", "cgu_accepted": true}');
+    `);
+    const importAs = async (userId: string, name: string) => {
+      await asUser(userId);
+      const moduleRow = await db.query<{ id: string }>(
+        `insert into public.modules (user_id, name) values ('${userId}', 'Analyse') returning id`,
+      );
+      return db.query<{ status: string }>(
+        `insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes, status)
+         values ('${userId}', '${moduleRow.rows[0].id}', 'cours', '${name}', '${userId}/${name}.pdf',
+                 'application/pdf', 1000, 'ready') returning status`,
+      );
+    };
+
+    // Premier import : l'essai démarre, l'état « prêt » envoyé par le client est ignoré.
+    const first = await importAs(E, "cours1");
+    expect(first.rows).toEqual([{ status: "uploaded" }]);
+    const access = await db.query<{ plan_code: string; kind: string; trial_used: boolean }>(
+      `select plan_code, kind, trial_used from public.my_access()`,
+    );
+    expect(access.rows).toEqual([{ plan_code: "sn-essai", kind: "essai", trial_used: true }]);
+    await expect(db.exec(`update public.documents set status = 'ready'`)).rejects.toThrow();
+    // Sans règle de modification, la base ignore la tentative de prolonger l'essai.
+    await db.exec(`update public.trials set ends_at = now() + interval '1 year'`);
+    const trial = await db.query<{ hours: number }>(
+      `select round(extract(epoch from ends_at - started_at) / 3600)::int as hours from public.trials`,
+    );
+    expect(trial.rows).toEqual([{ hours: 24 }]);
+
+    // Même numéro sur un second compte : pas de nouvel essai, pas d'import.
+    await expect(importAs(F, "cours2")).rejects.toThrow(/ACCES_EXPIRE/);
+
+    // Compte ouvert par e-mail : un essai pour ce compte.
+    const byEmail = await importAs(G, "cours3");
+    expect(byEmail.rows).toEqual([{ status: "uploaded" }]);
+
+    // Fichier rangé dans le dossier d'un autre : refusé.
+    await asUser(E);
+    const mod = await db.query<{ id: string }>(`select id from public.modules limit 1`);
+    await expect(
+      db.exec(`insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+        values ('${E}', '${mod.rows[0].id}', 'cours', 'x', '${F}/x.pdf', 'application/pdf', 10)`),
+    ).rejects.toThrow();
+
+    // Essai terminé : plus d'import.
+    await asService();
+    await db.exec(`update public.trials set started_at = now() - interval '2 days',
+      ends_at = now() - interval '1 day' where user_id = '${E}'`);
+    await expect(importAs(E, "cours4")).rejects.toThrow(/ACCES_EXPIRE/);
+  });
+
   it("les forfaits ne sont modifiables que par le serveur", async () => {
     await asUser(A);
     await expect(db.exec(`update public.plans set quiz_limit = null`)).rejects.toThrow();
