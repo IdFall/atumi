@@ -6,6 +6,9 @@ import { PgBoss } from "pg-boss";
 
 import { payloadSchemas, QUEUE_OPTIONS, QUEUES, type QueueName } from "../server/jobs/queues";
 
+import { ingestDocument } from "./ingest";
+import { createWorkerClient, supabaseIngestStore } from "./supabase-store";
+
 type Handler = (data: unknown) => Promise<void>;
 
 function pending(queue: QueueName): Handler {
@@ -16,8 +19,14 @@ function pending(queue: QueueName): Handler {
   };
 }
 
+const ingestStore = supabaseIngestStore(createWorkerClient());
+
 const handlers: Record<QueueName, Handler> = {
-  [QUEUES.documentIngest]: pending(QUEUES.documentIngest),
+  [QUEUES.documentIngest]: async (data) => {
+    const { userId, documentId } = payloadSchemas[QUEUES.documentIngest].parse(data);
+    const result = await ingestDocument(ingestStore, userId, documentId);
+    console.log(`[worker] document ${documentId} : ${result}`);
+  },
   [QUEUES.synthesisGenerate]: pending(QUEUES.synthesisGenerate),
   [QUEUES.quizGenerate]: pending(QUEUES.quizGenerate),
 };
