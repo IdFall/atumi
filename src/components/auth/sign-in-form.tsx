@@ -42,7 +42,7 @@ export function SignInForm() {
       </Field>
 
       <SubmitButton pending={pending}>{t.auth.submitSignIn}</SubmitButton>
-      <Link href="/inscription" className="text-center text-sm text-blue-700 underline">
+      <Link href="/inscription" className="text-center text-sm text-amber-700 underline">
         {t.auth.toSignUp}
       </Link>
     </form>

@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-4 py-10">
       <header className="flex flex-col gap-2">
-        <p className="text-sm font-semibold tracking-wide text-blue-700">{t.app.name}</p>
+        <p className="text-sm font-semibold tracking-wide text-amber-700">{t.app.name}</p>
         <h1 className="text-3xl font-bold leading-tight">{t.home.title}</h1>
         <p className="text-base text-neutral-600 dark:text-neutral-300">{t.home.intro}</p>
       </header>
@@ -30,11 +30,11 @@ export default function Home() {
       <div className="flex flex-col gap-2">
         <Link
           href="/inscription"
-          className="rounded-lg bg-blue-700 px-4 py-3 text-center font-semibold text-white"
+          className="rounded-lg bg-amber-700 px-4 py-3 text-center font-semibold text-white"
         >
           {t.home.signUp}
         </Link>
-        <Link href="/connexion" className="text-center text-sm text-blue-700 underline">
+        <Link href="/connexion" className="text-center text-sm text-amber-700 underline">
           {t.home.signIn}
         </Link>
         <p className="text-center text-sm text-neutral-500">{t.home.trial}</p>

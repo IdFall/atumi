@@ -70,7 +70,7 @@ export function SignUpForm() {
               key={value}
               className={`cursor-pointer rounded-lg border px-2 py-2 text-center ${
                 cycle === value
-                  ? "border-blue-700 bg-blue-50 font-semibold dark:bg-blue-950"
+                  ? "border-amber-700 bg-amber-50 font-semibold dark:bg-amber-950"
                   : "border-neutral-300 dark:border-neutral-700"
               }`}
             >
@@ -121,7 +121,7 @@ export function SignUpForm() {
       ) : null}
 
       <SubmitButton pending={pending}>{t.auth.submitSignUp}</SubmitButton>
-      <Link href="/connexion" className="text-center text-sm text-blue-700 underline">
+      <Link href="/connexion" className="text-center text-sm text-amber-700 underline">
         {t.auth.toSignIn}
       </Link>
     </form>
