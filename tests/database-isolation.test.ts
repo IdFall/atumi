@@ -243,6 +243,32 @@ describe("isolation des données entre utilisateurs", () => {
     expect(quota.rows).toEqual([{ plan_code: "sn-essai", quiz_limit: 3, used: 3, remaining: 0 }]);
   });
 
+  it("les appels avec le professeur restent privés et sont comptés par le serveur", async () => {
+    await asService();
+    await db.exec(`
+      insert into public.tutor_conversations (id, user_id, mode)
+        values ('20000000-0000-0000-0000-00000000000a', '${A}', 'decouvrir');
+      insert into public.tutor_calls (user_id, conversation_id, language, started_at, ended_at, duration_seconds)
+        values ('${A}', '20000000-0000-0000-0000-00000000000a', 'fr', now() - interval '5 minutes', now(), 300);
+    `);
+    await asUser(A);
+    const mine = await db.query<{ duration_seconds: number }>(`select duration_seconds from public.tutor_calls`);
+    expect(mine.rows).toEqual([{ duration_seconds: 300 }]);
+    await expect(
+      db.exec(`insert into public.tutor_calls (user_id, conversation_id, language)
+        values ('${A}', '20000000-0000-0000-0000-00000000000a', 'fr')`),
+    ).rejects.toThrow();
+    await expect(db.exec(`update public.tutor_calls set duration_seconds = 0`)).rejects.toThrow();
+    const quota = await db.query<{ seconds_used: number; seconds_remaining: number | null }>(
+      `select seconds_used, seconds_remaining from public.call_quota()`,
+    );
+    expect(quota.rows).toEqual([{ seconds_used: 300, seconds_remaining: null }]);
+
+    await asUser(B);
+    const others = await db.query(`select 1 from public.tutor_calls`);
+    expect(others.rows).toHaveLength(0);
+  });
+
   it("les forfaits ne sont modifiables que par le serveur", async () => {
     await asUser(A);
     await expect(db.exec(`update public.plans set quiz_limit = null`)).rejects.toThrow();

@@ -52,13 +52,18 @@ Le pays est un paramètre : `countries` et `education_levels` en base, `src/conf
 - Paiement Mobile Money et contrôle de l'essai.
 - Recalcul de la maîtrise et tableau de bord.
 
+## Appels avec le professeur IA (V1)
+
+Demandé pour la V2 puis avancé en V1 par Idrissa (2026-11-06). Base posée : `tutor_calls`, `plans.call_minutes_limit`, `call_quota()`. Reste à choisir le service de voix (reconnaissance et synthèse vocales en temps réel) et à fixer les minutes par forfait.
+
+- voix d'abord, vidéo en option : l'élève parle et entend Prof LULU, qui apparaît en avatar animé ; une vraie caméra côté élève n'est pas nécessaire et coûte cher en données mobiles ;
+- mode dégradé automatique vers l'audio seul, puis le texte, quand la connexion faiblit ;
+- même cerveau que le texte : la session vocale passe par `AiProvider` avec les mêmes règles (sources citées, solution seulement après une tentative, contestation sans débat), et la transcription est enregistrée comme les messages écrits ;
+- langues : français et anglais d'abord ; le wolof à l'oral dépendra de la qualité de la reconnaissance et de la synthèse vocales disponibles ;
+- minutes de visio comptées par forfait (comme les quiz, table `plans`), car c'est la fonction la plus coûteuse ;
+- mineurs : pas d'enregistrement vidéo, audio conservé seulement sous forme de transcription, accord parental qui couvre explicitement cette fonction.
+
 ## Prévu pour la V2
 
 - Annales et programmes constitués par LULU (décision V1 : l'apprenant fournit ses anciens examens).
-- **Échange en visioconférence avec le professeur IA** (demande d'Idrissa, 2026-11-06). Points de conception :
-  - voix d'abord, vidéo en option : l'élève parle et entend Prof LULU, qui apparaît en avatar animé ; une vraie caméra côté élève n'est pas nécessaire et coûte cher en données mobiles ;
-  - mode dégradé automatique vers l'audio seul, puis le texte, quand la connexion faiblit ;
-  - même cerveau que le texte : la session vocale passe par `AiProvider` avec les mêmes règles (sources citées, solution seulement après une tentative, contestation sans débat), et la transcription est enregistrée comme les messages écrits ;
-  - langues : français et anglais d'abord ; le wolof à l'oral dépendra de la qualité de la reconnaissance et de la synthèse vocales disponibles ;
-  - minutes de visio comptées par forfait (comme les quiz, table `plans`), car c'est la fonction la plus coûteuse ;
-  - mineurs : pas d'enregistrement vidéo, audio conservé seulement sous forme de transcription, accord parental qui couvre explicitement cette fonction.
+
