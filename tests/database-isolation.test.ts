@@ -318,24 +318,24 @@ describe("isolation des données entre utilisateurs", () => {
     const usage = await db.query(
       `select documents_used, document_limit, tutor_message_limit, quiz_question_limit from public.plan_usage()`,
     );
-    expect(usage.rows).toEqual([{ documents_used: 1, document_limit: 1, tutor_message_limit: 10, quiz_question_limit: 5 }]);
+    expect(usage.rows).toEqual([{ documents_used: 1, document_limit: 1, tutor_message_limit: 3, quiz_question_limit: 5 }]);
 
     // Essai : pas d'appel avec le professeur (réservé aux abonnés).
     const calls = await db.query(`select seconds_remaining from public.call_quota()`);
     expect(calls.rows).toEqual([{ seconds_remaining: 0 }]);
 
-    // Essai : 10 messages au professeur ; ses réponses ne comptent pas.
+    // Essai : 3 messages au professeur ; ses réponses ne comptent pas.
     await asService();
     await db.exec(`
       insert into public.tutor_conversations (id, user_id, mode)
         values ('20000000-0000-0000-0000-000000000010', '${G}', 'expliquer');
       insert into public.tutor_messages (user_id, conversation_id, role, content)
         select '${G}', '20000000-0000-0000-0000-000000000010', r, 'message'
-        from generate_series(1, 10), unnest(array['user', 'assistant']) r;
+        from generate_series(1, 3), unnest(array['user', 'assistant']) r;
     `);
     await expect(
       db.exec(`insert into public.tutor_messages (user_id, conversation_id, role, content)
-        values ('${G}', '20000000-0000-0000-0000-000000000010', 'user', 'onzième')`),
+        values ('${G}', '20000000-0000-0000-0000-000000000010', 'user', 'quatrième')`),
     ).rejects.toThrow(/QUOTA_MESSAGES_ATTEINT/);
 
     // Fichier rangé dans le dossier d'un autre : refusé.

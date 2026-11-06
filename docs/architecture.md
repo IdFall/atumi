@@ -74,7 +74,7 @@ Choix d'Idrissa (2026-11-06) : un essai « très limité » qui permet une boucl
 
 - 1 import (`document_limit`, déclencheur `before_document_insert`) ;
 - 1 quiz (`quiz_limit`) de 5 questions (`quiz_question_limit`, à appliquer par le générateur de quiz) ;
-- 10 messages de l'apprenant au professeur (`tutor_message_limit`, déclencheur `check_tutor_message_quota`) ;
+- 3 messages de l'apprenant au professeur (`tutor_message_limit`, déclencheur `check_tutor_message_quota`) ;
 - pas d'appel (`call_minutes_limit = 0`).
 
 L'interface lit ce qu'il reste avec `plan_usage()`, `quiz_quota()` et `call_quota()`.

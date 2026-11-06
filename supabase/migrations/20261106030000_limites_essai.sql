@@ -1,5 +1,5 @@
 -- Limites de l'essai gratuit (Idrissa, 2026-11-06 : essai « très très limité »).
--- Choix d'Idrissa : 1 import, 1 quiz de 5 questions, 10 messages au professeur,
+-- Choix d'Idrissa : 1 import, 1 quiz de 5 questions, 3 messages au professeur,
 -- pas d'appel (réservé aux abonnés). Simples données de la table plans.
 
 alter table public.plans
@@ -8,7 +8,7 @@ alter table public.plans
   add column quiz_question_limit int check (quiz_question_limit is null or quiz_question_limit between 3 and 30);
 
 update public.plans
-  set quiz_limit = 1, document_limit = 1, tutor_message_limit = 10, quiz_question_limit = 5, call_minutes_limit = 0
+  set quiz_limit = 1, document_limit = 1, tutor_message_limit = 3, quiz_question_limit = 5, call_minutes_limit = 0
   where kind = 'essai';
 
 -- Le droit en cours expose aussi les nouvelles limites.
@@ -115,7 +115,7 @@ begin
 end;
 $$;
 
--- Messages au professeur limités par le forfait (essai : 10). Seuls les messages
+-- Messages au professeur limités par le forfait (essai : 3). Seuls les messages
 -- de l'apprenant comptent ; les réponses du professeur ne sont pas décomptées.
 create function public.check_tutor_message_quota()
 returns trigger
