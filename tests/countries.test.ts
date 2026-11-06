@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { activeCountries, countryFromPhone, isCycleOpen, requiresParentalConsent, toE164 } from "@/config/countries";
+import {
+  activeCountries,
+  countryFromPhone,
+  isCycleOpen,
+  isTutorLanguageOffered,
+  requiresParentalConsent,
+  toE164,
+} from "@/config/countries";
 
 describe("pays", () => {
   it("n'ouvre que le Sénégal au lancement", () => {
@@ -24,6 +31,13 @@ describe("pays", () => {
     expect(isCycleOpen("SN", "universite")).toBe(true);
     expect(isCycleOpen("SN", "college")).toBe(false);
     expect(isCycleOpen("SN", "maternelle")).toBe(false);
+  });
+
+  it("propose le wolof au Sénégal en plus du français et de l'anglais", () => {
+    expect(isTutorLanguageOffered("SN", "fr")).toBe(true);
+    expect(isTutorLanguageOffered("SN", "en")).toBe(true);
+    expect(isTutorLanguageOffered("SN", "wo")).toBe(true);
+    expect(isTutorLanguageOffered("CI", "wo")).toBe(false);
   });
 
   it("exige le consentement parental pour le collège et le lycée", () => {

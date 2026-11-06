@@ -82,6 +82,19 @@ const fr = {
     notInDocuments:
       "Je ne trouve pas cette information dans tes documents. Vérifie que le bon cours est importé.",
     unavailable: "Le professeur IA est momentanément indisponible. Réessaie dans quelques minutes.",
+    name: "Prof LULU",
+    avatarAlt: "Professeur LULU",
+    subtitle: "Répond à partir de ton cours",
+    languageLabel: "Langue du professeur",
+    languages: { fr: "Français", en: "English", wo: "Wolof" },
+    betaBadge: "bêta",
+    modes: { expliquer: "Expliquer", approfondir: "Approfondir le chapitre", exercer: "S'exercer" },
+    quickReplies: {
+      otherWay: "Explique autrement",
+      example: "Un exemple",
+      simpler: "Plus simple",
+      chapterSummary: "Résumé du chapitre",
+    },
   },
 } as const;
 

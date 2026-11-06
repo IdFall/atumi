@@ -143,6 +143,8 @@ describe("inscription", () => {
     await asUser(A);
     await db.exec(`update public.profiles set cycle = 'lycee'`);
     await expect(db.exec(`update public.profiles set cycle = 'college'`)).rejects.toThrow(/NIVEAU_NON_OUVERT/);
+    await db.exec(`update public.profiles set tutor_language = 'wo'`);
+    await expect(db.exec(`update public.profiles set tutor_language = 'de'`)).rejects.toThrow();
     await expect(db.exec(`update public.profiles set username = 'autre'`)).rejects.toThrow();
     await expect(db.exec(`update public.profiles set country_code = 'CI'`)).rejects.toThrow();
     await db.exec(`update public.profiles set cycle = 'universite'`);

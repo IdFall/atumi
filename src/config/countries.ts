@@ -23,12 +23,18 @@ export interface CountryConfig {
   paymentMethods: PaymentMethod[];
   /** Cycles ouverts à l'inscription. V1 : lycée et université (le collège viendra plus tard). */
   openCycles: readonly Cycle[];
+  /** Langues proposées pour le professeur IA, la première étant celle par défaut. */
+  tutorLanguages: readonly TutorLanguage[];
   isActive: boolean;
 }
 
 const V1_CYCLES: readonly Cycle[] = ["lycee", "universite"];
 
 export type Locale = "fr";
+
+/** Langues dans lesquelles le professeur IA peut répondre. Le wolof est en bêta. */
+export type TutorLanguage = "fr" | "en" | "wo";
+export const TUTOR_LANGUAGES: readonly TutorLanguage[] = ["fr", "en", "wo"];
 
 export const COUNTRIES: readonly CountryConfig[] = [
   {
@@ -40,6 +46,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Dakar",
     paymentMethods: ["wave", "orange_money", "free_money"],
     openCycles: V1_CYCLES,
+    tutorLanguages: ["fr", "en", "wo"],
     isActive: true,
   },
   {
@@ -51,6 +58,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Abidjan",
     paymentMethods: ["wave", "orange_money", "mtn_momo", "moov_money"],
     openCycles: V1_CYCLES,
+    tutorLanguages: ["fr", "en"],
     isActive: false,
   },
   {
@@ -62,6 +70,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Bamako",
     paymentMethods: ["orange_money", "moov_money"],
     openCycles: V1_CYCLES,
+    tutorLanguages: ["fr", "en"],
     isActive: false,
   },
   {
@@ -73,6 +82,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Douala",
     paymentMethods: ["orange_money", "mtn_momo"],
     openCycles: V1_CYCLES,
+    tutorLanguages: ["fr", "en"],
     isActive: false,
   },
 ];
@@ -90,6 +100,11 @@ export function defaultCountry(): CountryConfig {
   const country = activeCountries()[0];
   if (!country) throw new Error("Aucun pays actif dans la configuration.");
   return country;
+}
+
+/** Vrai si la langue est proposée pour le professeur IA dans ce pays. */
+export function isTutorLanguageOffered(countryCode: string, language: string): language is TutorLanguage {
+  return getCountry(countryCode)?.tutorLanguages.includes(language as TutorLanguage) ?? false;
 }
 
 /** Vrai si le cycle est ouvert à l'inscription dans ce pays. */
