@@ -20,6 +20,7 @@ Règles produit à respecter dans le code (décisions V1) :
 - Essai gratuit de 24 h démarrant au premier import, un seul par numéro de téléphone (un par compte pour les comptes e-mail). Démarré par la base (`before_document_insert`), qui refuse aussi l'import sans droit ; l'interface lit `my_access()`. Limites de l'essai (1 import, 1 quiz de 5 questions, 3 messages au professeur, pas d'appel) : données de `plans`, lues par `plan_usage()`.
 - Le nombre de quiz est limité par le forfait (table `plans`, `quiz_limit` par période ; `null` = sans limite). La base refuse le quiz de trop (`check_quiz_quota`) ; l'interface lit `quiz_quota()`.
 - Appels avec le professeur IA (voix, vidéo en option) : minutes limitées par forfait (`plans.call_minutes_limit`, `call_quota()`), appels créés et clôturés par le serveur (`tutor_calls`), transcription dans `tutor_messages`, aucun enregistrement audio ou vidéo conservé.
+- Synthèses et quiz : la ligne est créée « en préparation » par le serveur (le quota est vérifié avant tout appel au modèle), puis complétée par le worker (`src/worker/study.ts`). V1 : QCM corrigés dans le code, sans appel au modèle ; un quiz se passe une fois ; un quiz échoué ne compte pas.
 - Les anciens examens viennent de l'utilisateur ; LULU ne constitue ni annales ni programmes avant la V2.
 
 Règles techniques :

@@ -124,6 +124,57 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  study: {
+    synthesisTitle: "Synthèse",
+    wholeModule: "Tout le module",
+    synthesisPending: "LULU prépare ta synthèse à partir de ton cours. Cela prend en général une minute.",
+    synthesisFailed: "La synthèse n'a pas pu être préparée.",
+    synthesisNone: "Pas encore de synthèse pour ce chapitre.",
+    synthesisNoDocument: "Importe d'abord un cours dans ce chapitre : la synthèse sera préparée dès qu'il sera lu.",
+    synthesisCreate: "Préparer la synthèse",
+    synthesisRetry: "Réessayer",
+    synthesisOutdated: "Un nouveau document a été ajouté depuis cette synthèse.",
+    synthesisRefresh: "Mettre à jour la synthèse",
+    sourceNotice: "Faite à partir de tes documents. Les pages citées renvoient à ton cours.",
+    quizStart: "Faire un quiz",
+    quizRemaining: "Il te reste {n} quiz sur {total}.",
+    quizNoneLeft: "Tu as utilisé tous les quiz de ton forfait.",
+    quizUnlimited: "Quiz sans limite avec ton forfait.",
+    openSynthesis: "Synthèse et quiz",
+    errors: {
+      accessExpired: "Ton accès est terminé : il faut un forfait pour continuer.",
+      quotaReached: "Tu as utilisé tous les quiz de ton forfait.",
+      noDocument: "Aucun document lisible ici pour l'instant.",
+      busy: "Une préparation est déjà en cours.",
+      unknown: "Une erreur est survenue. Réessaie dans un instant.",
+    },
+  },
+  quiz: {
+    title: "Quiz",
+    preparing: "LULU prépare tes questions…",
+    failed: "Le quiz n'a pas pu être préparé. Il ne compte pas dans ton forfait.",
+    question: "Question",
+    submit: "Valider mes réponses",
+    unanswered: "Réponds à toutes les questions avant de valider.",
+    correctionTitle: "Correction du quiz",
+    score: "{correct} bonne réponse sur {total} ({percent} %)",
+    scorePlural: "{correct} bonnes réponses sur {total} ({percent} %)",
+    found: "trouvées",
+    notFound: "non trouvées",
+    right: "juste",
+    wrong: "à revoir",
+    yourAnswer: "Ta réponse",
+    expected: "Attendu",
+    noAnswer: "pas de réponse",
+    contest: "Contester cette correction",
+    contestReason: "Explique en quelques mots (facultatif)",
+    contestSend: "Envoyer",
+    contested: "Contestation enregistrée.",
+    newQuiz: "Nouveau test",
+    later: "Plus tard",
+    backToChapter: "Retour à la synthèse",
+    notFoundQuiz: "Ce quiz n'existe pas.",
+  },
   import: {
     title: "Importer un cours",
     module: "Module",
@@ -207,6 +258,7 @@ export type Messages = DeepString<typeof fr>;
 export type AuthErrorKey = keyof typeof fr.auth.errors;
 export type CoursesErrorKey = keyof typeof fr.courses.errors;
 export type ImportErrorKey = keyof typeof fr.import.errors;
+export type StudyErrorKey = keyof typeof fr.study.errors;
 
 const dictionaries: Record<Locale, Messages> = { fr };
 

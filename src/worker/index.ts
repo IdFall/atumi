@@ -4,32 +4,52 @@
  */
 import { PgBoss } from "pg-boss";
 
+import { AnthropicProvider } from "../server/ai/anthropic";
 import { payloadSchemas, QUEUE_OPTIONS, QUEUES, type QueueName } from "../server/jobs/queues";
 
 import { ingestDocument } from "./ingest";
-import { createWorkerClient, supabaseIngestStore } from "./supabase-store";
+import { generateQuiz, generateSynthesis } from "./study";
+import {
+  createSynthesisAfterIngest,
+  createWorkerClient,
+  supabaseIngestStore,
+  supabaseStudyStore,
+} from "./supabase-store";
 
 type Handler = (data: unknown) => Promise<void>;
 
-function pending(queue: QueueName): Handler {
-  return async (data) => {
-    const payload = payloadSchemas[queue].parse(data);
-    // À implémenter dans les prochaines étapes du MVP.
-    console.warn(`[worker] ${queue} pas encore implémenté`, payload);
+const db = createWorkerClient();
+const ingestStore = supabaseIngestStore(db);
+const studyStore = supabaseStudyStore(db);
+const provider = new AnthropicProvider({
+  models: {
+    standard: process.env.LULU_AI_MODEL ?? "claude-opus-5-5",
+    light: process.env.LULU_AI_MODEL_LIGHT ?? "claude-opus-5-5",
+  },
+});
+
+function handlers(boss: PgBoss): Record<QueueName, Handler> {
+  return {
+    [QUEUES.documentIngest]: async (data) => {
+      const { userId, documentId } = payloadSchemas[QUEUES.documentIngest].parse(data);
+      const result = await ingestDocument(ingestStore, userId, documentId);
+      console.log(`[worker] document ${documentId} : ${result}`);
+      if (result === "ready") {
+        // La synthèse est prête quand l'apprenant ouvre son chapitre.
+        const synthesisId = await createSynthesisAfterIngest(db, userId, documentId);
+        if (synthesisId) await boss.send(QUEUES.synthesisGenerate, { userId, synthesisId });
+      }
+    },
+    [QUEUES.synthesisGenerate]: async (data) => {
+      const { userId, synthesisId } = payloadSchemas[QUEUES.synthesisGenerate].parse(data);
+      console.log(`[worker] synthèse ${synthesisId} : ${await generateSynthesis(studyStore, provider, userId, synthesisId)}`);
+    },
+    [QUEUES.quizGenerate]: async (data) => {
+      const { userId, quizId } = payloadSchemas[QUEUES.quizGenerate].parse(data);
+      console.log(`[worker] quiz ${quizId} : ${await generateQuiz(studyStore, provider, userId, quizId)}`);
+    },
   };
 }
-
-const ingestStore = supabaseIngestStore(createWorkerClient());
-
-const handlers: Record<QueueName, Handler> = {
-  [QUEUES.documentIngest]: async (data) => {
-    const { userId, documentId } = payloadSchemas[QUEUES.documentIngest].parse(data);
-    const result = await ingestDocument(ingestStore, userId, documentId);
-    console.log(`[worker] document ${documentId} : ${result}`);
-  },
-  [QUEUES.synthesisGenerate]: pending(QUEUES.synthesisGenerate),
-  [QUEUES.quizGenerate]: pending(QUEUES.quizGenerate),
-};
 
 async function main() {
   const connectionString = process.env.DATABASE_URL;
@@ -39,7 +59,7 @@ async function main() {
   boss.on("error", (error) => console.error("[worker]", error));
   await boss.start();
 
-  for (const [queue, handle] of Object.entries(handlers)) {
+  for (const [queue, handle] of Object.entries(handlers(boss))) {
     await boss.createQueue(queue, QUEUE_OPTIONS);
     await boss.work(queue, async (jobs) => {
       for (const job of jobs) await handle(job.data);

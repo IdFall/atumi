@@ -8,6 +8,7 @@ import { plural } from "@/components/courses/module-card";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { getMessages } from "@/i18n/messages";
 import { createChapterAction } from "@/server/courses/actions";
+import { studyPath } from "@/server/study/paths";
 import { getModule, type ModuleDocument } from "@/server/courses/queries";
 
 const t = getMessages("fr");
@@ -66,6 +67,11 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
                     {t.nav.import}
                   </Link>
                 </div>
+                {chapter.documents.some((d) => d.status === "ready") ? (
+                  <Link href={studyPath(detail.id, chapter.id)} className="mt-2 inline-block text-sm font-semibold text-amber-700">
+                    {t.study.openSynthesis} ›
+                  </Link>
+                ) : null}
                 <DocumentList documents={chapter.documents} />
               </li>
             ))}
@@ -84,6 +90,11 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
         <section className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">{t.courses.withoutChapter}</h2>
           <DocumentList documents={detail.unassigned} />
+          {all.some((d) => d.status === "ready") ? (
+            <Link href={studyPath(detail.id, null)} className="text-sm font-semibold text-amber-700">
+              {t.study.openSynthesis} ({t.study.wholeModule.toLowerCase()}) ›
+            </Link>
+          ) : null}
         </section>
       ) : null}
     </>
