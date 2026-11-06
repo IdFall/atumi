@@ -60,10 +60,21 @@ Demandé pour la V2 puis avancé en V1 par Idrissa (2026-11-06). Base posée : `
 - mode dégradé automatique vers l'audio seul, puis le texte, quand la connexion faiblit ;
 - même cerveau que le texte : la session vocale passe par `AiProvider` avec les mêmes règles (sources citées, solution seulement après une tentative, contestation sans débat), et la transcription est enregistrée comme les messages écrits ;
 - langues : français et anglais d'abord ; le wolof à l'oral dépendra de la qualité de la reconnaissance et de la synthèse vocales disponibles ;
-- minutes de visio comptées par forfait (comme les quiz, table `plans`), car c'est la fonction la plus coûteuse ;
+- minutes de visio comptées par forfait (comme les quiz, table `plans`), car c'est la fonction la plus coûteuse ; pas d'appel pendant l'essai gratuit (choix d'Idrissa) ;
 - mineurs : pas d'enregistrement vidéo, audio conservé seulement sous forme de transcription, accord parental qui couvre explicitement cette fonction.
 
 ## Prévu pour la V2
 
 - Annales et programmes constitués par LULU (décision V1 : l'apprenant fournit ses anciens examens).
 
+
+## Limites de l'essai gratuit
+
+Choix d'Idrissa (2026-11-06) : un essai « très limité » qui permet une boucle complète. Toutes les limites sont des données de la table `plans` (`null` = sans limite) et sont vérifiées par la base :
+
+- 1 import (`document_limit`, déclencheur `before_document_insert`) ;
+- 1 quiz (`quiz_limit`) de 5 questions (`quiz_question_limit`, à appliquer par le générateur de quiz) ;
+- 10 messages de l'apprenant au professeur (`tutor_message_limit`, déclencheur `check_tutor_message_quota`) ;
+- pas d'appel (`call_minutes_limit = 0`).
+
+L'interface lit ce qu'il reste avec `plan_usage()`, `quiz_quota()` et `call_quota()`.

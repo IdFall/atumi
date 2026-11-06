@@ -226,12 +226,10 @@ describe("isolation des données entre utilisateurs", () => {
       db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`),
     ).rejects.toThrow(/ACCES_EXPIRE/);
 
-    // Essai en cours : 3 quiz, pas un de plus.
+    // Essai en cours : 1 quiz, pas un de plus.
     await db.exec(`insert into public.trials (user_id, phone_e164, started_at, ends_at)
       values ('${D}', '+221770000001', now(), now() + interval '24 hours')`);
-    for (let i = 0; i < 3; i++) {
-      await db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`);
-    }
+    await db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`);
     await expect(
       db.exec(`insert into public.quizzes (user_id, module_id) values ('${D}', '${MODULE_D}')`),
     ).rejects.toThrow(/QUOTA_QUIZ_ATTEINT/);
@@ -240,7 +238,7 @@ describe("isolation des données entre utilisateurs", () => {
     const quota = await db.query<{ plan_code: string; quiz_limit: number; used: number; remaining: number }>(
       `select plan_code, quiz_limit, used, remaining from public.quiz_quota()`,
     );
-    expect(quota.rows).toEqual([{ plan_code: "sn-essai", quiz_limit: 3, used: 3, remaining: 0 }]);
+    expect(quota.rows).toEqual([{ plan_code: "sn-essai", quiz_limit: 1, used: 1, remaining: 0 }]);
   });
 
   it("les appels avec le professeur restent privés et sont comptés par le serveur", async () => {
@@ -314,6 +312,31 @@ describe("isolation des données entre utilisateurs", () => {
     // Compte ouvert par e-mail : un essai pour ce compte.
     const byEmail = await importAs(G, "cours3");
     expect(byEmail.rows).toEqual([{ status: "uploaded" }]);
+
+    // Essai : un seul import.
+    await expect(importAs(G, "cours5")).rejects.toThrow(/QUOTA_IMPORT_ATTEINT/);
+    const usage = await db.query(
+      `select documents_used, document_limit, tutor_message_limit, quiz_question_limit from public.plan_usage()`,
+    );
+    expect(usage.rows).toEqual([{ documents_used: 1, document_limit: 1, tutor_message_limit: 10, quiz_question_limit: 5 }]);
+
+    // Essai : pas d'appel avec le professeur (réservé aux abonnés).
+    const calls = await db.query(`select seconds_remaining from public.call_quota()`);
+    expect(calls.rows).toEqual([{ seconds_remaining: 0 }]);
+
+    // Essai : 10 messages au professeur ; ses réponses ne comptent pas.
+    await asService();
+    await db.exec(`
+      insert into public.tutor_conversations (id, user_id, mode)
+        values ('20000000-0000-0000-0000-000000000010', '${G}', 'expliquer');
+      insert into public.tutor_messages (user_id, conversation_id, role, content)
+        select '${G}', '20000000-0000-0000-0000-000000000010', r, 'message'
+        from generate_series(1, 10), unnest(array['user', 'assistant']) r;
+    `);
+    await expect(
+      db.exec(`insert into public.tutor_messages (user_id, conversation_id, role, content)
+        values ('${G}', '20000000-0000-0000-0000-000000000010', 'user', 'onzième')`),
+    ).rejects.toThrow(/QUOTA_MESSAGES_ATTEINT/);
 
     // Fichier rangé dans le dossier d'un autre : refusé.
     await asUser(E);

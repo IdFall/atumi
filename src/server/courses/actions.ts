@@ -147,7 +147,7 @@ export async function registerDocumentAction(raw: Record<string, string>): Promi
     // Pas de module ou de chapitre vide laissé derrière un import refusé.
     if (createdModule) await supabase.from("modules").delete().eq("id", moduleId);
     else if (createdChapter) await supabase.from("chapters").delete().eq("id", createdChapter);
-    return { ok: false, error: error.message.includes("LULU_ACCES_EXPIRE") ? "accessExpired" : "unknown" };
+    return { ok: false, error: importError(error.message) };
   }
 
   // Si la file est indisponible, le document reste « en attente » et pourra être relancé.
@@ -161,4 +161,10 @@ export async function registerDocumentAction(raw: Record<string, string>): Promi
   revalidatePath(`/cours/${moduleId}`);
   revalidatePath("/tableau-de-bord");
   return { ok: true, moduleId };
+}
+
+function importError(message: string): ImportErrorKey {
+  if (message.includes("LULU_ACCES_EXPIRE")) return "accessExpired";
+  if (message.includes("LULU_QUOTA_IMPORT_ATTEINT")) return "importLimit";
+  return "unknown";
 }

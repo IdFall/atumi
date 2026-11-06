@@ -148,6 +148,7 @@ const fr = {
       chapterTitleRequired: "Donne un titre au nouveau chapitre.",
       uploadFailed: "L'envoi du fichier a échoué. Vérifie ta connexion et réessaie.",
       accessExpired: "Ton essai est terminé ou ce numéro a déjà eu un essai : il faut un forfait pour importer.",
+      importLimit: "Tu as atteint le nombre d'imports de ton forfait. L'essai gratuit permet d'importer un document.",
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
