@@ -4,6 +4,7 @@ import { Suspense } from "react";
 
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { StudyActionButton } from "@/components/study/action-button";
+import { ShareActions } from "@/components/study/share-actions";
 import { SynthesisContent } from "@/components/study/synthesis-content";
 import { fill } from "@/i18n/format";
 import { getMessages } from "@/i18n/messages";
@@ -85,6 +86,7 @@ function SynthesisBlock({ page, chapterId }: { page: StudyPage; chapterId: strin
     <article className={card}>
       <p className="text-xs text-neutral-500">{t.study.sourceNotice}</p>
       <SynthesisContent markdown={s.contentMd} />
+      <ShareActions title={`${page.chapter?.title ?? page.moduleName} · ${t.study.synthesisTitle}`} markdown={s.contentMd} />
       {s.outdated ? (
         <div className="flex flex-col gap-2 border-t border-neutral-100 pt-3 dark:border-neutral-800">
           <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.study.synthesisOutdated}</p>

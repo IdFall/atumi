@@ -149,6 +149,12 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  share: {
+    copy: "Copier",
+    copied: "Copié !",
+    share: "Partager",
+    copyFallback: "Copie ce texte :",
+  },
   quiz: {
     title: "Quiz",
     preparing: "LULU prépare tes questions…",
