@@ -9,11 +9,13 @@ import { payloadSchemas, QUEUE_OPTIONS, QUEUES, type QueueName } from "../server
 
 import { ingestDocument } from "./ingest";
 import { generateQuiz, generateSynthesis } from "./study";
+import { notifyTeam, sendersFromEnv } from "./support";
 import {
   createSynthesisAfterIngest,
   createWorkerClient,
   supabaseIngestStore,
   supabaseStudyStore,
+  supabaseSupportStore,
 } from "./supabase-store";
 
 type Handler = (data: unknown) => Promise<void>;
@@ -21,6 +23,8 @@ type Handler = (data: unknown) => Promise<void>;
 const db = createWorkerClient();
 const ingestStore = supabaseIngestStore(db);
 const studyStore = supabaseStudyStore(db);
+const supportStore = supabaseSupportStore(db);
+const supportSenders = sendersFromEnv(process.env);
 const provider = new AnthropicProvider({
   models: {
     standard: process.env.ATUMI_AI_MODEL ?? "claude-opus-5-5",
@@ -47,6 +51,10 @@ function handlers(boss: PgBoss): Record<QueueName, Handler> {
     [QUEUES.quizGenerate]: async (data) => {
       const { userId, quizId } = payloadSchemas[QUEUES.quizGenerate].parse(data);
       console.log(`[worker] quiz ${quizId} : ${await generateQuiz(studyStore, provider, userId, quizId)}`);
+    },
+    [QUEUES.supportNotify]: async (data) => {
+      const { requestId } = payloadSchemas[QUEUES.supportNotify].parse(data);
+      console.log(`[worker] demande d'aide ${requestId} : ${await notifyTeam(supportStore, supportSenders, requestId)}`);
     },
   };
 }

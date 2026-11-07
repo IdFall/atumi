@@ -28,6 +28,9 @@ create table public.support_requests (
   user_id uuid not null references auth.users (id) on delete cascade,
   message text not null check (char_length(message) between 1 and 2000),
   status text not null default 'nouvelle' check (status in ('nouvelle', 'traitee')),
+  -- Envoi à l'équipe par le worker, canal par canal (pas de double envoi en cas de reprise).
+  notified_email_at timestamptz,
+  notified_whatsapp_at timestamptz,
   created_at timestamptz not null default now()
 );
 

@@ -12,6 +12,8 @@ export const QUEUES = {
   synthesisGenerate: "synthesis-generate",
   /** Banque de questions d'un module ou d'un chapitre. */
   quizGenerate: "quiz-generate",
+  /** Message écrit à l'équipe depuis le centre d'aide : envoi par e-mail et WhatsApp. */
+  supportNotify: "support-notify",
 } as const;
 
 export type QueueName = (typeof QUEUES)[keyof typeof QUEUES];
@@ -23,6 +25,7 @@ export const payloadSchemas = {
   /** La synthèse et le quiz sont créés « en préparation » par le serveur, le worker les complète. */
   [QUEUES.synthesisGenerate]: z.object({ userId: uuid, synthesisId: uuid }),
   [QUEUES.quizGenerate]: z.object({ userId: uuid, quizId: uuid }),
+  [QUEUES.supportNotify]: z.object({ requestId: z.number().int().positive() }),
 } satisfies Record<QueueName, z.ZodType>;
 
 export type Payload<Q extends QueueName> = z.infer<(typeof payloadSchemas)[Q]>;

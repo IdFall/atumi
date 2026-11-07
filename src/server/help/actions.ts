@@ -8,6 +8,8 @@ import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { askHelp } from "@/server/ai/help";
 import { getAiProvider } from "@/server/ai/provider";
 import { requireUserId } from "@/server/auth/session";
+import { enqueue } from "@/server/jobs/client";
+import { QUEUES } from "@/server/jobs/queues";
 
 import { articlesForCountry } from "./queries";
 
@@ -89,7 +91,18 @@ export async function contactTeamAction(_prev: HelpFormState, formData: FormData
   if (!parsed.success) return { error: "empty" };
 
   const supabase = await createUserClient();
-  const { error } = await supabase.from("support_requests").insert({ user_id: userId, message: parsed.data });
-  if (error) return { error: quotaError(error.message) };
+  const { data, error } = await supabase
+    .from("support_requests")
+    .insert({ user_id: userId, message: parsed.data })
+    .select("id")
+    .single();
+  if (error || !data) return { error: quotaError(error?.message ?? "") };
+
+  // Le message est enregistré : un échec de la file n'empêche pas l'équipe de le lire.
+  try {
+    await enqueue(QUEUES.supportNotify, { requestId: data.id });
+  } catch (cause) {
+    console.error("[aide] envoi à l'équipe non programmé", cause);
+  }
   return { sent: true };
 }

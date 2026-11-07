@@ -5,6 +5,7 @@ import type { SourcePassage } from "../server/ai/types";
 
 import type { IngestDocument, IngestStore } from "./ingest";
 import type { StudyJob, StudyStore } from "./study";
+import type { SupportStore } from "./support";
 
 /** Client du worker : clé secrète, toujours filtré explicitement sur l'utilisateur. */
 export function createWorkerClient(): SupabaseClient {
@@ -221,4 +222,41 @@ export async function createSynthesisAfterIngest(db: SupabaseClient, userId: str
     .single();
   if (insertError) throw insertError;
   return data.id as string;
+}
+
+export function supabaseSupportStore(db: SupabaseClient): SupportStore {
+  return {
+    async getRequest(requestId) {
+      const { data, error } = await db
+        .from("support_requests")
+        .select("id, user_id, message, created_at, notified_email_at, notified_whatsapp_at")
+        .eq("id", requestId)
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) return null;
+      const [{ data: profile }, { data: account }] = await Promise.all([
+        db.from("profiles").select("username").eq("id", data.user_id).maybeSingle(),
+        db.auth.admin.getUserById(data.user_id),
+      ]);
+      const user = account?.user;
+      return {
+        id: data.id,
+        userId: data.user_id,
+        username: profile?.username ?? "inconnu",
+        contact: user?.email || (user?.phone ? `+${user.phone.replace(/^\+/, "")}` : null),
+        message: data.message,
+        createdAt: data.created_at,
+        notifiedEmailAt: data.notified_email_at,
+        notifiedWhatsappAt: data.notified_whatsapp_at,
+      };
+    },
+    async markNotified(requestId, channel) {
+      const column = channel === "email" ? "notified_email_at" : "notified_whatsapp_at";
+      const { error } = await db
+        .from("support_requests")
+        .update({ [column]: new Date().toISOString() })
+        .eq("id", requestId);
+      if (error) throw error;
+    },
+  };
 }
