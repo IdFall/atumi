@@ -401,6 +401,45 @@ describe("isolation des données entre utilisateurs", () => {
     expect(visibles.rows.map((r) => r.code)).toEqual(["sn-essai"]);
   });
 
+  it("centre d'aide : questions et demandes à l'équipe restent privées et limitées", async () => {
+    await asService();
+    const q = await db.query<{ id: number }>(
+      `insert into public.help_questions (user_id, question, answer) values ('${A}', 'Comment payer ?', 'Avec Wave.') returning id`,
+    );
+    const id = q.rows[0].id;
+
+    await asUser(A);
+    // Question et réponse viennent du serveur ; l'apprenant ne donne que son avis.
+    await expect(
+      db.exec(`insert into public.help_questions (user_id, question) values ('${A}', 'x')`),
+    ).rejects.toThrow();
+    await expect(db.exec(`update public.help_questions set answer = 'autre' where id = ${id}`)).rejects.toThrow();
+    await db.exec(`update public.help_questions set helpful = true where id = ${id}`);
+    const mine = await db.query<{ helpful: boolean }>(`select helpful from public.help_questions`);
+    expect(mine.rows).toEqual([{ helpful: true }]);
+
+    await asUser(B);
+    expect((await db.query(`select 1 from public.help_questions`)).rows).toHaveLength(0);
+    await db.exec(`update public.help_questions set helpful = false where id = ${id}`);
+    await expect(
+      db.exec(`insert into public.support_requests (user_id, message) values ('${A}', 'usurpation')`),
+    ).rejects.toThrow();
+
+    await asUser(A);
+    expect((await db.query<{ helpful: boolean }>(`select helpful from public.help_questions`)).rows).toEqual([
+      { helpful: true },
+    ]);
+    for (let i = 0; i < 5; i++) {
+      await db.exec(`insert into public.support_requests (user_id, message) values ('${A}', 'Bonjour ${i}')`);
+    }
+    await expect(
+      db.exec(`insert into public.support_requests (user_id, message) values ('${A}', 'Encore')`),
+    ).rejects.toThrow(/LULU_QUOTA_AIDE_ATTEINT/);
+    await expect(db.exec(`update public.support_requests set status = 'traitee'`)).rejects.toThrow();
+    await asUser(B);
+    expect((await db.query(`select 1 from public.support_requests`)).rows).toHaveLength(0);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);

@@ -21,6 +21,7 @@ Règles produit à respecter dans le code (décisions V1) :
 - Le nombre de quiz est limité par le forfait (table `plans`, `quiz_limit` par période ; `null` = sans limite). La base refuse le quiz de trop (`check_quiz_quota`) ; l'interface lit `quiz_quota()`.
 - Appels avec le professeur IA (voix, vidéo en option) : minutes limitées par forfait (`plans.call_minutes_limit`, `call_quota()`), appels créés et clôturés par le serveur (`tutor_calls`), transcription dans `tutor_messages`, aucun enregistrement audio ou vidéo conservé.
 - Synthèses et quiz : la ligne est créée « en préparation » par le serveur (le quota est vérifié avant tout appel au modèle), puis complétée par le worker (`src/worker/study.ts`). V1 : QCM corrigés dans le code, sans appel au modèle ; un quiz se passe une fois ; un quiz échoué ne compte pas.
+- Centre d'aide (`/aide`) : l'assistant d'aide ne répond qu'à partir des articles de `src/i18n/help-articles.ts` (à tenir à jour quand le produit change), ne compte pas dans le forfait, et la base limite à 30 questions et 5 messages à l'équipe par 24 h (`check_help_quota`). Les messages à l'équipe vont dans `support_requests`.
 - Les anciens examens viennent de l'utilisateur ; ATUMI ne constitue ni annales ni programmes avant la V2.
 
 Règles techniques :

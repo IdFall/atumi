@@ -278,6 +278,33 @@ const fr = {
       chapterSummary: "Résumé du chapitre",
     },
   },
+  help: {
+    title: "Centre d'aide",
+    link: "Centre d'aide",
+    intro: "Une question sur ATUMI ? L'assistant répond tout de suite.",
+    featured: "Questions fréquentes",
+    back: "← Centre d'aide",
+    placeholder: "Pose ta question sur ATUMI…",
+    send: "Envoyer",
+    thinking: "L'assistant cherche la réponse…",
+    unavailable: "L'assistant d'aide est momentanément indisponible. Consulte les questions fréquentes ou écris à l'équipe.",
+    notCounted: "L'assistant d'aide ne compte pas dans tes messages au professeur.",
+    recent: "Tes questions récentes",
+    helpful: "Réponse utile ?",
+    yes: "Oui",
+    no: "Non",
+    thanks: "Merci pour ton avis.",
+    contactTitle: "Pas de réponse à ta question ?",
+    contactCta: "Écrire à l'équipe",
+    contactPlaceholder: "Explique ta demande. Pour un problème de compte, indique ton nom d'utilisateur.",
+    contactSend: "Envoyer à l'équipe",
+    contactSent: "Message envoyé : l'équipe ATUMI l'a bien reçu et te recontactera.",
+    errors: {
+      empty: "Écris ta question.",
+      quotaReached: "Tu as atteint la limite de questions pour aujourd'hui. Réessaie demain.",
+      unknown: "Une erreur est survenue. Réessaie dans un instant.",
+    },
+  },
 } as const;
 
 type DeepString<T> = T extends string
@@ -292,6 +319,7 @@ export type AuthErrorKey = keyof typeof fr.auth.errors;
 export type CoursesErrorKey = keyof typeof fr.courses.errors;
 export type ImportErrorKey = keyof typeof fr.import.errors;
 export type StudyErrorKey = keyof typeof fr.study.errors;
+export type HelpErrorKey = keyof typeof fr.help.errors;
 
 const dictionaries: Record<Locale, Messages> = { fr };
 
