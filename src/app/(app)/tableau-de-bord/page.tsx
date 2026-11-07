@@ -19,6 +19,9 @@ export default function DashboardPage() {
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
         <Dashboard />
       </Suspense>
+      <Link href="/aide" className="text-sm font-medium text-primary dark:text-lavande">
+        {t.help.link}
+      </Link>
       <form action={signOutAction}>
         <button type="submit" className="text-sm text-neutral-600 underline dark:text-neutral-300">
           {t.auth.signOut}

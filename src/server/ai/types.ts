@@ -4,7 +4,7 @@
  * que l'implémentation (voir anthropic.ts).
  */
 
-export type AiFeature = "tutor" | "synthesis" | "quiz_generation" | "quiz_grading" | "document_structuring";
+export type AiFeature = "tutor" | "help" | "synthesis" | "quiz_generation" | "quiz_grading" | "document_structuring";
 
 export type AiTier = "standard" | "light";
 
