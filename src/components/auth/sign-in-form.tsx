@@ -41,6 +41,10 @@ export function SignInForm() {
         />
       </Field>
 
+      <Link href="/mot-de-passe-oublie" className="-mt-2 self-end text-sm text-primary underline dark:text-lavande">
+        {t.auth.forgotPassword}
+      </Link>
+
       <SubmitButton pending={pending}>{t.auth.submitSignIn}</SubmitButton>
       <Link href="/inscription" className="text-center text-sm text-primary dark:text-lavande underline">
         {t.auth.toSignUp}

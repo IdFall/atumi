@@ -34,10 +34,14 @@ export default function Home() {
         >
           {t.home.signUp}
         </Link>
-        <Link href="/connexion" className="text-center text-sm text-primary dark:text-lavande underline">
+        <p className="text-center text-sm text-neutral-500">{t.home.trial}</p>
+        <p className="mt-2 text-center text-sm text-neutral-600 dark:text-neutral-300">{t.home.signInHint}</p>
+        <Link
+          href="/connexion"
+          className="rounded-lg border-2 border-primary px-4 py-3 text-center font-semibold text-primary dark:border-lavande dark:text-lavande"
+        >
           {t.home.signIn}
         </Link>
-        <p className="text-center text-sm text-neutral-500">{t.home.trial}</p>
       </div>
     </main>
   );

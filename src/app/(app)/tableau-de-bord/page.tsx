@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { AccessBanner } from "@/components/courses/access-banner";
 import { ModuleCard } from "@/components/courses/module-card";
 import { getMessages } from "@/i18n/messages";
-import { signOutAction } from "@/server/auth/actions";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 
@@ -22,11 +22,9 @@ export default function DashboardPage() {
       <Link href="/aide" className="text-sm font-medium text-primary dark:text-lavande">
         {t.help.link}
       </Link>
-      <form action={signOutAction}>
-        <button type="submit" className="text-sm text-neutral-600 underline dark:text-neutral-300">
-          {t.auth.signOut}
-        </button>
-      </form>
+      <div className="self-start">
+        <SignOutButton />
+      </div>
     </main>
   );
 }
