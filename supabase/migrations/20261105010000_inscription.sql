@@ -4,8 +4,9 @@
 alter table public.profiles
   add constraint profiles_username_format check (username ~ '^[a-z0-9_.]{3,32}$');
 
--- Le profil n'est créé que par le déclencheur ci-dessous.
-drop policy "profil : création" on public.profiles;
+-- Le profil n'est créé que par le déclencheur ci-dessous : l'application ne peut pas en créer.
+-- (Règle désactivée plutôt que supprimée : c'est la version appliquée au projet Supabase « atumi ».)
+alter policy "profil : création" on public.profiles with check (false);
 
 -- L'apprenant ne peut modifier que son niveau et sa langue, pas son pseudo ni son pays.
 revoke update on public.profiles from anon, authenticated;
