@@ -76,7 +76,7 @@ async function NewConversation({ searchParams }: { searchParams: PageProps<"/pro
                   href={`/professeur/${c.id}`}
                   className="flex flex-col rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-900"
                 >
-                  <span className="text-xs font-semibold text-amber-800 dark:text-amber-300">{t.tutor.modes[c.mode]}</span>
+                  <span className="text-xs font-semibold text-primary-strong dark:text-lavande">{t.tutor.modes[c.mode]}</span>
                   <span className="truncate">{c.title}</span>
                 </Link>
               </li>

@@ -12,7 +12,7 @@ export function getAiProvider(): AiProvider {
   if (provider) return provider;
   const env = serverEnv();
   provider = env.ANTHROPIC_API_KEY
-    ? new AnthropicProvider({ models: { standard: env.LULU_AI_MODEL, light: env.LULU_AI_MODEL_LIGHT } })
+    ? new AnthropicProvider({ models: { standard: env.ATUMI_AI_MODEL, light: env.ATUMI_AI_MODEL_LIGHT } })
     : { complete: async () => ({ status: "unavailable", reason: "missing_api_key" }) };
   return provider;
 }

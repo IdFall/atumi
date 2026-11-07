@@ -28,7 +28,7 @@ export function TutorHeader({
   return (
     <header className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
-        <Image src="/prof-lulu.svg" alt={t.tutor.avatarAlt} width={48} height={48} priority />
+        <Image src="/prof-atumi.svg" alt={t.tutor.avatarAlt} width={48} height={48} priority />
         <div className="flex flex-col">
           <h1 className="text-xl font-bold">{t.tutor.name}</h1>
           <span className="text-sm text-neutral-600 dark:text-neutral-300">{t.tutor.subtitle}</span>
@@ -45,11 +45,11 @@ export function TutorHeader({
             role="radio"
             aria-checked={lang === language}
             className={`rounded-full px-3 py-1 ${
-              lang === language ? "bg-amber-700 font-semibold text-white" : "border border-neutral-300 dark:border-neutral-700"
+              lang === language ? "bg-primary font-semibold text-white" : "border border-neutral-300 dark:border-neutral-700"
             }`}
           >
             {t.tutor.languages[lang]}
-            {lang === "wo" ? <span className={`ml-1 text-xs ${lang === language ? "text-amber-100" : "text-amber-700"}`}>{t.tutor.betaBadge}</span> : null}
+            {lang === "wo" ? <span className={`ml-1 text-xs ${lang === language ? "text-primary-soft" : "text-primary dark:text-lavande"}`}>{t.tutor.betaBadge}</span> : null}
           </button>
         ))}
       </form>

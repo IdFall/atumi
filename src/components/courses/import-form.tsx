@@ -20,7 +20,7 @@ interface ModuleOption {
 type Phase = "idle" | "uploading" | "registering";
 
 const inputClass =
-  "rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-amber-600 dark:border-neutral-700 dark:bg-neutral-900";
+  "rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-900";
 
 /**
  * Le fichier part directement du navigateur vers le bucket privé (dossier de
@@ -145,7 +145,7 @@ export function ImportForm({
               key={k}
               className={`flex min-h-11 cursor-pointer items-center justify-center rounded-lg border px-2 text-center ${
                 kind === k
-                  ? "border-2 border-amber-700 bg-amber-50 font-semibold dark:bg-amber-950"
+                  ? "border-2 border-primary bg-primary-soft font-semibold dark:bg-primary-strong/25"
                   : "border-neutral-300 bg-white dark:border-neutral-700 dark:bg-neutral-900"
               }`}
             >
@@ -156,7 +156,7 @@ export function ImportForm({
         </div>
       </fieldset>
 
-      <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-neutral-400 bg-[#fffcf5] p-6 text-center text-sm dark:bg-neutral-900">
+      <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-neutral-400 bg-white p-6 text-center text-sm dark:bg-nuit">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
           <path d="M14 3v6h6" />
@@ -187,7 +187,7 @@ export function ImportForm({
         </p>
       ) : null}
 
-      <button type="submit" disabled={busy} className="rounded-xl bg-amber-700 px-4 py-3 font-semibold text-white disabled:opacity-60">
+      <button type="submit" disabled={busy} className="rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60">
         {phase === "uploading" ? t.import.uploading : phase === "registering" ? t.import.registering : t.import.submit}
       </button>
     </form>

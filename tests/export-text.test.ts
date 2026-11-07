@@ -11,7 +11,7 @@ describe("copie vers d'autres outils", () => {
     expect(text).toContain("• Primitive de (1)/(x) : ln x [p. 5]");
     expect(text).not.toContain("**");
     expect(text).not.toContain("$");
-    expect(text.endsWith("— LULU")).toBe(true);
+    expect(text.endsWith("— ATUMI")).toBe(true);
   });
 
   it("garde titres, gras et listes pour Word et Excel, sans HTML injecté", () => {

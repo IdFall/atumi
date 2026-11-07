@@ -6,13 +6,13 @@ import type { Locale } from "@/config/countries";
  */
 const fr = {
   app: {
-    name: "LULU",
+    name: "ATUMI",
     tagline: "Ton compagnon d'apprentissage, du lycée à l'université.",
   },
   home: {
     title: "Révise avec tes propres cours",
     intro:
-      "Importe un cours en PDF ou en Word. LULU en fait une synthèse, t'explique ce que tu ne comprends pas et te fait réviser avec des quiz.",
+      "Importe un cours en PDF ou en Word. ATUMI en fait une synthèse, t'explique ce que tu ne comprends pas et te fait réviser avec des quiz.",
     steps: [
       { title: "Importer", body: "PDF ou Word de ton cours, rangé par module et chapitre." },
       { title: "Comprendre", body: "Une synthèse et un professeur IA qui cite tes pages." },
@@ -56,11 +56,11 @@ const fr = {
       usernameTaken: "Ce nom d'utilisateur est déjà pris.",
       identifierInvalid: "Saisis une adresse e-mail ou un numéro de téléphone valide.",
       identifierTaken: "Un compte existe déjà avec cet e-mail ou ce numéro.",
-      countryNotOpen: "LULU n'est pas encore disponible dans ce pays.",
+      countryNotOpen: "ATUMI n'est pas encore disponible dans ce pays.",
       passwordLength: "Le mot de passe doit contenir entre 8 et 72 caractères.",
       passwordRequired: "Saisis ton mot de passe.",
       cycleRequired: "Choisis ton niveau d'étude.",
-      cycleNotOpen: "LULU est ouvert aux lycéens et aux étudiants pour le moment.",
+      cycleNotOpen: "ATUMI est ouvert aux lycéens et aux étudiants pour le moment.",
       guardianPhoneRequired: "Saisis le numéro d'un parent ou tuteur.",
       guardianPhoneSameAsUser: "Le numéro du parent doit être différent du tien.",
       cguRequired: "Tu dois accepter les conditions pour continuer.",
@@ -82,7 +82,7 @@ const fr = {
     home: "Accueil",
     courses: "Mes cours",
     import: "Importer",
-    tutor: "Prof LULU",
+    tutor: "Prof ATUMI",
   },
   access: {
     trialNotStarted: "Ton essai gratuit de 24 h démarrera à ton premier import.",
@@ -128,7 +128,7 @@ const fr = {
   study: {
     synthesisTitle: "Synthèse",
     wholeModule: "Tout le module",
-    synthesisPending: "LULU prépare ta synthèse à partir de ton cours. Cela prend en général une minute.",
+    synthesisPending: "ATUMI prépare ta synthèse à partir de ton cours. Cela prend en général une minute.",
     synthesisFailed: "La synthèse n'a pas pu être préparée.",
     synthesisNone: "Pas encore de synthèse pour ce chapitre.",
     synthesisNoDocument: "Importe d'abord un cours dans ce chapitre : la synthèse sera préparée dès qu'il sera lu.",
@@ -142,7 +142,7 @@ const fr = {
     quizNoneLeft: "Tu as utilisé tous les quiz de ton forfait.",
     quizUnlimited: "Quiz sans limite avec ton forfait.",
     openSynthesis: "Synthèse et quiz",
-    askTutor: "Poser une question à Prof LULU",
+    askTutor: "Poser une question à Prof ATUMI",
     errors: {
       accessExpired: "Ton accès est terminé : il faut un forfait pour continuer.",
       quotaReached: "Tu as utilisé tous les quiz de ton forfait.",
@@ -159,7 +159,7 @@ const fr = {
   },
   quiz: {
     title: "Quiz",
-    preparing: "LULU prépare tes questions…",
+    preparing: "ATUMI prépare tes questions…",
     failed: "Le quiz n'a pas pu être préparé. Il ne compte pas dans ton forfait.",
     question: "Question",
     submit: "Valider mes réponses",
@@ -198,7 +198,7 @@ const fr = {
     submit: "Importer",
     uploading: "Envoi du fichier…",
     registering: "Enregistrement…",
-    done: "Document importé. LULU le lit, cela prend en général moins d'une minute.",
+    done: "Document importé. ATUMI le lit, cela prend en général moins d'une minute.",
     errors: {
       fileRequired: "Choisis un fichier.",
       fileType: "Ce format n'est pas accepté : choisis un PDF ou un fichier Word (.docx).",
@@ -219,8 +219,8 @@ const fr = {
     notInDocuments:
       "Je ne trouve pas cette information dans tes documents. Vérifie que le bon cours est importé.",
     unavailable: "Le professeur IA est momentanément indisponible. Réessaie dans quelques minutes.",
-    name: "Prof LULU",
-    avatarAlt: "Professeur LULU",
+    name: "Prof ATUMI",
+    avatarAlt: "Professeur ATUMI",
     subtitle: "Répond à partir de ton cours",
     languageLabel: "Langue du professeur",
     languages: { fr: "Français", en: "English", wo: "Wolof" },
@@ -232,8 +232,8 @@ const fr = {
       decouvrir: "Découvrir un sujet",
     },
     call: {
-      start: "Appeler Prof LULU",
-      title: "Appel avec Prof LULU",
+      start: "Appeler Prof ATUMI",
+      title: "Appel avec Prof ATUMI",
       remaining: "min restantes",
       mute: "Couper le micro",
       camera: "Caméra",
@@ -247,7 +247,7 @@ const fr = {
     placeholder: "Écris ta question",
     exercisePlaceholder: "Écris ta question ou ta démarche",
     send: "Envoyer",
-    thinking: "Prof LULU réfléchit…",
+    thinking: "Prof ATUMI réfléchit…",
     messagesLeft: "Messages restants pendant l'essai : {n} sur {total}",
     noMessagesLeft: "Tu as utilisé tes messages au professeur. Abonne-toi pour continuer.",
     newConversation: "Nouvelle question",
@@ -258,10 +258,10 @@ const fr = {
     deepenQuestion: "Explique-moi ce chapitre en entier, étape par étape.",
     sources: "Sources",
     intro: {
-      expliquer: "Pose ta question sur ton cours : Prof LULU répond à partir de tes documents et cite les pages.",
-      approfondir: "Prof LULU reprend le chapitre en entier, étape par étape.",
-      exercer: "Donne ton exercice et ta démarche. Prof LULU t'aide avec des indices ; la solution vient après ta tentative.",
-      decouvrir: "Choisis un sujet : Prof LULU l'explique simplement, avec des exemples de la vie de tous les jours.",
+      expliquer: "Pose ta question sur ton cours : Prof ATUMI répond à partir de tes documents et cite les pages.",
+      approfondir: "Prof ATUMI reprend le chapitre en entier, étape par étape.",
+      exercer: "Donne ton exercice et ta démarche. Prof ATUMI t'aide avec des indices ; la solution vient après ta tentative.",
+      decouvrir: "Choisis un sujet : Prof ATUMI l'explique simplement, avec des exemples de la vie de tous les jours.",
     },
     errors: {
       empty: "Écris ton message.",

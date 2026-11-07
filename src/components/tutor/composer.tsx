@@ -49,7 +49,7 @@ export function TutorComposer({
       <input type="hidden" name="chapterId" value={chapterId ?? ""} />
 
       {pending ? (
-        <p role="status" className="text-sm text-amber-800 dark:text-amber-300">
+        <p role="status" className="text-sm text-primary-strong dark:text-lavande">
           {t.tutor.thinking}
         </p>
       ) : null}
@@ -82,13 +82,13 @@ export function TutorComposer({
             maxLength={4000}
             disabled={pending}
             placeholder={mode === "exercer" ? t.tutor.exercisePlaceholder : mode === "decouvrir" ? t.tutor.discoverPlaceholder : t.tutor.placeholder}
-            className="min-w-0 flex-1 resize-none rounded-xl border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-amber-600 dark:border-neutral-700 dark:bg-neutral-900"
+            className="min-w-0 flex-1 resize-none rounded-xl border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-900"
           />
           <button
             type="submit"
             disabled={pending}
             aria-label={t.tutor.send}
-            className="flex w-12 items-center justify-center rounded-xl bg-amber-700 text-white disabled:opacity-60"
+            className="flex w-12 items-center justify-center rounded-xl bg-primary text-white disabled:opacity-60"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6" />
