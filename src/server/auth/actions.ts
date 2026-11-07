@@ -12,7 +12,7 @@ import { CGU_VERSION, parseIdentifier, parseSignIn, parseSignUp } from "./schema
 export interface FormState {
   errors?: Partial<Record<string, AuthErrorKey>>;
   formError?: AuthErrorKey;
-  notice?: "checkEmail";
+  notice?: "checkEmail" | "resetSent";
   /** Valeurs à réafficher (jamais le mot de passe). */
   values?: Record<string, string>;
 }
@@ -114,8 +114,42 @@ export async function verifyPhoneAction(_prev: FormState, formData: FormData): P
   redirect("/tableau-de-bord");
 }
 
+/** Après le lien reçu par e-mail, l'apprenant choisit un nouveau mot de passe. */
+const PASSWORD_RESET_PATH = "/nouveau-mot-de-passe";
+
+/**
+ * Mot de passe oublié : envoie un lien de réinitialisation.
+ * La réponse est la même que le compte existe ou non (pas de fuite d'information).
+ */
+export async function requestPasswordResetAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const values = { identifier: field(formData, "identifier") };
+  const identifier = parseIdentifier(values.identifier, DEFAULT_COUNTRY);
+  if (!identifier) return { errors: { identifier: "identifierInvalid" }, values };
+  if (identifier.kind === "phone") return { formError: "resetPhoneUnsupported", values };
+
+  const supabase = await createUserClient();
+  const origin = (await headers()).get("origin") ?? "";
+  await supabase.auth.resetPasswordForEmail(identifier.email, {
+    redirectTo: `${origin}/auth/confirmation?next=${encodeURIComponent(PASSWORD_RESET_PATH)}`,
+  });
+  return { notice: "resetSent" };
+}
+
+export async function updatePasswordAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const password = field(formData, "password");
+  if (password.length < 8 || password.length > 72) return { errors: { password: "passwordLength" } };
+
+  const supabase = await createUserClient();
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    return { formError: error.code === "same_password" ? "samePassword" : "resetLinkExpired" };
+  }
+  redirect("/tableau-de-bord");
+}
+
 export async function signOutAction(): Promise<void> {
   const supabase = await createUserClient();
-  await supabase.auth.signOut();
-  redirect("/");
+  // « local » : ferme la session de cet appareil sans dépendre d'un appel réseau qui échouerait.
+  await supabase.auth.signOut({ scope: "local" });
+  redirect("/connexion");
 }

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { AiProvider, AiRequest, AiResult } from "@/server/ai/types";
 import { computeScore, gradeAnswer, nextMastery, parseGeneratedQuiz } from "@/server/study/quiz";
-import { generateQuiz, generateSynthesis, TemporaryAiError, type QuizJob, type StudyStore } from "@/worker/study";
+import { generateQuiz, generateSynthesis, STUDY_FAILURES, TemporaryAiError, type QuizJob, type StudyStore } from "@/worker/study";
 
 const usage = { model: "test", inputTokens: 10, outputTokens: 5, cacheReadTokens: 0 };
 
@@ -82,6 +82,16 @@ describe("synthèse d'un chapitre", () => {
   it("laisse la file relancer si le modèle est indisponible", async () => {
     const provider = new FakeProvider({ status: "unavailable", reason: "rate_limited" });
     await expect(generateSynthesis(new FakeStore(), provider, "u", "job")).rejects.toBeInstanceOf(TemporaryAiError);
+  });
+
+  it("clôture tout de suite la synthèse et le quiz quand aucune clé d'API n'est configurée", async () => {
+    const provider = new FakeProvider({ status: "unavailable", reason: "missing_api_key" });
+    const synthesisStore = new FakeStore();
+    expect(await generateSynthesis(synthesisStore, provider, "u", "job")).toBe("failed");
+    expect(synthesisStore.failed).toBe(STUDY_FAILURES.aiDisabled);
+    const quizStore = new FakeStore();
+    expect(await generateQuiz(quizStore, provider, "u", "job")).toBe("failed");
+    expect(quizStore.failed).toBe(STUDY_FAILURES.aiDisabled);
   });
 
   it("ne refait pas une synthèse déjà traitée", async () => {

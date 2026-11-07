@@ -97,7 +97,7 @@ Seule la transcription écrite de l'appel est gardée ; aucun enregistrement aud
       id: "compte",
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
-Mot de passe oublié : la réinitialisation dans l'application arrive bientôt. En attendant, écris à l'équipe avec le bouton « Écrire à l'équipe » en précisant ton nom d'utilisateur.
+Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
 ATUMI est ouvert aux lycéens et aux étudiants.`,
     },

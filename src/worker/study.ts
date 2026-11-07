@@ -46,7 +46,13 @@ export const STUDY_FAILURES = {
   noContent: "Aucun document lisible dans ce chapitre pour l'instant.",
   refused: "ATUMI n'a pas pu traiter ce contenu.",
   invalid: "La génération n'a pas abouti. Réessaie dans un instant.",
+  aiDisabled: "Le service d'IA d'ATUMI n'est pas encore activé. Réessaie plus tard.",
 } as const;
+
+/** Sans clé d'API, inutile de relancer : la ligne est clôturée tout de suite. */
+function isPermanentlyUnavailable(reason: string): boolean {
+  return reason === "missing_api_key";
+}
 
 /** Erreur passagère : pg-boss relancera le travail. */
 export class TemporaryAiError extends Error {}
@@ -75,7 +81,11 @@ export async function generateSynthesis(
     messages: [{ role: "user", content: synthesisUserTurn(passages) }],
     maxTokens: 8000,
   });
-  if (result.status === "unavailable") throw new TemporaryAiError(result.reason);
+  if (result.status === "unavailable") {
+    if (!isPermanentlyUnavailable(result.reason)) throw new TemporaryAiError(result.reason);
+    await store.failSynthesis(job, STUDY_FAILURES.aiDisabled);
+    return "failed";
+  }
   await store.logUsage(job, "synthesis", result.usage);
   if (result.status === "refused" || result.text.trim() === "") {
     await store.failSynthesis(job, STUDY_FAILURES.refused);
@@ -108,7 +118,11 @@ export async function generateQuiz(
     messages: [{ role: "user", content: quizUserTurn(passages, job.questionCount) }],
     maxTokens: 8000,
   });
-  if (result.status === "unavailable") throw new TemporaryAiError(result.reason);
+  if (result.status === "unavailable") {
+    if (!isPermanentlyUnavailable(result.reason)) throw new TemporaryAiError(result.reason);
+    await store.failQuiz(job, STUDY_FAILURES.aiDisabled);
+    return "failed";
+  }
   await store.logUsage(job, "quiz_generation", result.usage);
   if (result.status === "refused") {
     await store.failQuiz(job, STUDY_FAILURES.refused);
