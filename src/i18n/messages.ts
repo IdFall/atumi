@@ -73,6 +73,84 @@ const fr = {
     greeting: "Bonjour",
     loading: "Chargement…",
     empty: "Commence par importer ton premier cours.",
+    importCta: "Importer un cours",
+    recentModules: "Mes modules",
+    seeAll: "Tout voir",
+  },
+  nav: {
+    label: "Navigation principale",
+    home: "Accueil",
+    courses: "Mes cours",
+    import: "Importer",
+  },
+  access: {
+    trialNotStarted: "Ton essai gratuit de 24 h démarrera à ton premier import.",
+    trialEndsIn: "Essai gratuit : il te reste",
+    hours: "h",
+    minutes: "min",
+    subscribed: "Abonnement actif jusqu'au",
+    expired: "Ton accès est terminé. Les forfaits arrivent bientôt dans l'application.",
+  },
+  courses: {
+    title: "Mes cours",
+    empty: "Aucun module pour l'instant. Importe un cours pour commencer.",
+    chapters: { one: "chapitre", other: "chapitres" },
+    documents: { one: "document", other: "documents" },
+    newModule: "Nouveau module",
+    newModuleName: "Nom du module",
+    newModulePlaceholder: "Par exemple : Analyse 2",
+    create: "Créer",
+    back: "Mes cours",
+    moduleChapters: "Chapitres",
+    noChapter: "Aucun chapitre. Ajoute-en un, ou importe un cours sans chapitre.",
+    newChapterTitle: "Nouveau chapitre",
+    newChapterPlaceholder: "Par exemple : Intégrales",
+    withoutChapter: "Sans chapitre",
+    moduleDocuments: "Documents",
+    noDocument: "Aucun document dans ce module.",
+    importHere: "Importer dans ce module",
+    notFound: "Ce module n'existe pas ou a été supprimé.",
+    kinds: { cours: "Cours", examen: "Ancien examen", devoir: "Devoir", exercice: "Exercices" },
+    status: {
+      uploaded: "En attente de lecture",
+      processing: "Lecture en cours…",
+      ready: "Prêt",
+      failed: "Illisible",
+    },
+    pages: "pages",
+    errors: {
+      nameRequired: "Donne un nom (120 caractères au plus).",
+      titleRequired: "Donne un titre (200 caractères au plus).",
+      unknown: "Une erreur est survenue. Réessaie dans un instant.",
+    },
+  },
+  import: {
+    title: "Importer un cours",
+    module: "Module",
+    chapter: "Chapitre",
+    newModuleOption: "+ Nouveau module",
+    newChapterOption: "+ Nouveau chapitre",
+    noChapterOption: "Sans chapitre",
+    kind: "Type de document",
+    file: "Fichier",
+    chooseFile: "Choisir un PDF ou un Word",
+    formats: "Formats acceptés : PDF et Word (.docx), 20 Mo maximum.",
+    trialNotice: "Ton essai gratuit de 24 h démarre à ce premier import.",
+    submit: "Importer",
+    uploading: "Envoi du fichier…",
+    registering: "Enregistrement…",
+    done: "Document importé. LULU le lit, cela prend en général moins d'une minute.",
+    errors: {
+      fileRequired: "Choisis un fichier.",
+      fileType: "Ce format n'est pas accepté : choisis un PDF ou un fichier Word (.docx).",
+      fileTooLarge: "Ce fichier dépasse 20 Mo.",
+      moduleRequired: "Choisis un module ou crée-en un.",
+      chapterTitleRequired: "Donne un titre au nouveau chapitre.",
+      uploadFailed: "L'envoi du fichier a échoué. Vérifie ta connexion et réessaie.",
+      accessExpired: "Ton essai est terminé ou ce numéro a déjà eu un essai : il faut un forfait pour importer.",
+      importLimit: "Tu as atteint le nombre d'imports de ton forfait. L'essai gratuit permet d'importer un document.",
+      unknown: "Une erreur est survenue. Réessaie dans un instant.",
+    },
   },
   tutor: {
     contestationReply:
@@ -127,6 +205,8 @@ type DeepString<T> = T extends string
 export type Messages = DeepString<typeof fr>;
 
 export type AuthErrorKey = keyof typeof fr.auth.errors;
+export type CoursesErrorKey = keyof typeof fr.courses.errors;
+export type ImportErrorKey = keyof typeof fr.import.errors;
 
 const dictionaries: Record<Locale, Messages> = { fr };
 
