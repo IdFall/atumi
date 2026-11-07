@@ -95,7 +95,8 @@ create table public.documents (
   kind text not null check (kind in ('cours', 'examen', 'devoir', 'exercice')),
   title text not null,
   storage_path text not null unique,
-  mime_type text not null,
+  mime_type text not null check (mime_type in ('application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
   size_bytes bigint not null check (size_bytes > 0),
   sha256 text,
   page_count int,
@@ -404,7 +405,8 @@ $$;
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'documents', 'documents', false, 20971520,
-  array['application/pdf', 'image/jpeg', 'image/png', 'image/webp',
+  -- V1 : PDF et Word (.docx) uniquement ; les photos sont trop souvent illisibles.
+  array['application/pdf',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
 )
 on conflict (id) do nothing;

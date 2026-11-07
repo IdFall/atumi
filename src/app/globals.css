@@ -1,18 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Palette « lumière et chance » : or, soleil, vert chance, fond lumineux. */
+  --background: #fffcf5;
+  --foreground: #111827;
+  --lulu-or: #b45309;
+  --lulu-soleil: #f59e0b;
+  --lulu-chance: #15803d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-or: var(--lulu-or);
+  --color-soleil: var(--lulu-soleil);
+  --color-chance: var(--lulu-chance);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #14110b;
     --foreground: #ededed;
   }
 }

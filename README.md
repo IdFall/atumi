@@ -23,7 +23,13 @@ npm run dev                  # application sur http://localhost:3000
 npm run worker               # dans un second terminal
 ```
 
-La migration `supabase/migrations/20261105000000_init.sql` s'applique avec la CLI Supabase (`supabase db push`) ou depuis l'éditeur SQL du projet.
+Les migrations de `supabase/migrations/` s'appliquent dans l'ordre avec la CLI Supabase (`supabase db push`) ou depuis l'éditeur SQL du projet.
+
+### Réglages Supabase pour l'inscription
+
+- **Authentification > Fournisseurs** : activer E-mail et Téléphone. L'inscription par téléphone demande un fournisseur SMS (Twilio, Vonage, MessageBird…) configuré dans Supabase.
+- **Modèle d'e-mail « Confirm signup »** : faire pointer le lien vers `{{ .SiteURL }}/auth/confirmation?token_hash={{ .TokenHash }}&type=signup`.
+- **URL du site** : l'adresse publique de l'application.
 
 ## Vérifications
 

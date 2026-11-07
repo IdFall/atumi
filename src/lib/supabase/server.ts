@@ -11,8 +11,9 @@ import { publicEnv, serverEnv } from "@/lib/env";
  * Toutes les requêtes passent par les règles RLS : c'est le client par défaut.
  */
 export async function createUserClient() {
-  const env = publicEnv();
+  // Lire les cookies d'abord : la page devient dynamique avant toute autre lecture.
   const cookieStore = await cookies();
+  const env = publicEnv();
 
   return createServerClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
     cookies: {

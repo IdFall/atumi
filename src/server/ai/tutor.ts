@@ -1,4 +1,4 @@
-import type { Cycle } from "@/config/countries";
+import type { Cycle, TutorLanguage } from "@/config/countries";
 import { getMessages } from "@/i18n/messages";
 import { canRevealSolution } from "@/server/learning/policies";
 
@@ -8,6 +8,8 @@ import type { AiMessage, AiProvider, AiUsage, SourcePassage } from "./types";
 export interface TutorInput {
   mode: TutorMode;
   cycle: Cycle;
+  /** Langue de réponse choisie par l'apprenant (fr par défaut). */
+  language?: TutorLanguage;
   question: string;
   /** Historique résumé ou récent de la conversation. */
   history: AiMessage[];
@@ -38,7 +40,7 @@ export async function askTutor(provider: AiProvider, input: TutorInput): Promise
   const result = await provider.complete({
     feature: "tutor",
     tier: "standard",
-    system: tutorSystemPrompt(input.mode, input.cycle),
+    system: tutorSystemPrompt(input.mode, input.cycle, input.language ?? "fr"),
     messages: [
       ...input.history,
       { role: "user", content: tutorUserTurn(input.question, input.passages, solutionAllowed) },

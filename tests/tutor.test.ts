@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatPassages, tutorUserTurn } from "@/server/ai/prompts";
+import { formatPassages, tutorSystemPrompt, tutorUserTurn } from "@/server/ai/prompts";
 import { askTutor, contestationReply } from "@/server/ai/tutor";
 import type { AiProvider, AiRequest, AiResult } from "@/server/ai/types";
 
@@ -17,6 +17,49 @@ const usage = { model: "test", inputTokens: 1, outputTokens: 1, cacheReadTokens:
 const passage = { chunkId: 7, documentTitle: "Cours", page: 3, content: "Une équation du second degré…" };
 
 describe("professeur IA", () => {
+  it("répond dans la langue choisie, français par défaut", async () => {
+    expect(tutorSystemPrompt("expliquer", "universite")).toContain("réponds en français");
+    expect(tutorSystemPrompt("expliquer", "universite", "en")).toContain("réponds en anglais");
+    expect(tutorSystemPrompt("expliquer", "lycee", "wo")).toContain("réponds en wolof");
+
+    const provider = new FakeProvider({ status: "ok", text: "Ok", usage });
+    await askTutor(provider, {
+      mode: "approfondir",
+      cycle: "lycee",
+      language: "wo",
+      question: "Explique-moi le chapitre",
+      history: [],
+      passages: [passage],
+      exerciseAttempts: [],
+    });
+    expect(provider.requests[0].system).toContain("réponds en wolof");
+    expect(provider.requests[0].system).toContain("approfondir le chapitre");
+  });
+
+  it("explique un sujet libre sans cours importé, en le signalant", async () => {
+    const provider = new FakeProvider({ status: "ok", text: "La photosynthèse, c'est…", usage });
+    const output = await askTutor(provider, {
+      mode: "decouvrir",
+      cycle: "lycee",
+      question: "C'est quoi la photosynthèse ?",
+      history: [],
+      passages: [],
+      exerciseAttempts: [],
+    });
+    expect(provider.requests[0].system).toContain("découvrir un sujet");
+    expect(provider.requests[0].system).toContain("ne vient pas de son cours");
+    expect(provider.requests[0].messages.at(-1)?.content).toContain("aucun passage trouvé");
+    expect(output.citedChunkIds).toEqual([]);
+  });
+
+  it("garde la règle de la tentative dans toutes les langues et tous les modes", () => {
+    for (const mode of ["expliquer", "approfondir", "exercer", "decouvrir"] as const) {
+      for (const language of ["fr", "en", "wo"] as const) {
+        expect(tutorSystemPrompt(mode, "lycee", language)).toContain("<solution_autorisee>oui</solution_autorisee>");
+      }
+    }
+  });
+
   it("interdit la solution tant qu'il n'y a pas de tentative", async () => {
     const provider = new FakeProvider({ status: "ok", text: "Indice", usage });
     await askTutor(provider, {
