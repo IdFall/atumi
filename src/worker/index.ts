@@ -7,6 +7,7 @@ import { PgBoss } from "pg-boss";
 import { createAiProvider } from "../server/ai/anthropic";
 import { payloadSchemas, QUEUE_OPTIONS, QUEUES, type QueueName } from "../server/jobs/queues";
 
+import { checkDatabaseUrl, explainConnectionError } from "./database-url";
 import { ingestDocument } from "./ingest";
 import { generateQuiz, generateSynthesis } from "./study";
 import { notifyTeam, sendersFromEnv } from "./support";
@@ -62,9 +63,19 @@ async function main() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) throw new Error("DATABASE_URL manquant");
 
-  const boss = new PgBoss(connectionString);
+  const check = checkDatabaseUrl(connectionString);
+  console.log(`[worker] connexion à la base : ${check.summary}`);
+  for (const problem of check.problems) console.error(`[worker] DATABASE_URL : ${problem}`);
+
+  const boss = new PgBoss(connectionString.trim());
   boss.on("error", (error) => console.error("[worker]", error));
-  await boss.start();
+  try {
+    await boss.start();
+  } catch (error) {
+    const hint = explainConnectionError(error);
+    if (hint) console.error(`[worker] ${hint}`);
+    throw error;
+  }
 
   for (const [queue, handle] of Object.entries(handlers(boss))) {
     await boss.createQueue(queue, QUEUE_OPTIONS);
