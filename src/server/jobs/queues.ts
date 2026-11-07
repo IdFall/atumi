@@ -20,13 +20,9 @@ const uuid = z.uuid();
 
 export const payloadSchemas = {
   [QUEUES.documentIngest]: z.object({ userId: uuid, documentId: uuid }),
-  [QUEUES.synthesisGenerate]: z.object({ userId: uuid, moduleId: uuid, chapterId: uuid.nullable() }),
-  [QUEUES.quizGenerate]: z.object({
-    userId: uuid,
-    moduleId: uuid,
-    chapterId: uuid.nullable(),
-    questionCount: z.number().int().min(3).max(30),
-  }),
+  /** La synthèse et le quiz sont créés « en préparation » par le serveur, le worker les complète. */
+  [QUEUES.synthesisGenerate]: z.object({ userId: uuid, synthesisId: uuid }),
+  [QUEUES.quizGenerate]: z.object({ userId: uuid, quizId: uuid }),
 } satisfies Record<QueueName, z.ZodType>;
 
 export type Payload<Q extends QueueName> = z.infer<(typeof payloadSchemas)[Q]>;

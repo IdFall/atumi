@@ -353,6 +353,47 @@ describe("isolation des données entre utilisateurs", () => {
     await expect(importAs(E, "cours4")).rejects.toThrow(/ACCES_EXPIRE/);
   });
 
+  it("synthèses et quiz sont écrits par le serveur ; un quiz échoué ne compte pas", async () => {
+    const H = "00000000-0000-0000-0000-000000000011";
+    const MODULE_H = "10000000-0000-0000-0000-000000000011";
+    await asService();
+    await db.exec(`
+      insert into auth.users (id, phone, raw_user_meta_data) values
+        ('${H}', '221770000009', '{"username": "habib", "cycle": "universite", "cgu_accepted": true}');
+      insert into public.modules (id, user_id, name) values ('${MODULE_H}', '${H}', 'Chimie');
+      insert into public.trials (user_id, phone_e164, started_at, ends_at)
+        values ('${H}', '+221770000009', now(), now() + interval '24 hours');
+    `);
+
+    // Quiz dont la génération a échoué : le quota reste disponible.
+    const failed = await db.query<{ id: string }>(
+      `insert into public.quizzes (user_id, module_id) values ('${H}', '${MODULE_H}') returning id`,
+    );
+    await db.exec(`update public.quizzes set status = 'failed' where id = '${failed.rows[0].id}'`);
+    const quiz = await db.query<{ id: string; status: string; question_count: number }>(
+      `insert into public.quizzes (user_id, module_id) values ('${H}', '${MODULE_H}') returning id, status, question_count`,
+    );
+    expect(quiz.rows[0]).toMatchObject({ status: "generating", question_count: 5 });
+
+    // Un seul passage par quiz.
+    await db.exec(`insert into public.quiz_attempts (user_id, quiz_id) values ('${H}', '${quiz.rows[0].id}')`);
+    await expect(
+      db.exec(`insert into public.quiz_attempts (user_id, quiz_id) values ('${H}', '${quiz.rows[0].id}')`),
+    ).rejects.toThrow();
+
+    await db.exec(`insert into public.syntheses (user_id, module_id) values ('${H}', '${MODULE_H}')`);
+    await asUser(H);
+    await expect(
+      db.exec(`insert into public.syntheses (user_id, module_id, content_md, status)
+        values ('${H}', '${MODULE_H}', 'x', 'ready')`),
+    ).rejects.toThrow();
+    const mine = await db.query<{ status: string }>(`select status from public.syntheses`);
+    expect(mine.rows).toEqual([{ status: "generating" }]);
+    await asUser(A);
+    const others = await db.query(`select 1 from public.syntheses where user_id = '${H}'`);
+    expect(others.rows).toHaveLength(0);
+  });
+
   it("les forfaits ne sont modifiables que par le serveur", async () => {
     await asUser(A);
     await expect(db.exec(`update public.plans set quiz_limit = null`)).rejects.toThrow();
