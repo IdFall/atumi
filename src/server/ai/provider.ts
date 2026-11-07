@@ -2,7 +2,7 @@ import "server-only";
 
 import { serverEnv } from "@/lib/env";
 
-import { AnthropicProvider } from "./anthropic";
+import { createAiProvider } from "./anthropic";
 import type { AiProvider } from "./types";
 
 let provider: AiProvider | undefined;
@@ -11,8 +11,9 @@ let provider: AiProvider | undefined;
 export function getAiProvider(): AiProvider {
   if (provider) return provider;
   const env = serverEnv();
-  provider = env.ANTHROPIC_API_KEY
-    ? new AnthropicProvider({ models: { standard: env.ATUMI_AI_MODEL, light: env.ATUMI_AI_MODEL_LIGHT } })
-    : { complete: async () => ({ status: "unavailable", reason: "missing_api_key" }) };
+  provider = createAiProvider(env.ANTHROPIC_API_KEY, {
+    standard: env.ATUMI_AI_MODEL,
+    light: env.ATUMI_AI_MODEL_LIGHT,
+  });
   return provider;
 }

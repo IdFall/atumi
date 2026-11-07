@@ -4,7 +4,7 @@
  */
 import { PgBoss } from "pg-boss";
 
-import { AnthropicProvider } from "../server/ai/anthropic";
+import { createAiProvider } from "../server/ai/anthropic";
 import { payloadSchemas, QUEUE_OPTIONS, QUEUES, type QueueName } from "../server/jobs/queues";
 
 import { ingestDocument } from "./ingest";
@@ -25,11 +25,10 @@ const ingestStore = supabaseIngestStore(db);
 const studyStore = supabaseStudyStore(db);
 const supportStore = supabaseSupportStore(db);
 const supportSenders = sendersFromEnv(process.env);
-const provider = new AnthropicProvider({
-  models: {
-    standard: process.env.ATUMI_AI_MODEL ?? "claude-opus-5-5",
-    light: process.env.ATUMI_AI_MODEL_LIGHT ?? "claude-opus-5-5",
-  },
+// Sans clé d'API, le worker démarre quand même : l'import fonctionne, l'IA est indisponible.
+const provider = createAiProvider(process.env.ANTHROPIC_API_KEY, {
+  standard: process.env.ATUMI_AI_MODEL ?? "claude-opus-5-5",
+  light: process.env.ATUMI_AI_MODEL_LIGHT ?? "claude-opus-5-5",
 });
 
 function handlers(boss: PgBoss): Record<QueueName, Handler> {
