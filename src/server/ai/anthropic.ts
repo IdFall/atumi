@@ -2,8 +2,23 @@ import Anthropic from "@anthropic-ai/sdk";
 
 import type { AiProvider, AiRequest, AiResult, AiTier } from "./types";
 
+/** Fournisseur de repli quand aucune clé d'API n'est configurée : l'IA se dit indisponible. */
+export const unavailableProvider: AiProvider = {
+  complete: async () => ({ status: "unavailable", reason: "missing_api_key" }),
+};
+
+/**
+ * Construit le fournisseur Claude, ou le repli « indisponible » sans clé d'API
+ * (le SDK refuse de se construire sans clé, ce qui arrêterait le worker).
+ */
+export function createAiProvider(apiKey: string | undefined, models: Record<AiTier, string>): AiProvider {
+  return apiKey ? new AnthropicProvider({ models, apiKey }) : unavailableProvider;
+}
+
 export interface AnthropicProviderOptions {
   models: Record<AiTier, string>;
+  /** Par défaut, le SDK lit ANTHROPIC_API_KEY dans l'environnement. */
+  apiKey?: string;
   client?: Anthropic;
 }
 
@@ -18,7 +33,7 @@ export class AnthropicProvider implements AiProvider {
   private readonly models: Record<AiTier, string>;
 
   constructor(options: AnthropicProviderOptions) {
-    this.client = options.client ?? new Anthropic({ timeout: 60_000, maxRetries: 2 });
+    this.client = options.client ?? new Anthropic({ apiKey: options.apiKey, timeout: 60_000, maxRetries: 2 });
     this.models = options.models;
   }
 
