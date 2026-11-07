@@ -50,6 +50,15 @@ async function Synthesis({ params, searchParams }: Pick<Props, "params" | "searc
       <SynthesisBlock page={page} chapterId={chapterParam} />
 
       {page.readyDocuments > 0 ? <QuizBlock page={page} chapterId={chapterParam} /> : null}
+
+      {page.readyDocuments > 0 && chapterParam ? (
+        <Link
+          href={`/professeur?mode=expliquer&module=${page.moduleId}&chapitre=${chapterParam}`}
+          className="rounded-xl border border-neutral-300 px-4 py-3 text-center font-medium dark:border-neutral-700"
+        >
+          {t.study.askTutor}
+        </Link>
+      ) : null}
     </>
   );
 }
