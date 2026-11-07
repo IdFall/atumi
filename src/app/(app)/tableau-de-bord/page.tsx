@@ -41,7 +41,7 @@ async function Dashboard() {
 
       <AccessBanner access={access} />
 
-      <Link href="/importer" className="rounded-xl bg-amber-700 px-4 py-3 text-center font-semibold text-white">
+      <Link href="/importer" className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white">
         {t.dashboard.importCta}
       </Link>
 
@@ -53,7 +53,7 @@ async function Dashboard() {
         <section className="flex flex-col gap-3">
           <div className="flex items-baseline justify-between">
             <h2 className="text-lg font-semibold">{t.dashboard.recentModules}</h2>
-            <Link href="/cours" className="text-sm font-medium text-amber-700">
+            <Link href="/cours" className="text-sm font-medium text-primary dark:text-lavande">
               {t.dashboard.seeAll}
             </Link>
           </div>

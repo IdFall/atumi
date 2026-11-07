@@ -43,7 +43,7 @@ export function ContestForm({ answerId, alreadyContested }: { answerId: string; 
           className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base dark:border-neutral-700 dark:bg-neutral-900"
         />
       </label>
-      <button type="submit" disabled={pending} className="self-start rounded-lg bg-amber-700 px-3 py-1.5 font-semibold text-white disabled:opacity-60">
+      <button type="submit" disabled={pending} className="self-start rounded-lg bg-primary px-3 py-1.5 font-semibold text-white disabled:opacity-60">
         {t.quiz.contestSend}
       </button>
       {state.error ? <span role="alert" className="text-red-700">{t.study.errors.unknown}</span> : null}

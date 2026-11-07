@@ -38,12 +38,12 @@ export function InlineCreateForm({
           maxLength={fieldName === "title" ? 200 : 120}
           placeholder={placeholder}
           aria-invalid={state.error ? true : undefined}
-          className="min-w-0 flex-1 rounded-lg border border-neutral-300 bg-transparent px-3 py-2 text-base outline-none focus:ring-2 focus:ring-amber-600 dark:border-neutral-700"
+          className="min-w-0 flex-1 rounded-lg border border-neutral-300 bg-transparent px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700"
         />
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-amber-700 px-4 py-2 font-semibold text-white disabled:opacity-60"
+          className="rounded-lg bg-primary px-4 py-2 font-semibold text-white disabled:opacity-60"
         >
           {t.courses.create}
         </button>

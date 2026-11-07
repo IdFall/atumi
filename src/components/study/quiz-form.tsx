@@ -18,7 +18,7 @@ export function QuizForm({ quizId, questions }: { quizId: string; questions: Qui
           <legend className="sr-only">
             {t.quiz.question} {index + 1}
           </legend>
-          <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">
+          <p className="text-sm font-semibold text-primary-strong dark:text-lavande">
             {t.quiz.question} {index + 1} / {questions.length}
           </p>
           <p className="font-medium">{q.prompt}</p>
@@ -26,9 +26,9 @@ export function QuizForm({ quizId, questions }: { quizId: string; questions: Qui
             {q.choices.map((choice, i) => (
               <label
                 key={i}
-                className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-neutral-300 px-3 py-2 has-[:checked]:border-2 has-[:checked]:border-amber-700 has-[:checked]:bg-amber-50 dark:border-neutral-700 dark:has-[:checked]:bg-amber-950"
+                className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-neutral-300 px-3 py-2 has-[:checked]:border-2 has-[:checked]:border-primary has-[:checked]:bg-primary-soft dark:border-neutral-700 dark:has-[:checked]:bg-primary-strong/25"
               >
-                <input type="radio" name={`q-${q.id}`} value={i} required className="size-4 accent-amber-700" />
+                <input type="radio" name={`q-${q.id}`} value={i} required className="size-4 accent-primary" />
                 <span>{choice}</span>
               </label>
             ))}
@@ -40,7 +40,7 @@ export function QuizForm({ quizId, questions }: { quizId: string; questions: Qui
           {state.error === "unanswered" ? t.quiz.unanswered : t.study.errors.unknown}
         </p>
       ) : null}
-      <button type="submit" disabled={pending} className="rounded-xl bg-amber-700 px-4 py-3 font-semibold text-white disabled:opacity-60">
+      <button type="submit" disabled={pending} className="rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60">
         {t.quiz.submit}
       </button>
     </form>

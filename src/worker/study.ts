@@ -44,7 +44,7 @@ export const MAX_SOURCE_CHARS = 60_000;
 
 export const STUDY_FAILURES = {
   noContent: "Aucun document lisible dans ce chapitre pour l'instant.",
-  refused: "LULU n'a pas pu traiter ce contenu.",
+  refused: "ATUMI n'a pas pu traiter ce contenu.",
   invalid: "La génération n'a pas abouti. Réessaie dans un instant.",
 } as const;
 

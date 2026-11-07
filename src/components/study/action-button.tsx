@@ -31,8 +31,8 @@ export function StudyActionButton({
         disabled={pending}
         className={
           variant === "primary"
-            ? "rounded-xl bg-amber-700 px-4 py-3 font-semibold text-white disabled:opacity-60"
-            : "rounded-xl border border-amber-700 bg-white px-4 py-3 font-semibold text-amber-800 disabled:opacity-60 dark:bg-neutral-900 dark:text-amber-300"
+            ? "rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60"
+            : "rounded-xl border border-primary bg-white px-4 py-3 font-semibold text-primary-strong disabled:opacity-60 dark:bg-neutral-900 dark:text-lavande"
         }
       >
         {label}

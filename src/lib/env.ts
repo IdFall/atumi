@@ -11,8 +11,8 @@ const serverSchema = publicSchema.extend({
   SUPABASE_SECRET_KEY: z.string().min(1),
   DATABASE_URL: z.string().min(1),
   ANTHROPIC_API_KEY: z.string().min(1).optional(),
-  LULU_AI_MODEL: z.string().min(1).default("claude-opus-5-5"),
-  LULU_AI_MODEL_LIGHT: z.string().min(1).default("claude-opus-5-5"),
+  ATUMI_AI_MODEL: z.string().min(1).default("claude-opus-5-5"),
+  ATUMI_AI_MODEL_LIGHT: z.string().min(1).default("claude-opus-5-5"),
 });
 
 export type PublicEnv = z.infer<typeof publicSchema>;

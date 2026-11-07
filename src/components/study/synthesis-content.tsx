@@ -63,7 +63,7 @@ function inline(text: string): ReactNode[] {
     if (part.startsWith("**") && part.endsWith("**") && part.length > 4) return <strong key={i}>{part.slice(2, -2)}</strong>;
     if (/^\[(p\.\s*\d+|doc)\]$/.test(part)) {
       return (
-        <span key={i} className="ml-1 rounded bg-amber-50 px-1 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+        <span key={i} className="ml-1 rounded bg-primary-soft px-1 text-xs font-medium text-primary-strong dark:bg-primary-strong/25 dark:text-lavande">
           {part.slice(1, -1)}
         </span>
       );

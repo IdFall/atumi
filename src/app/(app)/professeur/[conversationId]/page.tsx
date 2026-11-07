@@ -30,7 +30,7 @@ async function ConversationView({ params }: { params: Props["params"] }) {
   if (!conversation) {
     return (
       <p className="text-neutral-600 dark:text-neutral-300">
-        <Link href="/professeur" className="text-amber-700">
+        <Link href="/professeur" className="text-primary dark:text-lavande">
           {t.tutor.newConversation}
         </Link>
       </p>
@@ -43,11 +43,11 @@ async function ConversationView({ params }: { params: Props["params"] }) {
     <>
       <TutorHeader mode={conversation.mode} language={settings.language} languages={settings.languages} scopeQuery={scopeQuery} />
       <div className="flex items-baseline justify-between gap-3 text-sm">
-        <span className="font-semibold text-amber-800 dark:text-amber-300">
+        <span className="font-semibold text-primary-strong dark:text-lavande">
           {t.tutor.modes[conversation.mode]}
           {conversation.chapterTitle ? ` · ${conversation.chapterTitle}` : ""}
         </span>
-        <Link href={`/professeur?mode=${conversation.mode === "approfondir" ? "expliquer" : conversation.mode}${scopeQuery}`} className="text-amber-700">
+        <Link href={`/professeur?mode=${conversation.mode === "approfondir" ? "expliquer" : conversation.mode}${scopeQuery}`} className="text-primary dark:text-lavande">
           {t.tutor.newConversation}
         </Link>
       </div>

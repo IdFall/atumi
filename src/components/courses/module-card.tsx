@@ -13,11 +13,11 @@ export function ModuleCard({ module }: { module: ModuleSummary }) {
   return (
     <Link
       href={`/cours/${module.id}`}
-      className="flex flex-col gap-1 rounded-xl border border-neutral-200 bg-white p-4 hover:border-amber-600 dark:border-neutral-800 dark:bg-neutral-900"
+      className="flex flex-col gap-1 rounded-xl border border-neutral-200 bg-white p-4 hover:border-primary dark:border-neutral-800 dark:bg-neutral-900"
     >
       <span className="flex items-center justify-between gap-3">
         <strong className="text-base">{module.name}</strong>
-        <span aria-hidden="true" className="text-amber-700">
+        <span aria-hidden="true" className="text-primary dark:text-lavande">
           ›
         </span>
       </span>

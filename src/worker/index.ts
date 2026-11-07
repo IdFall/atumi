@@ -23,8 +23,8 @@ const ingestStore = supabaseIngestStore(db);
 const studyStore = supabaseStudyStore(db);
 const provider = new AnthropicProvider({
   models: {
-    standard: process.env.LULU_AI_MODEL ?? "claude-opus-5-5",
-    light: process.env.LULU_AI_MODEL_LIGHT ?? "claude-opus-5-5",
+    standard: process.env.ATUMI_AI_MODEL ?? "claude-opus-5-5",
+    light: process.env.ATUMI_AI_MODEL_LIGHT ?? "claude-opus-5-5",
   },
 });
 

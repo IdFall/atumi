@@ -1,4 +1,4 @@
-# Architecture de LULU (V1)
+# Architecture de ATUMI (V1)
 
 ## Vue d'ensemble
 
@@ -37,7 +37,7 @@ Un monolithe découpé en modules (comptes, documents, IA, quiz, paiement). L'AP
 
 - Le produit appelle `AiProvider.complete()`, jamais un SDK directement.
 - L'implémentation Claude active le cache de prompt, le repli automatique en cas de refus, un délai maximal et deux nouvelles tentatives.
-- Deux niveaux de modèle configurables (`LULU_AI_MODEL`, `LULU_AI_MODEL_LIGHT`) pour réserver le plus coûteux aux tâches qui le demandent.
+- Deux niveaux de modèle configurables (`ATUMI_AI_MODEL`, `ATUMI_AI_MODEL_LIGHT`) pour réserver le plus coûteux aux tâches qui le demandent.
 - Chaque appel renvoie sa consommation, à enregistrer dans `ai_usage` par utilisateur, pays et fonctionnalité.
 
 ## International
@@ -56,7 +56,7 @@ Le pays est un paramètre : `countries` et `education_levels` en base, `src/conf
 
 Demandé pour la V2 puis avancé en V1 par Idrissa (2026-11-06). Base posée : `tutor_calls`, `plans.call_minutes_limit`, `call_quota()`. Reste à choisir le service de voix (reconnaissance et synthèse vocales en temps réel) et à fixer les minutes par forfait.
 
-- voix d'abord, vidéo en option : l'élève parle et entend Prof LULU, qui apparaît en avatar animé ; une vraie caméra côté élève n'est pas nécessaire et coûte cher en données mobiles ;
+- voix d'abord, vidéo en option : l'élève parle et entend Prof ATUMI, qui apparaît en avatar animé ; une vraie caméra côté élève n'est pas nécessaire et coûte cher en données mobiles ;
 - mode dégradé automatique vers l'audio seul, puis le texte, quand la connexion faiblit ;
 - même cerveau que le texte : la session vocale passe par `AiProvider` avec les mêmes règles (sources citées, solution seulement après une tentative, contestation sans débat), et la transcription est enregistrée comme les messages écrits ;
 - langues : français et anglais d'abord ; le wolof à l'oral dépendra de la qualité de la reconnaissance et de la synthèse vocales disponibles ;
@@ -65,7 +65,7 @@ Demandé pour la V2 puis avancé en V1 par Idrissa (2026-11-06). Base posée : `
 
 ## Prévu pour la V2
 
-- Annales et programmes constitués par LULU (décision V1 : l'apprenant fournit ses anciens examens).
+- Annales et programmes constitués par ATUMI (décision V1 : l'apprenant fournit ses anciens examens).
 
 
 ## Limites de l'essai gratuit

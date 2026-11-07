@@ -39,7 +39,7 @@ async function Synthesis({ params, searchParams }: Pick<Props, "params" | "searc
   return (
     <>
       <PendingRefresh active={generating} />
-      <Link href={`/cours/${page.moduleId}`} className="text-sm text-amber-700">
+      <Link href={`/cours/${page.moduleId}`} className="text-sm text-primary dark:text-lavande">
         ← {page.moduleName}
       </Link>
       <header className="flex flex-col gap-1">
@@ -86,7 +86,7 @@ function SynthesisBlock({ page, chapterId }: { page: StudyPage; chapterId: strin
   }
   if (s.status === "generating") {
     return (
-      <p role="status" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-100">
+      <p role="status" className="rounded-xl bg-primary-soft p-4 text-sm text-nuit dark:bg-primary-strong/25 dark:text-lavande">
         {t.study.synthesisPending}
       </p>
     );

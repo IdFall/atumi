@@ -1,4 +1,4 @@
-# LULU
+# ATUMI
 
 Plateforme d'apprentissage par IA : l'apprenant importe ses cours, obtient une synthèse, travaille avec un professeur IA qui cite ses pages, s'entraîne avec des quiz et voit ses lacunes par module ou chapitre.
 

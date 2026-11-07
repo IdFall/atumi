@@ -20,7 +20,7 @@ export function DeepenButton({ moduleId, chapterId }: { moduleId: string; chapte
       <button
         type="submit"
         disabled={pending}
-        className="rounded-xl border border-amber-700 bg-white px-4 py-2.5 font-semibold text-amber-800 disabled:opacity-60 dark:bg-neutral-900 dark:text-amber-300"
+        className="rounded-xl border border-primary bg-white px-4 py-2.5 font-semibold text-primary-strong disabled:opacity-60 dark:bg-neutral-900 dark:text-lavande"
       >
         {pending ? t.tutor.thinking : t.tutor.deepenCta}
       </button>

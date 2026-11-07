@@ -35,13 +35,13 @@ async function Quiz({ params }: { params: PageProps<"/quiz/[quizId]">["params"] 
   return (
     <>
       <PendingRefresh active={quiz.status === "generating"} intervalMs={3000} />
-      <Link href={back} className="text-sm text-amber-700">
+      <Link href={back} className="text-sm text-primary dark:text-lavande">
         ← {t.quiz.backToChapter}
       </Link>
       {quiz.status === "generating" ? (
         <>
           <h1 className="text-2xl font-bold">{t.quiz.title}</h1>
-          <p role="status" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-100">
+          <p role="status" className="rounded-xl bg-primary-soft p-4 text-sm text-nuit dark:bg-primary-strong/25 dark:text-lavande">
             {t.quiz.preparing}
           </p>
         </>

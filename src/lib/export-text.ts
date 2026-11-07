@@ -43,7 +43,7 @@ export function toPlainText(markdown: string, title?: string): string {
     return plainInline(line);
   });
   const body = lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
-  return title ? `${title}\n\n${body}\n\n— LULU` : `${body}\n\n— LULU`;
+  return title ? `${title}\n\n${body}\n\n— ATUMI` : `${body}\n\n— ATUMI`;
 }
 
 function escapeHtml(text: string): string {

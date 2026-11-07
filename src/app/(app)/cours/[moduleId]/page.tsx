@@ -18,7 +18,7 @@ export const metadata: Metadata = { title: `${t.courses.title} · ${t.app.name}`
 export default function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
-      <Link href="/cours" className="text-sm text-amber-700">
+      <Link href="/cours" className="text-sm text-primary dark:text-lavande">
         ← {t.courses.back}
       </Link>
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
@@ -48,7 +48,7 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
 
       <Link
         href={`/importer?module=${detail.id}`}
-        className="rounded-xl bg-amber-700 px-4 py-3 text-center font-semibold text-white"
+        className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white"
       >
         {t.courses.importHere}
       </Link>
@@ -63,12 +63,12 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
               <li key={chapter.id} className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
                 <div className="flex items-baseline justify-between gap-3">
                   <strong>{chapter.title}</strong>
-                  <Link href={`/importer?module=${detail.id}&chapitre=${chapter.id}`} className="text-sm font-medium text-amber-700">
+                  <Link href={`/importer?module=${detail.id}&chapitre=${chapter.id}`} className="text-sm font-medium text-primary dark:text-lavande">
                     {t.nav.import}
                   </Link>
                 </div>
                 {chapter.documents.some((d) => d.status === "ready") ? (
-                  <Link href={studyPath(detail.id, chapter.id)} className="mt-2 inline-block text-sm font-semibold text-amber-700">
+                  <Link href={studyPath(detail.id, chapter.id)} className="mt-2 inline-block text-sm font-semibold text-primary dark:text-lavande">
                     {t.study.openSynthesis} ›
                   </Link>
                 ) : null}
@@ -91,7 +91,7 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
           <h2 className="text-lg font-semibold">{t.courses.withoutChapter}</h2>
           <DocumentList documents={detail.unassigned} />
           {all.some((d) => d.status === "ready") ? (
-            <Link href={studyPath(detail.id, null)} className="text-sm font-semibold text-amber-700">
+            <Link href={studyPath(detail.id, null)} className="text-sm font-semibold text-primary dark:text-lavande">
               {t.study.openSynthesis} ({t.study.wholeModule.toLowerCase()}) ›
             </Link>
           ) : null}
@@ -103,7 +103,7 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
 
 const STATUS_STYLES = {
   uploaded: "bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200",
-  processing: "bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100",
+  processing: "bg-primary-soft text-nuit dark:bg-primary-strong/25 dark:text-lavande",
   ready: "bg-green-50 text-green-800 dark:bg-green-950 dark:text-green-100",
   failed: "bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-100",
 } as const;

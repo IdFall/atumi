@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  /* Palette « lumière et chance » : or, soleil, vert chance, fond lumineux. */
-  --background: #fffcf5;
-  --foreground: #111827;
-  --lulu-or: #b45309;
-  --lulu-soleil: #f59e0b;
-  --lulu-chance: #15803d;
+  /* Palette ATUMI. Le cyan est trop clair pour du texte sur fond clair :
+     utiliser accent-texte pour un texte cyan. La lavande reste décorative. */
+  --background: #f3f7fc;
+  --foreground: #071a33;
+  --atumi-violet: #7557d9;
+  --atumi-violet-fonce: #5e3fc7;
+  --atumi-violet-pale: #eee9fc;
+  --atumi-nuit: #071a33;
+  --atumi-cyan: #13b8c8;
+  --atumi-cyan-texte: #0b7c88;
+  --atumi-lavande: #b9a8f2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-or: var(--lulu-or);
-  --color-soleil: var(--lulu-soleil);
-  --color-chance: var(--lulu-chance);
+  --color-primary: var(--atumi-violet);
+  --color-primary-strong: var(--atumi-violet-fonce);
+  --color-primary-soft: var(--atumi-violet-pale);
+  --color-nuit: var(--atumi-nuit);
+  --color-accent: var(--atumi-cyan);
+  --color-accent-text: var(--atumi-cyan-texte);
+  --color-lavande: var(--atumi-lavande);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #14110b;
-    --foreground: #ededed;
+    --background: #071a33;
+    --foreground: #f3f7fc;
   }
 }
 
