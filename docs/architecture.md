@@ -1,0 +1,53 @@
+# Architecture de LULU (V1)
+
+## Vue d'ensemble
+
+```
+Navigateur (PWA)
+   │  HTTPS
+   ▼
+Next.js : pages + routes API  ──►  Supabase Auth
+   │            │
+   │            ├──► PostgreSQL (RLS, pgvector)  ◄── worker(s)
+   │            │                                     │
+   │            └──► File pg-boss  ───────────────────┘
+   │                                                  │
+   └──► Stockage objet privé (documents)              └──► Fournisseur IA (AiProvider)
+```
+
+Un monolithe découpé en modules (comptes, documents, IA, quiz, paiement). L'API est sans état : on ajoute des instances pendant les pics. Les traitements lourds passent par la file et des workers qu'on multiplie indépendamment.
+
+## Boucle produit
+
+1. **Importer** : le fichier va dans le stockage privé `documents/<user_id>/…`, une ligne `documents` est créée, un travail `document-ingest` est déposé.
+2. **Comprendre** : le worker lit le document (texte ou vision), le découpe selon sa structure, rattache chaque passage à un chapitre de l'utilisateur, l'indexe (vecteur + texte intégral). La synthèse est générée une fois (`synthesis-generate`).
+3. **S'entraîner** : une banque de questions est générée par module ou chapitre (`quiz-generate`). Les réponses attendues ne quittent jamais le serveur.
+4. **Progresser** : la maîtrise par chapitre est recalculée après chaque quiz.
+
+## Sécurité
+
+- **Isolation** : RLS sur toutes les tables, clés étrangères composites `(id, user_id)`, fonctions de recherche filtrées sur `auth.uid()`. Vérifié par `tests/database-isolation.test.ts`.
+- **Écritures serveur uniquement** pour ce qui est calculé ou facturé : passages, synthèses, quiz, maîtrise, essai, abonnements, consommation IA.
+- **Fichiers** : bucket privé, dossier par utilisateur, types et taille limités.
+- **Injection dans les documents** : le contenu des passages est échappé et présenté au modèle comme donnée.
+- **En-têtes** : `nosniff`, `X-Frame-Options: DENY`, politique de référent stricte (dans `src/proxy.ts`).
+- **Secrets** : uniquement dans les variables d'environnement serveur, validées au démarrage (`src/lib/env.ts`).
+
+## IA
+
+- Le produit appelle `AiProvider.complete()`, jamais un SDK directement.
+- L'implémentation Claude active le cache de prompt, le repli automatique en cas de refus, un délai maximal et deux nouvelles tentatives.
+- Deux niveaux de modèle configurables (`LULU_AI_MODEL`, `LULU_AI_MODEL_LIGHT`) pour réserver le plus coûteux aux tâches qui le demandent.
+- Chaque appel renvoie sa consommation, à enregistrer dans `ai_usage` par utilisateur, pays et fonctionnalité.
+
+## International
+
+Le pays est un paramètre : `countries` et `education_levels` en base, `src/config/countries.ts` pour les moyens de paiement et formats. Ouvrir un pays = ajouter ses niveaux, ses prix et ses moyens de paiement, puis l'activer.
+
+## Reste à construire pour le MVP
+
+- Écrans d'inscription, d'import, de synthèse, de tuteur, de quiz et de progression.
+- Lecture des documents (PDF, photos) et embeddings dans le worker.
+- Génération et correction des quiz.
+- Paiement Mobile Money et contrôle de l'essai.
+- Recalcul de la maîtrise et tableau de bord.
