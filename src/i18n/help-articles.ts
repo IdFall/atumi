@@ -68,6 +68,7 @@ Le nombre de quiz, de messages au professeur et de minutes d'appel dépend du fo
       body: `Sur le tableau de bord, appuie sur « Importer un cours ». Choisis un module, ou crée-en un, puis un chapitre si tu veux.
 Formats acceptés : PDF et Word (.docx), 20 Mo maximum. Les photos ne sont pas acceptées pour l'instant.
 Après l'import, ATUMI lit ton document, en général en moins d'une minute. Ensuite tu peux demander une synthèse, faire un quiz ou poser des questions au professeur sur ce cours.
+Pour relire un document importé, ouvre son module dans « Mes cours » et appuie sur le nom du document : il s'affiche dans ATUMI. Le bouton « Fermer » te ramène au module, et « Télécharger » l'enregistre sur ton appareil.
 Si le fichier est refusé, vérifie son format et sa taille. Un PDF scanné (une image de page, sans texte sélectionnable) ne peut pas être lu.`,
     },
     {

@@ -138,6 +138,15 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  viewer: {
+    open: "Ouvrir",
+    close: "Fermer",
+    download: "Télécharger",
+    loading: "Ouverture du document…",
+    failed: "Ce document ne peut pas être affiché ici. Tu peux le télécharger pour l'ouvrir sur ton appareil.",
+    notFound: "Ce document n'existe pas ou a été supprimé.",
+    page: "Page",
+  },
   study: {
     synthesisTitle: "Synthèse",
     wholeModule: "Tout le module",
