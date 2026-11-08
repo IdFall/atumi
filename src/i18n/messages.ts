@@ -23,6 +23,38 @@ const fr = {
     signUp: "Créer mon compte",
     signIn: "Me connecter",
     signInHint: "Tu as déjà un compte ?",
+    aboutLink: "Qui est ATUMI ?",
+  },
+  /** Présentation d'ATUMI et de Prof ATUMI (page /a-propos et article d'aide). */
+  about: {
+    title: "Qui est ATUMI ?",
+    intro: "ATUMI est une application de révision avec un professeur IA, pensée pour les lycéens et les étudiants.",
+    missionTitle: "Notre objectif",
+    mission:
+      "Aider chaque élève et chaque étudiant à comprendre ses cours et à réussir ses examens, à son rythme, à partir de ses propres documents.",
+    roleTitle: "Ce que fait ATUMI",
+    roles: [
+      "Il lit les cours que tu importes et en fait une synthèse claire.",
+      "Il te fait réviser avec des quiz tirés de ton cours, corrigés tout de suite.",
+      "Il te donne un professeur IA disponible à toute heure, qui cite les pages de ton cours.",
+    ],
+    limitsTitle: "Ce qu'ATUMI ne fait pas",
+    limits: [
+      "Il ne fait pas tes devoirs à ta place : il t'aide à les réussir toi-même.",
+      "Il ne remplace pas tes professeurs : il t'accompagne entre deux cours.",
+      "Il ne demande jamais le nom de ton établissement et garde tes cours privés.",
+    ],
+    profTitle: "Qui est Prof ATUMI ?",
+    profIntro:
+      "Prof ATUMI est ton professeur particulier IA. Il répond à partir de tes cours et te dit quand une explication n'en vient pas.",
+    profModes: [
+      { title: "Expliquer", body: "une notion ou tout un chapitre, étape par étape." },
+      { title: "S'exercer", body: "de l'aide sur un exercice, avec des indices ; la solution vient après ta propre tentative." },
+      { title: "Découvrir", body: "un sujet simple, même hors de tes cours, avec des exemples de tous les jours." },
+    ],
+    profRule: "Sa règle d'or : te faire réfléchir avant de te donner la réponse.",
+    profLanguages: "Tu choisis la langue de ses réponses parmi celles proposées dans ton pays.",
+    back: "Retour",
   },
   auth: {
     signUpTitle: "Créer ton compte",
@@ -235,6 +267,7 @@ const fr = {
     name: "Prof ATUMI",
     avatarAlt: "Professeur ATUMI",
     subtitle: "Répond à partir de ton cours",
+    whoIs: "Qui est Prof ATUMI ?",
     languageLabel: "Langue du professeur",
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "bêta",

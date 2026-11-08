@@ -36,6 +36,14 @@ describe("centre d'aide", () => {
     expect(essai).toContain("3 messages au professeur");
   });
 
+  it("l'assistant d'aide peut présenter ATUMI et son professeur", () => {
+    const presentation = senegal.find((a) => a.id === "presentation")!.body;
+    const about = getMessages("fr").about;
+    expect(presentation).toContain(about.mission);
+    expect(presentation).toContain(about.profRule);
+    for (const mode of about.profModes) expect(presentation).toContain(`« ${mode.title} »`);
+  });
+
   it("chaque raccourci renvoie à un article existant, sans doublon d'identifiant", () => {
     const ids = senegal.map((a) => a.id);
     expect(new Set(ids).size).toBe(ids.length);

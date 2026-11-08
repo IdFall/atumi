@@ -11,6 +11,9 @@ export default function Home() {
         <p className="text-sm font-semibold tracking-wide text-primary dark:text-lavande">{t.app.name}</p>
         <h1 className="text-3xl font-bold leading-tight">{t.home.title}</h1>
         <p className="text-base text-neutral-600 dark:text-neutral-300">{t.home.intro}</p>
+        <Link href="/a-propos" className="text-sm font-medium text-primary dark:text-lavande">
+          {t.home.aboutLink}
+        </Link>
       </header>
 
       <ol className="flex flex-col gap-3">
