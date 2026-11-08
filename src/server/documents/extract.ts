@@ -31,7 +31,7 @@ async function extractPdf(bytes: Uint8Array) {
   }
   const pages = text.map((t, i) => ({ page: i + 1, text: t }));
   const chars = pages.reduce((sum, p) => sum + p.text.trim().length, 0);
-  // PDF scanné : pas de texte à lire. La lecture par vision viendra plus tard.
+  // PDF scanné : pas de texte à lire. L'élève peut prendre les pages en photo (lues par le modèle).
   if (chars < MIN_CHARS_PER_PAGE * Math.max(1, Math.min(totalPages, 3))) {
     throw new UnreadableDocumentError("empty");
   }

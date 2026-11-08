@@ -1,18 +1,47 @@
-/** Formats acceptés à l'import (V1 : PDF et Word, pas de photos). Partagé navigateur et serveur. */
+/**
+ * Formats acceptés à l'import : PDF, Word et photos de cours (JPG, PNG, WebP).
+ * Partagé navigateur et serveur.
+ */
 export const PDF_MIME = "application/pdf";
 export const DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+export const JPEG_MIME = "image/jpeg";
+export const PNG_MIME = "image/png";
+export const WEBP_MIME = "image/webp";
 
-export const ACCEPTED_MIME_TYPES = [PDF_MIME, DOCX_MIME] as const;
+export const IMAGE_MIME_TYPES = [JPEG_MIME, PNG_MIME, WEBP_MIME] as const;
+export const ACCEPTED_MIME_TYPES = [PDF_MIME, DOCX_MIME, ...IMAGE_MIME_TYPES] as const;
 export type AcceptedMimeType = (typeof ACCEPTED_MIME_TYPES)[number];
+export type ImageMimeType = (typeof IMAGE_MIME_TYPES)[number];
 
 /** Taille maximale d'un document importé (doit correspondre au bucket « documents »). */
 export const MAX_DOCUMENT_BYTES = 20 * 1024 * 1024;
 
+/**
+ * Taille maximale d'une photo, après réduction dans le navigateur.
+ * Le modèle n'accepte pas d'image plus lourde.
+ */
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+/** Extension du fichier rangé dans le bucket, selon son type. */
+export const EXTENSION_BY_MIME: Record<AcceptedMimeType, "pdf" | "docx" | "jpg" | "png" | "webp"> = {
+  [PDF_MIME]: "pdf",
+  [DOCX_MIME]: "docx",
+  [JPEG_MIME]: "jpg",
+  [PNG_MIME]: "png",
+  [WEBP_MIME]: "webp",
+};
+
+export function isImageMime(mimeType: string): mimeType is ImageMimeType {
+  return (IMAGE_MIME_TYPES as readonly string[]).includes(mimeType);
+}
+
 /** Contrôle côté navigateur avant l'envoi, repris côté serveur. */
-export function checkFile(file: { type: string; size: number; name: string }): "fileType" | "fileRequired" | "fileTooLarge" | null {
-  if (!resolveMime(file)) return "fileType";
+export function checkFile(file: { type: string; size: number; name: string }): "fileType" | "fileRequired" | "fileTooLarge" | "imageTooLarge" | null {
+  const mime = resolveMime(file);
+  if (!mime) return "fileType";
   if (file.size <= 0) return "fileRequired";
   if (file.size > MAX_DOCUMENT_BYTES) return "fileTooLarge";
+  if (isImageMime(mime) && file.size > MAX_IMAGE_BYTES) return "imageTooLarge";
   return null;
 }
 
@@ -28,5 +57,8 @@ export function mimeFromName(name: string): AcceptedMimeType | "" {
   const lower = name.toLowerCase();
   if (lower.endsWith(".pdf")) return PDF_MIME;
   if (lower.endsWith(".docx")) return DOCX_MIME;
+  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return JPEG_MIME;
+  if (lower.endsWith(".png")) return PNG_MIME;
+  if (lower.endsWith(".webp")) return WEBP_MIME;
   return "";
 }

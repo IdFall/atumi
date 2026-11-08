@@ -26,7 +26,7 @@ const ingestStore = supabaseIngestStore(db);
 const studyStore = supabaseStudyStore(db);
 const supportStore = supabaseSupportStore(db);
 const supportSenders = sendersFromEnv(process.env);
-// Sans clé d'API, le worker démarre quand même : l'import fonctionne, l'IA est indisponible.
+// Sans clé d'API, le worker démarre quand même : l'import PDF et Word fonctionne, l'IA est indisponible.
 const provider = createAiProvider(process.env.ANTHROPIC_API_KEY, {
   standard: process.env.ATUMI_AI_MODEL ?? "claude-opus-5-5",
   light: process.env.ATUMI_AI_MODEL_LIGHT ?? "claude-opus-5-5",
@@ -36,7 +36,7 @@ function handlers(boss: PgBoss): Record<QueueName, Handler> {
   return {
     [QUEUES.documentIngest]: async (data) => {
       const { userId, documentId } = payloadSchemas[QUEUES.documentIngest].parse(data);
-      const result = await ingestDocument(ingestStore, userId, documentId);
+      const result = await ingestDocument(ingestStore, provider, userId, documentId);
       console.log(`[worker] document ${documentId} : ${result}`);
       if (result === "ready") {
         // La synthèse est prête quand l'apprenant ouvre son chapitre.

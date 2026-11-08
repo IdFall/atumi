@@ -21,11 +21,20 @@ const base = {
 };
 
 describe("fichiers acceptés à l'import", () => {
-  it("accepte PDF et Word, refuse les photos et l'ancien .doc", () => {
+  it("accepte PDF, Word et photos (JPG, PNG, WebP), refuse l'ancien .doc et le HEIC", () => {
     expect(checkFile({ name: "cours.pdf", type: PDF_MIME, size: 10 })).toBeNull();
     expect(checkFile({ name: "cours.docx", type: "", size: 10 })).toBeNull();
-    expect(checkFile({ name: "photo.jpg", type: "image/jpeg", size: 10 })).toBe("fileType");
+    expect(checkFile({ name: "photo.jpg", type: "image/jpeg", size: 10 })).toBeNull();
+    expect(checkFile({ name: "IMG_0001.JPEG", type: "", size: 10 })).toBeNull();
+    expect(checkFile({ name: "page.webp", type: "image/webp", size: 10 })).toBeNull();
+    expect(checkFile({ name: "page.png", type: "image/png", size: 10 })).toBeNull();
     expect(checkFile({ name: "cours.doc", type: "application/msword", size: 10 })).toBe("fileType");
+    expect(checkFile({ name: "photo.heic", type: "image/heic", size: 10 })).toBe("fileType");
+  });
+
+  it("limite une photo à 5 Mo", () => {
+    expect(checkFile({ name: "photo.jpg", type: "image/jpeg", size: 6 * 1024 * 1024 })).toBe("imageTooLarge");
+    expect(checkFile({ name: "cours.pdf", type: PDF_MIME, size: 6 * 1024 * 1024 })).toBeNull();
   });
 
   it("refuse un fichier vide ou de plus de 20 Mo", () => {
@@ -78,5 +87,14 @@ describe("enregistrement d'un document importé", () => {
   it("refuse un type de document ou un format inconnu", () => {
     expect(parseImport({ ...base, kind: "annales" }, USER).ok).toBe(false);
     expect(parseImport({ ...base, mimeType: "image/png" }, USER).ok).toBe(false);
+    expect(parseImport({ ...base, mimeType: "image/heic", storagePath: `${USER}/${FILE_ID}.heic` }, USER).ok).toBe(false);
+  });
+
+  it("accepte une photo rangée sous la bonne extension, 5 Mo au plus", () => {
+    const photo = { ...base, fileName: "page-12.jpg", storagePath: `${USER}/${FILE_ID}.jpg`, mimeType: "image/jpeg" };
+    const result = parseImport(photo, USER);
+    expect(result.ok && result.data.title).toBe("page-12");
+    expect(parseImport({ ...photo, storagePath: `${USER}/${FILE_ID}.png` }, USER)).toEqual({ ok: false, error: "fileType" });
+    expect(parseImport({ ...photo, sizeBytes: String(6 * 1024 * 1024) }, USER)).toEqual({ ok: false, error: "imageTooLarge" });
   });
 });
