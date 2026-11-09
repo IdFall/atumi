@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useActionState, useState } from "react";
+
+import { ConfirmButton, EDIT_LINK } from "@/components/ui/confirm-button";
 
 import { useT } from "@/i18n/client";
 import type { CoursesFormState } from "@/server/courses/actions";
@@ -20,13 +23,21 @@ export function ItemActions({
 }) {
   const t = useT();
   const m = t.courses.manage;
+  const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [renameState, renameAction, renaming] = useActionState(async (prev: CoursesFormState, formData: FormData) => {
     const result = await renameItemAction(prev, formData);
-    if (result.saved) setEditing(false);
+    if (result.saved) {
+      setEditing(false);
+      router.refresh();
+    }
     return result;
   }, {});
-  const [deleteState, deleteAction, deleting] = useActionState(deleteItemAction, {} as CoursesFormState);
+  const [deleteState, deleteAction, deleting] = useActionState(async (prev: CoursesFormState, formData: FormData) => {
+    const result = await deleteItemAction(prev, formData);
+    if (!result.error) router.refresh();
+    return result;
+  }, {});
 
   const hidden = (
     <>
@@ -72,20 +83,19 @@ export function ItemActions({
 
   return (
     <div className="flex flex-col gap-1 text-xs">
-      <div className="flex gap-3">
-        <button type="button" onClick={() => setEditing(true)} className="font-medium text-primary dark:text-lavande">
+      <div className="flex flex-wrap items-start gap-2">
+        <button type="button" onClick={() => setEditing(true)} className={EDIT_LINK}>
           {m.edit}
         </button>
-        <form
-          action={deleteAction}
-          onSubmit={(event) => {
-            if (!window.confirm(m.confirm[kind].replace("{name}", name))) event.preventDefault();
-          }}
-        >
-          {hidden}
-          <button type="submit" disabled={deleting} className="font-medium text-red-700 disabled:opacity-60 dark:text-red-400">
-            {deleting ? m.deleting : m.delete}
-          </button>
+        <form action={deleteAction} className="contents">
+          <ConfirmButton
+            label={deleting ? m.deleting : m.delete}
+            warning={m.confirm[kind].replace("{name}", name)}
+            confirmLabel={m.confirmYes}
+            cancelLabel={m.cancel}
+            pending={deleting}
+            hidden={hidden}
+          />
         </form>
       </div>
       {error ? (

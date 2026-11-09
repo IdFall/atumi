@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 
 import { createUserClient } from "@/lib/supabase/server";
 import { isLocale, LOCALE_COOKIE } from "@/i18n/server";
@@ -15,6 +14,4 @@ export async function setLocaleAction(formData: FormData): Promise<void> {
   const supabase = await createUserClient();
   const { data } = await supabase.auth.getUser();
   if (data.user) await supabase.from("profiles").update({ locale }).eq("id", data.user.id);
-
-  revalidatePath("/", "layout");
 }

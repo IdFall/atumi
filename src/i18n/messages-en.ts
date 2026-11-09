@@ -125,6 +125,7 @@ export const en: Messages = {
     courses: "My courses",
     import: "Import",
     tutor: "Prof ATUMI",
+    help: "Help",
   },
   access: {
     trialNotStarted: "Your 24-hour free trial will start with your first import.",
@@ -177,6 +178,7 @@ export const en: Messages = {
       save: "Save",
       cancel: "Cancel",
       newName: "New name",
+      confirmYes: "Yes, delete",
       confirm: {
         module: "Delete the module “{name}”, its chapters, documents, summaries and quizzes? This cannot be undone, and imports already made still count in your plan.",
         chapter: "Delete the chapter “{name}” and its documents? This cannot be undone, and imports already made still count in your plan.",
@@ -316,6 +318,8 @@ export const en: Messages = {
       one: "Erase",
       all: "Erase all",
       conversation: "Erase this conversation",
+      confirmYes: "Yes, erase",
+      cancel: "Cancel",
       confirmOne: "Erase this conversation? It will be gone for good; the messages you sent still count in your plan.",
       confirmAll: "Erase all your conversations with Prof ATUMI? This cannot be undone; the messages you sent still count in your plan.",
     },
