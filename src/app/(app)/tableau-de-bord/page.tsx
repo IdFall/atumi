@@ -50,6 +50,23 @@ async function Dashboard() {
         <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.auth.cycles[user.cycle]}</p>
       </header>
 
+      <form action="/recherche" role="search" className="flex gap-2">
+        <label htmlFor="dashboard-search" className="sr-only">
+          {t.search.label}
+        </label>
+        <input
+          id="dashboard-search"
+          name="q"
+          type="search"
+          maxLength={100}
+          placeholder={t.search.placeholder}
+          className="min-w-0 flex-1 rounded-xl border border-neutral-300 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950"
+        />
+        <button type="submit" className="rounded-xl border-2 border-primary px-4 py-2 font-semibold text-primary dark:border-lavande dark:text-lavande">
+          {t.search.submit}
+        </button>
+      </form>
+
       <AccessBanner access={access} />
 
       <AgendaReminders events={reminders} today={today} />

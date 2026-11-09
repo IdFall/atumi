@@ -17,6 +17,7 @@ export type HelpArticleId =
   | "professeur"
   | "appels"
   | "agenda"
+  | "recherche"
   | "compte"
   | "confidentialite";
 
@@ -149,13 +150,22 @@ Chaque échéance et chaque créneau peut être modifié ou supprimé. Si tu sup
 Ton agenda n'est visible que par toi.`,
     },
     {
+      id: "recherche",
+      title: "Chercher dans mes cours",
+      body: `La Recherche (loupe en haut de l'écran sur téléphone, entrée « Recherche » du menu sur ordinateur, ou barre de recherche de l'accueil) retrouve un mot ou une notion dans tous tes cours.
+Elle cherche dans le contenu des pages de tes documents (avec la page et un extrait où le mot est surligné), dans les noms de tes modules, chapitres et documents, et dans ton agenda.
+Écris au moins 2 lettres. Les accents et les majuscules ne comptent pas pour le surlignage ; pour le contenu des pages, la recherche reconnaît aussi les formes proches d'un mot français (pluriel, conjugaison).
+Le bouton « Demander au Prof ATUM » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
+La recherche elle-même ne compte pas dans ton forfait. Elle ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.`,
+    },
+    {
       id: "compte",
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
-Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda, Emploi du temps et Aide. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
+Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda, Emploi du temps et Aide ; la Recherche est la loupe en haut de l'écran sur téléphone et une entrée du menu sur ordinateur. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
 ATUMI est ouvert aux lycéens et aux étudiants.
 Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
@@ -239,13 +249,22 @@ Every deadline and class can be edited or deleted. If you delete a module, the d
 Only you can see your planner.`,
     },
     {
+      id: "recherche",
+      title: "Searching my courses",
+      body: `Search (the magnifying glass at the top of the screen on a phone, the "Search" menu entry on a computer, or the search bar on the home page) finds a word or topic across all your courses.
+It looks in the content of your documents' pages (with the page and an excerpt where the word is highlighted), in the names of your modules, chapters and documents, and in your planner.
+Type at least 2 letters. Accents and capital letters do not matter for highlighting; for page content, search also recognises close forms of a French word (plural, conjugation).
+The "Ask Prof ATUM" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
+Searching itself does not count towards your plan. It does not search the Internet: only what you imported or wrote down.`,
+    },
+    {
       id: "compte",
       title: "My account and password",
       body: `To sign in, use your email or phone number with your password, from the sign-in page.
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
 To sign out, tap "Sign out" at the bottom of the dashboard.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
-The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner, Timetable and Help. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
+The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner, Timetable and Help; Search is the magnifying glass at the top of the screen on a phone and a menu entry on a computer. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
 ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {

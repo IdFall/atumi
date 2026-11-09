@@ -68,6 +68,7 @@ async function NewConversation({ searchParams }: { searchParams: PageProps<"/pro
         messagesLeft={settings.hasAccess ? settings.messagesLeft : 0}
         messageLimit={settings.messageLimit}
         quickReplies={false}
+        initialText={pick(query.q).slice(0, 4000)}
       />
 
       {recent.length > 0 ? (

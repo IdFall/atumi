@@ -7,7 +7,9 @@ import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
 
-type NavKey = "home" | "courses" | "import" | "tutor" | "agenda" | "timetable" | "help";
+type NavKey = "home" | "courses" | "import" | "tutor" | "agenda" | "timetable" | "search" | "help";
+
+const SEARCH_ICON = "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4";
 
 const ITEMS = [
   { href: "/tableau-de-bord", label: "home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
@@ -16,8 +18,12 @@ const ITEMS = [
   { href: "/professeur", label: "tutor", icon: "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" },
   { href: "/agenda", label: "agenda", icon: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M8 2v4M16 2v4M8 14h2M14 14h2M8 17h2" },
   { href: "/emploi-du-temps", label: "timetable", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2" },
+  { href: "/recherche", label: "search", icon: SEARCH_ICON, desktopOnly: true },
   { href: "/aide", label: "help", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01" },
-] as const satisfies readonly { href: string; label: NavKey; icon: string }[];
+] as const satisfies readonly { href: string; label: NavKey; icon: string; desktopOnly?: boolean }[];
+
+/** Barre du bas (téléphone) : la recherche est dans l'en-tête, pour garder 7 entrées. */
+const MOBILE_ITEMS = ITEMS.filter((item) => !("desktopOnly" in item));
 
 function isActive(pathname: string | null, href: string) {
   return pathname !== null && (pathname === href || pathname.startsWith(`${href}/`));
@@ -49,7 +55,19 @@ export function NavBar({ pathname }: { pathname: string | null }) {
         <Link href="/tableau-de-bord" className="text-sm font-bold tracking-wide text-primary dark:text-lavande">
           {t.app.name}
         </Link>
-        <LocaleSwitcher />
+        <div className="flex items-center gap-2">
+          <Link
+            href="/recherche"
+            aria-label={t.nav.search}
+            aria-current={isActive(pathname, "/recherche") ? "page" : undefined}
+            className={`flex size-9 items-center justify-center rounded-full ${
+              isActive(pathname, "/recherche") ? "bg-primary text-white" : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+            }`}
+          >
+            <Icon d={SEARCH_ICON} />
+          </Link>
+          <LocaleSwitcher />
+        </div>
       </header>
 
       <nav
@@ -57,7 +75,7 @@ export function NavBar({ pathname }: { pathname: string | null }) {
         className="fixed inset-x-0 bottom-0 z-10 border-t border-neutral-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden dark:border-neutral-800 dark:bg-neutral-950"
       >
         <ul className="mx-auto grid max-w-xl grid-cols-7">
-          {ITEMS.map((item) => {
+          {MOBILE_ITEMS.map((item) => {
             const active = isActive(pathname, item.href);
             return (
               <li key={item.href}>
