@@ -79,6 +79,7 @@ export const en: Messages = {
     submitSignIn: "Sign in",
     submitVerify: "Confirm",
     signOut: "Sign out",
+    inactiveSignedOut: "To protect your account, you were signed out after 1 hour without activity. Sign in again to continue.",
     signingOut: "Signing out…",
     toSignIn: "Already have an account? Sign in",
     toSignUp: "No account yet? Sign up",

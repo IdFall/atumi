@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { defaultCountry } from "@/config/countries";
+import { INACTIVE_PARAM } from "@/config/session";
 import type { AuthErrorKey } from "@/i18n/messages";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { enqueue } from "@/server/jobs/client";
@@ -166,4 +167,11 @@ export async function signOutAction(): Promise<void> {
   // « local » : ferme la session de cet appareil sans dépendre d'un appel réseau qui échouerait.
   await supabase.auth.signOut({ scope: "local" });
   redirect("/connexion");
+}
+
+/** Déconnexion automatique après 1 h sans activité, demandée par le navigateur (`IdleSignOut`). */
+export async function inactiveSignOutAction(): Promise<void> {
+  const supabase = await createUserClient();
+  await supabase.auth.signOut({ scope: "local" });
+  redirect(`/connexion?${INACTIVE_PARAM}=1`);
 }

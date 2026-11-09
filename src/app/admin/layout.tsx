@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 
 import { AdminNav, AdminNavList } from "@/components/admin/admin-nav";
+import { IdleSignOut } from "@/components/auth/idle-sign-out";
 import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/server/admin/queries";
 
@@ -20,6 +21,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   const t = await getT();
   return (
     <div className="flex min-h-full flex-1 flex-col lg:grid lg:grid-cols-[240px_1fr]">
+      <IdleSignOut />
       <aside className="flex flex-col gap-3 bg-nuit px-4 py-4 text-white lg:sticky lg:top-0 lg:h-screen lg:gap-6 lg:py-7">
         <div className="px-3">
           <p className="text-base font-bold tracking-widest">{t.app.name}</p>

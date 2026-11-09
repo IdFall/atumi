@@ -85,6 +85,7 @@ const fr = {
     submitSignIn: "Me connecter",
     submitVerify: "Confirmer",
     signOut: "Me déconnecter",
+    inactiveSignedOut: "Pour protéger ton compte, tu as été déconnecté après 1 h sans activité. Reconnecte-toi pour continuer.",
     signingOut: "Déconnexion…",
     toSignIn: "Déjà un compte ? Connecte-toi",
     toSignUp: "Pas encore de compte ? Inscris-toi",
