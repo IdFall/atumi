@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import { ImportForm } from "@/components/courses/import-form";
 import { getT } from "@/i18n/server";
+import { serverEnv } from "@/lib/env";
 import { requireUserId } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 
@@ -29,6 +30,8 @@ async function ImportLoader({ searchParams }: { searchParams: PageProps<"/import
   const moduleId = pick(query.module);
   const selected = modules.find((m) => m.id === moduleId);
   const chapterId = pick(query.chapitre);
+  // Les photos sont lues par le modèle : proposées seulement si le service d'IA est configuré.
+  const photosEnabled = Boolean(serverEnv().ANTHROPIC_API_KEY);
 
   return (
     <ImportForm
@@ -37,6 +40,7 @@ async function ImportLoader({ searchParams }: { searchParams: PageProps<"/import
       initialModuleId={selected?.id ?? modules[0]?.id ?? ""}
       initialChapterId={selected?.chapters.some((c) => c.id === chapterId) ? chapterId : ""}
       firstImport={access.state === "trialNotStarted"}
+      photosEnabled={photosEnabled}
     />
   );
 }

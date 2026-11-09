@@ -320,6 +320,32 @@ describe("isolation des données entre utilisateurs", () => {
     );
     expect(usage.rows).toEqual([{ documents_used: 1, document_limit: 1, tutor_message_limit: 3, quiz_question_limit: 5 }]);
 
+    // Photo illisible (document en échec) : elle ne compte pas, l'élève peut la reprendre.
+    await asService();
+    await db.exec(`update public.documents set status = 'failed', error_message = 'floue' where user_id = '${G}'`);
+    await asUser(G);
+    const retake = await db.query<{ status: string }>(
+      `insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+       select '${G}', id, 'cours', 'page', '${G}/page.jpg', 'image/jpeg', 1000 from public.modules limit 1
+       returning status`,
+    );
+    expect(retake.rows).toEqual([{ status: "uploaded" }]);
+    const afterRetake = await db.query(`select documents_used from public.plan_usage()`);
+    expect(afterRetake.rows).toEqual([{ documents_used: 1 }]);
+    await expect(importAs(G, "cours6")).rejects.toThrow(/QUOTA_IMPORT_ATTEINT/);
+    // Un format hors liste reste refusé par la base.
+    await asService();
+    await db.exec(`update public.documents set status = 'failed' where user_id = '${G}'`);
+    await asUser(G);
+    await expect(
+      db.exec(`insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+        select '${G}', id, 'cours', 'x', '${G}/x.heic', 'image/heic', 10 from public.modules limit 1`),
+    ).rejects.toThrow();
+    const bucket = await db.query<{ allowed_mime_types: string[] }>(
+      `select allowed_mime_types from storage.buckets where id = 'documents'`,
+    );
+    expect(bucket.rows[0].allowed_mime_types).toContain("image/webp");
+
     // Essai : pas d'appel avec le professeur (réservé aux abonnés).
     const calls = await db.query(`select seconds_remaining from public.call_quota()`);
     expect(calls.rows).toEqual([{ seconds_remaining: 0 }]);

@@ -3,6 +3,8 @@ import "server-only";
 import { nextStep, type NextStep } from "@/lib/next-step";
 import { createUserClient } from "@/lib/supabase/server";
 
+import { downloadName } from "@/lib/document-view";
+
 import type { DocumentKind } from "./schemas";
 
 /** Lectures des cours de l'utilisateur connecté (client utilisateur : RLS s'applique). */
@@ -93,6 +95,58 @@ export async function getModule(moduleId: string): Promise<ModuleDetail | null> 
       documents: documents.filter((d) => d.chapterId === c.id),
     })),
     unassigned: documents.filter((d) => d.chapterId === null),
+  };
+}
+
+/** Durée de validité des liens vers le fichier (privé, dans le dossier de l'élève). */
+const FILE_LINK_SECONDS = 15 * 60;
+
+export interface DocumentFile {
+  id: string;
+  title: string;
+  kind: DocumentKind;
+  mimeType: string;
+  moduleId: string;
+  moduleName: string;
+  /** Lien signé pour afficher le fichier dans ATUMI. */
+  viewUrl: string;
+  /** Lien signé qui enregistre le fichier sur l'appareil. */
+  downloadUrl: string;
+}
+
+/**
+ * Fichier d'un document importé, pour l'ouvrir dans ATUMI.
+ * Le client utilisateur ne voit que ses documents (RLS) et ne peut signer que
+ * les fichiers de son propre dossier (règle du bucket « documents »).
+ */
+export async function getDocumentFile(moduleId: string, documentId: string): Promise<DocumentFile | null> {
+  const supabase = await createUserClient();
+  const { data, error } = await supabase
+    .from("documents")
+    .select("id, title, kind, mime_type, storage_path, module_id, modules(name)")
+    .eq("id", documentId)
+    .eq("module_id", moduleId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const bucket = supabase.storage.from("documents");
+  const [view, download] = await Promise.all([
+    bucket.createSignedUrl(data.storage_path, FILE_LINK_SECONDS),
+    bucket.createSignedUrl(data.storage_path, FILE_LINK_SECONDS, { download: downloadName(data.title, data.storage_path) }),
+  ]);
+  if (view.error || download.error) return null;
+
+  const mod = Array.isArray(data.modules) ? data.modules[0] : data.modules;
+  return {
+    id: data.id,
+    title: data.title,
+    kind: data.kind as DocumentKind,
+    mimeType: data.mime_type,
+    moduleId: data.module_id,
+    moduleName: mod?.name ?? "",
+    viewUrl: view.data.signedUrl,
+    downloadUrl: download.data.signedUrl,
   };
 }
 
