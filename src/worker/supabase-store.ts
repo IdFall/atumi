@@ -62,6 +62,19 @@ export function supabaseIngestStore(db: SupabaseClient): IngestStore {
     },
     markReady: (doc, pageCount) => setStatus(doc, { status: "ready", page_count: pageCount }),
     markFailed: (doc, reason) => setStatus(doc, { status: "failed", error_message: reason }),
+    async logUsage(doc, feature, usage) {
+      const { data: profile } = await db.from("profiles").select("country_code").eq("id", doc.userId).maybeSingle();
+      const { error } = await db.from("ai_usage").insert({
+        user_id: doc.userId,
+        country_code: profile?.country_code ?? null,
+        feature,
+        model: usage.model,
+        input_tokens: usage.inputTokens,
+        output_tokens: usage.outputTokens,
+        cache_read_tokens: usage.cacheReadTokens,
+      });
+      if (error) console.error("[worker] ai_usage", error);
+    },
   };
 }
 

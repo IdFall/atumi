@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { isImageMime } from "@/config/documents";
 import type { CoursesErrorKey, ImportErrorKey } from "@/i18n/messages";
+import { serverEnv } from "@/lib/env";
 import { createUserClient } from "@/lib/supabase/server";
 import { requireUserId } from "@/server/auth/session";
 import { enqueue } from "@/server/jobs/client";
@@ -89,6 +91,12 @@ export async function registerDocumentAction(raw: Record<string, string>): Promi
   }
   const input = parsed.data;
 
+  // Sans service d'IA, une photo ne peut pas être lue : on la refuse avant l'import.
+  if (isImageMime(input.mimeType) && !photosEnabled()) {
+    await discardUpload();
+    return { ok: false, error: "photosUnavailable" };
+  }
+
   const { data: uploaded } = await bucket.exists(input.storagePath);
   if (!uploaded) return { ok: false, error: "uploadFailed" };
 
@@ -167,4 +175,9 @@ function importError(message: string): ImportErrorKey {
   if (message.includes("LULU_ACCES_EXPIRE")) return "accessExpired";
   if (message.includes("LULU_QUOTA_IMPORT_ATTEINT")) return "importLimit";
   return "unknown";
+}
+
+/** Les photos sont lues par le modèle : elles ne sont acceptées que si le service d'IA est configuré. */
+function photosEnabled(): boolean {
+  return Boolean(serverEnv().ANTHROPIC_API_KEY);
 }
