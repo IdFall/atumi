@@ -56,7 +56,7 @@ describe("professeur IA", () => {
     for (const mode of ["expliquer", "approfondir", "exercer", "decouvrir"] as const) {
       for (const language of ["fr", "en", "wo"] as const) {
         const prompt = tutorSystemPrompt(mode, "lycee", language);
-        expect(prompt).toContain("Tu es Prof ATUMI");
+        expect(prompt).toContain("Tu es Prof ATUM");
         expect(prompt).toContain("qui tu es, à quoi sert ATUMI");
       }
     }

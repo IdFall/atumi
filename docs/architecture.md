@@ -56,7 +56,7 @@ Le pays est un paramètre : `countries` et `education_levels` en base, `src/conf
 
 Demandé pour la V2 puis avancé en V1 par Idrissa (2026-11-06). Base posée : `tutor_calls`, `plans.call_minutes_limit`, `call_quota()`. Reste à choisir le service de voix (reconnaissance et synthèse vocales en temps réel) et à fixer les minutes par forfait.
 
-- voix d'abord, vidéo en option : l'élève parle et entend Prof ATUMI, qui apparaît en avatar animé ; une vraie caméra côté élève n'est pas nécessaire et coûte cher en données mobiles ;
+- voix d'abord, vidéo en option : l'élève parle et entend Prof ATUM, qui apparaît en avatar animé ; une vraie caméra côté élève n'est pas nécessaire et coûte cher en données mobiles ;
 - mode dégradé automatique vers l'audio seul, puis le texte, quand la connexion faiblit ;
 - même cerveau que le texte : la session vocale passe par `AiProvider` avec les mêmes règles (sources citées, solution seulement après une tentative, contestation sans débat), et la transcription est enregistrée comme les messages écrits ;
 - langues : français et anglais d'abord ; le wolof à l'oral dépendra de la qualité de la reconnaissance et de la synthèse vocales disponibles ;
