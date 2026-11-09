@@ -4,13 +4,18 @@
  * que l'implémentation (voir anthropic.ts).
  */
 
-export type AiFeature = "tutor" | "help" | "synthesis" | "quiz_generation" | "quiz_grading" | "document_structuring";
+export type AiFeature = "tutor" | "help" | "synthesis" | "quiz_generation" | "quiz_grading" | "document_structuring" | "image_reading";
 
 export type AiTier = "standard" | "light";
 
+/** Morceau d'un message : du texte, ou une image (photo de cours) encodée en base64. */
+export type AiContentPart =
+  | { type: "text"; text: string }
+  | { type: "image"; mediaType: "image/jpeg" | "image/png" | "image/webp"; base64: string };
+
 export interface AiMessage {
   role: "user" | "assistant";
-  content: string;
+  content: string | AiContentPart[];
 }
 
 export interface AiRequest {

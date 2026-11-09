@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-import type { AiProvider, AiRequest, AiResult, AiTier } from "./types";
+import type { AiMessage, AiProvider, AiRequest, AiResult, AiTier } from "./types";
 
 /** Fournisseur de repli quand aucune clé d'API n'est configurée : l'IA se dit indisponible. */
 export const unavailableProvider: AiProvider = {
@@ -48,7 +48,7 @@ export class AnthropicProvider implements AiProvider {
         cache_control: { type: "ephemeral" },
         output_config: { effort: request.tier === "light" ? "low" : "medium" },
         system: request.system,
-        messages: request.messages,
+        messages: request.messages.map(toAnthropicMessage),
       });
 
       const usage = {
@@ -80,4 +80,17 @@ export class AnthropicProvider implements AiProvider {
       throw error;
     }
   }
+}
+
+/** Traduit un message interne au format de l'API (texte simple ou blocs texte et image). */
+export function toAnthropicMessage(message: AiMessage): Anthropic.Beta.BetaMessageParam {
+  if (typeof message.content === "string") return { role: message.role, content: message.content };
+  return {
+    role: message.role,
+    content: message.content.map((part) =>
+      part.type === "text"
+        ? { type: "text" as const, text: part.text }
+        : { type: "image" as const, source: { type: "base64" as const, media_type: part.mediaType, data: part.base64 } },
+    ),
+  };
 }
