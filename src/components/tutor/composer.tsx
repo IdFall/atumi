@@ -2,12 +2,10 @@
 
 import { useActionState, useRef } from "react";
 
+import { useT } from "@/i18n/client";
 import { fill } from "@/i18n/format";
-import { getMessages } from "@/i18n/messages";
 import type { TutorMode } from "@/server/ai/prompts";
 import { sendTutorMessageAction, type TutorFormState } from "@/server/tutor/actions";
-
-const t = getMessages("fr");
 
 export function TutorComposer({
   conversationId,
@@ -26,6 +24,7 @@ export function TutorComposer({
   messageLimit: number | null;
   quickReplies: boolean;
 }) {
+  const t = useT();
   const [state, formAction, pending] = useActionState<TutorFormState, FormData>(sendTutorMessageAction, {});
   const formRef = useRef<HTMLFormElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);

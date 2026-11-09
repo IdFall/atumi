@@ -1,5 +1,7 @@
 import type { Locale } from "@/config/countries";
 
+import { en } from "./messages-en";
+
 /**
  * Tous les textes visibles de l'interface passent par ce dictionnaire.
  * Ajouter une langue = ajouter un objet du même type `Messages`.
@@ -349,6 +351,11 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  locale: {
+    label: "Langue de l'interface",
+    names: { fr: "FR", en: "EN" },
+    titles: { fr: "Français", en: "English" },
+  },
 } as const;
 
 type DeepString<T> = T extends string
@@ -365,7 +372,10 @@ export type ImportErrorKey = keyof typeof fr.import.errors;
 export type StudyErrorKey = keyof typeof fr.study.errors;
 export type HelpErrorKey = keyof typeof fr.help.errors;
 
-const dictionaries: Record<Locale, Messages> = { fr };
+const dictionaries: Record<Locale, Messages> = { fr, en };
+
+/** Format des dates selon la langue de l'interface. */
+export const DATE_LOCALES: Record<Locale, string> = { fr: "fr-SN", en: "en-GB" };
 
 export function getMessages(locale: Locale = "fr"): Messages {
   return dictionaries[locale] ?? dictionaries.fr;

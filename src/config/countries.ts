@@ -30,7 +30,9 @@ export interface CountryConfig {
 
 const V1_CYCLES: readonly Cycle[] = ["lycee", "universite"];
 
-export type Locale = "fr";
+/** Langues de l'interface (dictionnaires de src/i18n). */
+export type Locale = "fr" | "en";
+export const LOCALES: readonly Locale[] = ["fr", "en"];
 
 /** Langues dans lesquelles le professeur IA peut répondre. Le wolof est en bêta. */
 export type TutorLanguage = "fr" | "en" | "wo";

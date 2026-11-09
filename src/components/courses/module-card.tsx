@@ -1,17 +1,16 @@
 import Link from "next/link";
 
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import type { ModuleSummary } from "@/server/courses/queries";
 import { ItemActions } from "@/components/courses/item-actions";
 import { studyPath } from "@/server/study/paths";
-
-const t = getMessages("fr");
 
 export function plural(count: number, words: { one: string; other: string }): string {
   return `${count} ${count > 1 ? words.other : words.one}`;
 }
 
-export function ModuleCard({ module }: { module: ModuleSummary }) {
+export async function ModuleCard({ module }: { module: ModuleSummary }) {
+  const t = await getT();
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 hover:border-primary dark:border-neutral-800 dark:bg-neutral-900">
       <Link href={`/cours/${module.id}`} className="flex flex-col gap-1">
@@ -35,7 +34,8 @@ export function ModuleCard({ module }: { module: ModuleSummary }) {
 }
 
 /** Indicateur de l'étape suivante, avec un bouton quand une action est possible. */
-function NextStepAction({ module }: { module: ModuleSummary }) {
+async function NextStepAction({ module }: { module: ModuleSummary }) {
+  const t = await getT();
   const step = t.courses.nextStep;
   switch (module.next.kind) {
     case "study":

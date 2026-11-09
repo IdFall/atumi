@@ -2,12 +2,11 @@
 
 import { useActionState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { askHelpAction, type HelpFormState } from "@/server/help/actions";
 
-const t = getMessages("fr");
-
 export function HelpAskForm() {
+  const t = useT();
   const [state, formAction, pending] = useActionState<HelpFormState, FormData>(askHelpAction, {});
   return (
     <form action={formAction} className="flex flex-col gap-2">

@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense, type ReactNode } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { HtmlLang } from "@/components/layout/html-lang";
+import { LocaleProvider } from "@/i18n/client";
+import { getLocale, getT } from "@/i18n/server";
 
 import "./globals.css";
 
-const t = getMessages("fr");
-
-export const metadata: Metadata = {
-  title: t.app.name,
-  description: t.app.tagline,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: t.app.name, description: t.app.tagline };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -20,7 +21,22 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* La langue vient d'un cookie : tout le contenu est rendu à la demande. */}
+        <Suspense fallback={null}>
+          <Localized>{children}</Localized>
+        </Suspense>
+      </body>
     </html>
+  );
+}
+
+async function Localized({ children }: { children: ReactNode }) {
+  const locale = await getLocale();
+  return (
+    <LocaleProvider locale={locale}>
+      <HtmlLang locale={locale} />
+      {children}
+    </LocaleProvider>
   );
 }

@@ -65,3 +65,13 @@ describe("centre d'aide", () => {
     expect(answer).toEqual({ text: getMessages("fr").help.unavailable, usage: null });
   });
 });
+
+describe("articles d'aide en anglais", () => {
+  it("couvrent les mêmes sujets que les articles en français", () => {
+    const context = { paymentMethods: ["wave", "orange_money", "card"] as const };
+    const fr = helpArticles(context, "fr").map((a) => a.id);
+    const en = helpArticles(context, "en");
+    expect(en.map((a) => a.id)).toEqual(fr);
+    expect(en.find((a) => a.id === "paiement")?.body).toContain("Wave, Orange Money and bank card");
+  });
+});

@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useActionState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { signInAction, type FormState } from "@/server/auth/actions";
 
-const t = getMessages("fr");
-
 export function SignInForm() {
+  const t = useT();
   const [state, formAction, pending] = useActionState<FormState, FormData>(signInAction, {});
   const err = (name: string) => {
     const key = state.errors?.[name];

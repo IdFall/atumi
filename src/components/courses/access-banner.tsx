@@ -1,12 +1,12 @@
-import { getMessages } from "@/i18n/messages";
+import { getLocale, getT } from "@/i18n/server";
 import type { Access } from "@/server/courses/queries";
-
-const t = getMessages("fr");
+import { DATE_LOCALES } from "@/i18n/messages";
 
 /** Bandeau d'état de l'accès : essai à venir, essai en cours, abonnement, accès terminé. */
-export function AccessBanner({ access }: { access: Access }) {
+export async function AccessBanner({ access }: { access: Access }) {
+  const t = await getT();
   if (access.state === "subscribed") {
-    const date = new Date(access.endsAt).toLocaleDateString("fr-SN", { day: "numeric", month: "long" });
+    const date = new Date(access.endsAt).toLocaleDateString(DATE_LOCALES[await getLocale()], { day: "numeric", month: "long" });
     return <Banner tone="ok">{`${t.access.subscribed} ${date}.`}</Banner>;
   }
   if (access.state === "trial") {

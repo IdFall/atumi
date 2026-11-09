@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import type { HelpErrorKey } from "@/i18n/messages";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
+import { getLocale } from "@/i18n/server";
 import { askHelp } from "@/server/ai/help";
 import { getAiProvider } from "@/server/ai/provider";
 import { requireUserId } from "@/server/auth/session";
@@ -51,9 +52,11 @@ export async function askHelpAction(_prev: HelpFormState, formData: FormData): P
     .single();
   if (error || !row) return { error: quotaError(error?.message ?? "") };
 
+  const locale = await getLocale();
   const answer = await askHelp(getAiProvider(), {
     question: parsed.data,
-    articles: articlesForCountry(profile.country_code),
+    articles: articlesForCountry(profile.country_code, locale),
+    locale,
   });
 
   await service.from("help_questions").update({ answer: answer.text }).eq("id", row.id);

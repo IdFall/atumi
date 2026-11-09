@@ -1,3 +1,4 @@
+import type { Locale } from "@/config/countries";
 import type { HelpArticle } from "@/i18n/help-articles";
 import { getMessages } from "@/i18n/messages";
 
@@ -12,13 +13,13 @@ export interface HelpAnswer {
 /** Réponse de l'assistant d'aide, limitée aux articles fournis. */
 export async function askHelp(
   provider: AiProvider,
-  input: { question: string; articles: readonly HelpArticle[] },
+  input: { question: string; articles: readonly HelpArticle[]; locale?: Locale },
 ): Promise<HelpAnswer> {
-  const t = getMessages("fr");
+  const t = getMessages(input.locale ?? "fr");
   const result = await provider.complete({
     feature: "help",
     tier: "light",
-    system: helpSystemPrompt(input.articles),
+    system: helpSystemPrompt(input.articles, input.locale ?? "fr"),
     messages: [{ role: "user", content: helpUserTurn(input.question) }],
     maxTokens: 600,
   });

@@ -2,15 +2,17 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { ImportForm } from "@/components/courses/import-form";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { requireUserId } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.import.title} · ${t.app.name}` };
+}
 
-export const metadata: Metadata = { title: `${t.import.title} · ${t.app.name}` };
-
-export default function ImportPage({ searchParams }: PageProps<"/importer">) {
+export default async function ImportPage({ searchParams }: PageProps<"/importer">) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
       <h1 className="text-2xl font-bold">{t.import.title}</h1>

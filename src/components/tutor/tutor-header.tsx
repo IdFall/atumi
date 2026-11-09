@@ -2,17 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { TutorLanguage } from "@/config/countries";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import type { TutorMode } from "@/server/ai/prompts";
 import { setTutorLanguageAction } from "@/server/tutor/actions";
 
-const t = getMessages("fr");
-
 const TABS = ["expliquer", "exercer", "decouvrir"] as const satisfies readonly TutorMode[];
-const TAB_LABEL = { expliquer: t.tutor.modes.expliquer, exercer: t.tutor.modes.exercer, decouvrir: t.tutor.modes.decouvrir } as const;
 
 /** En-tête commun : avatar, langue de réponse, modes. */
-export function TutorHeader({
+export async function TutorHeader({
   mode,
   language,
   languages,
@@ -24,6 +21,7 @@ export function TutorHeader({
   /** Paramètres module/chapitre à garder en changeant de mode. */
   scopeQuery: string;
 }) {
+  const t = await getT();
   const activeTab = mode === "approfondir" ? "expliquer" : mode;
   return (
     <header className="flex flex-col gap-3">
@@ -67,7 +65,7 @@ export function TutorHeader({
               tab === activeTab ? "bg-white shadow-sm dark:bg-neutral-900" : "text-neutral-600 dark:text-neutral-300"
             }`}
           >
-            {TAB_LABEL[tab]}
+            {t.tutor.modes[tab]}
           </Link>
         ))}
       </nav>

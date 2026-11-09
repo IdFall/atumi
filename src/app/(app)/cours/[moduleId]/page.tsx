@@ -7,16 +7,18 @@ import { InlineCreateForm } from "@/components/courses/inline-create-form";
 import { ItemActions } from "@/components/courses/item-actions";
 import { plural } from "@/components/courses/module-card";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { createChapterAction } from "@/server/courses/actions";
 import { studyPath } from "@/server/study/paths";
 import { getModule, type ModuleDocument } from "@/server/courses/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.courses.title} · ${t.app.name}` };
+}
 
-export const metadata: Metadata = { title: `${t.courses.title} · ${t.app.name}` };
-
-export default function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
+export default async function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
       <Link href="/cours" className="text-sm text-primary dark:text-lavande">
@@ -30,6 +32,7 @@ export default function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
 }
 
 async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">["params"] }) {
+  const t = await getT();
   const { moduleId } = await params;
   const detail = z.uuid().safeParse(moduleId).success ? await getModule(moduleId) : null;
   if (!detail) return <p className="text-neutral-600 dark:text-neutral-300">{t.courses.notFound}</p>;
@@ -122,7 +125,8 @@ const STATUS_STYLES = {
   failed: "bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-100",
 } as const;
 
-function DocumentList({ documents }: { documents: ModuleDocument[] }) {
+async function DocumentList({ documents }: { documents: ModuleDocument[] }) {
+  const t = await getT();
   if (documents.length === 0) {
     return <p className="mt-2 text-sm text-neutral-500">{t.courses.noDocument}</p>;
   }

@@ -3,16 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { getMessages } from "@/i18n/messages";
-
-const t = getMessages("fr");
+import { useT } from "@/i18n/client";
 
 const ITEMS = [
-  { href: "/tableau-de-bord", label: t.nav.home, icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
-  { href: "/cours", label: t.nav.courses, icon: "M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM4 19V5M8 7h6" },
-  { href: "/importer", label: t.nav.import, icon: "M12 16V4M7 9l5-5 5 5M4 20h16" },
-  { href: "/professeur", label: t.nav.tutor, icon: "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" },
-] as const;
+  { href: "/tableau-de-bord", label: "home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
+  { href: "/cours", label: "courses", icon: "M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM4 19V5M8 7h6" },
+  { href: "/importer", label: "import", icon: "M12 16V4M7 9l5-5 5 5M4 20h16" },
+  { href: "/professeur", label: "tutor", icon: "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" },
+] as const satisfies readonly { href: string; label: "home" | "courses" | "import" | "tutor"; icon: string }[];
 
 /** Barre de navigation fixe en bas de l'écran, pensée pour le pouce sur téléphone. */
 export function BottomNav() {
@@ -21,6 +19,7 @@ export function BottomNav() {
 
 /** Même barre sans élément actif, affichée pendant le prérendu (le chemin n'est connu qu'au navigateur). */
 export function NavBar({ pathname }: { pathname: string | null }) {
+  const t = useT();
   return (
     <nav
       aria-label={t.nav.label}
@@ -41,7 +40,7 @@ export function NavBar({ pathname }: { pathname: string | null }) {
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d={item.icon} />
                 </svg>
-                {item.label}
+                {t.nav[item.label]}
               </Link>
             </li>
           );

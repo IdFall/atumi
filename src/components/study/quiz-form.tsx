@@ -2,13 +2,12 @@
 
 import { useActionState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { submitQuizAction, type SubmitState } from "@/server/study/actions";
 import type { QuizQuestionView } from "@/server/study/queries";
 
-const t = getMessages("fr");
-
 export function QuizForm({ quizId, questions }: { quizId: string; questions: QuizQuestionView[] }) {
+  const t = useT();
   const [state, formAction, pending] = useActionState<SubmitState, FormData>(submitQuizAction, {});
   return (
     <form action={formAction} className="flex flex-col gap-5">

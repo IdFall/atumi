@@ -4,17 +4,18 @@ import Link from "next/link";
 import { useActionState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { requestPasswordResetAction, updatePasswordAction, type FormState } from "@/server/auth/actions";
 
-const t = getMessages("fr");
+import type { Messages } from "@/i18n/messages";
 
-function errorOf(state: FormState, name: string) {
+function errorOf(t: Messages, state: FormState, name: string) {
   const key = state.errors?.[name];
   return key ? t.auth.errors[key] : undefined;
 }
 
 export function ResetRequestForm() {
+  const t = useT();
   const [state, formAction, pending] = useActionState<FormState, FormData>(requestPasswordResetAction, {});
 
   if (state.notice === "resetSent") {
@@ -32,14 +33,14 @@ export function ResetRequestForm() {
     <form action={formAction} className="flex flex-col gap-4" noValidate>
       <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.auth.resetIntro}</p>
       {state.formError ? <FormMessage tone="error">{t.auth.errors[state.formError]}</FormMessage> : null}
-      <Field label={t.auth.fields.identifier} error={errorOf(state, "identifier")}>
+      <Field label={t.auth.fields.identifier} error={errorOf(t, state, "identifier")}>
         <TextInput
           name="identifier"
           type="email"
           autoComplete="email"
           autoCapitalize="none"
           defaultValue={state.values?.identifier}
-          invalid={Boolean(errorOf(state, "identifier"))}
+          invalid={Boolean(errorOf(t, state, "identifier"))}
           required
         />
       </Field>
@@ -52,6 +53,7 @@ export function ResetRequestForm() {
 }
 
 export function NewPasswordForm() {
+  const t = useT();
   const [state, formAction, pending] = useActionState<FormState, FormData>(updatePasswordAction, {});
 
   return (
@@ -66,12 +68,12 @@ export function NewPasswordForm() {
           ) : null}
         </FormMessage>
       ) : null}
-      <Field label={t.auth.fields.password} hint={t.auth.fields.passwordHint} error={errorOf(state, "password")}>
+      <Field label={t.auth.fields.password} hint={t.auth.fields.passwordHint} error={errorOf(t, state, "password")}>
         <TextInput
           name="password"
           type="password"
           autoComplete="new-password"
-          invalid={Boolean(errorOf(state, "password"))}
+          invalid={Boolean(errorOf(t, state, "password"))}
           required
         />
       </Field>

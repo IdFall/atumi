@@ -5,15 +5,18 @@ import { Suspense } from "react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { AccessBanner } from "@/components/courses/access-banner";
 import { ModuleCard } from "@/components/courses/module-card";
-import { getMessages } from "@/i18n/messages";
+import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { getT } from "@/i18n/server";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: t.app.name };
+}
 
-export const metadata: Metadata = { title: t.app.name };
-
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
@@ -30,13 +33,17 @@ export default function DashboardPage() {
 }
 
 async function Dashboard() {
+  const t = await getT();
   const [user, access, modules] = await Promise.all([getCurrentUser(), getAccess(), listModules()]);
   return (
     <>
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold">
-          {t.dashboard.greeting}, {user.username}
-        </h1>
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl font-bold">
+            {t.dashboard.greeting}, {user.username}
+          </h1>
+          <LocaleSwitcher className="shrink-0 pt-1" />
+        </div>
         <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.auth.cycles[user.cycle]}</p>
       </header>
 

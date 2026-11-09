@@ -2,12 +2,11 @@
 
 import { useFormStatus } from "react-dom";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { signOutAction } from "@/server/auth/actions";
 
-const t = getMessages("fr");
-
 function Button() {
+  const t = useT();
   const { pending } = useFormStatus();
   return (
     <button

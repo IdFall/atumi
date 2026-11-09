@@ -2,11 +2,9 @@
 
 import { useActionState, useState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import type { CoursesFormState } from "@/server/courses/actions";
 import { deleteItemAction, renameItemAction, type ManagedItem } from "@/server/courses/manage";
-
-const t = getMessages("fr");
 
 /** Boutons « Modifier » et « Supprimer » d'un module, d'un chapitre ou d'un document. */
 export function ItemActions({
@@ -20,6 +18,7 @@ export function ItemActions({
   moduleId: string;
   name: string;
 }) {
+  const t = useT();
   const m = t.courses.manage;
   const [editing, setEditing] = useState(false);
   const [renameState, renameAction, renaming] = useActionState(async (prev: CoursesFormState, formData: FormData) => {

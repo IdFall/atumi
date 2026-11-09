@@ -6,16 +6,18 @@ import { TutorComposer } from "@/components/tutor/composer";
 import { EraseButton } from "@/components/tutor/erase-button";
 import { MessageList } from "@/components/tutor/message-list";
 import { TutorHeader } from "@/components/tutor/tutor-header";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { getConversation, getTutorSettings } from "@/server/tutor/queries";
 
-const t = getMessages("fr");
-
-export const metadata: Metadata = { title: `${t.tutor.name} · ${t.app.name}` };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.tutor.name} · ${t.app.name}` };
+}
 
 type Props = PageProps<"/professeur/[conversationId]">;
 
-export default function ConversationPage({ params }: Props) {
+export default async function ConversationPage({ params }: Props) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-5 px-4 py-6">
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
@@ -26,6 +28,7 @@ export default function ConversationPage({ params }: Props) {
 }
 
 async function ConversationView({ params }: { params: Props["params"] }) {
+  const t = await getT();
   const { conversationId } = await params;
   const [conversation, settings] = await Promise.all([getConversation(conversationId), getTutorSettings()]);
   if (!conversation) {

@@ -4,12 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { checkFile, resolveMime } from "@/config/documents";
-import { getMessages, type ImportErrorKey } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
+import type { ImportErrorKey } from "@/i18n/messages";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
 import { registerDocumentAction } from "@/server/courses/actions";
 import { EXTENSION_BY_MIME, IMPORT_KINDS, NEW, type DocumentKind } from "@/server/courses/schemas";
-
-const t = getMessages("fr");
 
 interface ModuleOption {
   id: string;
@@ -39,6 +38,7 @@ export function ImportForm({
   initialChapterId: string;
   firstImport: boolean;
 }) {
+  const t = useT();
   const router = useRouter();
   const [moduleId, setModuleId] = useState(initialModuleId || NEW);
   const [chapterId, setChapterId] = useState(initialChapterId);

@@ -1,12 +1,11 @@
 "use client";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { deleteConversationsAction } from "@/server/tutor/manage";
-
-const t = getMessages("fr");
 
 /** Efface une conversation (ou toutes), après confirmation. */
 export function EraseButton({ conversationId, redirectAfter = false }: { conversationId?: string; redirectAfter?: boolean }) {
+  const t = useT();
   const e = t.tutor.erase;
   const all = !conversationId;
   return (

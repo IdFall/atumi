@@ -3,13 +3,15 @@ import { Suspense } from "react";
 
 import { VerifyPhoneForm } from "@/components/auth/verify-phone-form";
 import { AuthShell } from "@/components/layout/auth-shell";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.auth.verifyTitle} · ${t.app.name}` };
+}
 
-export const metadata: Metadata = { title: `${t.auth.verifyTitle} · ${t.app.name}` };
-
-export default function VerifyPage({ searchParams }: PageProps<"/verification">) {
+export default async function VerifyPage({ searchParams }: PageProps<"/verification">) {
+  const t = await getT();
   return (
     <AuthShell title={t.auth.verifyTitle}>
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>

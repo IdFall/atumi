@@ -7,17 +7,19 @@ import { StudyActionButton } from "@/components/study/action-button";
 import { ShareActions } from "@/components/study/share-actions";
 import { SynthesisContent } from "@/components/study/synthesis-content";
 import { fill } from "@/i18n/format";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { requestSynthesisAction, startQuizAction } from "@/server/study/actions";
 import { getStudyPage, type StudyPage } from "@/server/study/queries";
 
-const t = getMessages("fr");
-
-export const metadata: Metadata = { title: `${t.study.synthesisTitle} · ${t.app.name}` };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.study.synthesisTitle} · ${t.app.name}` };
+}
 
 type Props = PageProps<"/cours/[moduleId]/synthese">;
 
-export default function SynthesisPage({ params, searchParams }: Props) {
+export default async function SynthesisPage({ params, searchParams }: Props) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-5 px-4 py-8">
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
@@ -28,6 +30,7 @@ export default function SynthesisPage({ params, searchParams }: Props) {
 }
 
 async function Synthesis({ params, searchParams }: Pick<Props, "params" | "searchParams">) {
+  const t = await getT();
   const [{ moduleId }, query] = await Promise.all([params, searchParams]);
   const chapterId = typeof query.chapitre === "string" ? query.chapitre : null;
   const page = await getStudyPage(moduleId, chapterId);
@@ -63,7 +66,8 @@ async function Synthesis({ params, searchParams }: Pick<Props, "params" | "searc
   );
 }
 
-function SynthesisBlock({ page, chapterId }: { page: StudyPage; chapterId: string | null }) {
+async function SynthesisBlock({ page, chapterId }: { page: StudyPage; chapterId: string | null }) {
+  const t = await getT();
   const s = page.synthesis;
   const card = "flex flex-col gap-3 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900";
 
@@ -112,7 +116,8 @@ function SynthesisBlock({ page, chapterId }: { page: StudyPage; chapterId: strin
   );
 }
 
-function QuizBlock({ page, chapterId }: { page: StudyPage; chapterId: string | null }) {
+async function QuizBlock({ page, chapterId }: { page: StudyPage; chapterId: string | null }) {
+  const t = await getT();
   const quota = page.quizQuota;
   if (!quota) return <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.access.expired}</p>;
   if (quota.remaining === 0) return <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.study.quizNoneLeft}</p>;
