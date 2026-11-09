@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { defaultCountry } from "@/config/countries";
 import type { AuthErrorKey } from "@/i18n/messages";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
+import { enqueue } from "@/server/jobs/client";
+import { QUEUES } from "@/server/jobs/queues";
 
 import { CGU_VERSION, parseIdentifier, parseSignIn, parseSignUp } from "./schemas";
 
@@ -30,6 +32,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     identifier: field(formData, "identifier"),
     cycle: field(formData, "cycle"),
     guardianPhone: field(formData, "guardianPhone"),
+    isAdult: field(formData, "isAdult"),
   };
   const parsed = parseSignUp(
     { ...values, password: field(formData, "password"), acceptCgu: formData.get("acceptCgu") },
@@ -50,6 +53,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     cycle: input.cycle,
     country_code: input.countryCode,
     guardian_phone: input.guardianPhone,
+    is_adult: input.isAdult,
     cgu_accepted: true,
     cgu_version: CGU_VERSION,
   };
@@ -74,6 +78,16 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
       return { errors: { identifier: "identifierTaken" }, values };
     }
     return { formError: "unknown", values };
+  }
+
+  // Lycéen mineur : l'avis au parent (préparé par la base) part par le worker.
+  if (input.guardianPhone && data.user) {
+    try {
+      await enqueue(QUEUES.parentNotify, { userId: data.user.id });
+    } catch (enqueueError) {
+      // L'inscription reste valable : le worker reprend les avis non envoyés.
+      console.error("[inscription] avis au parent non déposé", enqueueError);
+    }
   }
 
   if (data.session) redirect("/tableau-de-bord");

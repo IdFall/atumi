@@ -96,3 +96,24 @@ export async function setSupportStatusAction(formData: FormData): Promise<void> 
   });
   back(formData, error ? { error: adminErrorKey(error) } : { ok: "messageUpdated" });
 }
+
+export async function confirmPaymentAction(formData: FormData): Promise<void> {
+  await requireUserId();
+  const supabase = await createUserClient();
+  const { error } = await supabase.rpc("admin_confirm_payment_request", { p_id: field(formData, "requestId") });
+  back(formData, error ? { error: adminErrorKey(error) } : { ok: "paymentConfirmed" });
+}
+
+export async function rejectPaymentAction(formData: FormData): Promise<void> {
+  await requireUserId();
+  const supabase = await createUserClient();
+  const { error } = await supabase.rpc("admin_reject_payment_request", { p_id: field(formData, "requestId") });
+  back(formData, error ? { error: adminErrorKey(error) } : { ok: "paymentRejected" });
+}
+
+export async function reopenAccountAction(formData: FormData): Promise<void> {
+  await requireUserId();
+  const supabase = await createUserClient();
+  const { error } = await supabase.rpc("admin_reopen_account", { p_user: field(formData, "userId") });
+  back(formData, error ? { error: adminErrorKey(error) } : { ok: "accountReopened" });
+}

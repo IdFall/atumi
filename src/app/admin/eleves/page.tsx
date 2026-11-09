@@ -15,8 +15,8 @@ import { fill } from "@/i18n/format";
 import { getLocale, getT } from "@/i18n/server";
 import { adminFormat } from "@/lib/admin-format";
 import { formatMoney } from "@/lib/money";
-import { cancelSubscriptionAction, grantPlanAction } from "@/server/admin/actions";
-import { listPlans, listSubscriptions, listUsers, type AdminUser } from "@/server/admin/queries";
+import { cancelSubscriptionAction, grantPlanAction, reopenAccountAction } from "@/server/admin/actions";
+import { listParentalNotices, listPlans, listSubscriptions, listUsers, type AdminUser } from "@/server/admin/queries";
 import { MANUAL_PROVIDERS } from "@/server/admin/schemas";
 
 /** Élèves : comptes, droit en cours, activité ; fiche avec paiements et attribution d'un forfait. */
@@ -41,6 +41,9 @@ export default async function AdminUsersPage({ searchParams }: PageProps<"/admin
       <ActionNotice ok={params.ok} error={params.erreur} />
       <Suspense fallback={null}>
         <UsersContent search={search} selected={selected} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ParentalNotices />
       </Suspense>
     </>
   );
@@ -222,6 +225,46 @@ async function UserDetail({ user, returnTo, closeHref }: { user: AdminUser; retu
           )}
         </div>
       </div>
+    </Card>
+  );
+}
+
+async function ParentalNotices() {
+  const [t, locale, notices] = await Promise.all([getT(), getLocale(), listParentalNotices()]);
+  const f = adminFormat(locale);
+  const u = t.admin.users;
+  return (
+    <Card title={u.parentsTitle}>
+      <p className="text-sm text-neutral-600 dark:text-neutral-300">{notices.length ? u.parentsIntro : u.parentsEmpty}</p>
+      {notices.length ? (
+        <Table head={[u.parentsColumns.user, u.parentsColumns.phone, u.parentsColumns.date, u.parentsColumns.state, ""]}>
+          {notices.map((n) => (
+            <tr key={n.user_id}>
+              <td className="font-semibold">{n.username ?? t.admin.dash}</td>
+              <td className="whitespace-nowrap">{n.guardian_phone ?? t.admin.dash}</td>
+              <td className="whitespace-nowrap">{f.date(n.created_at)}</td>
+              <td className={n.refused_at ? "text-red-700 dark:text-red-300" : undefined}>
+                {n.refused_at
+                  ? fill(u.parentStates.refused, { date: f.date(n.refused_at) })
+                  : n.sent_at
+                    ? fill(u.parentStates.sent, { date: f.date(n.sent_at) })
+                    : u.parentStates.pending}
+              </td>
+              <td>
+                {n.account_suspended ? (
+                  <form action={reopenAccountAction}>
+                    <input type="hidden" name="userId" value={n.user_id} />
+                    <input type="hidden" name="returnTo" value="/admin/eleves" />
+                    <button type="submit" className={secondaryButtonClass}>
+                      {u.reopen}
+                    </button>
+                  </form>
+                ) : null}
+              </td>
+            </tr>
+          ))}
+        </Table>
+      ) : null}
     </Card>
   );
 }

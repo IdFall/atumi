@@ -73,3 +73,13 @@ describe("administration", () => {
     expect(parsePeriod(undefined)).toBe("30");
   });
 });
+
+describe("numéros de paiement", () => {
+  it("lit la variable de déploiement, ignore une valeur mal formée", async () => {
+    const { parsePaymentNumbers } = await import("@/lib/payment-numbers");
+    expect(parsePaymentNumbers('{"SN": {"wave": "+221 77 000 00 00"}}')).toEqual({ SN: { wave: "+221 77 000 00 00" } });
+    expect(parsePaymentNumbers("pas du json")).toEqual({});
+    expect(parsePaymentNumbers('{"senegal": {}}')).toEqual({});
+    expect(parsePaymentNumbers(undefined)).toEqual({});
+  });
+});

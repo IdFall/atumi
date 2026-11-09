@@ -591,6 +591,108 @@ describe("isolation des données entre utilisateurs", () => {
     expect((await db.query(`select 1 from public.admins`)).rows).toHaveLength(0);
   });
 
+  it("demandes de paiement : déclarées par l'élève, validées par l'administrateur", async () => {
+    // Forfait caché : pas de demande possible.
+    await asUser(B);
+    await expect(
+      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${B}', 'sn-mois', 'wave', 'WV-100')`),
+    ).rejects.toThrow(/ATUMI_FORFAIT_INCONNU/);
+
+    await asUser(A);
+    await db.query(`select public.admin_save_plan('sn-mois', 'SN', 'Mois', 3000, 30, 20, 20, 100, 10, 60, true)`);
+
+    await asUser(B);
+    // L'élève ne choisit ni l'état ni l'abonnement, et n'écrit pas au nom d'un autre.
+    await expect(
+      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference, status) values ('${B}', 'sn-mois', 'wave', 'WV-101', 'validee')`),
+    ).rejects.toThrow();
+    await expect(
+      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${A}', 'sn-mois', 'wave', 'WV-102')`),
+    ).rejects.toThrow();
+    await db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${B}', 'sn-mois', 'wave', ' WV-100 ')`);
+    await db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${B}', 'sn-mois', 'orange_money', 'OM-1')`);
+    // Une référence ne sert qu'une fois.
+    await expect(
+      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${B}', 'sn-mois', 'wave', 'WV-100')`),
+    ).rejects.toThrow();
+    await expect(db.exec(`update public.payment_requests set status = 'validee'`)).rejects.toThrow();
+    await expect(db.query(`select * from public.admin_payment_requests()`)).rejects.toThrow(/ATUMI_ADMIN_REFUSE/);
+
+    await asUser(A);
+    expect((await db.query(`select 1 from public.payment_requests`)).rows).toHaveLength(0);
+    const pending = await db.query<{ id: string; reference: string }>(
+      `select id, reference from public.admin_payment_requests() order by reference desc`,
+    );
+    expect(pending.rows.map((r) => r.reference)).toEqual(["WV-100", "OM-1"]);
+    await db.query(`select public.admin_confirm_payment_request('${pending.rows[0].id}')`);
+    await db.query(`select public.admin_reject_payment_request('${pending.rows[1].id}')`);
+    await expect(db.query(`select public.admin_confirm_payment_request('${pending.rows[1].id}')`)).rejects.toThrow(
+      /ATUMI_DEMANDE_INCONNUE/,
+    );
+
+    await asUser(B);
+    const mine = await db.query<{ reference: string; status: string; has_sub: boolean }>(
+      `select reference, status, subscription_id is not null as has_sub from public.payment_requests order by reference desc`,
+    );
+    expect(mine.rows).toEqual([
+      { reference: "WV-100", status: "validee", has_sub: true },
+      { reference: "OM-1", status: "refusee", has_sub: false },
+    ]);
+  });
+
+  it("accord parental : majeur sans parent ; parent prévenu qui peut refuser et suspendre le compte", async () => {
+    const MAJ = "00000000-0000-0000-0000-0000000000e1";
+    const MIN = "00000000-0000-0000-0000-0000000000e2";
+    await asService();
+    await db.exec(`insert into auth.users (id, raw_user_meta_data) values
+      ('${MAJ}', '{"username": "moussa", "cycle": "lycee", "is_adult": true, "cgu_accepted": true}'),
+      ('${MIN}', '{"username": "aminata", "cycle": "lycee", "guardian_phone": "+221770000099", "cgu_accepted": true}')`);
+    const kinds = await db.query<{ username: string; kind: string }>(
+      `select p.username, c.kind from public.consents c join public.profiles p on p.id = c.user_id
+       where c.user_id in ('${MAJ}', '${MIN}') order by p.username, c.kind`,
+    );
+    expect(kinds.rows).toEqual([
+      { username: "aminata", kind: "cgu" },
+      { username: "aminata", kind: "parental" },
+      { username: "moussa", kind: "cgu" },
+      { username: "moussa", kind: "majorite" },
+    ]);
+    const notice = await db.query<{ token: string }>(`select token from public.parental_notices where user_id = '${MIN}'`);
+    expect(notice.rows).toHaveLength(1);
+    expect((await db.query(`select 1 from public.parental_notices where user_id = '${MAJ}'`)).rows).toHaveLength(0);
+    const token = notice.rows[0].token;
+    await db.exec(`insert into public.trials (user_id, started_at, ends_at) values ('${MIN}', now(), now() + interval '1 day')`);
+
+    // L'élève ne voit pas le lien de son parent.
+    await asUser(MIN);
+    await expect(db.query(`select 1 from public.parental_notices`)).rejects.toThrow();
+    expect((await db.query<{ s: string }>(`select public.my_parental_status() as s`)).rows).toEqual([{ s: "a_envoyer" }]);
+    expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(1);
+    await expect(db.exec(`update public.profiles set parental_refused_at = null`)).rejects.toThrow();
+
+    // Le parent, sans compte, ouvre son lien et refuse.
+    await db.exec(`reset role; set role anon; set request.jwt.sub = '';`);
+    expect((await db.query(`select * from public.parental_notice('${token}')`)).rows).toEqual([
+      { username: "aminata", refused: false },
+    ]);
+    expect((await db.query(`select * from public.parental_notice(gen_random_uuid())`)).rows).toHaveLength(0);
+    expect((await db.query<{ ok: boolean }>(`select public.refuse_parental_notice('${token}') as ok`)).rows).toEqual([{ ok: true }]);
+
+    await asUser(MIN);
+    expect((await db.query<{ s: string }>(`select public.my_parental_status() as s`)).rows).toEqual([{ s: "refuse" }]);
+    expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(0);
+
+    // L'équipe peut rouvrir le compte.
+    await asUser(A);
+    const listed = await db.query<{ username: string; account_suspended: boolean }>(
+      `select username, account_suspended from public.admin_parental_notices()`,
+    );
+    expect(listed.rows[0]).toEqual({ username: "aminata", account_suspended: true });
+    await db.query(`select public.admin_reopen_account('${MIN}')`);
+    await asUser(MIN);
+    expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(1);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);

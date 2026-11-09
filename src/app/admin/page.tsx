@@ -6,7 +6,7 @@ import { fill } from "@/i18n/format";
 import { getLocale, getT } from "@/i18n/server";
 import { adminFormat } from "@/lib/admin-format";
 import { formatMoney } from "@/lib/money";
-import { getDailyActivity, getOverview } from "@/server/admin/queries";
+import { getDailyActivity, getOverview, listPendingPayments } from "@/server/admin/queries";
 import { parsePeriod } from "@/server/admin/schemas";
 
 /** Vue d'ensemble : le fonctionnement global d'ATUMI en chiffres. */
@@ -28,7 +28,13 @@ export default async function AdminOverviewPage({ searchParams }: PageProps<"/ad
 }
 
 async function OverviewContent({ days }: { days: number }) {
-  const [t, locale, o, daily] = await Promise.all([getT(), getLocale(), getOverview(days), getDailyActivity(Math.min(days, 14))]);
+  const [t, locale, o, daily, pending] = await Promise.all([
+    getT(),
+    getLocale(),
+    getOverview(days),
+    getDailyActivity(Math.min(days, 14)),
+    listPendingPayments(),
+  ]);
   const f = adminFormat(locale);
   const ov = t.admin.overview;
   const cycles = t.auth.cycles as Record<string, string>;
@@ -68,6 +74,14 @@ async function OverviewContent({ days }: { days: number }) {
           }
         />
       </div>
+      {pending.length > 0 ? (
+        <p role="status" className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-orange-50 p-3 text-sm text-orange-900 dark:bg-orange-950 dark:text-orange-100">
+          <span>{fill(ov.paymentsPending, { n: f.n(pending.length) })}</span>
+          <Link href="/admin/forfaits" className="font-semibold underline">
+            {ov.paymentsLink}
+          </Link>
+        </p>
+      ) : null}
       {o.never_imported > 0 ? (
         <p className="rounded-lg bg-primary-soft p-3 text-sm text-nuit dark:bg-primary-strong/25 dark:text-lavande">
           {fill(ov.neverImported, { n: f.n(o.never_imported) })}

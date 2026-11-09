@@ -70,7 +70,8 @@ const fr = {
       passwordHint: "8 caractères minimum.",
       cycle: "Niveau d'étude en cours",
       guardianPhone: "Téléphone d'un parent ou tuteur",
-      guardianPhoneHint: "Les lycéens ont besoin de l'accord d'un parent.",
+      guardianPhoneHint: "Ton parent reçoit un message qui le prévient de ton inscription et lui permet de la refuser.",
+      isAdult: "J'ai 18 ans ou plus",
       acceptCgu: "J'accepte les conditions d'utilisation et la politique de confidentialité.",
       code: "Code reçu par SMS",
     },
@@ -137,7 +138,7 @@ const fr = {
     hours: "h",
     minutes: "min",
     subscribed: "Abonnement actif jusqu'au",
-    expired: "Ton accès est terminé. Les forfaits arrivent bientôt dans l'application.",
+    expired: "Ton accès est terminé. Abonne-toi pour continuer à réviser.",
   },
   courses: {
     title: "Mes cours",
@@ -401,6 +402,55 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  /** Page du parent (lien reçu par WhatsApp) : il peut refuser l'inscription de son enfant. */
+  parental: {
+    title: "Inscription de votre enfant",
+    intro: "Votre enfant s'est inscrit sur ATUMI sous le nom « {username} » et vous a indiqué comme parent ou tuteur.",
+    points: [
+      "ATUMI est une application de révision : votre enfant importe ses cours et révise avec des synthèses, des quiz et un professeur IA.",
+      "Nous ne demandons jamais le nom de son établissement. Ses cours et ses conversations restent privés.",
+      "Après un essai gratuit de 24 heures, l'accès demande un forfait payant.",
+    ],
+    nothingToDo: "Si vous êtes d'accord, vous n'avez rien à faire.",
+    refuseHint: "Si vous refusez, le compte de votre enfant sera suspendu.",
+    refuse: "Je refuse cette inscription",
+    refused: "Votre refus est enregistré : le compte « {username} » est suspendu. Pour toute question, écrivez à l'équipe ATUMI.",
+    unknown: "Ce lien n'est pas valide. Vérifiez qu'il est complet.",
+    suspended: "Un parent a refusé ton inscription : ton compte est suspendu. Écris à l'équipe depuis le centre d'aide si c'est une erreur.",
+  },
+  /** Page « S'abonner » : forfaits et paiement mobile money vérifié par l'équipe. */
+  subscribe: {
+    title: "S'abonner",
+    intro: "Choisis un forfait, paie par mobile money, puis indique ta référence de paiement. L'équipe vérifie et active ton forfait.",
+    link: "Voir les forfaits",
+    noPlans: "Les forfaits ne sont pas encore ouverts. Écris à l'équipe depuis le centre d'aide pour être prévenu.",
+    perDays: "pour {n} jours",
+    unlimited: "illimités",
+    features: {
+      documents: "Imports : {n}",
+      quizzes: "Quiz : {n}",
+      messages: "Messages au Prof : {n}",
+      calls: "Appels avec le Prof : {n} min",
+    },
+    step1: "1. Envoie le montant du forfait",
+    numbersIntro: "Aux numéros de l'équipe ATUMI :",
+    noNumbers: "Le numéro de paiement n'est pas encore affiché ici : écris à l'équipe depuis le centre d'aide, elle te le donnera.",
+    step2: "2. Indique ton paiement",
+    plan: "Forfait",
+    provider: "Moyen de paiement",
+    reference: "Référence de la transaction",
+    referenceHint: "Elle figure dans le SMS de confirmation de Wave ou d'Orange Money.",
+    send: "Envoyer",
+    sent: "C'est noté. L'équipe vérifie ton paiement et active ton forfait, en général dans la journée.",
+    myRequests: "Mes paiements déclarés",
+    statuses: { en_attente: "En vérification", validee: "Validé : forfait activé", refusee: "Refusé : écris à l'équipe" },
+    errors: {
+      reference: "Indique la référence de la transaction (au moins 3 caractères).",
+      duplicate: "Cette référence a déjà été envoyée.",
+      tooMany: "Tu as déjà des paiements en vérification. Attends la réponse de l'équipe.",
+      unknown: "Une erreur est survenue. Réessaie dans un instant.",
+    },
+  },
   /** Espace administrateur (/admin) : chiffres, comptes et forfaits, jamais le contenu des élèves. */
   admin: {
     title: "Administration",
@@ -432,6 +482,8 @@ const fr = {
       subscribersHint: "{converted} essais devenus payants sur {ended} essais terminés",
       revenue: "Encaissements",
       revenueNone: "Aucun paiement sur la période",
+      paymentsPending: "Paiements déclarés à confirmer : {n}.",
+      paymentsLink: "Les confirmer",
       neverImported: "Inscrits qui n'ont encore rien importé (essai pas démarré) : {n}.",
       dailyTitle: "Activité jour par jour",
       dailyDay: "Jour",
@@ -501,6 +553,12 @@ const fr = {
       grantAmountHint: "Laisser vide pour le prix du forfait.",
       grantSubmit: "Attribuer le forfait",
       grantNoPlan: "Crée d'abord un forfait payant dans « Forfaits et paiements ».",
+      parentsTitle: "Avis aux parents (lycéens mineurs)",
+      parentsIntro: "Chaque parent reçoit un avis par WhatsApp avec un lien pour refuser l'inscription. Un refus suspend le compte.",
+      parentsEmpty: "Aucun avis pour l'instant.",
+      parentsColumns: { user: "Élève", phone: "Parent", date: "Inscrit le", state: "Avis" },
+      parentStates: { pending: "Pas encore envoyé", sent: "Envoyé le {date}", refused: "Refusé le {date}" },
+      reopen: "Rouvrir le compte",
     },
     plans: {
       title: "Forfaits et paiements",
@@ -536,6 +594,12 @@ const fr = {
       },
       save: "Enregistrer",
       create: "Créer le forfait",
+      pendingTitle: "Paiements à confirmer",
+      pendingIntro: "Vérifie la réception dans ton application Wave ou Orange Money avant de valider.",
+      pendingEmpty: "Aucun paiement en attente.",
+      pendingColumns: { date: "Date", user: "Élève", plan: "Forfait", amount: "Montant attendu", provider: "Moyen", reference: "Référence" },
+      confirm: "Valider",
+      reject: "Refuser",
       paymentsTitle: "Derniers paiements et attributions",
       noPayments: "Aucun paiement pour l'instant.",
       paymentColumns: {
@@ -608,6 +672,8 @@ const fr = {
         abonnement_annule: "Abonnement annulé",
         message_traitee: "Message traité",
         message_nouvelle: "Message remis à traiter",
+        paiement_refuse: "Paiement refusé",
+        compte_rouvert: "Compte rouvert",
       },
     },
     notices: {
@@ -615,6 +681,9 @@ const fr = {
       cancelled: "Abonnement annulé.",
       planSaved: "Forfait enregistré.",
       messageUpdated: "Message mis à jour.",
+      paymentConfirmed: "Paiement validé : forfait activé.",
+      paymentRejected: "Paiement refusé.",
+      accountReopened: "Compte rouvert.",
     },
     errors: {
       refused: "Action réservée aux administrateurs.",
@@ -623,6 +692,7 @@ const fr = {
       unknownUser: "Élève introuvable.",
       invalidPayment: "Indique le moyen de paiement et la référence.",
       duplicateReference: "Cette référence de paiement est déjà enregistrée.",
+      unknownRequest: "Demande déjà traitée ou introuvable.",
       invalidNumber: "Vérifie les nombres saisis.",
       unknown: "Une erreur est survenue. Réessaie.",
     },
@@ -647,6 +717,7 @@ export type CoursesErrorKey = keyof typeof fr.courses.errors;
 export type ImportErrorKey = keyof typeof fr.import.errors;
 export type StudyErrorKey = keyof typeof fr.study.errors;
 export type HelpErrorKey = keyof typeof fr.help.errors;
+export type SubscribeErrorKey = keyof typeof fr.subscribe.errors;
 export type AdminErrorKey = keyof typeof fr.admin.errors;
 export type AdminNoticeKey = keyof typeof fr.admin.notices;
 
