@@ -97,7 +97,7 @@ Le temps qui reste s'affiche en haut du tableau de bord. À la fin de l'essai, i
       id: "paiement",
       title: "S'abonner et payer",
       body: `Les forfaits se paient par mobile money. Moyens de paiement dans ton pays : ${listLabels(context.paymentMethods)}.
-Le paiement dans l'application arrive bientôt. En attendant, si tu veux t'abonner, écris à l'équipe avec le bouton « Écrire à l'équipe » du centre d'aide.
+Pour t'abonner, ouvre la page « S'abonner » (lien « Voir les forfaits » dans le bandeau de l'accueil) : choisis un forfait, envoie le montant au numéro de l'équipe, puis indique la référence de la transaction (elle est dans le SMS de confirmation). L'équipe vérifie le paiement et active ton forfait, en général dans la journée. Tu suis l'état de ton paiement sur la même page.
 Le nombre de quiz, de messages au professeur et de minutes d'appel dépend du forfait choisi.`,
     },
     {
@@ -175,7 +175,7 @@ The time left is shown at the top of the dashboard. When the trial ends, you nee
       id: "paiement",
       title: "Subscribing and paying",
       body: `Plans are paid by mobile money. Payment methods in your country: ${listLabels(context.paymentMethods, "en")}.
-In-app payment is coming soon. Meanwhile, if you want to subscribe, write to the team with the "Write to the team" button in the help centre.
+To subscribe, open the "Subscribe" page ("See the plans" link in the banner on the home page): choose a plan, send the amount to the team's number, then enter the transaction reference (it is in the confirmation SMS). The team checks the payment and activates your plan, usually within the day. You can follow your payment's status on the same page.
 The number of quizzes, messages to the teacher and call minutes depends on the plan you choose.`,
     },
     {

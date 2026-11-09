@@ -7,8 +7,8 @@ import { fill } from "@/i18n/format";
 import { getLocale, getT } from "@/i18n/server";
 import { adminFormat } from "@/lib/admin-format";
 import { formatMoney, minorToMajor } from "@/lib/money";
-import { cancelSubscriptionAction, savePlanAction } from "@/server/admin/actions";
-import { listPlans, listSubscriptions, type AdminPlan } from "@/server/admin/queries";
+import { cancelSubscriptionAction, confirmPaymentAction, rejectPaymentAction, savePlanAction } from "@/server/admin/actions";
+import { listPendingPayments, listPlans, listSubscriptions, type AdminPlan } from "@/server/admin/queries";
 
 /** Forfaits (prix, durée, limites) et derniers paiements. */
 export default async function AdminPlansPage({ searchParams }: PageProps<"/admin/forfaits">) {
@@ -26,7 +26,13 @@ export default async function AdminPlansPage({ searchParams }: PageProps<"/admin
 }
 
 async function PlansContent() {
-  const [t, locale, plans, payments] = await Promise.all([getT(), getLocale(), listPlans(), listSubscriptions()]);
+  const [t, locale, plans, payments, pending] = await Promise.all([
+    getT(),
+    getLocale(),
+    listPlans(),
+    listSubscriptions(),
+    listPendingPayments(),
+  ]);
   const f = adminFormat(locale);
   const p = t.admin.plans;
   const providers = p.providers as Record<string, string>;
@@ -34,6 +40,57 @@ async function PlansContent() {
 
   return (
     <>
+      <Card title={p.pendingTitle}>
+        <p className="text-sm text-neutral-600 dark:text-neutral-300">{pending.length ? p.pendingIntro : p.pendingEmpty}</p>
+        {pending.length ? (
+          <Table
+            head={[
+              p.pendingColumns.date,
+              p.pendingColumns.user,
+              p.pendingColumns.plan,
+              p.pendingColumns.amount,
+              p.pendingColumns.provider,
+              p.pendingColumns.reference,
+              "",
+            ]}
+          >
+            {pending.map((r) => (
+              <tr key={r.id}>
+                <td className="whitespace-nowrap">{f.dateTime(r.created_at)}</td>
+                <td>
+                  <span className="flex flex-col">
+                    <strong>{r.username ?? t.admin.dash}</strong>
+                    <span className="text-xs text-neutral-600 dark:text-neutral-400">{r.contact ?? t.admin.dash}</span>
+                  </span>
+                </td>
+                <td>{r.plan_label ?? r.plan_code}</td>
+                <td className="whitespace-nowrap font-semibold">{formatMoney(r.price_minor, r.currency, f.tag)}</td>
+                <td>{providers[r.provider] ?? r.provider}</td>
+                <td className="break-all font-mono text-xs">{r.reference}</td>
+                <td>
+                  <div className="flex gap-2">
+                    <form action={confirmPaymentAction}>
+                      <input type="hidden" name="requestId" value={r.id} />
+                      <input type="hidden" name="returnTo" value="/admin/forfaits" />
+                      <button type="submit" className="rounded-lg bg-primary px-3 py-1.5 text-sm font-semibold text-white">
+                        {p.confirm}
+                      </button>
+                    </form>
+                    <form action={rejectPaymentAction}>
+                      <input type="hidden" name="requestId" value={r.id} />
+                      <input type="hidden" name="returnTo" value="/admin/forfaits" />
+                      <button type="submit" className="rounded-lg border border-red-200 px-3 py-1.5 text-sm text-red-700 dark:border-red-900 dark:text-red-300">
+                        {p.reject}
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </Table>
+        ) : null}
+      </Card>
+
       <Card title={p.title}>
         <Table head={[p.columns.plan, p.columns.price, p.columns.duration, p.columns.limits, p.columns.subscribers, p.columns.status]}>
           {plans.map((plan) => (

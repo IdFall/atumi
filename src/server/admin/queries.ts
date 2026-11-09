@@ -195,3 +195,23 @@ export interface JournalEntry {
 export function getJournal(): Promise<JournalEntry[]> {
   return rpc<JournalEntry[]>("admin_journal", { p_limit: 100 });
 }
+
+export interface AdminPaymentRequest {
+  id: string;
+  user_id: string;
+  username: string | null;
+  contact: string | null;
+  plan_code: string;
+  plan_label: string | null;
+  price_minor: number;
+  currency: string;
+  provider: string;
+  reference: string;
+  status: "en_attente" | "validee" | "refusee";
+  handled_at: string | null;
+  created_at: string;
+}
+
+export function listPendingPayments(): Promise<AdminPaymentRequest[]> {
+  return rpc<AdminPaymentRequest[]>("admin_payment_requests", { p_status: "en_attente", p_limit: 100 });
+}

@@ -22,6 +22,7 @@ export function adminErrorKey(error: { message?: string; code?: string } | null 
   if (message.includes("ATUMI_FORFAIT_INCONNU")) return "unknownPlan";
   if (message.includes("ATUMI_ELEVE_INCONNU")) return "unknownUser";
   if (message.includes("ATUMI_PAIEMENT_INVALIDE")) return "invalidPayment";
+  if (message.includes("ATUMI_DEMANDE_INCONNUE")) return "unknownRequest";
   if (error?.code === "23505") return "duplicateReference";
   if (error?.code === "23514") return "invalidNumber";
   return "unknown";
