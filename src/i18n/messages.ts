@@ -125,6 +125,64 @@ const fr = {
     importCta: "Importer un cours",
     recentModules: "Mes modules",
     seeAll: "Tout voir",
+    reminders: "À ne pas oublier",
+    seeAgenda: "Voir l'agenda",
+  },
+  agenda: {
+    title: "Agenda",
+    intro: "Note tes devoirs, tes examens et ton emploi du temps : ATUMI te les rappelle.",
+    tabs: { events: "Échéances", timetable: "Emploi du temps" },
+    kinds: { devoir: "Devoir", examen: "Examen", autre: "Autre" },
+    reminders: {
+      overdue: "En retard",
+      today: "Aujourd'hui",
+      tomorrow: "Demain",
+      soon: "Dans {days} jours",
+      later: "Plus tard",
+      done: "Fait",
+    },
+    groups: { overdue: "En retard", soon: "Cette semaine", later: "Plus tard", done: "Fait" },
+    empty: "Rien de prévu. Ajoute ton prochain devoir ou ta prochaine date d'examen.",
+    add: "Ajouter une échéance",
+    addSlot: "Ajouter un créneau",
+    emptyTimetable: "Ton emploi du temps est vide. Ajoute tes cours de la semaine.",
+    today: "Aujourd'hui",
+    fields: {
+      kind: "Type",
+      title: "Quoi ?",
+      titlePlaceholder: "Ex. : exercices 3 et 4 page 52",
+      dueOn: "Date",
+      dueTime: "Heure (facultatif)",
+      module: "Module (facultatif)",
+      noModule: "Aucun",
+      note: "Note (facultatif)",
+      weekday: "Jour",
+      startsAt: "Début",
+      endsAt: "Fin",
+      label: "Matière",
+      labelPlaceholder: "Ex. : Mathématiques",
+      place: "Salle (facultatif)",
+    },
+    weekdays: { 1: "Lundi", 2: "Mardi", 3: "Mercredi", 4: "Jeudi", 5: "Vendredi", 6: "Samedi", 7: "Dimanche" },
+    markDone: "Fait",
+    markUndone: "Pas fait",
+    edit: "Modifier",
+    delete: "Supprimer",
+    deleting: "Suppression…",
+    save: "Enregistrer",
+    saving: "Enregistrement…",
+    cancel: "Annuler",
+    confirmYes: "Oui, supprimer",
+    confirmEvent: "Supprimer « {name} » de ton agenda ?",
+    confirmSlot: "Supprimer le créneau « {name} » de ton emploi du temps ?",
+    reviseModule: "Réviser ce module",
+    errors: {
+      titleRequired: "Indique ce qu'il y a à faire.",
+      dateRequired: "Choisis une date.",
+      labelRequired: "Indique la matière.",
+      timeOrder: "L'heure de fin doit venir après l'heure de début.",
+      unknown: "Une erreur est survenue. Réessaie.",
+    },
   },
   nav: {
     label: "Navigation principale",
@@ -132,6 +190,7 @@ const fr = {
     courses: "Mes cours",
     import: "Importer",
     tutor: "Prof ATUM",
+    agenda: "Agenda",
     help: "Aide",
   },
   access: {
@@ -724,6 +783,7 @@ export type StudyErrorKey = keyof typeof fr.study.errors;
 export type HelpErrorKey = keyof typeof fr.help.errors;
 export type SubscribeErrorKey = keyof typeof fr.subscribe.errors;
 export type AdminErrorKey = keyof typeof fr.admin.errors;
+export type AgendaErrorKey = keyof typeof fr.agenda.errors;
 export type AdminNoticeKey = keyof typeof fr.admin.notices;
 
 const dictionaries: Record<Locale, Messages> = { fr, en };

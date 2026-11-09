@@ -23,6 +23,7 @@ Règles produit à respecter dans le code (décisions V1) :
 - Appels avec le professeur IA (voix, vidéo en option) : minutes limitées par forfait (`plans.call_minutes_limit`, `call_quota()`), appels créés et clôturés par le serveur (`tutor_calls`), transcription dans `tutor_messages`, aucun enregistrement audio ou vidéo conservé.
 - Synthèses et quiz : la ligne est créée « en préparation » par le serveur (le quota est vérifié avant tout appel au modèle), puis complétée par le worker (`src/worker/study.ts`). V1 : QCM corrigés dans le code, sans appel au modèle ; un quiz se passe une fois ; un quiz échoué ne compte pas.
 - Centre d'aide (`/aide`) : l'assistant d'aide ne répond qu'à partir des articles de `src/i18n/help-articles.ts` (à tenir à jour quand le produit change), ne compte pas dans le forfait, et la base limite à 30 questions et 5 messages à l'équipe par 24 h (`check_help_quota`). Les messages à l'équipe vont dans `support_requests`, puis le worker les envoie par e-mail (Resend) et WhatsApp (API Cloud de Meta, modèle approuvé) quand ces canaux sont configurés (`src/worker/support.ts`).
+- Agenda (`/agenda`, V1 simple) : échéances (devoir, examen, autre) et emploi du temps de la semaine saisis par l'élève (`agenda_events`, `timetable_slots`), dates gardées en heure locale ; rappels seulement dans l'appli (accueil : en retard et 7 prochains jours, `src/lib/agenda.ts`). Pas encore de rappels WhatsApp ni de notes.
 - Les anciens examens viennent de l'utilisateur ; ATUMI ne constitue ni annales ni programmes avant la V2.
 
 Règles techniques :

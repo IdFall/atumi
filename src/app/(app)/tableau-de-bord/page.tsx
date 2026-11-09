@@ -3,9 +3,11 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
+import { AgendaReminders } from "@/components/agenda/reminders";
 import { AccessBanner } from "@/components/courses/access-banner";
 import { ModuleCard } from "@/components/courses/module-card";
 import { getT } from "@/i18n/server";
+import { listReminders, todayFor } from "@/server/agenda/queries";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 
@@ -36,7 +38,9 @@ export default async function DashboardPage() {
 
 async function Dashboard() {
   const t = await getT();
-  const [user, access, modules] = await Promise.all([getCurrentUser(), getAccess(), listModules()]);
+  const user = await getCurrentUser();
+  const today = todayFor(user.countryCode);
+  const [access, modules, reminders] = await Promise.all([getAccess(), listModules(), listReminders(today)]);
   return (
     <>
       <header className="flex flex-col gap-1">
@@ -47,6 +51,8 @@ async function Dashboard() {
       </header>
 
       <AccessBanner access={access} />
+
+      <AgendaReminders events={reminders} today={today} />
 
       <Link href="/importer" className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white">
         {t.dashboard.importCta}

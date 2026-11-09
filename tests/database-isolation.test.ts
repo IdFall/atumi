@@ -693,6 +693,44 @@ describe("isolation des données entre utilisateurs", () => {
     expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(1);
   });
 
+  it("l'agenda et l'emploi du temps restent privés", async () => {
+    await asUser(A);
+    await db.exec(`insert into public.agenda_events (user_id, kind, title, module_id, due_on)
+      values ('${A}', 'devoir', 'Exercices 3 et 4', '${MODULE_A}', current_date + 2)`);
+    await db.exec(`insert into public.timetable_slots (user_id, weekday, starts_at, ends_at, label, module_id)
+      values ('${A}', 1, '08:00', '10:00', 'Maths', '${MODULE_A}')`);
+    await expect(
+      db.exec(`insert into public.agenda_events (user_id, kind, title, due_on) values ('${B}', 'examen', 'intrus', current_date)`),
+    ).rejects.toThrow();
+    // Un créneau ne peut pas finir avant de commencer.
+    await expect(
+      db.exec(`insert into public.timetable_slots (user_id, weekday, starts_at, ends_at, label)
+        values ('${A}', 2, '10:00', '09:00', 'Physique')`),
+    ).rejects.toThrow();
+
+    // Le module d'un autre ne peut pas être rattaché.
+    await asService();
+    await expect(
+      db.exec(`insert into public.agenda_events (user_id, kind, title, module_id, due_on)
+        values ('${B}', 'devoir', 'intrus', '${MODULE_A}', current_date)`),
+    ).rejects.toThrow();
+
+    await asUser(B);
+    expect((await db.query(`select 1 from public.agenda_events`)).rows).toHaveLength(0);
+    expect((await db.query(`select 1 from public.timetable_slots`)).rows).toHaveLength(0);
+    await db.exec(`delete from public.agenda_events`);
+
+    // Supprimer le module garde l'échéance, sans lien.
+    await asUser(A);
+    await db.exec(`insert into public.modules (id, user_id, name) values ('20000000-0000-0000-0000-00000000000a', '${A}', 'Temporaire')`);
+    await db.exec(`update public.agenda_events set module_id = '20000000-0000-0000-0000-00000000000a'`);
+    await db.exec(`delete from public.modules where id = '20000000-0000-0000-0000-00000000000a'`);
+    const kept = await db.query<{ title: string; module_id: string | null; user_id: string }>(
+      `select title, module_id, user_id from public.agenda_events`,
+    );
+    expect(kept.rows).toEqual([{ title: "Exercices 3 et 4", module_id: null, user_id: A }]);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);
