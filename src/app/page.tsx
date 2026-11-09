@@ -34,6 +34,13 @@ export default async function Home() {
         ))}
       </ol>
 
+      <figure className="flex flex-col items-center gap-1 px-4 py-2 text-center">
+        <blockquote className="text-xl font-semibold italic leading-snug text-primary-strong dark:text-lavande">
+          {t.home.quoteOpen}{t.home.quote}{t.home.quoteClose}
+        </blockquote>
+        <figcaption className="text-sm text-neutral-500">{t.home.quoteNote}</figcaption>
+      </figure>
+
       <div className="flex flex-col gap-2">
         <p className="text-center text-sm text-neutral-600 dark:text-neutral-300">{t.home.signInHint}</p>
         <Link
