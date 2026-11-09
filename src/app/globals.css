@@ -74,3 +74,31 @@ body {
 }
 .katex { font-size: 1.1em; }
 .katex-display { margin: 0.25rem 0; overflow-x: auto; overflow-y: hidden; }
+
+/* Accueil : mouvements lents (halos, cartes), coupés si l'utilisateur préfère moins d'animation. */
+@keyframes atumi-drift { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -20px) scale(1.08); } }
+@keyframes atumi-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes atumi-fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes atumi-ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+.atumi-orb { animation: atumi-drift 14s ease-in-out infinite; }
+.atumi-orb-slow { animation-duration: 22s; animation-direction: reverse; }
+.atumi-float { animation: atumi-float 7s ease-in-out infinite; }
+.atumi-float-alt { animation: atumi-float 6s ease-in-out 1.5s infinite; }
+.atumi-fade-up { animation: atumi-fade-up 0.8s ease-out both; }
+.atumi-delay { animation-delay: 0.15s; }
+.atumi-delay .atumi-float { animation-delay: 1s; }
+.atumi-ping { animation: atumi-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .atumi-orb, .atumi-float, .atumi-float-alt, .atumi-fade-up, .atumi-ping { animation: none; }
+}
+.atumi-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(7 26 51 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(7 26 51 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 40% 30%, black 25%, transparent 70%);
+}
+.atumi-logo-dot {
+  background: radial-gradient(circle at 30% 30%, #b9a8f2, #7557d9 45%, #4c6bff 75%, #13b8c8);
+  box-shadow: 0 0 18px rgb(117 87 217 / 0.45);
+}

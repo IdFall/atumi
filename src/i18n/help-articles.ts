@@ -167,6 +167,7 @@ L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
+Pour protéger ton compte, ATUMI te déconnecte automatiquement après 1 h sans activité (appli fermée ou laissée ouverte sans y toucher). Il suffit de te reconnecter.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
 Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda, Emploi du temps et Aide ; la Recherche est la loupe en haut de l'écran sur téléphone et une entrée du menu sur ordinateur. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
 ATUMI est ouvert aux lycéens et aux étudiants.
@@ -269,6 +270,7 @@ The "Tools" tab gathers a scientific calculator, unit conversions, the periodic 
       body: `To sign in, use your email or phone number with your password, from the sign-in page.
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
 To sign out, tap "Sign out" at the bottom of the dashboard.
+To protect your account, ATUMI signs you out automatically after 1 hour without activity (app closed or left open untouched). Just sign in again.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
 The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner, Timetable and Help; Search is the magnifying glass at the top of the screen on a phone and a menu entry on a computer. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
 ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,

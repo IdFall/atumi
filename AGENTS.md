@@ -15,6 +15,7 @@ Plateforme d'apprentissage par IA (Sénégal d'abord, conçue pour d'autres pays
 Règles produit à respecter dans le code (décisions V1) :
 
 - Inscription : nom d'utilisateur, e-mail ou téléphone, mot de passe, niveau. V1 : lycée et université seulement (`openCycles` dans `src/config/countries.ts`, `education_levels.is_open` en base) ; le collège reste dans le modèle pour plus tard. Jamais le nom de l'établissement.
+- Déconnexion automatique après 1 h sans activité (`src/config/session.ts`) : dans le navigateur (`IdleSignOut`, dans les mises en page connectées) et par le proxy à la requête suivante (cookie `atumi_activite` lié à la session Supabase) ; retour sur `/connexion?inactif=1` avec un message.
 - Le tuteur ne donne la solution d'un exercice qu'après une tentative réelle (`src/server/learning/policies.ts`).
 - Une contestation de correction reçoit une réponse fixe, sans appel au modèle ni débat (`contestationReply`).
 - Essai gratuit de 24 h démarrant au premier import, un seul par numéro de téléphone (un par compte pour les comptes e-mail). Démarré par la base (`before_document_insert`), qui refuse aussi l'import sans droit ; l'interface lit `my_access()`. Limites de l'essai (1 import, 1 quiz de 5 questions, 3 messages au professeur, pas d'appel) : données de `plans`, lues par `plan_usage()`. Un document en échec (photo floue, PDF scanné) ne compte pas dans les imports.
