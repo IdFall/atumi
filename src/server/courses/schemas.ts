@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 import type { CoursesErrorKey, ImportErrorKey } from "@/i18n/messages";
-import { ACCEPTED_MIME_TYPES, DOCX_MIME, MAX_DOCUMENT_BYTES, PDF_MIME } from "@/config/documents";
+import { ACCEPTED_MIME_TYPES, EXTENSION_BY_MIME, isImageMime, MAX_DOCUMENT_BYTES, MAX_IMAGE_BYTES } from "@/config/documents";
+
+export { EXTENSION_BY_MIME };
 
 export const DOCUMENT_KINDS = ["cours", "examen", "devoir", "exercice"] as const;
 export type DocumentKind = (typeof DOCUMENT_KINDS)[number];
 
 /** Choix proposés à l'import (les exercices viendront avec le mode S'exercer). */
 export const IMPORT_KINDS = ["cours", "examen", "devoir"] as const satisfies readonly DocumentKind[];
-
-export const EXTENSION_BY_MIME: Record<string, "pdf" | "docx"> = { [PDF_MIME]: "pdf", [DOCX_MIME]: "docx" };
 
 const moduleName = z.string().trim().min(1).max(120);
 const chapterTitle = z.string().trim().min(1).max(200);
@@ -26,7 +26,7 @@ export function parseChapterTitle(value: unknown): { ok: true; title: string } |
 
 /** Le fichier est rangé dans le dossier de l'utilisateur, sous un nom aléatoire. */
 export function storagePathPattern(userId: string): RegExp {
-  return new RegExp(`^${userId}/[0-9a-f-]{36}\\.(pdf|docx)$`);
+  return new RegExp(`^${userId}/[0-9a-f-]{36}\\.(pdf|docx|jpg|png|webp)$`);
 }
 
 export interface ImportInput {
@@ -63,6 +63,7 @@ export function parseImport(
 
   if (!storagePathPattern(userId).test(v.storagePath)) return { ok: false, error: "unknown" };
   if (!v.storagePath.endsWith(`.${EXTENSION_BY_MIME[v.mimeType]}`)) return { ok: false, error: "fileType" };
+  if (isImageMime(v.mimeType) && v.sizeBytes > MAX_IMAGE_BYTES) return { ok: false, error: "imageTooLarge" };
 
   let target: ImportInput["module"];
   if (v.moduleId === NEW) {
@@ -85,7 +86,7 @@ export function parseImport(
     chapter = { id: v.chapterId };
   }
 
-  const title = v.fileName.replace(/\.(pdf|docx)$/i, "").slice(0, 200) || v.fileName;
+  const title = v.fileName.replace(/\.(pdf|docx|jpe?g|png|webp)$/i, "").slice(0, 200) || v.fileName;
   return {
     ok: true,
     data: { module: target, chapter, kind: v.kind, title, storagePath: v.storagePath, mimeType: v.mimeType, sizeBytes: v.sizeBytes },
