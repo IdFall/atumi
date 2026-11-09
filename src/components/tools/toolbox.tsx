@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useTransition, type ReactNode } from "react";
 
 import { useLocale, useT } from "@/i18n/client";
 import { calculate, type AngleUnit } from "@/lib/calculator";
 import { ELEMENTS, elementPosition, type Element, type ElementCategory } from "@/lib/periodic-table";
 import { convert, QUANTITIES, unitsOf, type Quantity } from "@/lib/units";
+import { lookupReferenceAction } from "@/server/tools/actions";
+import type { ReferenceResult } from "@/server/tools/reference";
 
 const INPUT =
   "w-full min-w-0 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950";
@@ -279,32 +281,103 @@ function Formulas() {
 function Dictionary() {
   const t = useT().tools.dictionary;
   const [word, setWord] = useState("");
+  const [result, setResult] = useState<ReferenceResult | null>(null);
+  const [pending, startTransition] = useTransition();
   const term = word.trim();
-  const link = "flex-1 rounded-lg px-3 py-2 text-center text-sm font-semibold";
+
+  const look = (kind: "dictionary" | "encyclopedia") => {
+    if (!term || pending) return;
+    startTransition(async () => {
+      setResult(await lookupReferenceAction(kind, term).catch((): ReferenceResult => ({ ok: false, error: "unavailable" })));
+    });
+  };
+  const button = "flex-1 rounded-lg px-3 py-2 text-center text-sm font-semibold disabled:opacity-50";
+
   return (
-    <div className="flex flex-col gap-2">
-      <input value={word} onChange={(e) => setWord(e.target.value)} placeholder={t.placeholder} maxLength={100} className={INPUT} aria-label={t.placeholder} />
-      <div className="flex gap-2">
-        <a
-          href={term ? `${t.wiktionary}${encodeURIComponent(term)}` : undefined}
-          aria-disabled={!term}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${link} bg-primary text-white aria-disabled:pointer-events-none aria-disabled:opacity-50`}
-        >
-          {t.define}
-        </a>
-        <a
-          href={term ? `${t.wikipedia}${encodeURIComponent(term)}` : undefined}
-          aria-disabled={!term}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${link} border-2 border-primary text-primary aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:border-lavande dark:text-lavande`}
-        >
-          {t.encyclopedia}
-        </a>
+    <div className="flex flex-col gap-3">
+      <form
+        className="flex flex-col gap-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          look("dictionary");
+        }}
+      >
+        <input value={word} onChange={(e) => setWord(e.target.value)} placeholder={t.placeholder} maxLength={100} className={INPUT} aria-label={t.placeholder} />
+        <div className="flex gap-2">
+          <button type="submit" disabled={!term || pending} className={`${button} bg-primary text-white`}>
+            {t.define}
+          </button>
+          <button
+            type="button"
+            disabled={!term || pending}
+            onClick={() => look("encyclopedia")}
+            className={`${button} border-2 border-primary text-primary dark:border-lavande dark:text-lavande`}
+          >
+            {t.encyclopedia}
+          </button>
+        </div>
+      </form>
+      <div aria-live="polite">
+        {pending ? (
+          <p className="text-sm text-neutral-500">{t.loading}</p>
+        ) : result ? (
+          <ReferenceView result={result} />
+        ) : (
+          <p className="text-xs text-neutral-500">{t.hint}</p>
+        )}
       </div>
-      <p className="text-xs text-neutral-500">{t.hint}</p>
     </div>
+  );
+}
+
+function ReferenceView({ result }: { result: ReferenceResult }) {
+  const t = useT().tools.dictionary;
+  if (!result.ok) {
+    return <p className="rounded-lg bg-orange-50 p-3 text-sm text-orange-900 dark:bg-orange-950 dark:text-orange-100">{t[result.error]}</p>;
+  }
+  const link = "text-sm font-semibold text-primary underline-offset-4 hover:underline dark:text-lavande";
+  if (result.kind === "dictionary") {
+    return (
+      <article className="flex flex-col gap-3 rounded-xl bg-primary-soft/50 p-4 dark:bg-neutral-900">
+        <h3 className="text-lg font-bold">{result.word}</h3>
+        {result.entries.map((entry, i) => (
+          <section key={i} className="flex flex-col gap-1">
+            {entry.partOfSpeech ? <p className="text-xs font-semibold uppercase tracking-wide text-primary-strong dark:text-lavande">{entry.partOfSpeech}</p> : null}
+            <ol className="flex list-decimal flex-col gap-1 pl-5 text-sm">
+              {entry.definitions.map((d, j) => (
+                <li key={j}>{d}</li>
+              ))}
+            </ol>
+          </section>
+        ))}
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <a href={result.url} target="_blank" rel="noopener noreferrer" className={link}>
+            {t.seeOnSite}
+          </a>
+          <p className="text-xs text-neutral-500">{t.dictionaryCredit}</p>
+        </div>
+      </article>
+    );
+  }
+  return (
+    <article className="flex flex-col gap-3 rounded-xl bg-primary-soft/50 p-4 dark:bg-neutral-900">
+      <div className="flex gap-3">
+        {result.image ? (
+          // Vignette de l'article (Wikimedia), taille inconnue d'avance.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={result.image} alt="" loading="lazy" referrerPolicy="no-referrer" className="h-20 w-20 shrink-0 rounded-lg bg-white object-cover" />
+        ) : null}
+        <div className="flex min-w-0 flex-col gap-1">
+          <h3 className="text-lg font-bold">{result.title}</h3>
+          <p className="text-sm leading-relaxed">{result.extract}</p>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <a href={result.url} target="_blank" rel="noopener noreferrer" className={link}>
+          {t.readMore}
+        </a>
+        <p className="text-xs text-neutral-500">{t.encyclopediaCredit}</p>
+      </div>
+    </article>
   );
 }

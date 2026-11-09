@@ -159,7 +159,7 @@ Elle cherche dans le contenu des pages de tes documents (avec la page et un extr
 Le bouton « Demander au Prof ATUM » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
 L'onglet « Mes cours » ne compte pas dans ton forfait et ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.
 L'onglet « Web (IA) » pose ta question au Prof ATUM, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof ATUM. Vérifie toujours les sources.
-L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire (liens vers le Wiktionnaire et Wikipédia). Les outils sont gratuits et sans limite.`,
+L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire et une encyclopédie (définitions du Wiktionnaire et résumés de Wikipédia, affichés directement dans ATUMI). Les outils sont gratuits et sans limite.`,
     },
     {
       id: "compte",
@@ -262,7 +262,7 @@ Type at least 2 letters. Accents and capital letters do not matter for highlight
 The "Ask Prof ATUM" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
 The "My courses" tab does not count towards your plan and does not search the Internet: only what you imported or wrote down.
 The "Web (AI)" tab asks Prof ATUM, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof ATUM. Always check the sources.
-The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary (links to Wiktionary and Wikipedia). Tools are free and unlimited.`,
+The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary and an encyclopedia (Wiktionary definitions and Wikipedia summaries, shown directly in ATUMI). Tools are free and unlimited.`,
     },
     {
       id: "compte",
