@@ -20,6 +20,37 @@ export const en: Messages = {
     signUp: "Create my account",
     signIn: "Sign in",
     signInHint: "Already have an account?",
+    aboutLink: "Who is ATUMI?",
+  },
+  about: {
+    title: "Who is ATUMI?",
+    intro: "ATUMI is a revision app with an AI teacher, designed for high school and university students.",
+    missionTitle: "Our goal",
+    mission:
+      "Help every student understand their courses and pass their exams, at their own pace, from their own documents.",
+    roleTitle: "What ATUMI does",
+    roles: [
+      "It reads the courses you import and turns them into a clear summary.",
+      "It helps you revise with quizzes drawn from your course, corrected right away.",
+      "It gives you an AI teacher available at any time, who cites the pages of your course.",
+    ],
+    limitsTitle: "What ATUMI does not do",
+    limits: [
+      "It does not do your homework for you: it helps you succeed at it yourself.",
+      "It does not replace your teachers: it supports you between classes.",
+      "It never asks for the name of your school and keeps your courses private.",
+    ],
+    profTitle: "Who is Prof ATUMI?",
+    profIntro:
+      "Prof ATUMI is your personal AI teacher. It answers from your courses and tells you when an explanation does not come from them.",
+    profModes: [
+      { title: "Explanation", body: "a notion or a whole chapter, step by step." },
+      { title: "Practise", body: "help with an exercise, with hints; the solution comes after your own attempt." },
+      { title: "General knowledge", body: "a simple topic, even outside your courses, with everyday examples." },
+    ],
+    profRule: "Its golden rule: make you think before giving you the answer.",
+    profLanguages: "You choose the language of its answers among those offered in your country.",
+    back: "Back",
   },
   auth: {
     signUpTitle: "Create your account",
@@ -270,6 +301,7 @@ export const en: Messages = {
     name: "Prof ATUMI",
     avatarAlt: "Professor ATUMI",
     subtitle: "Answers from your course",
+    whoIs: "Who is Prof ATUMI?",
     languageLabel: "Teacher's language",
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "beta",

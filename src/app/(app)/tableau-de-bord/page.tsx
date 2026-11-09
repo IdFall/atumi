@@ -25,6 +25,9 @@ export default async function DashboardPage() {
       <Link href="/aide" className="text-sm font-medium text-primary dark:text-lavande">
         {t.help.link}
       </Link>
+      <Link href="/a-propos" className="text-sm font-medium text-primary dark:text-lavande">
+        {t.home.aboutLink}
+      </Link>
       <div className="self-start">
         <SignOutButton />
       </div>

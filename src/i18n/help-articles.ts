@@ -6,8 +6,10 @@
  * configuration du pays, jamais écrit en dur.
  */
 import type { Locale, PaymentMethod } from "@/config/countries";
+import { getMessages } from "@/i18n/messages";
 
 export type HelpArticleId =
+  | "presentation"
   | "essai"
   | "paiement"
   | "import"
@@ -46,7 +48,30 @@ function listLabels(methods: readonly PaymentMethod[], locale: Locale = "fr"): s
 }
 
 /** Articles affichés comme raccourcis, dans cet ordre. */
-export const FEATURED_ARTICLES: readonly HelpArticleId[] = ["essai", "paiement", "import", "compte"];
+export const FEATURED_ARTICLES: readonly HelpArticleId[] = ["presentation", "essai", "paiement", "import", "compte"];
+
+/** Présentation d'ATUMI et du professeur, reprise des textes de la page « Qui est ATUMI ? ». */
+function presentationBody(locale: Locale = "fr"): string {
+  const a = getMessages(locale).about;
+  if (locale === "en") {
+    return [
+      a.intro,
+      `Goal: ${a.mission}`,
+      `What ATUMI does: ${a.roles.join(" ")}`,
+      `What ATUMI does not do: ${a.limits.join(" ")}`,
+      `${a.profIntro} Its modes: ${a.profModes.map((m) => `"${m.title}" (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
+      'The "Who is ATUMI?" page presents all this: link on the home page and on the dashboard.',
+    ].join("\n");
+  }
+  return [
+    a.intro,
+    `Objectif : ${a.mission}`,
+    `Ce que fait ATUMI : ${a.roles.join(" ")}`,
+    `Ce qu'ATUMI ne fait pas : ${a.limits.join(" ")}`,
+    `${a.profIntro} Ses modes : ${a.profModes.map((m) => `« ${m.title} » (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
+    "La page « Qui est ATUMI ? » présente tout cela : lien sur la page d'accueil et sur le tableau de bord.",
+  ].join("\n");
+}
 
 /** Articles dans la langue de l'interface (français par défaut). */
 export function helpArticles(context: HelpContext, locale: Locale = "fr"): HelpArticle[] {
@@ -55,6 +80,11 @@ export function helpArticles(context: HelpContext, locale: Locale = "fr"): HelpA
 
 function helpArticlesFr(context: HelpContext): HelpArticle[] {
   return [
+    {
+      id: "presentation",
+      title: "Qu'est-ce qu'ATUMI ?",
+      body: presentationBody(),
+    },
     {
       id: "essai",
       title: "Mon essai gratuit",
@@ -128,6 +158,11 @@ Tes documents servent uniquement à t'aider : ils ne sont ni publiés ni partag�
 
 function helpArticlesEn(context: HelpContext): HelpArticle[] {
   return [
+    {
+      id: "presentation",
+      title: "What is ATUMI?",
+      body: presentationBody("en"),
+    },
     {
       id: "essai",
       title: "My free trial",

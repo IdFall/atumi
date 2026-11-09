@@ -52,6 +52,16 @@ describe("professeur IA", () => {
     expect(output.citedChunkIds).toEqual([]);
   });
 
+  it("sait se présenter dans toutes les langues et tous les modes", () => {
+    for (const mode of ["expliquer", "approfondir", "exercer", "decouvrir"] as const) {
+      for (const language of ["fr", "en", "wo"] as const) {
+        const prompt = tutorSystemPrompt(mode, "lycee", language);
+        expect(prompt).toContain("Tu es Prof ATUMI");
+        expect(prompt).toContain("qui tu es, à quoi sert ATUMI");
+      }
+    }
+  });
+
   it("garde la règle de la tentative dans toutes les langues et tous les modes", () => {
     for (const mode of ["expliquer", "approfondir", "exercer", "decouvrir"] as const) {
       for (const language of ["fr", "en", "wo"] as const) {
