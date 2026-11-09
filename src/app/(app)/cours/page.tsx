@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import { InlineCreateForm } from "@/components/courses/inline-create-form";
 import { ModuleCard } from "@/components/courses/module-card";
+import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { getMessages } from "@/i18n/messages";
 import { createModuleAction } from "@/server/courses/actions";
 import { listModules } from "@/server/courses/queries";
@@ -33,12 +34,15 @@ async function ModuleList() {
     );
   }
   return (
-    <ul className="flex flex-col gap-3">
-      {modules.map((m) => (
-        <li key={m.id}>
-          <ModuleCard module={m} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <PendingRefresh active={modules.some((m) => m.next.kind === "reading")} />
+      <ul className="flex flex-col gap-3">
+        {modules.map((m) => (
+          <li key={m.id}>
+            <ModuleCard module={m} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

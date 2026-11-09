@@ -46,6 +46,12 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
         </p>
       </header>
 
+      {all.some((d) => d.status === "ready") ? (
+        <p role="status" className="rounded-xl border border-primary/30 bg-primary-soft px-4 py-3 text-sm font-medium text-nuit dark:bg-primary-strong/25 dark:text-lavande">
+          {t.courses.nextStep.moduleHint}
+        </p>
+      ) : null}
+
       <Link
         href={`/importer?module=${detail.id}`}
         className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white"
@@ -68,8 +74,11 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
                   </Link>
                 </div>
                 {chapter.documents.some((d) => d.status === "ready") ? (
-                  <Link href={studyPath(detail.id, chapter.id)} className="mt-2 inline-block text-sm font-semibold text-primary dark:text-lavande">
-                    {t.study.openSynthesis} ›
+                  <Link
+                    href={studyPath(detail.id, chapter.id)}
+                    className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-primary-strong"
+                  >
+                    {t.courses.nextStep.studyAction} ›
                   </Link>
                 ) : null}
                 <DocumentList documents={chapter.documents} />

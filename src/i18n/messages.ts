@@ -132,6 +132,15 @@ const fr = {
       failed: "Illisible",
     },
     pages: "pages",
+    nextStep: {
+      importLabel: "À faire : importer un cours",
+      importAction: "Importer un cours",
+      readingLabel: "ATUMI lit ton cours…",
+      readingHint: "La synthèse et le quiz seront disponibles dès la fin de la lecture.",
+      studyLabel: "Prêt à réviser",
+      studyAction: "Faire la synthèse et le quiz",
+      moduleHint: "Ton cours est prêt : choisis un chapitre et lance sa synthèse, puis le quiz.",
+    },
     errors: {
       nameRequired: "Donne un nom (120 caractères au plus).",
       titleRequired: "Donne un titre (200 caractères au plus).",
@@ -239,7 +248,7 @@ const fr = {
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "bêta",
     modes: {
-      expliquer: "Expliquer",
+      expliquer: "Explication",
       approfondir: "Approfondir le chapitre",
       exercer: "S'exercer",
       decouvrir: "Découvrir un sujet",

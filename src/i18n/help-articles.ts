@@ -82,7 +82,7 @@ Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te pro
       id: "professeur",
       title: "Le professeur IA",
       body: `Le professeur répond à partir de tes cours importés et cite les pages utilisées.
-Modes : « Expliquer » (une question précise), « Approfondir le chapitre » (tout un chapitre, étape par étape), « S'exercer » (aide sur un exercice) et « Découvrir un sujet » (un sujet simple, même hors de tes cours).
+Modes : « Explication » (une question précise), « Approfondir le chapitre » (tout un chapitre, étape par étape), « S'exercer » (aide sur un exercice) et « Découvrir un sujet » (un sujet simple, même hors de tes cours).
 En mode « S'exercer », le professeur donne la solution seulement après ta propre tentative : il commence par des indices.
 Tu peux choisir la langue de réponse : français, anglais ou wolof (bêta) selon ton pays.
 Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai). Les questions posées au centre d'aide ne comptent pas.`,

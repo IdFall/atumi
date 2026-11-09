@@ -1,5 +1,6 @@
 import "server-only";
 
+import { nextStep, type NextStep } from "@/lib/next-step";
 import { createUserClient } from "@/lib/supabase/server";
 
 import type { DocumentKind } from "./schemas";
@@ -14,24 +15,28 @@ export interface ModuleSummary {
   chapterCount: number;
   documentCount: number;
   chapters: { id: string; title: string }[];
+  /** Ce que l'élève peut faire maintenant avec ce module (importer, attendre, réviser). */
+  next: NextStep;
 }
 
 export async function listModules(): Promise<ModuleSummary[]> {
   const supabase = await createUserClient();
   const { data, error } = await supabase
     .from("modules")
-    .select("id, name, created_at, chapters(id, title, position, created_at), documents(count)")
+    .select("id, name, created_at, chapters(id, title, position, created_at), documents(status, chapter_id)")
     .order("created_at", { ascending: false });
   if (error) throw error;
 
   return (data ?? []).map((m) => {
     const chapters = [...(m.chapters ?? [])].sort(byPosition);
+    const documents = (m.documents ?? []).map((d) => ({ status: d.status as DocumentStatus, chapterId: d.chapter_id }));
     return {
       id: m.id,
       name: m.name,
       chapterCount: chapters.length,
-      documentCount: m.documents?.[0]?.count ?? 0,
+      documentCount: documents.length,
       chapters: chapters.map((c) => ({ id: c.id, title: c.title })),
+      next: nextStep(documents, chapters.map((c) => c.id)),
     };
   });
 }
