@@ -7,44 +7,42 @@ import { SynthesisContent } from "@/components/study/synthesis-content";
 import { getT } from "@/i18n/server";
 
 /**
- * Accueil public : bandeau plein écran animé (sphère de particules, halos),
- * aperçu du produit (tableau du Prof ATUM, quiz, agenda), chiffres clés,
- * fonctionnalités, étapes, citation et appel à l'action. Les animations sont
- * lentes et coupées quand le système demande moins de mouvement.
+ * Accueil public, version claire : fond lumineux avec des halos de couleur
+ * (violet, bleu électrique, cyan), aperçu du produit, chiffres clés,
+ * fonctionnalités, étapes, citation et appel à l'action. Animations lentes,
+ * coupées quand le système demande moins de mouvement.
  */
 export default async function Home() {
   const t = await getT();
   const h = t.home;
   return (
-    <main className="flex flex-1 flex-col">
+    <main className="flex flex-1 flex-col bg-[#F7F9FD] text-nuit dark:bg-neutral-950 dark:text-white">
       {/* Bandeau */}
-      <section className="relative isolate overflow-hidden bg-nuit text-white">
+      <section className="relative isolate overflow-hidden">
         <div aria-hidden="true" className="absolute inset-0 -z-10">
-          <div
-            className="atumi-sphere absolute -right-40 top-10 h-[34rem] w-[34rem] bg-contain bg-center bg-no-repeat opacity-50 sm:-right-24 sm:opacity-70 lg:right-[-6rem] lg:top-0 lg:h-[46rem] lg:w-[46rem]"
-            style={{ backgroundImage: "url(/sphere-atumi.webp)" }}
-          />
-          <div className="atumi-orb absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-primary/40 blur-3xl" />
-          <div className="atumi-orb atumi-orb-slow absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-electrique/30 blur-3xl" />
-          <div className="atumi-orb absolute -top-10 right-10 h-48 w-48 rounded-full bg-accent/20 blur-3xl" />
-          <div className="atumi-grid absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-b from-nuit/20 via-transparent to-nuit" />
+          <div className="atumi-orb absolute -left-32 -top-24 h-[28rem] w-[28rem] rounded-full bg-lavande/50 blur-3xl" />
+          <div className="atumi-orb atumi-orb-slow absolute -right-24 top-10 h-[26rem] w-[26rem] rounded-full bg-accent/25 blur-3xl" />
+          <div className="atumi-orb absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-electrique/20 blur-3xl" />
+          <div className="atumi-grid-light absolute inset-0" />
         </div>
 
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pb-16 pt-5 sm:px-6 lg:pb-24">
           <nav className="flex items-center justify-between gap-3">
-            <p className="text-lg font-bold tracking-[0.2em] text-white">{t.app.name}</p>
+            <p className="flex items-center gap-2 text-lg font-extrabold tracking-[0.2em] text-primary-strong dark:text-lavande">
+              <span aria-hidden="true" className="atumi-logo-dot h-7 w-7 rounded-full" />
+              {t.app.name}
+            </p>
             <div className="flex items-center gap-3">
-              <Link href="/a-propos" className="hidden text-sm font-medium text-lavande underline-offset-4 hover:underline sm:inline">
+              <Link href="/a-propos" className="hidden text-sm font-medium text-primary-strong underline-offset-4 hover:underline sm:inline dark:text-lavande">
                 {h.aboutLink}
               </Link>
-              <LocaleSwitcher tone="dark" />
+              <LocaleSwitcher />
             </div>
           </nav>
 
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
             <div className="atumi-fade-up flex flex-col gap-5">
-              <p className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold text-lavande backdrop-blur">
+              <p className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/15 bg-white/80 px-3 py-1 text-xs font-semibold text-primary-strong shadow-sm backdrop-blur dark:bg-white/10 dark:text-lavande">
                 <span className="relative flex h-2 w-2">
                   <span className="atumi-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
@@ -52,25 +50,25 @@ export default async function Home() {
                 {h.badge}
               </p>
               <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
-                <span className="bg-gradient-to-r from-white via-lavande to-accent bg-clip-text text-transparent">{h.slogan}</span>
+                <span className="bg-gradient-to-r from-nuit via-primary to-electrique bg-clip-text text-transparent dark:from-white dark:via-lavande dark:to-accent">{h.slogan}</span>
               </h1>
-              <p className="max-w-xl text-base text-white/80 sm:text-lg">{h.heroIntro}</p>
+              <p className="max-w-xl text-base text-neutral-600 sm:text-lg dark:text-neutral-300">{h.heroIntro}</p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/connexion"
-                  className="rounded-xl border border-white/30 bg-white/5 px-6 py-3 text-center font-semibold text-white backdrop-blur transition hover:bg-white/15"
+                  className="rounded-xl border-2 border-primary/30 bg-white px-6 py-3 text-center font-semibold text-primary-strong shadow-sm transition hover:border-primary dark:bg-transparent dark:text-lavande"
                 >
                   {h.signIn}
                 </Link>
                 <Link
                   href="/inscription"
-                  className="rounded-xl bg-gradient-to-r from-primary to-electrique px-6 py-3 text-center font-semibold text-white shadow-lg shadow-primary/30 transition hover:brightness-110"
+                  className="rounded-xl bg-gradient-to-r from-primary to-electrique px-6 py-3 text-center font-semibold text-white shadow-lg shadow-primary/25 transition hover:brightness-110"
                 >
                   {h.signUp}
                 </Link>
               </div>
-              <p className="text-sm text-white/60">{h.trial}</p>
-              <Link href="/a-propos" className="text-sm font-medium text-lavande underline-offset-4 hover:underline sm:hidden">
+              <p className="text-sm text-neutral-500">{h.trial}</p>
+              <Link href="/a-propos" className="text-sm font-medium text-primary-strong underline-offset-4 hover:underline sm:hidden dark:text-lavande">
                 {h.aboutLink}
               </Link>
             </div>
@@ -83,19 +81,19 @@ export default async function Home() {
       </section>
 
       {/* Chiffres clés */}
-      <section className="border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-        <dl className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-y-2 px-4 py-6 sm:px-6 lg:grid-cols-4">
+      <section className="mx-auto -mt-6 w-full max-w-6xl px-4 sm:px-6">
+        <dl className="grid grid-cols-2 gap-y-2 rounded-2xl border border-neutral-200/80 bg-white/90 px-2 py-5 shadow-sm backdrop-blur lg:grid-cols-4 dark:border-neutral-800 dark:bg-neutral-900">
           {h.stats.map((s) => (
             <div key={s.value} className="flex flex-col gap-0.5 px-2 py-2 text-center">
               <dt className="order-2 text-xs text-neutral-500 sm:text-sm">{s.label}</dt>
-              <dd className="order-1 text-base font-bold text-primary-strong sm:text-lg dark:text-lavande">{s.value}</dd>
+              <dd className="order-1 bg-gradient-to-r from-primary to-electrique bg-clip-text text-base font-bold text-transparent sm:text-lg">{s.value}</dd>
             </div>
           ))}
         </dl>
       </section>
 
       {/* Fonctionnalités */}
-      <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-14 sm:px-6">
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-16 sm:px-6">
         <header className="flex max-w-2xl flex-col gap-2">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{h.featuresTitle}</h2>
           <p className="text-neutral-600 dark:text-neutral-300">{h.featuresIntro}</p>
@@ -104,13 +102,9 @@ export default async function Home() {
           {h.features.map((f, i) => (
             <li
               key={f.title}
-              className="group relative flex flex-col gap-3 overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+              className="group flex flex-col gap-3 rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
             >
-              <span
-                aria-hidden="true"
-                className={`absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-20 blur-2xl transition group-hover:opacity-40 ${FEATURE_GLOW[i % FEATURE_GLOW.length]}`}
-              />
-              <span aria-hidden="true" className={`flex h-11 w-11 items-center justify-center rounded-xl text-white ${FEATURE_BG[i % FEATURE_BG.length]}`}>
+              <span aria-hidden="true" className={`flex h-11 w-11 items-center justify-center rounded-xl ${FEATURE_SOFT[i % FEATURE_SOFT.length]}`}>
                 {FEATURE_ICONS[i % FEATURE_ICONS.length]}
               </span>
               <h3 className="text-lg font-semibold">{f.title}</h3>
@@ -121,49 +115,45 @@ export default async function Home() {
       </section>
 
       {/* Étapes */}
-      <section className="bg-primary-soft/60 dark:bg-neutral-900">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-14 sm:px-6">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{h.stepsTitle}</h2>
-          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {h.steps.map((step, index) => (
-              <li key={step.title} className="flex flex-col gap-2 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-950">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-nuit text-sm font-bold text-white dark:bg-primary">{index + 1}</span>
-                <p className="font-semibold">{step.title}</p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-300">{step.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 sm:px-6">
+        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{h.stepsTitle}</h2>
+        <ol className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <span aria-hidden="true" className="absolute left-8 right-8 top-[2.1rem] hidden h-0.5 bg-gradient-to-r from-primary via-electrique to-accent opacity-40 lg:block" />
+          {h.steps.map((step, index) => (
+            <li key={step.title} className="relative flex flex-col gap-2 rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-electrique text-sm font-bold text-white shadow-md shadow-primary/30">{index + 1}</span>
+              <p className="font-semibold">{step.title}</p>
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">{step.body}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* Citation et appel final */}
-      <section className="relative isolate overflow-hidden bg-nuit text-white">
-        <div aria-hidden="true" className="absolute inset-0 -z-10">
-          <div className="atumi-orb absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/40 blur-3xl" />
-          <div className="atumi-orb atumi-orb-slow absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
-        </div>
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6">
-          <figure className="flex flex-col gap-2">
-            <blockquote className="text-2xl font-semibold italic leading-snug text-white sm:text-3xl">
+      <section className="px-4 pb-16 sm:px-6">
+        <div className="relative isolate mx-auto flex w-full max-w-6xl flex-col items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-[#6a5ce6] to-electrique px-6 py-14 text-center text-white shadow-xl shadow-primary/20">
+          <div aria-hidden="true" className="absolute inset-0 -z-10">
+            <div className="atumi-orb absolute -left-10 top-0 h-56 w-56 rounded-full bg-accent/40 blur-3xl" />
+            <div className="atumi-orb atumi-orb-slow absolute -bottom-10 right-0 h-56 w-56 rounded-full bg-lavande/50 blur-3xl" />
+          </div>
+          <figure className="flex max-w-3xl flex-col gap-2">
+            <blockquote className="text-2xl font-semibold italic leading-snug sm:text-3xl">
               {h.quoteOpen}
               {h.quote}
               {h.quoteClose}
             </blockquote>
-            <figcaption className="text-sm text-lavande">{h.quoteNote}</figcaption>
+            <figcaption className="text-sm text-white/85">{h.quoteNote}</figcaption>
           </figure>
           <p className="text-lg font-semibold">{h.ctaTitle}</p>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Link href="/connexion" className="rounded-xl border border-white/30 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/15">
+            <Link href="/connexion" className="rounded-xl border border-white/50 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/20">
               {h.signIn}
             </Link>
-            <Link
-              href="/inscription"
-              className="rounded-xl bg-gradient-to-r from-primary to-electrique px-6 py-3 font-semibold text-white shadow-lg shadow-primary/30 transition hover:brightness-110"
-            >
+            <Link href="/inscription" className="rounded-xl bg-white px-6 py-3 font-semibold text-primary-strong shadow-lg transition hover:bg-primary-soft">
               {h.signUp}
             </Link>
           </div>
-          <p className="text-sm text-white/60">{h.trial}</p>
+          <p className="text-sm text-white/80">{h.trial}</p>
         </div>
       </section>
     </main>
@@ -176,8 +166,9 @@ type PreviewLabels = { question: string; score: string; scoreLabel: string; due:
 function ProductPreview({ boardTitle, preview, children }: { boardTitle: string; preview: PreviewLabels; children: ReactNode }) {
   return (
     <div className="atumi-fade-up atumi-delay relative mx-auto w-full max-w-md lg:max-w-none">
-      <div className="atumi-float relative overflow-hidden rounded-2xl border border-white/15 bg-[#F3F7FC] text-neutral-900 shadow-2xl shadow-primary/30">
-        <div className="flex items-center justify-between bg-nuit/95 px-4 py-2 text-xs font-semibold text-white">
+      <div aria-hidden="true" className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/25 via-electrique/15 to-accent/25 blur-2xl" />
+      <div className="atumi-float relative overflow-hidden rounded-2xl border border-white bg-white text-neutral-900 shadow-2xl shadow-primary/20">
+        <div className="flex items-center justify-between bg-gradient-to-r from-nuit to-[#1b2f63] px-4 py-2 text-xs font-semibold text-white">
           <span className="flex items-center gap-2">
             <Image src="/prof-atumi.svg" alt="" width={20} height={20} />
             {boardTitle}
@@ -190,7 +181,7 @@ function ProductPreview({ boardTitle, preview, children }: { boardTitle: string;
         </div>
         <div className="flex flex-col gap-3 p-4">
           <p className="ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-primary px-3 py-2 text-sm text-white">{preview.question}</p>
-          <div className="board-grid rounded-xl border border-nuit/10 bg-white/70 px-4 py-3 text-sm [&_h2]:mt-0 [&_h2]:text-base">{children}</div>
+          <div className="board-grid rounded-xl border border-nuit/10 bg-[#F3F7FC] px-4 py-3 text-sm [&_h2]:mt-0 [&_h2]:text-base">{children}</div>
         </div>
       </div>
       <div className="atumi-float-alt absolute -bottom-7 -left-2 flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-neutral-900 shadow-xl sm:-left-8">
@@ -210,8 +201,14 @@ function ProductPreview({ boardTitle, preview, children }: { boardTitle: string;
   );
 }
 
-const FEATURE_BG = ["bg-primary", "bg-nuit", "bg-electrique", "bg-accent-text", "bg-primary-strong", "bg-electrique"];
-const FEATURE_GLOW = ["bg-primary", "bg-electrique", "bg-electrique", "bg-accent", "bg-lavande", "bg-primary"];
+const FEATURE_SOFT = [
+  "bg-primary-soft text-primary-strong",
+  "bg-[#E6ECFF] text-electrique",
+  "bg-[#E0F7F9] text-accent-text",
+  "bg-[#FDEBDD] text-orange-700",
+  "bg-[#EFE9FF] text-primary",
+  "bg-[#E6F6EC] text-green-700",
+];
 
 function icon(content: ReactNode) {
   return (
