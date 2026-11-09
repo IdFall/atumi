@@ -20,6 +20,7 @@ const fr = {
       { title: "Comprendre", body: "Une synthèse et un professeur IA qui cite tes pages." },
       { title: "S'entraîner", body: "Des quiz par module ou par chapitre." },
       { title: "Progresser", body: "Tes chapitres maîtrisés et ceux à revoir." },
+      { title: "Recherche", body: "Retrouve une notion dans tes cours, pose une question au web avec ses sources, et utilise les outils : calculatrice, conversions, tableau périodique, formules." },
     ],
     trial: "Essai gratuit de 24 heures, qui démarre à ton premier import.",
     signUp: "Créer mon compte",

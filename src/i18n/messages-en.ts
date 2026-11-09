@@ -15,6 +15,7 @@ export const en: Messages = {
       { title: "Understand", body: "A summary and an AI teacher who cites your pages." },
       { title: "Practise", body: "Quizzes by module or by chapter." },
       { title: "Progress", body: "The chapters you have mastered and those to review." },
+      { title: "Search", body: "Find a topic in your courses, ask the web with its sources, and use the tools: calculator, conversions, periodic table, formulas." },
     ],
     trial: "24-hour free trial, starting with your first import.",
     signUp: "Create my account",
