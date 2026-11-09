@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Hero } from "@/components/layout/hero";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { getT } from "@/i18n/server";
 
@@ -7,17 +8,17 @@ export default async function Home() {
   const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-4 py-10">
-      <header className="flex flex-col gap-2">
+      <Hero>
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-semibold tracking-wide text-primary dark:text-lavande">{t.app.name}</p>
-          <LocaleSwitcher />
+          <p className="text-sm font-semibold tracking-wide text-lavande">{t.app.name}</p>
+          <LocaleSwitcher tone="dark" />
         </div>
         <h1 className="text-3xl font-bold leading-tight">{t.home.title}</h1>
-        <p className="text-base text-neutral-600 dark:text-neutral-300">{t.home.intro}</p>
-        <Link href="/a-propos" className="text-sm font-medium text-primary dark:text-lavande">
+        <p className="text-base text-white/85">{t.home.intro}</p>
+        <Link href="/a-propos" className="text-sm font-medium text-lavande underline-offset-4 hover:underline">
           {t.home.aboutLink}
         </Link>
-      </header>
+      </Hero>
 
       <ol className="flex flex-col gap-3">
         {t.home.steps.map((step, index) => (

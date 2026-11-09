@@ -12,6 +12,8 @@
   --atumi-cyan: #13b8c8;
   --atumi-cyan-texte: #0b7c88;
   --atumi-lavande: #b9a8f2;
+  /* Bleu électrique du visuel « sphère » : accents lumineux sur fond sombre. */
+  --atumi-bleu: #4c6bff;
 }
 
 @theme inline {
@@ -24,6 +26,7 @@
   --color-accent: var(--atumi-cyan);
   --color-accent-text: var(--atumi-cyan-texte);
   --color-lavande: var(--atumi-lavande);
+  --color-electrique: var(--atumi-bleu);
 }
 
 @media (prefers-color-scheme: dark) {

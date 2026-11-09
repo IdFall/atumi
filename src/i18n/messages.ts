@@ -30,6 +30,7 @@ const fr = {
   /** Présentation d'ATUMI et de Prof ATUMI (page /a-propos et article d'aide). */
   about: {
     title: "Qui est ATUMI ?",
+    nameMeaning: "Le « I » d'ATUMI veut dire Intelligent : un savoir qui se construit point par point, avec toi.",
     intro: "ATUMI est une application de révision avec un professeur IA, pensée pour les lycéens et les étudiants.",
     missionTitle: "Notre objectif",
     mission:

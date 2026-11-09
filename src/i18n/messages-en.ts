@@ -24,6 +24,7 @@ export const en: Messages = {
   },
   about: {
     title: "Who is ATUMI?",
+    nameMeaning: "The “I” in ATUMI stands for Intelligent: knowledge built point by point, with you.",
     intro: "ATUMI is a revision app with an AI teacher, designed for high school and university students.",
     missionTitle: "Our goal",
     mission:
