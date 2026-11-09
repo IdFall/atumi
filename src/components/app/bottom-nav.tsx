@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
 
@@ -103,6 +104,9 @@ export function NavBar({ pathname }: { pathname: string | null }) {
         <div className="mt-auto flex flex-col gap-2 px-3">
           <span className="text-xs text-white/60">{t.locale.label}</span>
           <LocaleSwitcher tone="dark" />
+          <div className="mt-3">
+            <SignOutButton tone="dark" />
+          </div>
         </div>
       </nav>
     </>
