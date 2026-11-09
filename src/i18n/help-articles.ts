@@ -69,6 +69,7 @@ Le nombre de quiz, de messages au professeur et de minutes d'appel dépend du fo
 Formats acceptés : PDF et Word (.docx), 20 Mo maximum, et photos de cours (JPG, PNG, WebP), une photo par page. Sur téléphone, le bouton « Prendre une photo de la page » ouvre l'appareil photo. Si ce bouton n'apparaît pas, la lecture des photos n'est pas encore activée : importe un PDF ou un Word.
 Pour une photo nette : page à plat, bien éclairée, sans reflet ni flash, entière dans le cadre, téléphone immobile au-dessus de la page.
 Après l'import, ATUMI lit ton document, en général en moins d'une minute. Ensuite tu peux demander une synthèse, faire un quiz ou poser des questions au professeur sur ce cours.
+Pour relire un document importé, ouvre son module dans « Mes cours » et appuie sur le nom du document : il s'affiche dans ATUMI. Le bouton « Fermer » te ramène au module, et « Télécharger » l'enregistre sur ton appareil.
 Si la photo est floue, coupée, trop sombre ou ne montre pas de cours, ATUMI te demande de la reprendre : importe la nouvelle photo. Un document qui n'a pas pu être lu ne compte pas dans ton nombre d'imports, même pendant l'essai.
 Si le fichier est refusé, vérifie son format et sa taille. Un PDF scanné (une image de page, sans texte sélectionnable) ne peut pas être lu : prends plutôt les pages en photo.`,
     },

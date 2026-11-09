@@ -72,7 +72,7 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
                     {t.study.openSynthesis} ›
                   </Link>
                 ) : null}
-                <DocumentList documents={chapter.documents} />
+                <DocumentList moduleId={detail.id} documents={chapter.documents} />
               </li>
             ))}
           </ul>
@@ -89,7 +89,7 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
       {detail.unassigned.length > 0 ? (
         <section className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">{t.courses.withoutChapter}</h2>
-          <DocumentList documents={detail.unassigned} />
+          <DocumentList moduleId={detail.id} documents={detail.unassigned} />
           {all.some((d) => d.status === "ready") ? (
             <Link href={studyPath(detail.id, null)} className="text-sm font-semibold text-primary dark:text-lavande">
               {t.study.openSynthesis} ({t.study.wholeModule.toLowerCase()}) ›
@@ -108,7 +108,7 @@ const STATUS_STYLES = {
   failed: "bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-100",
 } as const;
 
-function DocumentList({ documents }: { documents: ModuleDocument[] }) {
+function DocumentList({ moduleId, documents }: { moduleId: string; documents: ModuleDocument[] }) {
   if (documents.length === 0) {
     return <p className="mt-2 text-sm text-neutral-500">{t.courses.noDocument}</p>;
   }
@@ -117,14 +117,18 @@ function DocumentList({ documents }: { documents: ModuleDocument[] }) {
       {documents.map((d) => (
         <li key={d.id} className="flex flex-col gap-1 text-sm">
           <span className="flex items-center justify-between gap-2">
-            <span className="min-w-0 truncate">
-              {d.title}
+            <Link
+              href={`/cours/${moduleId}/document/${d.id}`}
+              title={`${t.viewer.open} : ${d.title}`}
+              className="min-w-0 truncate"
+            >
+              <span className="font-medium text-primary underline-offset-2 hover:underline dark:text-lavande">{d.title}</span>
               <span className="text-neutral-500">
                 {" "}
                 · {t.courses.kinds[d.kind]}
                 {d.pageCount ? ` · ${d.pageCount} ${t.courses.pages}` : ""}
               </span>
-            </span>
+            </Link>
             <span className={`shrink-0 rounded-md px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[d.status]}`}>
               {t.courses.status[d.status]}
             </span>
