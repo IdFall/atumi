@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { AccessBanner } from "@/components/courses/access-banner";
 import { ModuleCard } from "@/components/courses/module-card";
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { getT } from "@/i18n/server";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
@@ -41,12 +40,9 @@ async function Dashboard() {
   return (
     <>
       <header className="flex flex-col gap-1">
-        <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-bold">
-            {t.dashboard.greeting}, {user.username}
-          </h1>
-          <LocaleSwitcher className="shrink-0 pt-1" />
-        </div>
+        <h1 className="text-2xl font-bold">
+          {t.dashboard.greeting}, {user.username}
+        </h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.auth.cycles[user.cycle]}</p>
       </header>
 

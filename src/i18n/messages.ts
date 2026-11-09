@@ -130,6 +130,7 @@ const fr = {
     courses: "Mes cours",
     import: "Importer",
     tutor: "Prof ATUMI",
+    help: "Aide",
   },
   access: {
     trialNotStarted: "Ton essai gratuit de 24 h démarrera à ton premier import.",
@@ -182,6 +183,7 @@ const fr = {
       save: "Enregistrer",
       cancel: "Annuler",
       newName: "Nouveau nom",
+      confirmYes: "Oui, supprimer",
       confirm: {
         module: "Supprimer le module « {name} », ses chapitres, ses documents, ses synthèses et ses quiz ? C'est définitif, et les imports déjà faits restent comptés dans ton forfait.",
         chapter: "Supprimer le chapitre « {name} » et ses documents ? C'est définitif, et les imports déjà faits restent comptés dans ton forfait.",
@@ -322,6 +324,8 @@ const fr = {
       one: "Effacer",
       all: "Tout effacer",
       conversation: "Effacer cette conversation",
+      confirmYes: "Oui, effacer",
+      cancel: "Annuler",
       confirmOne: "Effacer cette conversation ? Elle disparaîtra définitivement ; les messages envoyés restent comptés dans ton forfait.",
       confirmAll: "Effacer toutes tes conversations avec Prof ATUMI ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
     },
