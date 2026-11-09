@@ -6,11 +6,12 @@ import { z } from "zod";
 
 import { isTutorLanguageOffered, type Cycle, type TutorLanguage } from "@/config/countries";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
-import type { TutorMode } from "@/server/ai/prompts";
+import { BOARD_MODES, type TutorMode } from "@/server/ai/prompts";
 import { getAiProvider } from "@/server/ai/provider";
 import { askTutor } from "@/server/ai/tutor";
 import { requireUserId } from "@/server/auth/session";
 
+import { resolveBoardImages } from "./board-images";
 import { findPassages } from "./passages";
 
 export type TutorErrorKey = "empty" | "quotaReached" | "accessExpired" | "unknown";
@@ -146,7 +147,7 @@ export async function sendTutorMessageAction(_prev: TutorFormState, formData: Fo
     user_id: userId,
     conversation_id: conversation.id,
     role: "assistant",
-    content: answer.text,
+    content: BOARD_MODES.includes(conversation.mode) ? await resolveBoardImages(answer.text) : answer.text,
     citations: passages
       .filter((p) => answer.citedChunkIds.includes(p.chunkId))
       .map((p) => ({ chunkId: p.chunkId, page: p.page, documentTitle: p.documentTitle })),

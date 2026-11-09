@@ -15,6 +15,7 @@ export function TutorComposer({
   messagesLeft,
   messageLimit,
   quickReplies,
+  initialText = "",
 }: {
   conversationId: string | null;
   mode: TutorMode;
@@ -23,6 +24,8 @@ export function TutorComposer({
   messagesLeft: number | null;
   messageLimit: number | null;
   quickReplies: boolean;
+  /** Question préremplie (venue de la recherche), que l'élève relit avant d'envoyer. */
+  initialText?: string;
 }) {
   const t = useT();
   const [state, formAction, pending] = useActionState<TutorFormState, FormData>(sendTutorMessageAction, {});
@@ -79,6 +82,7 @@ export function TutorComposer({
             required
             rows={2}
             maxLength={4000}
+            defaultValue={initialText}
             disabled={pending}
             placeholder={mode === "exercer" ? t.tutor.exercisePlaceholder : mode === "decouvrir" ? t.tutor.discoverPlaceholder : t.tutor.placeholder}
             className="min-w-0 flex-1 resize-none rounded-xl border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-900"

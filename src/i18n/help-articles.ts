@@ -16,6 +16,8 @@ export type HelpArticleId =
   | "synthese-quiz"
   | "professeur"
   | "appels"
+  | "agenda"
+  | "recherche"
   | "compte"
   | "confidentialite";
 
@@ -126,6 +128,7 @@ Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te pro
       title: "Le professeur IA",
       body: `Le professeur répond à partir de tes cours importés et cite les pages utilisées.
 Modes : « Explication » (une question précise), « Approfondir le chapitre » (tout un chapitre, étape par étape), « S'exercer » (aide sur un exercice) et « Culture générale » (un sujet simple, même hors de tes cours).
+En « Explication », « Approfondir le chapitre » et « Culture générale », le professeur explique sur un tableau : formules, symboles, encadrés (définition, exemple, attention, à retenir), schémas, tableaux et, au besoin, images libres de Wikimedia Commons. Le bouton « Plein écran » agrandit le tableau.
 Tu peux effacer une conversation (bouton « Effacer ») ou toutes tes conversations (« Tout effacer ») ; les messages envoyés restent comptés dans ton forfait.
 En mode « S'exercer », le professeur donne la solution seulement après ta propre tentative : il commence par des indices.
 Tu peux choisir la langue de réponse : français, anglais ou wolof (bêta) selon ton pays.
@@ -138,13 +141,34 @@ Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai)
 Seule la transcription écrite de l'appel est gardée ; aucun enregistrement audio ou vidéo n'est conservé.`,
     },
     {
+      id: "agenda",
+      title: "Mon agenda et mon emploi du temps",
+      body: `Le menu a deux entrées : « Agenda » et « Emploi du temps ».
+« Agenda » : note tes devoirs, tes examens et tes autres dates (type, quoi, date, heure et module facultatifs, note). Coche le rond quand c'est fait. Les échéances sont rangées en « En retard », « Cette semaine », « Plus tard » et « Fait ».
+« Emploi du temps » : ajoute tes cours de la semaine (matière, jour, heure de début et de fin, salle et module facultatifs). Le jour d'aujourd'hui est signalé. Le bouton « Partager sur WhatsApp » ouvre WhatsApp avec ton emploi du temps déjà écrit : tu choisis à qui l'envoyer (un parent, un camarade). ATUMI n'envoie rien tout seul.
+Rappels : l'accueil affiche « À ne pas oublier » avec tes échéances en retard et celles des 7 prochains jours. Les rappels par WhatsApp ou par notification ne sont pas encore disponibles.
+Chaque échéance et chaque créneau peut être modifié ou supprimé. Si tu supprimes un module, l'échéance reste, sans lien vers le module.
+Ton agenda n'est visible que par toi.`,
+    },
+    {
+      id: "recherche",
+      title: "Recherche : mes cours, le web et les outils",
+      body: `La Recherche (loupe en haut de l'écran sur téléphone, entrée « Recherche » du menu sur ordinateur, ou barre de recherche de l'accueil) retrouve un mot ou une notion dans tous tes cours.
+Elle cherche dans le contenu des pages de tes documents (avec la page et un extrait où le mot est surligné), dans les noms de tes modules, chapitres et documents, et dans ton agenda.
+Écris au moins 2 lettres. Les accents et les majuscules ne comptent pas pour le surlignage ; pour le contenu des pages, la recherche reconnaît aussi les formes proches d'un mot français (pluriel, conjugaison).
+Le bouton « Demander au Prof ATUM » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
+L'onglet « Mes cours » ne compte pas dans ton forfait et ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.
+L'onglet « Web (IA) » pose ta question au Prof ATUM, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof ATUM. Vérifie toujours les sources.
+L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire (liens vers le Wiktionnaire et Wikipédia). Les outils sont gratuits et sans limite.`,
+    },
+    {
       id: "compte",
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
-Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM et Aide. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
+Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda, Emploi du temps et Aide ; la Recherche est la loupe en haut de l'écran sur téléphone et une entrée du menu sur ordinateur. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
 ATUMI est ouvert aux lycéens et aux étudiants.
 Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
@@ -206,6 +230,7 @@ If you disagree with a correction, you can dispute it: ATUMI suggests taking a n
       title: "The AI teacher",
       body: `The teacher answers from your imported courses and cites the pages used.
 Modes: "Explanation" (a specific question), "Go deeper into the chapter" (a whole chapter, step by step), "Practise" (help with an exercise) and "General knowledge" (a simple topic, even outside your courses).
+In "Explanation", "Go deeper into the chapter" and "General knowledge", the teacher explains on a board: formulas, symbols, boxes (definition, example, watch out, key points), diagrams, tables and, when useful, free images from Wikimedia Commons. The "Full screen" button enlarges the board.
 You can erase a conversation ("Erase" button) or all your conversations ("Erase all"); the messages you sent still count in your plan.
 In "Practise" mode, the teacher gives the solution only after your own attempt: it starts with hints.
 You can choose the language of the answers: French, English or Wolof (beta) depending on your country.
@@ -218,13 +243,34 @@ Each message sent to the teacher counts in your plan (3 during the trial). Quest
 Only the written transcript of the call is kept; no audio or video recording is stored.`,
     },
     {
+      id: "agenda",
+      title: "My planner and timetable",
+      body: `The menu has two entries: "Planner" and "Timetable".
+"Planner": write down your homework, exams and other dates (type, what, date, optional time and module, note). Tick the circle when it is done. Deadlines are sorted into "Overdue", "This week", "Later" and "Done".
+"Timetable": add your classes for the week (subject, day, start and end time, optional room and module). Today is highlighted. The "Share on WhatsApp" button opens WhatsApp with your timetable already written: you choose who to send it to (a parent, a classmate). ATUMI sends nothing on its own.
+Reminders: the home page shows "Don't forget" with your overdue deadlines and those in the next 7 days. Reminders by WhatsApp or notification are not available yet.
+Every deadline and class can be edited or deleted. If you delete a module, the deadline stays, without a link to the module.
+Only you can see your planner.`,
+    },
+    {
+      id: "recherche",
+      title: "Search: my courses, the web and tools",
+      body: `Search (the magnifying glass at the top of the screen on a phone, the "Search" menu entry on a computer, or the search bar on the home page) finds a word or topic across all your courses.
+It looks in the content of your documents' pages (with the page and an excerpt where the word is highlighted), in the names of your modules, chapters and documents, and in your planner.
+Type at least 2 letters. Accents and capital letters do not matter for highlighting; for page content, search also recognises close forms of a French word (plural, conjugation).
+The "Ask Prof ATUM" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
+The "My courses" tab does not count towards your plan and does not search the Internet: only what you imported or wrote down.
+The "Web (AI)" tab asks Prof ATUM, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof ATUM. Always check the sources.
+The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary (links to Wiktionary and Wikipedia). Tools are free and unlimited.`,
+    },
+    {
       id: "compte",
       title: "My account and password",
       body: `To sign in, use your email or phone number with your password, from the sign-in page.
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
 To sign out, tap "Sign out" at the bottom of the dashboard.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
-The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM and Help. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
+The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner, Timetable and Help; Search is the magnifying glass at the top of the screen on a phone and a menu entry on a computer. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
 ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {

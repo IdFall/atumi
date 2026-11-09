@@ -3,9 +3,11 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
+import { AgendaReminders } from "@/components/agenda/reminders";
 import { AccessBanner } from "@/components/courses/access-banner";
 import { ModuleCard } from "@/components/courses/module-card";
 import { getT } from "@/i18n/server";
+import { listReminders, todayFor } from "@/server/agenda/queries";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 
@@ -36,7 +38,9 @@ export default async function DashboardPage() {
 
 async function Dashboard() {
   const t = await getT();
-  const [user, access, modules] = await Promise.all([getCurrentUser(), getAccess(), listModules()]);
+  const user = await getCurrentUser();
+  const today = todayFor(user.countryCode);
+  const [access, modules, reminders] = await Promise.all([getAccess(), listModules(), listReminders(today)]);
   return (
     <>
       <header className="flex flex-col gap-1">
@@ -46,7 +50,26 @@ async function Dashboard() {
         <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.auth.cycles[user.cycle]}</p>
       </header>
 
+      <form action="/recherche" role="search" className="flex gap-2">
+        <label htmlFor="dashboard-search" className="sr-only">
+          {t.search.label}
+        </label>
+        <input
+          id="dashboard-search"
+          name="q"
+          type="search"
+          maxLength={100}
+          placeholder={t.search.placeholder}
+          className="min-w-0 flex-1 rounded-xl border border-neutral-300 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950"
+        />
+        <button type="submit" className="rounded-xl border-2 border-primary px-4 py-2 font-semibold text-primary dark:border-lavande dark:text-lavande">
+          {t.search.submit}
+        </button>
+      </form>
+
       <AccessBanner access={access} />
+
+      <AgendaReminders events={reminders} today={today} />
 
       <Link href="/importer" className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white">
         {t.dashboard.importCta}

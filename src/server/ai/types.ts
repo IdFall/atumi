@@ -4,7 +4,7 @@
  * que l'implémentation (voir anthropic.ts).
  */
 
-export type AiFeature = "tutor" | "help" | "synthesis" | "quiz_generation" | "quiz_grading" | "document_structuring" | "image_reading";
+export type AiFeature = "tutor" | "help" | "synthesis" | "quiz_generation" | "quiz_grading" | "document_structuring" | "image_reading" | "research";
 
 export type AiTier = "standard" | "light";
 
@@ -25,6 +25,14 @@ export interface AiRequest {
   system: string;
   messages: AiMessage[];
   maxTokens?: number;
+  /** Recherche sur le web par le fournisseur (sources citées dans `sources`). */
+  webSearch?: { maxUses: number; country?: string };
+}
+
+/** Page web citée par une réponse. */
+export interface AiSource {
+  url: string;
+  title: string;
 }
 
 export interface AiUsage {
@@ -32,10 +40,12 @@ export interface AiUsage {
   inputTokens: number;
   outputTokens: number;
   cacheReadTokens: number;
+  /** Recherches web faites pendant la requête (facturées à part). */
+  webSearches?: number;
 }
 
 export type AiResult =
-  | { status: "ok"; text: string; usage: AiUsage }
+  | { status: "ok"; text: string; usage: AiUsage; sources?: AiSource[] }
   | { status: "refused"; usage: AiUsage }
   | { status: "unavailable"; reason: string };
 
