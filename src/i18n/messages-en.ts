@@ -7,11 +7,37 @@ export const en: Messages = {
     tagline: "Your study companion, from high school to university.",
   },
   home: {
-    title: "Revise with your own courses",
-    intro:
-      "Import a course as a PDF or Word file. ATUMI summarises it, explains what you don't understand and helps you revise with quizzes.",
+    slogan: "With ATUMI, build your abilities.",
+    badge: "Your AI teacher, 24/7",
+    heroIntro:
+      "Import your courses (PDF, Word or photo). ATUMI summarises them, Prof ATUM explains on the board what you don't understand, and quizzes help you progress.",
+    stats: [
+      { value: "PDF · Word · Photo", label: "your courses, as they are" },
+      { value: "FR · EN · Wolof", label: "the teacher speaks your language" },
+      { value: "Pages cited", label: "answers drawn from your courses" },
+      { value: "24 h", label: "free trial" },
+    ],
+    featuresTitle: "Everything you need to succeed, in one place",
+    featuresIntro: "Powerful tools, designed for high school and university students.",
+    features: [
+      { title: "Summaries of your courses", body: "The key points of each chapter, clear and structured, with the pages of your course." },
+      { title: "Prof ATUM at the board", body: "Formulas, diagrams, boxes and images: explains like a real teacher, and makes you think before giving the answer." },
+      { title: "Quizzes that help you progress", body: "Multiple-choice questions by module or chapter, marked instantly, so you know what you have mastered and what to review." },
+      { title: "Search and tools", body: "Find a topic in your courses, ask the web with its sources, calculate, convert, check the periodic table." },
+      { title: "Planner and timetable", body: "Your homework, exams and week in one place, with reminders and sharing via WhatsApp." },
+      { title: "Calls with the teacher", body: "Ask your questions out loud, like in a private lesson." },
+    ],
+    stepsTitle: "How it works",
+    preview: {
+      question: "Explain Ohm's law to me",
+      board: "## Ohm's law\n$$\nU = R \\times I\n$$\n:::retenir\n- $U$: voltage in volts (V)\n- $R$: resistance in ohms (Ω)\n- $I$: current in amperes (A)\n:::",
+      score: "7 correct answers out of 8 (88 %)",
+      scoreLabel: "Quiz · Electricity",
+      due: "Physics homework · Thursday",
+    },
+    ctaTitle: "Ready to build your abilities?",
     steps: [
-      { title: "Import", body: "Your course as PDF or Word, organised by module and chapter." },
+      { title: "Import", body: "Your course as PDF, Word or photo, organised by module and chapter." },
       { title: "Understand", body: "A summary and an AI teacher who cites your pages." },
       { title: "Practise", body: "Quizzes by module or by chapter." },
       { title: "Progress", body: "The chapters you have mastered and those to review." },
@@ -24,7 +50,6 @@ export const en: Messages = {
     trial: "24-hour free trial, starting with your first import.",
     signUp: "Create my account",
     signIn: "Sign in",
-    signInHint: "Already have an account?",
     aboutLink: "Who is ATUMI?",
   },
   about: {

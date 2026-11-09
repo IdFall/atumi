@@ -12,11 +12,37 @@ const fr = {
     tagline: "Ton compagnon d'apprentissage, du lycée à l'université.",
   },
   home: {
-    title: "Révise avec tes propres cours",
-    intro:
-      "Importe un cours en PDF ou en Word. ATUMI en fait une synthèse, t'explique ce que tu ne comprends pas et te fait réviser avec des quiz.",
+    slogan: "Avec ATUMI, développe tes capacités.",
+    badge: "Ton professeur IA, 24 h/24",
+    heroIntro:
+      "Importe tes cours (PDF, Word ou photo). ATUMI en fait une synthèse, Prof ATUM t'explique au tableau ce que tu ne comprends pas, et les quiz te font progresser.",
+    stats: [
+      { value: "PDF · Word · Photo", label: "tes cours, tels quels" },
+      { value: "FR · EN · Wolof", label: "le Prof parle ta langue" },
+      { value: "Pages citées", label: "des réponses tirées de tes cours" },
+      { value: "24 h", label: "d'essai gratuit" },
+    ],
+    featuresTitle: "Tout ce qu'il te faut pour réussir, au même endroit",
+    featuresIntro: "Des outils puissants, pensés pour les lycéens et les étudiants.",
+    features: [
+      { title: "Synthèse de tes cours", body: "L'essentiel de chaque chapitre, clair et structuré, avec les pages de ton cours." },
+      { title: "Prof ATUM au tableau", body: "Formules, schémas, encadrés et images : il explique comme un vrai professeur, et te fait réfléchir avant de donner la réponse." },
+      { title: "Quiz qui font progresser", body: "Des QCM par module ou par chapitre, corrigés tout de suite, pour savoir ce qui est acquis et ce qu'il faut revoir." },
+      { title: "Recherche et outils", body: "Retrouve une notion dans tes cours, interroge le web avec ses sources, calcule, convertis, consulte le tableau périodique." },
+      { title: "Agenda et emploi du temps", body: "Tes devoirs, tes examens et ta semaine au même endroit, avec des rappels et un partage par WhatsApp." },
+      { title: "Appels avec le Prof", body: "Pose tes questions à voix haute, comme en cours particulier." },
+    ],
+    stepsTitle: "Comment ça marche",
+    preview: {
+      question: "Explique-moi la loi d'Ohm",
+      board: "## La loi d'Ohm\n$$\nU = R \\times I\n$$\n:::retenir\n- $U$ : tension en volts (V)\n- $R$ : résistance en ohms (Ω)\n- $I$ : intensité en ampères (A)\n:::",
+      score: "7 bonnes réponses sur 8 (88 %)",
+      scoreLabel: "Quiz · Électricité",
+      due: "Devoir de physique · jeudi",
+    },
+    ctaTitle: "Prêt à développer tes capacités ?",
     steps: [
-      { title: "Importer", body: "PDF ou Word de ton cours, rangé par module et chapitre." },
+      { title: "Importer", body: "PDF, Word ou photo de ton cours, rangé par module et chapitre." },
       { title: "Comprendre", body: "Une synthèse et un professeur IA qui cite tes pages." },
       { title: "S'entraîner", body: "Des quiz par module ou par chapitre." },
       { title: "Progresser", body: "Tes chapitres maîtrisés et ceux à revoir." },
@@ -29,7 +55,6 @@ const fr = {
     trial: "Essai gratuit de 24 heures, qui démarre à ton premier import.",
     signUp: "Créer mon compte",
     signIn: "Me connecter",
-    signInHint: "Tu as déjà un compte ?",
     aboutLink: "Qui est ATUMI ?",
   },
   /** Présentation d'ATUMI et de Prof ATUM (page /a-propos et article d'aide). */
