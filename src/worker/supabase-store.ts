@@ -5,6 +5,7 @@ import type { SourcePassage } from "../server/ai/types";
 
 import type { IngestDocument, IngestStore } from "./ingest";
 import type { StudyJob, StudyStore } from "./study";
+import type { ParentStore } from "./parents";
 import type { SupportStore } from "./support";
 
 /** Client du worker : clé secrète, toujours filtré explicitement sur l'utilisateur. */
@@ -269,6 +270,47 @@ export function supabaseSupportStore(db: SupabaseClient): SupportStore {
         .from("support_requests")
         .update({ [column]: new Date().toISOString() })
         .eq("id", requestId);
+      if (error) throw error;
+    },
+  };
+}
+
+export function supabaseParentStore(db: SupabaseClient): ParentStore {
+  return {
+    async getNotice(userId) {
+      const { data, error } = await db
+        .from("parental_notices")
+        .select("user_id, guardian_phone_e164, token, sent_at, refused_at")
+        .eq("user_id", userId)
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) return null;
+      const { data: profile } = await db.from("profiles").select("username").eq("id", userId).maybeSingle();
+      return {
+        userId: data.user_id,
+        username: profile?.username ?? "",
+        guardianPhone: data.guardian_phone_e164,
+        token: data.token,
+        sentAt: data.sent_at,
+        refusedAt: data.refused_at,
+      };
+    },
+    async listUnsent(limit) {
+      const { data, error } = await db
+        .from("parental_notices")
+        .select("user_id")
+        .is("sent_at", null)
+        .is("refused_at", null)
+        .order("created_at")
+        .limit(limit);
+      if (error) throw error;
+      return (data ?? []).map((r) => r.user_id as string);
+    },
+    async markSent(userId) {
+      const { error } = await db
+        .from("parental_notices")
+        .update({ sent_at: new Date().toISOString() })
+        .eq("user_id", userId);
       if (error) throw error;
     },
   };

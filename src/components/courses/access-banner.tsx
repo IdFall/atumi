@@ -24,6 +24,7 @@ export async function AccessBanner({ access }: { access: Access }) {
       </Banner>
     );
   }
+  if (access.state === "suspended") return <Banner tone="warn">{t.parental.suspended}</Banner>;
   if (access.state === "expired") {
     return (
       <Banner tone="warn">

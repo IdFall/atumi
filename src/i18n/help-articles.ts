@@ -144,7 +144,8 @@ Seule la transcription écrite de l'appel est gardée ; aucun enregistrement aud
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
 Langue de l'interface : boutons « FR » et « EN » sur le tableau de bord et sur les pages de connexion. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUMI ».
-ATUMI est ouvert aux lycéens et aux étudiants.`,
+ATUMI est ouvert aux lycéens et aux étudiants.
+Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
     {
       id: "confidentialite",
@@ -222,7 +223,7 @@ Only the written transcript of the call is kept; no audio or video recording is 
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
 To sign out, tap "Sign out" at the bottom of the dashboard.
 Interface language: "FR" and "EN" buttons on the dashboard and on the sign-in pages. The teacher's answer language is chosen separately, on the "Prof ATUMI" page.
-ATUMI is open to high school and university students.`,
+ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {
       id: "confidentialite",

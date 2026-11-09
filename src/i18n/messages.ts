@@ -70,7 +70,8 @@ const fr = {
       passwordHint: "8 caractères minimum.",
       cycle: "Niveau d'étude en cours",
       guardianPhone: "Téléphone d'un parent ou tuteur",
-      guardianPhoneHint: "Les lycéens ont besoin de l'accord d'un parent.",
+      guardianPhoneHint: "Ton parent reçoit un message qui le prévient de ton inscription et lui permet de la refuser.",
+      isAdult: "J'ai 18 ans ou plus",
       acceptCgu: "J'accepte les conditions d'utilisation et la politique de confidentialité.",
       code: "Code reçu par SMS",
     },
@@ -401,6 +402,22 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  /** Page du parent (lien reçu par WhatsApp) : il peut refuser l'inscription de son enfant. */
+  parental: {
+    title: "Inscription de votre enfant",
+    intro: "Votre enfant s'est inscrit sur ATUMI sous le nom « {username} » et vous a indiqué comme parent ou tuteur.",
+    points: [
+      "ATUMI est une application de révision : votre enfant importe ses cours et révise avec des synthèses, des quiz et un professeur IA.",
+      "Nous ne demandons jamais le nom de son établissement. Ses cours et ses conversations restent privés.",
+      "Après un essai gratuit de 24 heures, l'accès demande un forfait payant.",
+    ],
+    nothingToDo: "Si vous êtes d'accord, vous n'avez rien à faire.",
+    refuseHint: "Si vous refusez, le compte de votre enfant sera suspendu.",
+    refuse: "Je refuse cette inscription",
+    refused: "Votre refus est enregistré : le compte « {username} » est suspendu. Pour toute question, écrivez à l'équipe ATUMI.",
+    unknown: "Ce lien n'est pas valide. Vérifiez qu'il est complet.",
+    suspended: "Un parent a refusé ton inscription : ton compte est suspendu. Écris à l'équipe depuis le centre d'aide si c'est une erreur.",
+  },
   /** Page « S'abonner » : forfaits et paiement mobile money vérifié par l'équipe. */
   subscribe: {
     title: "S'abonner",
@@ -536,6 +553,12 @@ const fr = {
       grantAmountHint: "Laisser vide pour le prix du forfait.",
       grantSubmit: "Attribuer le forfait",
       grantNoPlan: "Crée d'abord un forfait payant dans « Forfaits et paiements ».",
+      parentsTitle: "Avis aux parents (lycéens mineurs)",
+      parentsIntro: "Chaque parent reçoit un avis par WhatsApp avec un lien pour refuser l'inscription. Un refus suspend le compte.",
+      parentsEmpty: "Aucun avis pour l'instant.",
+      parentsColumns: { user: "Élève", phone: "Parent", date: "Inscrit le", state: "Avis" },
+      parentStates: { pending: "Pas encore envoyé", sent: "Envoyé le {date}", refused: "Refusé le {date}" },
+      reopen: "Rouvrir le compte",
     },
     plans: {
       title: "Forfaits et paiements",
@@ -650,6 +673,7 @@ const fr = {
         message_traitee: "Message traité",
         message_nouvelle: "Message remis à traiter",
         paiement_refuse: "Paiement refusé",
+        compte_rouvert: "Compte rouvert",
       },
     },
     notices: {
@@ -659,6 +683,7 @@ const fr = {
       messageUpdated: "Message mis à jour.",
       paymentConfirmed: "Paiement validé : forfait activé.",
       paymentRejected: "Paiement refusé.",
+      accountReopened: "Compte rouvert.",
     },
     errors: {
       refused: "Action réservée aux administrateurs.",

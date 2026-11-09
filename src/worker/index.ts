@@ -10,11 +10,13 @@ import { payloadSchemas, QUEUE_OPTIONS, QUEUES, type QueueName } from "../server
 import { checkDatabaseUrl, explainConnectionError } from "./database-url";
 import { ingestDocument } from "./ingest";
 import { generateQuiz, generateSynthesis } from "./study";
+import { notifyParent, parentSenderFromEnv } from "./parents";
 import { notifyTeam, sendersFromEnv } from "./support";
 import {
   createSynthesisAfterIngest,
   createWorkerClient,
   supabaseIngestStore,
+  supabaseParentStore,
   supabaseStudyStore,
   supabaseSupportStore,
 } from "./supabase-store";
@@ -26,6 +28,9 @@ const ingestStore = supabaseIngestStore(db);
 const studyStore = supabaseStudyStore(db);
 const supportStore = supabaseSupportStore(db);
 const supportSenders = sendersFromEnv(process.env);
+const parentStore = supabaseParentStore(db);
+const parentSender = parentSenderFromEnv(process.env);
+const appUrl = process.env.ATUMI_APP_URL;
 // Sans clé d'API, le worker démarre quand même : l'import PDF et Word fonctionne, l'IA est indisponible.
 const provider = createAiProvider(process.env.ANTHROPIC_API_KEY, {
   standard: process.env.ATUMI_AI_MODEL ?? "claude-opus-5-5",
@@ -56,6 +61,10 @@ function handlers(boss: PgBoss): Record<QueueName, Handler> {
       const { requestId } = payloadSchemas[QUEUES.supportNotify].parse(data);
       console.log(`[worker] demande d'aide ${requestId} : ${await notifyTeam(supportStore, supportSenders, requestId)}`);
     },
+    [QUEUES.parentNotify]: async (data) => {
+      const { userId } = payloadSchemas[QUEUES.parentNotify].parse(data);
+      console.log(`[worker] avis au parent ${userId} : ${await notifyParent(parentStore, parentSender, appUrl, userId)}`);
+    },
   };
 }
 
@@ -84,7 +93,21 @@ async function main() {
     });
   }
 
+  // Avis aux parents restés en attente (canal configuré après coup, envoi échoué) :
+  // repris au démarrage puis toutes les heures.
+  const sweepParents = async () => {
+    if (!parentSender || !appUrl) return;
+    for (const userId of await parentStore.listUnsent(100)) {
+      await boss.send(QUEUES.parentNotify, { userId }, { singletonKey: `parent-${userId}` });
+    }
+  };
+  await sweepParents().catch((error) => console.error("[worker] avis aux parents", error));
+  const sweep = setInterval(() => {
+    sweepParents().catch((error) => console.error("[worker] avis aux parents", error));
+  }, 60 * 60 * 1000);
+
   const shutdown = async () => {
+    clearInterval(sweep);
     await boss.stop({ graceful: true });
     process.exit(0);
   };

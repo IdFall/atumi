@@ -215,3 +215,17 @@ export interface AdminPaymentRequest {
 export function listPendingPayments(): Promise<AdminPaymentRequest[]> {
   return rpc<AdminPaymentRequest[]>("admin_payment_requests", { p_status: "en_attente", p_limit: 100 });
 }
+
+export interface AdminParentalNotice {
+  user_id: string;
+  username: string | null;
+  guardian_phone: string | null;
+  sent_at: string | null;
+  refused_at: string | null;
+  account_suspended: boolean;
+  created_at: string;
+}
+
+export function listParentalNotices(): Promise<AdminParentalNotice[]> {
+  return rpc<AdminParentalNotice[]>("admin_parental_notices", { p_limit: 30 });
+}

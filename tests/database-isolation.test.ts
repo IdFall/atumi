@@ -640,6 +640,59 @@ describe("isolation des données entre utilisateurs", () => {
     ]);
   });
 
+  it("accord parental : majeur sans parent ; parent prévenu qui peut refuser et suspendre le compte", async () => {
+    const MAJ = "00000000-0000-0000-0000-0000000000e1";
+    const MIN = "00000000-0000-0000-0000-0000000000e2";
+    await asService();
+    await db.exec(`insert into auth.users (id, raw_user_meta_data) values
+      ('${MAJ}', '{"username": "moussa", "cycle": "lycee", "is_adult": true, "cgu_accepted": true}'),
+      ('${MIN}', '{"username": "aminata", "cycle": "lycee", "guardian_phone": "+221770000099", "cgu_accepted": true}')`);
+    const kinds = await db.query<{ username: string; kind: string }>(
+      `select p.username, c.kind from public.consents c join public.profiles p on p.id = c.user_id
+       where c.user_id in ('${MAJ}', '${MIN}') order by p.username, c.kind`,
+    );
+    expect(kinds.rows).toEqual([
+      { username: "aminata", kind: "cgu" },
+      { username: "aminata", kind: "parental" },
+      { username: "moussa", kind: "cgu" },
+      { username: "moussa", kind: "majorite" },
+    ]);
+    const notice = await db.query<{ token: string }>(`select token from public.parental_notices where user_id = '${MIN}'`);
+    expect(notice.rows).toHaveLength(1);
+    expect((await db.query(`select 1 from public.parental_notices where user_id = '${MAJ}'`)).rows).toHaveLength(0);
+    const token = notice.rows[0].token;
+    await db.exec(`insert into public.trials (user_id, started_at, ends_at) values ('${MIN}', now(), now() + interval '1 day')`);
+
+    // L'élève ne voit pas le lien de son parent.
+    await asUser(MIN);
+    await expect(db.query(`select 1 from public.parental_notices`)).rejects.toThrow();
+    expect((await db.query<{ s: string }>(`select public.my_parental_status() as s`)).rows).toEqual([{ s: "a_envoyer" }]);
+    expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(1);
+    await expect(db.exec(`update public.profiles set parental_refused_at = null`)).rejects.toThrow();
+
+    // Le parent, sans compte, ouvre son lien et refuse.
+    await db.exec(`reset role; set role anon; set request.jwt.sub = '';`);
+    expect((await db.query(`select * from public.parental_notice('${token}')`)).rows).toEqual([
+      { username: "aminata", refused: false },
+    ]);
+    expect((await db.query(`select * from public.parental_notice(gen_random_uuid())`)).rows).toHaveLength(0);
+    expect((await db.query<{ ok: boolean }>(`select public.refuse_parental_notice('${token}') as ok`)).rows).toEqual([{ ok: true }]);
+
+    await asUser(MIN);
+    expect((await db.query<{ s: string }>(`select public.my_parental_status() as s`)).rows).toEqual([{ s: "refuse" }]);
+    expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(0);
+
+    // L'équipe peut rouvrir le compte.
+    await asUser(A);
+    const listed = await db.query<{ username: string; account_suspended: boolean }>(
+      `select username, account_suspended from public.admin_parental_notices()`,
+    );
+    expect(listed.rows[0]).toEqual({ username: "aminata", account_suspended: true });
+    await db.query(`select public.admin_reopen_account('${MIN}')`);
+    await asUser(MIN);
+    expect((await db.query(`select * from public.my_access() where plan_code is not null`)).rows).toHaveLength(1);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);
