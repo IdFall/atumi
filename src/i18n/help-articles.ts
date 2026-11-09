@@ -137,8 +137,10 @@ Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai)
     {
       id: "appels",
       title: "Appeler le professeur",
-      body: `Avec un forfait qui les inclut, tu peux appeler le professeur IA en voix (vidéo en option). Les minutes d'appel dépendent du forfait. Les appels ne sont pas inclus dans l'essai gratuit.
-Seule la transcription écrite de l'appel est gardée ; aucun enregistrement audio ou vidéo n'est conservé.`,
+      body: `Avec un forfait qui les inclut, tu peux appeler le Prof ATUM en voix : bouton « Appeler le Prof » sur la page du professeur ou dans une conversation. Les minutes d'appel dépendent du forfait ; le temps restant s'affiche pendant l'appel, qui s'arrête tout seul à la fin de tes minutes (30 minutes au plus par appel). Les appels ne sont pas inclus dans l'essai gratuit.
+Tu peux activer la caméra pour montrer ton cahier ou un exercice. Le navigateur te demande l'accès au micro (et à la caméra) la première fois : accepte-le.
+Pendant l'appel, tu peux couper le micro ou raccrocher. Le professeur parle en français ou en anglais (le wolof n'est pas encore proposé à l'oral) et suit les mêmes règles qu'à l'écrit : il ne donne la solution d'un exercice qu'après ta propre tentative.
+Seule la transcription écrite de l'appel est gardée, dans ta conversation ; aucun enregistrement audio ou vidéo n'est conservé. Elle ne compte pas dans tes messages au professeur.`,
     },
     {
       id: "agenda",
@@ -240,8 +242,10 @@ Each message sent to the teacher counts in your plan (3 during the trial). Quest
     {
       id: "appels",
       title: "Calling the teacher",
-      body: `With a plan that includes them, you can call the AI teacher by voice (video optional). Call minutes depend on the plan. Calls are not included in the free trial.
-Only the written transcript of the call is kept; no audio or video recording is stored.`,
+      body: `With a plan that includes them, you can call Prof ATUM by voice: the "Call the Prof" button on the teacher page or in a conversation. Call minutes depend on the plan; the time left is shown during the call, which stops by itself when your minutes run out (30 minutes at most per call). Calls are not included in the free trial.
+You can turn on the camera to show your notebook or an exercise. The browser asks for access to the microphone (and camera) the first time: accept it.
+During the call, you can mute the microphone or hang up. The teacher speaks French or English (Wolof is not yet offered by voice) and follows the same rules as in writing: it gives the solution to an exercise only after your own attempt.
+Only the written transcript of the call is kept, in your conversation; no audio or video recording is stored. It does not count towards your messages to the teacher.`,
     },
     {
       id: "agenda",

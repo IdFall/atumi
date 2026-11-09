@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { CallButton } from "@/components/tutor/call-button";
 import { TutorComposer } from "@/components/tutor/composer";
 import { EraseButton } from "@/components/tutor/erase-button";
 import { MessageList } from "@/components/tutor/message-list";
 import { TutorHeader } from "@/components/tutor/tutor-header";
 import { getT } from "@/i18n/server";
+import { getCallSettings } from "@/server/calls/queries";
 import { getConversation, getTutorSettings } from "@/server/tutor/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -30,7 +32,7 @@ export default async function ConversationPage({ params }: Props) {
 async function ConversationView({ params }: { params: Props["params"] }) {
   const t = await getT();
   const { conversationId } = await params;
-  const [conversation, settings] = await Promise.all([getConversation(conversationId), getTutorSettings()]);
+  const [conversation, settings, call] = await Promise.all([getConversation(conversationId), getTutorSettings(), getCallSettings()]);
   if (!conversation) {
     return (
       <p className="text-neutral-600 dark:text-neutral-300">
@@ -58,6 +60,15 @@ async function ConversationView({ params }: { params: Props["params"] }) {
       {conversation.mode === "decouvrir" ? (
         <p className="rounded-lg bg-neutral-100 p-3 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">{t.tutor.discoverNotice}</p>
       ) : null}
+      <CallButton
+        conversationId={conversation.id}
+        mode={conversation.mode}
+        moduleId={conversation.moduleId}
+        chapterId={conversation.chapterId}
+        available={call.available}
+        hasAccess={call.hasAccess}
+        secondsLeft={call.secondsLeft}
+      />
       <MessageList messages={conversation.messages} />
       <TutorComposer
         conversationId={conversation.id}
