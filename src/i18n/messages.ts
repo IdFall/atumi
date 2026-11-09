@@ -27,7 +27,7 @@ const fr = {
     signInHint: "Tu as déjà un compte ?",
     aboutLink: "Qui est ATUMI ?",
   },
-  /** Présentation d'ATUMI et de Prof ATUMI (page /a-propos et article d'aide). */
+  /** Présentation d'ATUMI et de Prof ATUM (page /a-propos et article d'aide). */
   about: {
     title: "Qui est ATUMI ?",
     nameMeaning: "Le « I » d'ATUMI veut dire Intelligent : un savoir qui se construit point par point, avec toi.",
@@ -47,9 +47,9 @@ const fr = {
       "Il ne remplace pas tes professeurs : il t'accompagne entre deux cours.",
       "Il ne demande jamais le nom de ton établissement et garde tes cours privés.",
     ],
-    profTitle: "Qui est Prof ATUMI ?",
+    profTitle: "Qui est Prof ATUM ?",
     profIntro:
-      "Prof ATUMI est ton professeur particulier IA. Il répond à partir de tes cours et te dit quand une explication n'en vient pas.",
+      "Prof ATUM est ton professeur particulier IA. Il répond à partir de tes cours et te dit quand une explication n'en vient pas.",
     profModes: [
       { title: "Explication", body: "une notion ou tout un chapitre, étape par étape." },
       { title: "S'exercer", body: "de l'aide sur un exercice, avec des indices ; la solution vient après ta propre tentative." },
@@ -131,7 +131,7 @@ const fr = {
     home: "Accueil",
     courses: "Mes cours",
     import: "Importer",
-    tutor: "Prof ATUMI",
+    tutor: "Prof ATUM",
     help: "Aide",
   },
   access: {
@@ -224,7 +224,7 @@ const fr = {
     quizNoneLeft: "Tu as utilisé tous les quiz de ton forfait.",
     quizUnlimited: "Quiz sans limite avec ton forfait.",
     openSynthesis: "Synthèse et quiz",
-    askTutor: "Poser une question à Prof ATUMI",
+    askTutor: "Poser une question à Prof ATUM",
     errors: {
       accessExpired: "Ton accès est terminé : il faut un forfait pour continuer.",
       quotaReached: "Tu as utilisé tous les quiz de ton forfait.",
@@ -309,10 +309,10 @@ const fr = {
     notInDocuments:
       "Je ne trouve pas cette information dans tes documents. Vérifie que le bon cours est importé.",
     unavailable: "Le professeur IA est momentanément indisponible. Réessaie dans quelques minutes.",
-    name: "Prof ATUMI",
-    avatarAlt: "Professeur ATUMI",
+    name: "Prof ATUM",
+    avatarAlt: "Professeur ATUM",
     subtitle: "Répond à partir de ton cours",
-    whoIs: "Qui est Prof ATUMI ?",
+    whoIs: "Qui est Prof ATUM ?",
     languageLabel: "Langue du professeur",
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "bêta",
@@ -329,13 +329,13 @@ const fr = {
       confirmYes: "Oui, effacer",
       cancel: "Annuler",
       confirmOne: "Effacer cette conversation ? Elle disparaîtra définitivement ; les messages envoyés restent comptés dans ton forfait.",
-      confirmAll: "Effacer toutes tes conversations avec Prof ATUMI ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
+      confirmAll: "Effacer toutes tes conversations avec Prof ATUM ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
     },
-    languageNotice: "Prof ATUMI te répond en {language}.",
+    languageNotice: "Prof ATUM te répond en {language}.",
     languageNames: { fr: "français", en: "anglais", wo: "wolof" },
     call: {
-      start: "Appeler Prof ATUMI",
-      title: "Appel avec Prof ATUMI",
+      start: "Appeler Prof ATUM",
+      title: "Appel avec Prof ATUM",
       remaining: "min restantes",
       mute: "Couper le micro",
       camera: "Caméra",
@@ -349,7 +349,7 @@ const fr = {
     placeholder: "Écris ta question",
     exercisePlaceholder: "Écris ta question ou ta démarche",
     send: "Envoyer",
-    thinking: "Prof ATUMI réfléchit…",
+    thinking: "Prof ATUM réfléchit…",
     messagesLeft: "Messages restants pendant l'essai : {n} sur {total}",
     noMessagesLeft: "Tu as utilisé tes messages au professeur. Abonne-toi pour continuer.",
     newConversation: "Nouvelle question",
@@ -360,10 +360,10 @@ const fr = {
     deepenQuestion: "Explique-moi ce chapitre en entier, étape par étape.",
     sources: "Sources",
     intro: {
-      expliquer: "Pose ta question sur ton cours : Prof ATUMI répond à partir de tes documents et cite les pages.",
-      approfondir: "Prof ATUMI reprend le chapitre en entier, étape par étape.",
-      exercer: "Donne ton exercice et ta démarche. Prof ATUMI t'aide avec des indices ; la solution vient après ta tentative.",
-      decouvrir: "Choisis un sujet : Prof ATUMI l'explique simplement, avec des exemples de la vie de tous les jours.",
+      expliquer: "Pose ta question sur ton cours : Prof ATUM répond à partir de tes documents et cite les pages.",
+      approfondir: "Prof ATUM reprend le chapitre en entier, étape par étape.",
+      exercer: "Donne ton exercice et ta démarche. Prof ATUM t'aide avec des indices ; la solution vient après ta tentative.",
+      decouvrir: "Choisis un sujet : Prof ATUM l'explique simplement, avec des exemples de la vie de tous les jours.",
     },
     errors: {
       empty: "Écris ton message.",
@@ -503,7 +503,7 @@ const fr = {
       syntheses: "Synthèses prêtes",
       quizzes: "Quiz créés",
       quizzesHint: "{attempts} passés · moyenne {average}",
-      tutor: "Messages au Prof ATUMI",
+      tutor: "Messages au Prof ATUM",
       calls: "Appels avec le Prof",
       callsHint: "{minutes} minutes au total",
       contestations: "Contestations de correction",
@@ -656,7 +656,7 @@ const fr = {
       },
       empty: "Aucun appel au modèle sur la période (clé d'API absente ou pas encore d'activité).",
       features: {
-        tutor: "Prof ATUMI",
+        tutor: "Prof ATUM",
         help: "Assistant d'aide",
         synthesis: "Synthèses",
         quiz_generation: "Quiz",
