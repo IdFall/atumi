@@ -32,6 +32,9 @@ export function TutorHeader({
         <div className="flex flex-col">
           <h1 className="text-xl font-bold">{t.tutor.name}</h1>
           <span className="text-sm text-neutral-600 dark:text-neutral-300">{t.tutor.subtitle}</span>
+          <Link href="/a-propos#prof" className="text-xs font-medium text-primary dark:text-lavande">
+            {t.tutor.whoIs}
+          </Link>
         </div>
       </div>
 

@@ -6,8 +6,10 @@
  * configuration du pays, jamais écrit en dur.
  */
 import type { PaymentMethod } from "@/config/countries";
+import { getMessages } from "@/i18n/messages";
 
 export type HelpArticleId =
+  | "presentation"
   | "essai"
   | "paiement"
   | "import"
@@ -43,10 +45,28 @@ function listLabels(methods: readonly PaymentMethod[]): string {
 }
 
 /** Articles affichés comme raccourcis, dans cet ordre. */
-export const FEATURED_ARTICLES: readonly HelpArticleId[] = ["essai", "paiement", "import", "compte"];
+export const FEATURED_ARTICLES: readonly HelpArticleId[] = ["presentation", "essai", "paiement", "import", "compte"];
+
+/** Présentation d'ATUMI et du professeur, reprise des textes de la page « Qui est ATUMI ? ». */
+function presentationBody(): string {
+  const a = getMessages("fr").about;
+  return [
+    a.intro,
+    `Objectif : ${a.mission}`,
+    `Ce que fait ATUMI : ${a.roles.join(" ")}`,
+    `Ce qu'ATUMI ne fait pas : ${a.limits.join(" ")}`,
+    `${a.profIntro} Ses modes : ${a.profModes.map((m) => `« ${m.title} » (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
+    "La page « Qui est ATUMI ? » présente tout cela : lien sur la page d'accueil et sur le tableau de bord.",
+  ].join("\n");
+}
 
 export function helpArticles(context: HelpContext): HelpArticle[] {
   return [
+    {
+      id: "presentation",
+      title: "Qu'est-ce qu'ATUMI ?",
+      body: presentationBody(),
+    },
     {
       id: "essai",
       title: "Mon essai gratuit",
