@@ -14,6 +14,7 @@ export function SignUpForm() {
   const t = useT();
   const [state, formAction, pending] = useActionState<FormState, FormData>(signUpAction, {});
   const [cycle, setCycle] = useState<string>(state.values?.cycle ?? "");
+  const [adult, setAdult] = useState<boolean>(state.values?.isAdult === "on");
   const err = (name: string) => {
     const key = state.errors?.[name];
     return key ? t.auth.errors[key] : undefined;
@@ -94,6 +95,19 @@ export function SignUpForm() {
       </fieldset>
 
       {minor ? (
+        <label className="flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            name="isAdult"
+            className="mt-1"
+            checked={adult}
+            onChange={(event) => setAdult(event.target.checked)}
+          />
+          <span>{t.auth.fields.isAdult}</span>
+        </label>
+      ) : null}
+
+      {minor && !adult ? (
         <Field
           label={t.auth.fields.guardianPhone}
           hint={t.auth.fields.guardianPhoneHint}

@@ -154,17 +154,23 @@ export type Access =
   | { state: "trialNotStarted" }
   | { state: "trial"; endsAt: string; minutesLeft: number }
   | { state: "subscribed"; endsAt: string }
-  | { state: "expired" };
+  | { state: "expired" }
+  /** Un parent a refusé l'inscription : plus aucun droit. */
+  | { state: "suspended" };
 
 export async function getAccess(): Promise<Access> {
   const supabase = await createUserClient();
-  const { data, error } = await supabase.rpc("my_access").single<{
-    plan_code: string | null;
-    kind: string | null;
-    period_end: string | null;
-    trial_used: boolean;
-  }>();
+  const [{ data, error }, { data: parental }] = await Promise.all([
+    supabase.rpc("my_access").single<{
+      plan_code: string | null;
+      kind: string | null;
+      period_end: string | null;
+      trial_used: boolean;
+    }>(),
+    supabase.rpc("my_parental_status"),
+  ]);
   if (error) throw error;
+  if (parental === "refuse") return { state: "suspended" };
   if (data.plan_code && data.period_end) {
     return data.kind === "essai"
       ? { state: "trial", endsAt: data.period_end, minutesLeft: minutesUntil(data.period_end) }

@@ -97,7 +97,7 @@ Le temps qui reste s'affiche en haut du tableau de bord. À la fin de l'essai, i
       id: "paiement",
       title: "S'abonner et payer",
       body: `Les forfaits se paient par mobile money. Moyens de paiement dans ton pays : ${listLabels(context.paymentMethods)}.
-Le paiement dans l'application arrive bientôt. En attendant, si tu veux t'abonner, écris à l'équipe avec le bouton « Écrire à l'équipe » du centre d'aide.
+Pour t'abonner, ouvre la page « S'abonner » (lien « Voir les forfaits » dans le bandeau de l'accueil) : choisis un forfait, envoie le montant au numéro de l'équipe, puis indique la référence de la transaction (elle est dans le SMS de confirmation). L'équipe vérifie le paiement et active ton forfait, en général dans la journée. Tu suis l'état de ton paiement sur la même page.
 Le nombre de quiz, de messages au professeur et de minutes d'appel dépend du forfait choisi.`,
     },
     {
@@ -145,7 +145,8 @@ Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oubl
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
 Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUMI et Aide. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUMI ».
-ATUMI est ouvert aux lycéens et aux étudiants.`,
+ATUMI est ouvert aux lycéens et aux étudiants.
+Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
     {
       id: "confidentialite",
@@ -176,7 +177,7 @@ The time left is shown at the top of the dashboard. When the trial ends, you nee
       id: "paiement",
       title: "Subscribing and paying",
       body: `Plans are paid by mobile money. Payment methods in your country: ${listLabels(context.paymentMethods, "en")}.
-In-app payment is coming soon. Meanwhile, if you want to subscribe, write to the team with the "Write to the team" button in the help centre.
+To subscribe, open the "Subscribe" page ("See the plans" link in the banner on the home page): choose a plan, send the amount to the team's number, then enter the transaction reference (it is in the confirmation SMS). The team checks the payment and activates your plan, usually within the day. You can follow your payment's status on the same page.
 The number of quizzes, messages to the teacher and call minutes depends on the plan you choose.`,
     },
     {
@@ -224,7 +225,7 @@ Forgot your password: on the sign-in page, tap "Forgot your password?" and enter
 To sign out, tap "Sign out" at the bottom of the dashboard.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
 The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUMI and Help. The teacher's answer language is chosen separately, on the "Prof ATUMI" page.
-ATUMI is open to high school and university students.`,
+ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {
       id: "confidentialite",

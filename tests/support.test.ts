@@ -121,3 +121,47 @@ describe("envoi des demandes d'aide à l'équipe", () => {
     expect(whatsappParam("a".repeat(2000)).length).toBe(900);
   });
 });
+
+describe("avis au parent", () => {
+  const notice = {
+    userId: "u1",
+    username: "aminata",
+    guardianPhone: "+221770000099",
+    token: "00000000-0000-4000-8000-000000000001",
+    sentAt: null as string | null,
+    refusedAt: null as string | null,
+  };
+
+  function store(initial = notice) {
+    let current = { ...initial };
+    return {
+      sent: () => current.sentAt,
+      store: {
+        getNotice: async () => current,
+        listUnsent: async () => [],
+        markSent: async () => {
+          current = { ...current, sentAt: "now" };
+        },
+      },
+    };
+  }
+
+  it("envoie le lien pour refuser, une seule fois", async () => {
+    const { notifyParent } = await import("../src/worker/parents");
+    const s = store();
+    const urls: string[] = [];
+    const sender = async (_n: unknown, url: string) => {
+      urls.push(url);
+    };
+    expect(await notifyParent(s.store, sender, "https://atumi.vercel.app/", "u1")).toBe("sent");
+    expect(urls).toEqual(["https://atumi.vercel.app/accord-parental/00000000-0000-4000-8000-000000000001"]);
+    expect(await notifyParent(s.store, sender, "https://atumi.vercel.app", "u1")).toBe("already_sent");
+    expect(urls).toHaveLength(1);
+  });
+
+  it("attend la configuration et n'écrit pas après un refus", async () => {
+    const { notifyParent } = await import("../src/worker/parents");
+    expect(await notifyParent(store().store, null, "https://atumi.vercel.app", "u1")).toBe("not_configured");
+    expect(await notifyParent(store({ ...notice, refusedAt: "x" }).store, async () => {}, "https://a", "u1")).toBe("refused");
+  });
+});

@@ -14,6 +14,8 @@ export const QUEUES = {
   quizGenerate: "quiz-generate",
   /** Message écrit à l'équipe depuis le centre d'aide : envoi par e-mail et WhatsApp. */
   supportNotify: "support-notify",
+  /** Avis au parent d'un lycéen mineur, avec un lien pour refuser l'inscription. */
+  parentNotify: "parent-notify",
 } as const;
 
 export type QueueName = (typeof QUEUES)[keyof typeof QUEUES];
@@ -26,6 +28,7 @@ export const payloadSchemas = {
   [QUEUES.synthesisGenerate]: z.object({ userId: uuid, synthesisId: uuid }),
   [QUEUES.quizGenerate]: z.object({ userId: uuid, quizId: uuid }),
   [QUEUES.supportNotify]: z.object({ requestId: z.number().int().positive() }),
+  [QUEUES.parentNotify]: z.object({ userId: uuid }),
 } satisfies Record<QueueName, z.ZodType>;
 
 export type Payload<Q extends QueueName> = z.infer<(typeof payloadSchemas)[Q]>;

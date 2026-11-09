@@ -31,8 +31,17 @@ describe("inscription", () => {
         cycle: "universite",
         countryCode: "SN",
         guardianPhone: null,
+        isAdult: false,
       },
     });
+  });
+
+  it("un lycéen majeur n'a pas besoin du numéro d'un parent", () => {
+    const adult = parseSignUp({ ...base, cycle: "lycee", isAdult: "on" }, "SN");
+    expect(adult.ok && adult.data).toMatchObject({ guardianPhone: null, isAdult: true });
+    // La case n'a pas d'effet pour un étudiant.
+    const student = parseSignUp({ ...base, isAdult: "on" }, "SN");
+    expect(student.ok && student.data.isAdult).toBe(false);
   });
 
   it("exige le numéro d'un parent pour un lycéen", () => {
