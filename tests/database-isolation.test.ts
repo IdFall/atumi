@@ -530,6 +530,67 @@ describe("isolation des données entre utilisateurs", () => {
     expect((await db.query(`select 1 from public.support_requests`)).rows).toHaveLength(0);
   });
 
+  it("administration : réservée aux administrateurs, sans contenu des élèves, actions journalisées", async () => {
+    // Un élève n'est pas administrateur : chaque fonction le refuse.
+    await asUser(B);
+    expect((await db.query<{ is_admin: boolean }>(`select public.is_admin()`)).rows).toEqual([{ is_admin: false }]);
+    await expect(db.query(`select public.admin_overview(30)`)).rejects.toThrow(/ATUMI_ADMIN_REFUSE/);
+    await expect(db.query(`select * from public.admin_users()`)).rejects.toThrow(/ATUMI_ADMIN_REFUSE/);
+    await expect(
+      db.query(`select public.admin_grant_plan('${B}', 'test-illimite', 'wave', 'WV-1')`),
+    ).rejects.toThrow(/ATUMI_ADMIN_REFUSE/);
+    await expect(db.exec(`insert into public.admins (user_id) values ('${B}')`)).rejects.toThrow();
+    await expect(db.exec(`insert into public.admin_actions (user_id, action) values ('${B}', 'x')`)).rejects.toThrow();
+
+    await asService();
+    await db.exec(`insert into public.admins (user_id) values ('${A}')`);
+
+    await asUser(A);
+    expect((await db.query<{ is_admin: boolean }>(`select public.is_admin()`)).rows).toEqual([{ is_admin: true }]);
+    const overview = await db.query<{ o: { users_total: number; subscribers_active: number } }>(
+      `select public.admin_overview(30) as o`,
+    );
+    expect(overview.rows[0].o.users_total).toBeGreaterThanOrEqual(2);
+
+    // Contacts masqués ; ni cours, ni quiz, ni conversation dans les colonnes.
+    const users = await db.query<Record<string, unknown>>(`select * from public.admin_users('awa')`);
+    expect(users.rows).toHaveLength(1);
+    expect(users.rows[0].contact).toBe("a***@exemple.sn");
+    expect(Object.keys(users.rows[0])).not.toContain("content");
+
+    // Forfait payant créé puis attribué après un paiement Wave reçu à la main.
+    await db.query(
+      `select public.admin_save_plan('sn-mois', 'SN', 'Mois', 3000, 30, 20, 20, 100, 10, 60, false)`,
+    );
+    await expect(
+      db.query(`select public.admin_save_plan('Mauvais code', 'SN', 'X', 0, 30, null, null, null, null, null, false)`),
+    ).rejects.toThrow(/ATUMI_FORFAIT_CODE_INVALIDE/);
+    await db.query(`select public.admin_grant_plan('${B}', 'sn-mois', 'wave', 'WV-58213')`);
+    const subs = await db.query<{ username: string; amount_minor: string; currency: string; status: string }>(
+      `select username, amount_minor::text, currency, status from public.admin_subscriptions('${B}')`,
+    );
+    expect(subs.rows).toEqual([{ username: "bakary", amount_minor: "3000", currency: "XOF", status: "active" }]);
+    // L'essai n'est jamais attribué à la main.
+    await expect(db.query(`select public.admin_grant_plan('${B}', 'sn-essai', 'wave', 'WV-2')`)).rejects.toThrow(
+      /ATUMI_FORFAIT_INCONNU/,
+    );
+
+    const journal = await db.query<{ action: string; target_username: string | null }>(
+      `select action, target_username from public.admin_journal() order by id`,
+    );
+    expect(journal.rows).toEqual([
+      { action: "forfait_cree", target_username: null },
+      { action: "forfait_attribue", target_username: "bakary" },
+    ]);
+
+    // L'élève voit son nouveau droit, pas le journal.
+    await asUser(B);
+    const access = await db.query<{ plan_code: string }>(`select plan_code from public.my_access()`);
+    expect(access.rows).toEqual([{ plan_code: "sn-mois" }]);
+    expect((await db.query(`select 1 from public.admin_actions`)).rows).toHaveLength(0);
+    expect((await db.query(`select 1 from public.admins`)).rows).toHaveLength(0);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);
