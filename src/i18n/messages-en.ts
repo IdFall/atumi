@@ -124,8 +124,11 @@ export const en: Messages = {
   },
   agenda: {
     title: "Planner",
-    intro: "Write down your homework, exams and timetable: ATUMI reminds you.",
-    tabs: { events: "Deadlines", timetable: "Timetable" },
+    intro: "Write down your homework and exam dates: ATUMI reminds you.",
+    timetableTitle: "Timetable",
+    timetableIntro: "Your classes for the week, day by day. You can send it to a parent or a classmate on WhatsApp.",
+    share: "Share on WhatsApp",
+    shareHeading: "My timetable (ATUMI)",
     kinds: { devoir: "Homework", examen: "Exam", autre: "Other" },
     reminders: {
       overdue: "Overdue",
@@ -185,6 +188,7 @@ export const en: Messages = {
     import: "Import",
     tutor: "Prof ATUM",
     agenda: "Planner",
+    timetable: "Timetable",
     help: "Help",
   },
   access: {

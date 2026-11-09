@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { daysBetween, needsReminder, reminderOf, shortTime, slotsByDay, todayIn, weekdayOf } from "@/lib/agenda";
+import {
+  daysBetween,
+  needsReminder,
+  reminderOf,
+  shortTime,
+  slotsByDay,
+  timetableText,
+  todayIn,
+  weekdayOf,
+  whatsappShareUrl,
+} from "@/lib/agenda";
 
 describe("agenda", () => {
   it("donne la date du jour dans le fuseau du pays", () => {
@@ -41,5 +51,19 @@ describe("agenda", () => {
     ]);
     expect(shortTime("08:00:00")).toBe("08:00");
     expect(shortTime(null)).toBeNull();
+  });
+
+  it("prépare l'emploi du temps à partager sur WhatsApp", () => {
+    const names = { 1: "Lundi", 2: "Mardi" } as Record<number, string>;
+    const text = timetableText(
+      "Mon emploi du temps",
+      [
+        { weekday: 2, startsAt: "08:00:00", endsAt: "11:00:00", label: "Physique", place: "Labo" },
+        { weekday: 1, startsAt: "08:00:00", endsAt: "10:00:00", label: "Maths", place: null },
+      ],
+      (d) => names[d],
+    );
+    expect(text).toBe("Mon emploi du temps\n\n*Lundi*\n08:00–10:00 Maths\n\n*Mardi*\n08:00–11:00 Physique (Labo)");
+    expect(whatsappShareUrl("a b&c")).toBe("https://wa.me/?text=a%20b%26c");
   });
 });

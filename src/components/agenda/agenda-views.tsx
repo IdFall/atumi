@@ -7,7 +7,7 @@ import { useActionState, useState } from "react";
 import { ConfirmButton, EDIT_LINK } from "@/components/ui/confirm-button";
 import { useLocale, useT } from "@/i18n/client";
 import { DATE_LOCALES } from "@/i18n/messages";
-import { daysBetween, shortTime, slotsByDay, type Reminder, type Weekday } from "@/lib/agenda";
+import { daysBetween, shortTime, slotsByDay, timetableText, whatsappShareUrl, type Reminder, type Weekday } from "@/lib/agenda";
 import { deleteAgendaItemAction, setEventDoneAction, type AgendaFormState } from "@/server/agenda/actions";
 import type { AgendaEvent, TimetableSlot } from "@/server/agenda/queries";
 
@@ -199,6 +199,19 @@ export function TimetableView({ slots, todayWeekday, modules }: { slots: Timetab
   return (
     <div className="flex flex-col gap-5">
       <AddToggle label={a.addSlot}>{(close) => <SlotForm modules={modules} weekday={todayWeekday} onClose={close} />}</AddToggle>
+      {days.length > 0 ? (
+        <a
+          href={whatsappShareUrl(timetableText(a.shareHeading, slots, (d) => a.weekdays[d]))}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 rounded-xl border-2 border-[#1f9d55] px-4 py-2.5 font-semibold text-[#14733d] hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-950"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3z" />
+          </svg>
+          {a.share}
+        </a>
+      ) : null}
       {days.length === 0 ? (
         <p className="rounded-xl border border-dashed border-neutral-300 p-6 text-center text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
           {a.emptyTimetable}

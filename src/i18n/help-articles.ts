@@ -141,9 +141,9 @@ Seule la transcription écrite de l'appel est gardée ; aucun enregistrement aud
     {
       id: "agenda",
       title: "Mon agenda et mon emploi du temps",
-      body: `La page « Agenda » (dans le menu) a deux onglets.
-« Échéances » : note tes devoirs, tes examens et tes autres dates (type, quoi, date, heure et module facultatifs, note). Coche le rond quand c'est fait. Les échéances sont rangées en « En retard », « Cette semaine », « Plus tard » et « Fait ».
-« Emploi du temps » : ajoute tes cours de la semaine (matière, jour, heure de début et de fin, salle et module facultatifs). Le jour d'aujourd'hui est signalé.
+      body: `Le menu a deux entrées : « Agenda » et « Emploi du temps ».
+« Agenda » : note tes devoirs, tes examens et tes autres dates (type, quoi, date, heure et module facultatifs, note). Coche le rond quand c'est fait. Les échéances sont rangées en « En retard », « Cette semaine », « Plus tard » et « Fait ».
+« Emploi du temps » : ajoute tes cours de la semaine (matière, jour, heure de début et de fin, salle et module facultatifs). Le jour d'aujourd'hui est signalé. Le bouton « Partager sur WhatsApp » ouvre WhatsApp avec ton emploi du temps déjà écrit : tu choisis à qui l'envoyer (un parent, un camarade). ATUMI n'envoie rien tout seul.
 Rappels : l'accueil affiche « À ne pas oublier » avec tes échéances en retard et celles des 7 prochains jours. Les rappels par WhatsApp ou par notification ne sont pas encore disponibles.
 Chaque échéance et chaque créneau peut être modifié ou supprimé. Si tu supprimes un module, l'échéance reste, sans lien vers le module.
 Ton agenda n'est visible que par toi.`,
@@ -155,7 +155,7 @@ Ton agenda n'est visible que par toi.`,
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
 Pour te déconnecter, appuie sur « Me déconnecter » en bas du tableau de bord.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
-Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda et Aide. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
+Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda, Emploi du temps et Aide. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
 ATUMI est ouvert aux lycéens et aux étudiants.
 Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
@@ -231,9 +231,9 @@ Only the written transcript of the call is kept; no audio or video recording is 
     {
       id: "agenda",
       title: "My planner and timetable",
-      body: `The "Planner" page (in the menu) has two tabs.
-"Deadlines": write down your homework, exams and other dates (type, what, date, optional time and module, note). Tick the circle when it is done. Deadlines are sorted into "Overdue", "This week", "Later" and "Done".
-"Timetable": add your classes for the week (subject, day, start and end time, optional room and module). Today is highlighted.
+      body: `The menu has two entries: "Planner" and "Timetable".
+"Planner": write down your homework, exams and other dates (type, what, date, optional time and module, note). Tick the circle when it is done. Deadlines are sorted into "Overdue", "This week", "Later" and "Done".
+"Timetable": add your classes for the week (subject, day, start and end time, optional room and module). Today is highlighted. The "Share on WhatsApp" button opens WhatsApp with your timetable already written: you choose who to send it to (a parent, a classmate). ATUMI sends nothing on its own.
 Reminders: the home page shows "Don't forget" with your overdue deadlines and those in the next 7 days. Reminders by WhatsApp or notification are not available yet.
 Every deadline and class can be edited or deleted. If you delete a module, the deadline stays, without a link to the module.
 Only you can see your planner.`,
@@ -245,7 +245,7 @@ Only you can see your planner.`,
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
 To sign out, tap "Sign out" at the bottom of the dashboard.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
-The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner and Help. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
+The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner, Timetable and Help. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
 ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {

@@ -130,8 +130,11 @@ const fr = {
   },
   agenda: {
     title: "Agenda",
-    intro: "Note tes devoirs, tes examens et ton emploi du temps : ATUMI te les rappelle.",
-    tabs: { events: "Échéances", timetable: "Emploi du temps" },
+    intro: "Note tes devoirs et tes dates d'examen : ATUMI te les rappelle.",
+    timetableTitle: "Emploi du temps",
+    timetableIntro: "Tes cours de la semaine, jour par jour. Tu peux l'envoyer à un parent ou à un camarade sur WhatsApp.",
+    share: "Partager sur WhatsApp",
+    shareHeading: "Mon emploi du temps (ATUMI)",
     kinds: { devoir: "Devoir", examen: "Examen", autre: "Autre" },
     reminders: {
       overdue: "En retard",
@@ -191,6 +194,7 @@ const fr = {
     import: "Importer",
     tutor: "Prof ATUM",
     agenda: "Agenda",
+    timetable: "Emploi du temps",
     help: "Aide",
   },
   access: {

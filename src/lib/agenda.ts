@@ -54,3 +54,26 @@ export function slotsByDay<T extends { weekday: Weekday; startsAt: string }>(slo
 export function shortTime(value: string | null): string | null {
   return value ? value.slice(0, 5) : null;
 }
+
+/**
+ * Emploi du temps en texte simple, pour le partager (WhatsApp, SMS…).
+ * `dayName` donne le nom du jour dans la langue de l'interface.
+ */
+export function timetableText(
+  title: string,
+  slots: readonly { weekday: Weekday; startsAt: string; endsAt: string; label: string; place: string | null }[],
+  dayName: (weekday: Weekday) => string,
+): string {
+  const days = slotsByDay(slots).map(({ weekday, slots: daySlots }) =>
+    [
+      `*${dayName(weekday)}*`,
+      ...daySlots.map((s) => `${shortTime(s.startsAt)}–${shortTime(s.endsAt)} ${s.label}${s.place ? ` (${s.place})` : ""}`),
+    ].join("\n"),
+  );
+  return [title, ...days].join("\n\n");
+}
+
+/** Lien WhatsApp qui ouvre une conversation avec le texte prêt à envoyer ; l'élève choisit le contact. */
+export function whatsappShareUrl(text: string): string {
+  return `https://wa.me/?text=${encodeURIComponent(text)}`;
+}

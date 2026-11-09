@@ -7,7 +7,7 @@ import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
 
-type NavKey = "home" | "courses" | "import" | "tutor" | "agenda" | "help";
+type NavKey = "home" | "courses" | "import" | "tutor" | "agenda" | "timetable" | "help";
 
 const ITEMS = [
   { href: "/tableau-de-bord", label: "home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
@@ -15,6 +15,7 @@ const ITEMS = [
   { href: "/importer", label: "import", icon: "M12 16V4M7 9l5-5 5 5M4 20h16" },
   { href: "/professeur", label: "tutor", icon: "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" },
   { href: "/agenda", label: "agenda", icon: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M8 2v4M16 2v4M8 14h2M14 14h2M8 17h2" },
+  { href: "/emploi-du-temps", label: "timetable", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2" },
   { href: "/aide", label: "help", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01" },
 ] as const satisfies readonly { href: string; label: NavKey; icon: string }[];
 
@@ -55,7 +56,7 @@ export function NavBar({ pathname }: { pathname: string | null }) {
         aria-label={t.nav.label}
         className="fixed inset-x-0 bottom-0 z-10 border-t border-neutral-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden dark:border-neutral-800 dark:bg-neutral-950"
       >
-        <ul className="mx-auto grid max-w-xl grid-cols-6">
+        <ul className="mx-auto grid max-w-xl grid-cols-7">
           {ITEMS.map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -63,7 +64,7 @@ export function NavBar({ pathname }: { pathname: string | null }) {
                 <Link
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex min-h-14 flex-col items-center justify-center gap-1 text-[10px] font-medium ${
+                  className={`flex min-h-14 flex-col items-center justify-center gap-1 px-0.5 text-center text-[10px] font-medium leading-tight ${
                     active ? "text-primary" : "text-neutral-600 dark:text-neutral-400"
                   }`}
                 >
