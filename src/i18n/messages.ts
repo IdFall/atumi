@@ -141,6 +141,19 @@ const fr = {
       studyAction: "Faire la synthèse et le quiz",
       moduleHint: "Ton cours est prêt : choisis un chapitre et lance sa synthèse, puis le quiz.",
     },
+    manage: {
+      edit: "Modifier",
+      delete: "Supprimer",
+      deleting: "Suppression…",
+      save: "Enregistrer",
+      cancel: "Annuler",
+      newName: "Nouveau nom",
+      confirm: {
+        module: "Supprimer le module « {name} », ses chapitres, ses documents, ses synthèses et ses quiz ? C'est définitif, et les imports déjà faits restent comptés dans ton forfait.",
+        chapter: "Supprimer le chapitre « {name} » et ses documents ? C'est définitif, et les imports déjà faits restent comptés dans ton forfait.",
+        document: "Supprimer le document « {name} » ? C'est définitif, et cet import reste compté dans ton forfait.",
+      },
+    },
     errors: {
       nameRequired: "Donne un nom (120 caractères au plus).",
       titleRequired: "Donne un titre (200 caractères au plus).",
@@ -251,8 +264,17 @@ const fr = {
       expliquer: "Explication",
       approfondir: "Approfondir le chapitre",
       exercer: "S'exercer",
-      decouvrir: "Découvrir un sujet",
+      decouvrir: "Culture générale",
     },
+    erase: {
+      one: "Effacer",
+      all: "Tout effacer",
+      conversation: "Effacer cette conversation",
+      confirmOne: "Effacer cette conversation ? Elle disparaîtra définitivement ; les messages envoyés restent comptés dans ton forfait.",
+      confirmAll: "Effacer toutes tes conversations avec Prof ATUMI ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
+    },
+    languageNotice: "Prof ATUMI te répond en {language}.",
+    languageNames: { fr: "français", en: "anglais", wo: "wolof" },
     call: {
       start: "Appeler Prof ATUMI",
       title: "Appel avec Prof ATUMI",

@@ -9,7 +9,7 @@ import { setTutorLanguageAction } from "@/server/tutor/actions";
 const t = getMessages("fr");
 
 const TABS = ["expliquer", "exercer", "decouvrir"] as const satisfies readonly TutorMode[];
-const TAB_LABEL = { expliquer: t.tutor.modes.expliquer, exercer: t.tutor.modes.exercer, decouvrir: "Découvrir" } as const;
+const TAB_LABEL = { expliquer: t.tutor.modes.expliquer, exercer: t.tutor.modes.exercer, decouvrir: t.tutor.modes.decouvrir } as const;
 
 /** En-tête commun : avatar, langue de réponse, modes. */
 export function TutorHeader({
@@ -53,6 +53,9 @@ export function TutorHeader({
           </button>
         ))}
       </form>
+      <p role="status" className="-mt-1 text-xs text-neutral-600 dark:text-neutral-300">
+        {t.tutor.languageNotice.replace("{language}", t.tutor.languageNames[language])}
+      </p>
 
       <nav className="flex gap-1 rounded-xl bg-neutral-100 p-1 text-sm dark:bg-neutral-800">
         {TABS.map((tab) => (

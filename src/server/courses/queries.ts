@@ -49,6 +49,7 @@ export interface ModuleDocument {
   pageCount: number | null;
   errorMessage: string | null;
   chapterId: string | null;
+  moduleId: string;
 }
 
 export interface ModuleDetail {
@@ -80,6 +81,7 @@ export async function getModule(moduleId: string): Promise<ModuleDetail | null> 
       pageCount: d.page_count,
       errorMessage: d.error_message,
       chapterId: d.chapter_id,
+      moduleId: data.id,
     }));
 
   return {

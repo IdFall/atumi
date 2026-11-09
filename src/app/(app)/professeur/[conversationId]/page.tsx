@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { TutorComposer } from "@/components/tutor/composer";
+import { EraseButton } from "@/components/tutor/erase-button";
 import { MessageList } from "@/components/tutor/message-list";
 import { TutorHeader } from "@/components/tutor/tutor-header";
 import { getMessages } from "@/i18n/messages";
@@ -64,6 +65,9 @@ async function ConversationView({ params }: { params: Props["params"] }) {
         messageLimit={settings.messageLimit}
         quickReplies={conversation.mode === "expliquer" || conversation.mode === "approfondir" || conversation.mode === "decouvrir"}
       />
+      <div className="flex justify-end">
+        <EraseButton conversationId={conversation.id} redirectAfter />
+      </div>
     </>
   );
 }

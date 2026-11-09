@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { getMessages } from "@/i18n/messages";
 import type { ModuleSummary } from "@/server/courses/queries";
+import { ItemActions } from "@/components/courses/item-actions";
 import { studyPath } from "@/server/study/paths";
 
 const t = getMessages("fr");
@@ -28,6 +29,7 @@ export function ModuleCard({ module }: { module: ModuleSummary }) {
         ) : null}
       </Link>
       <NextStepAction module={module} />
+      <ItemActions kind="module" id={module.id} moduleId={module.id} name={module.name} />
     </div>
   );
 }

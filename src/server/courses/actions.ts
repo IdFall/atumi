@@ -13,6 +13,8 @@ import { parseChapterTitle, parseImport, parseModuleName } from "./schemas";
 
 export interface CoursesFormState {
   error?: CoursesErrorKey;
+  /** Modification enregistrée (formulaire « Modifier »). */
+  saved?: boolean;
 }
 
 function field(formData: FormData, name: string): string {

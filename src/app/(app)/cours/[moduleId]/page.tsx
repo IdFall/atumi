@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { z } from "zod";
 
 import { InlineCreateForm } from "@/components/courses/inline-create-form";
+import { ItemActions } from "@/components/courses/item-actions";
 import { plural } from "@/components/courses/module-card";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { getMessages } from "@/i18n/messages";
@@ -41,6 +42,7 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
       <PendingRefresh active={pending} />
       <header className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold">{detail.name}</h1>
+        <ItemActions kind="module" id={detail.id} moduleId={detail.id} name={detail.name} />
         <p className="text-sm text-neutral-600 dark:text-neutral-300">
           {plural(detail.chapters.length, t.courses.chapters)} · {plural(all.length, t.courses.documents)}
         </p>
@@ -68,7 +70,10 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
             {detail.chapters.map((chapter) => (
               <li key={chapter.id} className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
                 <div className="flex items-baseline justify-between gap-3">
-                  <strong>{chapter.title}</strong>
+                  <span className="flex min-w-0 flex-col gap-1">
+                    <strong>{chapter.title}</strong>
+                    <ItemActions kind="chapter" id={chapter.id} moduleId={detail.id} name={chapter.title} />
+                  </span>
                   <Link href={`/importer?module=${detail.id}&chapitre=${chapter.id}`} className="text-sm font-medium text-primary dark:text-lavande">
                     {t.nav.import}
                   </Link>
@@ -141,6 +146,7 @@ function DocumentList({ documents }: { documents: ModuleDocument[] }) {
           {d.status === "failed" && d.errorMessage ? (
             <span className="text-red-700 dark:text-red-400">{d.errorMessage}</span>
           ) : null}
+          <ItemActions kind="document" id={d.id} moduleId={d.moduleId} name={d.title} />
         </li>
       ))}
     </ul>
