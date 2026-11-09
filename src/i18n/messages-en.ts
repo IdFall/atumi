@@ -220,6 +220,14 @@ export const en: Messages = {
       unknown: "Something went wrong. Try again.",
     },
   },
+  board: {
+    title: "Prof ATUM's board",
+    expand: "Full screen",
+    close: "Close",
+    schema: "Diagram",
+    imageSource: "Wikimedia Commons (author and licence)",
+    boxes: { definition: "Definition", retenir: "Key points", exemple: "Example", attention: "Watch out", methode: "Method" },
+  },
   tools: {
     intro: "Tools that work without AI and do not count towards your plan.",
     calculator: {

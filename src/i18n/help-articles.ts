@@ -128,6 +128,7 @@ Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te pro
       title: "Le professeur IA",
       body: `Le professeur répond à partir de tes cours importés et cite les pages utilisées.
 Modes : « Explication » (une question précise), « Approfondir le chapitre » (tout un chapitre, étape par étape), « S'exercer » (aide sur un exercice) et « Culture générale » (un sujet simple, même hors de tes cours).
+En « Explication », « Approfondir le chapitre » et « Culture générale », le professeur explique sur un tableau : formules, symboles, encadrés (définition, exemple, attention, à retenir), schémas, tableaux et, au besoin, images libres de Wikimedia Commons. Le bouton « Plein écran » agrandit le tableau.
 Tu peux effacer une conversation (bouton « Effacer ») ou toutes tes conversations (« Tout effacer ») ; les messages envoyés restent comptés dans ton forfait.
 En mode « S'exercer », le professeur donne la solution seulement après ta propre tentative : il commence par des indices.
 Tu peux choisir la langue de réponse : français, anglais ou wolof (bêta) selon ton pays.
@@ -229,6 +230,7 @@ If you disagree with a correction, you can dispute it: ATUMI suggests taking a n
       title: "The AI teacher",
       body: `The teacher answers from your imported courses and cites the pages used.
 Modes: "Explanation" (a specific question), "Go deeper into the chapter" (a whole chapter, step by step), "Practise" (help with an exercise) and "General knowledge" (a simple topic, even outside your courses).
+In "Explanation", "Go deeper into the chapter" and "General knowledge", the teacher explains on a board: formulas, symbols, boxes (definition, example, watch out, key points), diagrams, tables and, when useful, free images from Wikimedia Commons. The "Full screen" button enlarges the board.
 You can erase a conversation ("Erase" button) or all your conversations ("Erase all"); the messages you sent still count in your plan.
 In "Practise" mode, the teacher gives the solution only after your own attempt: it starts with hints.
 You can choose the language of the answers: French, English or Wolof (beta) depending on your country.

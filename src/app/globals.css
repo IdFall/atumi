@@ -57,3 +57,20 @@ body {
 .document-content img { max-width: 100%; height: auto; }
 .document-content table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
 .document-content td, .document-content th { border: 1px solid #d4d4d4; padding: 0.25rem 0.5rem; vertical-align: top; }
+
+/* Tableau d'explication du Prof ATUM : papier quadrillé discret. */
+.board-grid {
+  background-image:
+    linear-gradient(to right, rgb(7 26 51 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(7 26 51 / 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+@media (prefers-color-scheme: dark) {
+  .board-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  }
+}
+.katex { font-size: 1.1em; }
+.katex-display { margin: 0.25rem 0; overflow-x: auto; overflow-y: hidden; }

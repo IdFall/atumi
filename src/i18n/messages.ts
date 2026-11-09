@@ -226,6 +226,14 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie.",
     },
   },
+  board: {
+    title: "Tableau du Prof ATUM",
+    expand: "Plein écran",
+    close: "Fermer",
+    schema: "Schéma",
+    imageSource: "Wikimedia Commons (auteur et licence)",
+    boxes: { definition: "Définition", retenir: "À retenir", exemple: "Exemple", attention: "Attention", methode: "Méthode" },
+  },
   tools: {
     intro: "Des outils qui marchent sans IA et sans compter dans ton forfait.",
     calculator: {
