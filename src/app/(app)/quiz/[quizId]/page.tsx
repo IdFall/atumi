@@ -7,16 +7,18 @@ import { StudyActionButton } from "@/components/study/action-button";
 import { ContestForm } from "@/components/study/contest-form";
 import { QuizForm } from "@/components/study/quiz-form";
 import { ScoreGauge } from "@/components/study/score-gauge";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { startQuizAction } from "@/server/study/actions";
 import { studyPath } from "@/server/study/paths";
 import { getQuizView, type QuizView } from "@/server/study/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.quiz.title} · ${t.app.name}` };
+}
 
-export const metadata: Metadata = { title: `${t.quiz.title} · ${t.app.name}` };
-
-export default function QuizPage({ params }: PageProps<"/quiz/[quizId]">) {
+export default async function QuizPage({ params }: PageProps<"/quiz/[quizId]">) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-5 px-4 py-8">
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
@@ -27,6 +29,7 @@ export default function QuizPage({ params }: PageProps<"/quiz/[quizId]">) {
 }
 
 async function Quiz({ params }: { params: PageProps<"/quiz/[quizId]">["params"] }) {
+  const t = await getT();
   const { quizId } = await params;
   const quiz = await getQuizView(quizId);
   if (!quiz) return <p className="text-neutral-600 dark:text-neutral-300">{t.quiz.notFoundQuiz}</p>;
@@ -63,7 +66,8 @@ async function Quiz({ params }: { params: PageProps<"/quiz/[quizId]">["params"] 
   );
 }
 
-function Correction({ quiz, back }: { quiz: QuizView; back: string }) {
+async function Correction({ quiz, back }: { quiz: QuizView; back: string }) {
+  const t = await getT();
   const correction = quiz.correction!;
   return (
     <>

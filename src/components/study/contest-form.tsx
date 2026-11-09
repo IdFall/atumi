@@ -2,13 +2,12 @@
 
 import { useActionState, useState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { contestAnswerAction, type ContestState } from "@/server/study/actions";
-
-const t = getMessages("fr");
 
 /** Contestation : la réponse est toujours la même, sans débat (décision V1). */
 export function ContestForm({ answerId, alreadyContested }: { answerId: string; alreadyContested: boolean }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState<ContestState, FormData>(contestAnswerAction, {});
 

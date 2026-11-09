@@ -4,18 +4,21 @@ import { Suspense } from "react";
 import { z } from "zod";
 
 import { InlineCreateForm } from "@/components/courses/inline-create-form";
+import { ItemActions } from "@/components/courses/item-actions";
 import { plural } from "@/components/courses/module-card";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { createChapterAction } from "@/server/courses/actions";
 import { studyPath } from "@/server/study/paths";
 import { getModule, type ModuleDocument } from "@/server/courses/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.courses.title} · ${t.app.name}` };
+}
 
-export const metadata: Metadata = { title: `${t.courses.title} · ${t.app.name}` };
-
-export default function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
+export default async function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
       <Link href="/cours" className="text-sm text-primary dark:text-lavande">
@@ -29,6 +32,7 @@ export default function ModulePage({ params }: PageProps<"/cours/[moduleId]">) {
 }
 
 async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">["params"] }) {
+  const t = await getT();
   const { moduleId } = await params;
   const detail = z.uuid().safeParse(moduleId).success ? await getModule(moduleId) : null;
   if (!detail) return <p className="text-neutral-600 dark:text-neutral-300">{t.courses.notFound}</p>;
@@ -41,10 +45,17 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
       <PendingRefresh active={pending} />
       <header className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold">{detail.name}</h1>
+        <ItemActions kind="module" id={detail.id} moduleId={detail.id} name={detail.name} />
         <p className="text-sm text-neutral-600 dark:text-neutral-300">
           {plural(detail.chapters.length, t.courses.chapters)} · {plural(all.length, t.courses.documents)}
         </p>
       </header>
+
+      {all.some((d) => d.status === "ready") ? (
+        <p role="status" className="rounded-xl border border-primary/30 bg-primary-soft px-4 py-3 text-sm font-medium text-nuit dark:bg-primary-strong/25 dark:text-lavande">
+          {t.courses.nextStep.moduleHint}
+        </p>
+      ) : null}
 
       <Link
         href={`/importer?module=${detail.id}`}
@@ -62,14 +73,20 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
             {detail.chapters.map((chapter) => (
               <li key={chapter.id} className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
                 <div className="flex items-baseline justify-between gap-3">
-                  <strong>{chapter.title}</strong>
+                  <span className="flex min-w-0 flex-col gap-1">
+                    <strong>{chapter.title}</strong>
+                    <ItemActions kind="chapter" id={chapter.id} moduleId={detail.id} name={chapter.title} />
+                  </span>
                   <Link href={`/importer?module=${detail.id}&chapitre=${chapter.id}`} className="text-sm font-medium text-primary dark:text-lavande">
                     {t.nav.import}
                   </Link>
                 </div>
                 {chapter.documents.some((d) => d.status === "ready") ? (
-                  <Link href={studyPath(detail.id, chapter.id)} className="mt-2 inline-block text-sm font-semibold text-primary dark:text-lavande">
-                    {t.study.openSynthesis} ›
+                  <Link
+                    href={studyPath(detail.id, chapter.id)}
+                    className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-primary-strong"
+                  >
+                    {t.courses.nextStep.studyAction} ›
                   </Link>
                 ) : null}
                 <DocumentList moduleId={detail.id} documents={chapter.documents} />
@@ -108,7 +125,8 @@ const STATUS_STYLES = {
   failed: "bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-100",
 } as const;
 
-function DocumentList({ moduleId, documents }: { moduleId: string; documents: ModuleDocument[] }) {
+async function DocumentList({ moduleId, documents }: { moduleId: string; documents: ModuleDocument[] }) {
+  const t = await getT();
   if (documents.length === 0) {
     return <p className="mt-2 text-sm text-neutral-500">{t.courses.noDocument}</p>;
   }
@@ -136,6 +154,7 @@ function DocumentList({ moduleId, documents }: { moduleId: string; documents: Mo
           {d.status === "failed" && d.errorMessage ? (
             <span className="text-red-700 dark:text-red-400">{d.errorMessage}</span>
           ) : null}
+          <ItemActions kind="document" id={d.id} moduleId={d.moduleId} name={d.title} />
         </li>
       ))}
     </ul>

@@ -6,16 +6,18 @@ import { HelpAskForm } from "@/components/help/ask-form";
 import { ContactTeamForm } from "@/components/help/contact-form";
 import { SynthesisContent } from "@/components/study/synthesis-content";
 import { FEATURED_ARTICLES, type HelpArticle } from "@/i18n/help-articles";
-import { getMessages } from "@/i18n/messages";
+import { getLocale, getT } from "@/i18n/server";
 import { getCurrentUser } from "@/server/auth/session";
 import { rateHelpAnswerAction } from "@/server/help/actions";
 import { articlesForCountry, listRecentHelpQuestions, type HelpQuestion } from "@/server/help/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: t.help.title };
+}
 
-export const metadata: Metadata = { title: t.help.title };
-
-export default function HelpPage({ searchParams }: PageProps<"/aide">) {
+export default async function HelpPage({ searchParams }: PageProps<"/aide">) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-5 px-4 py-8">
       <header className="flex flex-col gap-1">
@@ -30,12 +32,13 @@ export default function HelpPage({ searchParams }: PageProps<"/aide">) {
 }
 
 async function HelpContent({ searchParams }: { searchParams: PageProps<"/aide">["searchParams"] }) {
+  const t = await getT();
   const [{ article: articleParam }, user, recent] = await Promise.all([
     searchParams,
     getCurrentUser(),
     listRecentHelpQuestions(),
   ]);
-  const articles = articlesForCountry(user.countryCode);
+  const articles = articlesForCountry(user.countryCode, await getLocale());
   const selected = typeof articleParam === "string" ? articles.find((a) => a.id === articleParam) : undefined;
 
   return (
@@ -79,7 +82,8 @@ async function HelpContent({ searchParams }: { searchParams: PageProps<"/aide">[
   );
 }
 
-function ArticleView({ article }: { article: HelpArticle }) {
+async function ArticleView({ article }: { article: HelpArticle }) {
+  const t = await getT();
   return (
     <article className="flex flex-col gap-2 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-nuit">
       <h2 className="text-lg font-semibold">{article.title}</h2>
@@ -95,7 +99,8 @@ function ArticleView({ article }: { article: HelpArticle }) {
   );
 }
 
-function QuestionView({ question }: { question: HelpQuestion }) {
+async function QuestionView({ question }: { question: HelpQuestion }) {
+  const t = await getT();
   return (
     <div className="flex flex-col gap-2">
       <p className="max-w-[85%] self-end whitespace-pre-wrap rounded-2xl rounded-br-sm bg-primary px-4 py-2.5 text-white">

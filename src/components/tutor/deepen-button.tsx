@@ -2,13 +2,12 @@
 
 import { useActionState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { sendTutorMessageAction, type TutorFormState } from "@/server/tutor/actions";
-
-const t = getMessages("fr");
 
 /** Lance le mode « approfondir » : explication complète du chapitre, étape par étape. */
 export function DeepenButton({ moduleId, chapterId }: { moduleId: string; chapterId: string }) {
+  const t = useT();
   const [state, formAction, pending] = useActionState<TutorFormState, FormData>(sendTutorMessageAction, {});
   return (
     <form action={formAction} className="flex flex-col gap-1">

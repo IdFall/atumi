@@ -1,6 +1,6 @@
 import "server-only";
 
-import { getCountry } from "@/config/countries";
+import { getCountry, type Locale } from "@/config/countries";
 import { helpArticles, type HelpArticle } from "@/i18n/help-articles";
 import { createUserClient } from "@/lib/supabase/server";
 
@@ -15,8 +15,8 @@ export interface HelpQuestion {
 const RECENT_SIZE = 5;
 
 /** Articles d'aide adaptés au pays de l'utilisateur (moyens de paiement). */
-export function articlesForCountry(countryCode: string): HelpArticle[] {
-  return helpArticles({ paymentMethods: getCountry(countryCode)?.paymentMethods ?? [] });
+export function articlesForCountry(countryCode: string, locale: Locale = "fr"): HelpArticle[] {
+  return helpArticles({ paymentMethods: getCountry(countryCode)?.paymentMethods ?? [] }, locale);
 }
 
 /** Dernières questions de l'utilisateur connecté, de la plus ancienne à la plus récente. */

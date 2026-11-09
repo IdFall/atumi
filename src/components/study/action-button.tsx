@@ -2,10 +2,8 @@
 
 import { useActionState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import type { StudyFormState } from "@/server/study/actions";
-
-const t = getMessages("fr");
 
 /** Bouton qui lance une préparation (synthèse ou quiz) et affiche l'erreur éventuelle. */
 export function StudyActionButton({
@@ -21,6 +19,7 @@ export function StudyActionButton({
   label: string;
   variant?: "primary" | "secondary";
 }) {
+  const t = useT();
   const [state, formAction, pending] = useActionState(action, {});
   return (
     <form action={formAction} className="flex flex-col gap-2">

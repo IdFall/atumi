@@ -1,10 +1,9 @@
 import { fill } from "@/i18n/format";
-import { getMessages } from "@/i18n/messages";
-
-const t = getMessages("fr");
+import { getT } from "@/i18n/server";
 
 /** Jauge des réponses trouvées et non trouvées, avec le nombre puis le pourcentage. */
-export function ScoreGauge({ correct, total }: { correct: number; total: number }) {
+export async function ScoreGauge({ correct, total }: { correct: number; total: number }) {
+  const t = await getT();
   const percent = total === 0 ? 0 : Math.round((correct / total) * 100);
   const missed = total - correct;
   const label = fill(correct > 1 ? t.quiz.scorePlural : t.quiz.score, { correct, total, percent });

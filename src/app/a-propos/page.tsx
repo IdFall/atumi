@@ -2,14 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { BackLink } from "@/components/about/back-link";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 
-const t = getMessages("fr");
-
-export const metadata: Metadata = { title: `${t.about.title} · ${t.app.name}` };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.about.title} · ${t.app.name}` };
+}
 
 /** Présentation publique d'ATUMI et de Prof ATUMI : objectif, rôle, modes. */
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
       <BackLink label={t.about.back} />

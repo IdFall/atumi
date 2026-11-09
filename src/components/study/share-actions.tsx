@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { toHtml, toPlainText } from "@/lib/export-text";
-
-const t = getMessages("fr");
 
 const buttonClass =
   "flex min-h-10 items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-3 text-sm font-medium dark:border-neutral-700 dark:bg-neutral-900";
@@ -15,6 +13,7 @@ const buttonClass =
  * (menu du téléphone : WhatsApp, e-mail…, sinon lien WhatsApp).
  */
 export function ShareActions({ title, markdown }: { title: string; markdown: string }) {
+  const t = useT();
   const [copied, setCopied] = useState(false);
 
   async function copy() {

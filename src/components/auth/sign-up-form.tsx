@@ -5,13 +5,13 @@ import { useActionState, useState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
 import { defaultCountry, requiresParentalConsent, type Cycle } from "@/config/countries";
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { signUpAction, type FormState } from "@/server/auth/actions";
 
-const t = getMessages("fr");
 const CYCLES = defaultCountry().openCycles;
 
 export function SignUpForm() {
+  const t = useT();
   const [state, formAction, pending] = useActionState<FormState, FormData>(signUpAction, {});
   const [cycle, setCycle] = useState<string>(state.values?.cycle ?? "");
   const err = (name: string) => {

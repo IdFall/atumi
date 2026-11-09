@@ -1,5 +1,7 @@
 import type { Locale } from "@/config/countries";
 
+import { en } from "./messages-en";
+
 /**
  * Tous les textes visibles de l'interface passent par ce dictionnaire.
  * Ajouter une langue = ajouter un objet du même type `Messages`.
@@ -48,9 +50,9 @@ const fr = {
     profIntro:
       "Prof ATUMI est ton professeur particulier IA. Il répond à partir de tes cours et te dit quand une explication n'en vient pas.",
     profModes: [
-      { title: "Expliquer", body: "une notion ou tout un chapitre, étape par étape." },
+      { title: "Explication", body: "une notion ou tout un chapitre, étape par étape." },
       { title: "S'exercer", body: "de l'aide sur un exercice, avec des indices ; la solution vient après ta propre tentative." },
-      { title: "Découvrir", body: "un sujet simple, même hors de tes cours, avec des exemples de tous les jours." },
+      { title: "Culture générale", body: "un sujet simple, même hors de tes cours, avec des exemples de tous les jours." },
     ],
     profRule: "Sa règle d'or : te faire réfléchir avant de te donner la réponse.",
     profLanguages: "Tu choisis la langue de ses réponses parmi celles proposées dans ton pays.",
@@ -164,6 +166,28 @@ const fr = {
       failed: "Illisible",
     },
     pages: "pages",
+    nextStep: {
+      importLabel: "À faire : importer un cours",
+      importAction: "Importer un cours",
+      readingLabel: "ATUMI lit ton cours…",
+      readingHint: "La synthèse et le quiz seront disponibles dès la fin de la lecture.",
+      studyLabel: "Prêt à réviser",
+      studyAction: "Faire la synthèse et le quiz",
+      moduleHint: "Ton cours est prêt : choisis un chapitre et lance sa synthèse, puis le quiz.",
+    },
+    manage: {
+      edit: "Modifier",
+      delete: "Supprimer",
+      deleting: "Suppression…",
+      save: "Enregistrer",
+      cancel: "Annuler",
+      newName: "Nouveau nom",
+      confirm: {
+        module: "Supprimer le module « {name} », ses chapitres, ses documents, ses synthèses et ses quiz ? C'est définitif, et les imports déjà faits restent comptés dans ton forfait.",
+        chapter: "Supprimer le chapitre « {name} » et ses documents ? C'est définitif, et les imports déjà faits restent comptés dans ton forfait.",
+        document: "Supprimer le document « {name} » ? C'est définitif, et cet import reste compté dans ton forfait.",
+      },
+    },
     errors: {
       nameRequired: "Donne un nom (120 caractères au plus).",
       titleRequired: "Donne un titre (200 caractères au plus).",
@@ -289,11 +313,20 @@ const fr = {
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "bêta",
     modes: {
-      expliquer: "Expliquer",
+      expliquer: "Explication",
       approfondir: "Approfondir le chapitre",
       exercer: "S'exercer",
-      decouvrir: "Découvrir un sujet",
+      decouvrir: "Culture générale",
     },
+    erase: {
+      one: "Effacer",
+      all: "Tout effacer",
+      conversation: "Effacer cette conversation",
+      confirmOne: "Effacer cette conversation ? Elle disparaîtra définitivement ; les messages envoyés restent comptés dans ton forfait.",
+      confirmAll: "Effacer toutes tes conversations avec Prof ATUMI ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
+    },
+    languageNotice: "Prof ATUMI te répond en {language}.",
+    languageNames: { fr: "français", en: "anglais", wo: "wolof" },
     call: {
       start: "Appeler Prof ATUMI",
       title: "Appel avec Prof ATUMI",
@@ -368,6 +401,11 @@ const fr = {
       unknown: "Une erreur est survenue. Réessaie dans un instant.",
     },
   },
+  locale: {
+    label: "Langue de l'interface",
+    names: { fr: "FR", en: "EN" },
+    titles: { fr: "Français", en: "English" },
+  },
 } as const;
 
 type DeepString<T> = T extends string
@@ -384,7 +422,10 @@ export type ImportErrorKey = keyof typeof fr.import.errors;
 export type StudyErrorKey = keyof typeof fr.study.errors;
 export type HelpErrorKey = keyof typeof fr.help.errors;
 
-const dictionaries: Record<Locale, Messages> = { fr };
+const dictionaries: Record<Locale, Messages> = { fr, en };
+
+/** Format des dates selon la langue de l'interface. */
+export const DATE_LOCALES: Record<Locale, string> = { fr: "fr-SN", en: "en-GB" };
 
 export function getMessages(locale: Locale = "fr"): Messages {
   return dictionaries[locale] ?? dictionaries.fr;

@@ -2,12 +2,11 @@
 
 import { useActionState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import { contactTeamAction, type HelpFormState } from "@/server/help/actions";
 
-const t = getMessages("fr");
-
 export function ContactTeamForm() {
+  const t = useT();
   const [state, formAction, pending] = useActionState<HelpFormState, FormData>(contactTeamAction, {});
   if (state.sent) {
     return (

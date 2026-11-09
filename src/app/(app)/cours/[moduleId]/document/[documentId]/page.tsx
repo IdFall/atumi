@@ -5,18 +5,20 @@ import { z } from "zod";
 
 import { CloseOnEscape } from "@/components/courses/close-on-escape";
 import { DocumentViewer } from "@/components/courses/document-viewer";
-import { getMessages } from "@/i18n/messages";
+import { getT } from "@/i18n/server";
 import { viewerKind } from "@/lib/document-view";
 import { getDocumentFile } from "@/server/courses/queries";
 
-const t = getMessages("fr");
-
-export const metadata: Metadata = { title: `${t.courses.title} · ${t.app.name}` };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.courses.title} · ${t.app.name}` };
+}
 
 type Props = PageProps<"/cours/[moduleId]/document/[documentId]">;
 
 /** Ouvre un document importé dans ATUMI ; « Fermer » ramène au module. */
-export default function DocumentPage({ params }: Props) {
+export default async function DocumentPage({ params }: Props) {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-6">
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
@@ -27,6 +29,7 @@ export default function DocumentPage({ params }: Props) {
 }
 
 async function DocumentDetail({ params }: Pick<Props, "params">) {
+  const t = await getT();
   const { moduleId, documentId } = await params;
   const valid = z.uuid().safeParse(moduleId).success && z.uuid().safeParse(documentId).success;
   const file = valid ? await getDocumentFile(moduleId, documentId) : null;

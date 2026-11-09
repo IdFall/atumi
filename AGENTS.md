@@ -28,7 +28,7 @@ Règles produit à respecter dans le code (décisions V1) :
 Règles techniques :
 
 - Tout ce qui dépend du pays (niveaux, devise, paiement, langue) est une donnée (`src/config/countries.ts`, tables `countries` et `education_levels`), jamais un `if` sur un pays.
-- Tous les textes visibles passent par `src/i18n/messages.ts`.
+- Tous les textes visibles passent par `src/i18n/messages.ts`, en français et en anglais (`messages-en.ts`, même type). Langue de l'interface : cookie `atumi_locale`, lue par `getT()` (serveur) et `useT()` (client) ; articles d'aide dans les deux langues.
 - Chaque table utilisateur porte `user_id`, active RLS et utilise des clés étrangères composites `(id, user_id)`. Ajouter un test dans `tests/database-isolation.test.ts` pour toute nouvelle table.
 - Le client Supabase utilisateur (`createUserClient`) est le défaut ; la clé secrète (`createServiceClient`) est réservée aux workers et aux écritures calculées.
 - Le produit ne parle au modèle qu'à travers `AiProvider` (`src/server/ai/types.ts`) et journalise la consommation dans `ai_usage`.

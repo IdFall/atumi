@@ -2,10 +2,8 @@
 
 import { useActionState } from "react";
 
-import { getMessages } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
 import type { CoursesFormState } from "@/server/courses/actions";
-
-const t = getMessages("fr");
 
 /** Petit formulaire « nom + Créer » pour un module ou un chapitre. */
 export function InlineCreateForm({
@@ -21,6 +19,7 @@ export function InlineCreateForm({
   placeholder: string;
   hidden?: Record<string, string>;
 }) {
+  const t = useT();
   const [state, formAction, pending] = useActionState(action, {});
   return (
     <form action={formAction} className="flex flex-col gap-1 text-sm">

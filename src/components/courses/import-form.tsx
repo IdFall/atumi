@@ -4,13 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { checkFile, isImageMime, resolveMime } from "@/config/documents";
-import { getMessages, type ImportErrorKey } from "@/i18n/messages";
+import { useT } from "@/i18n/client";
+import type { ImportErrorKey } from "@/i18n/messages";
 import { preparePhoto } from "@/lib/prepare-photo";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
 import { registerDocumentAction } from "@/server/courses/actions";
 import { EXTENSION_BY_MIME, IMPORT_KINDS, NEW, type DocumentKind } from "@/server/courses/schemas";
-
-const t = getMessages("fr");
 
 interface ModuleOption {
   id: string;
@@ -21,9 +20,9 @@ interface ModuleOption {
 type Phase = "idle" | "preparing" | "uploading" | "registering";
 
 const PHASE_LABELS = {
-  preparing: t.import.preparingPhoto,
-  uploading: t.import.uploading,
-  registering: t.import.registering,
+  preparing: "preparingPhoto",
+  uploading: "uploading",
+  registering: "registering",
 } as const;
 
 const DOCUMENT_ACCEPT = ".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -53,6 +52,7 @@ export function ImportForm({
   firstImport: boolean;
   photosEnabled: boolean;
 }) {
+  const t = useT();
   const router = useRouter();
   const [moduleId, setModuleId] = useState(initialModuleId || NEW);
   const [chapterId, setChapterId] = useState(initialChapterId);
@@ -240,7 +240,7 @@ export function ImportForm({
       ) : null}
 
       <button type="submit" disabled={busy} className="rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60">
-        {phase === "idle" ? t.import.submit : PHASE_LABELS[phase]}
+        {phase === "idle" ? t.import.submit : t.import[PHASE_LABELS[phase]]}
       </button>
     </form>
   );

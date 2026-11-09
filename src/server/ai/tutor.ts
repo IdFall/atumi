@@ -1,4 +1,4 @@
-import type { Cycle, TutorLanguage } from "@/config/countries";
+import type { Cycle, Locale, TutorLanguage } from "@/config/countries";
 import { getMessages } from "@/i18n/messages";
 import { canRevealSolution } from "@/server/learning/policies";
 
@@ -34,7 +34,8 @@ function citedChunks(text: string, passages: readonly SourcePassage[]): number[]
 }
 
 export async function askTutor(provider: AiProvider, input: TutorInput): Promise<TutorOutput> {
-  const messages = getMessages("fr");
+  // Réponses fixes dans la langue de réponse choisie (le wolof garde le français).
+  const messages = getMessages(input.language === "en" ? "en" : "fr");
   const solutionAllowed = canRevealSolution(input.exerciseAttempts);
 
   const result = await provider.complete({
@@ -57,6 +58,6 @@ export async function askTutor(provider: AiProvider, input: TutorInput): Promise
 }
 
 /** Réponse fixe en cas de contestation : pas d'appel au modèle, pas de débat. */
-export function contestationReply(): string {
-  return getMessages("fr").tutor.contestationReply;
+export function contestationReply(locale: Locale = "fr"): string {
+  return getMessages(locale).tutor.contestationReply;
 }

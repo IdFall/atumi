@@ -420,6 +420,70 @@ describe("isolation des données entre utilisateurs", () => {
     expect(others.rows).toHaveLength(0);
   });
 
+  it("supprimer un cours ou une conversation ne redonne rien au forfait", async () => {
+    const K = "00000000-0000-0000-0000-000000000012";
+    const MODULE_K = "10000000-0000-0000-0000-000000000012";
+    const CONV_K = "20000000-0000-0000-0000-000000000012";
+    await asService();
+    await db.exec(`
+      insert into auth.users (id, phone, raw_user_meta_data) values
+        ('${K}', '221770000012', '{"username": "khady", "cycle": "universite", "cgu_accepted": true}');
+      insert into public.modules (id, user_id, name) values ('${MODULE_K}', '${K}', 'Histoire');
+    `);
+    const importDoc = (title: string) =>
+      db.query<{ id: string }>(
+        `insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+         values ('${K}', '${MODULE_K}', 'cours', '${title}', '${K}/${title}.pdf', 'application/pdf', 1000) returning id`,
+      );
+
+    // L'élève renomme puis supprime son seul import de l'essai : pas de second import.
+    await asUser(K);
+    const doc = await importDoc("cours1");
+    await db.exec(`update public.modules set name = 'Histoire-Géo' where id = '${MODULE_K}'`);
+    await db.exec(`update public.documents set title = 'Chapitre 1' where id = '${doc.rows[0].id}'`);
+    await db.exec(`delete from public.documents where id = '${doc.rows[0].id}'`);
+    await expect(importDoc("cours2")).rejects.toThrow(/QUOTA_IMPORT_ATTEINT/);
+
+    // Un document illisible, lui, ne compte pas, même supprimé.
+    await asService();
+    await db.exec(`delete from public.quota_consumptions where user_id = '${K}'`);
+    await asUser(K);
+    const unreadable = await importDoc("floue");
+    await asService();
+    await db.exec(`update public.documents set status = 'failed' where id = '${unreadable.rows[0].id}'`);
+    await asUser(K);
+    await db.exec(`delete from public.documents where id = '${unreadable.rows[0].id}'`);
+    await importDoc("nette");
+
+    // Conversation effacée : ses messages restent comptés (essai : 3).
+    await db.exec(`insert into public.tutor_conversations (id, user_id, mode) values ('${CONV_K}', '${K}', 'expliquer')`);
+    await asService();
+    await db.exec(`
+      insert into public.tutor_messages (user_id, conversation_id, role, content)
+        select '${K}', '${CONV_K}', r, 'message' from generate_series(1, 3), unnest(array['user', 'assistant']) r;
+      insert into public.quizzes (user_id, module_id) values ('${K}', '${MODULE_K}');
+    `);
+    await asUser(K);
+    await db.exec(`delete from public.tutor_conversations where id = '${CONV_K}'`);
+    // Module supprimé : son quiz reste compté.
+    await db.exec(`delete from public.modules where id = '${MODULE_K}'`);
+    const usage = await db.query(`select documents_used, tutor_messages_used from public.plan_usage()`);
+    expect(usage.rows).toEqual([{ documents_used: 1, tutor_messages_used: 3 }]);
+    const quiz = await db.query(`select used, remaining from public.quiz_quota()`);
+    expect(quiz.rows).toEqual([{ used: 1, remaining: 0 }]);
+
+    // Les traces sont lisibles par leur propriétaire seulement, et jamais écrites par le client.
+    await expect(
+      db.exec(`insert into public.quota_consumptions (user_id, kind, counted_at) values ('${K}', 'document', now())`),
+    ).rejects.toThrow();
+    await expect(db.exec(`delete from public.quota_consumptions`)).rejects.toThrow();
+    await asService();
+    const kept = await db.query<{ n: number }>(`select count(*)::int as n from public.quota_consumptions where user_id = '${K}'`);
+    expect(kept.rows[0].n).toBe(5);
+    await asUser(A);
+    expect((await db.query(`select 1 from public.quota_consumptions`)).rows).toHaveLength(0);
+  });
+
   it("les forfaits ne sont modifiables que par le serveur", async () => {
     await asUser(A);
     await expect(db.exec(`update public.plans set quiz_limit = null`)).rejects.toThrow();

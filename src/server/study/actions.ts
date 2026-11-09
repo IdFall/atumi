@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import type { StudyErrorKey } from "@/i18n/messages";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
+import { getLocale } from "@/i18n/server";
 import { contestationReply } from "@/server/ai/tutor";
 import { requireUserId } from "@/server/auth/session";
 import { enqueue } from "@/server/jobs/client";
@@ -219,5 +220,5 @@ export async function contestAnswerAction(_prev: ContestState, formData: FormDat
   // La clé étrangère (answer_id, user_id) refuse la réponse d'un autre utilisateur.
   const { error } = await supabase.from("contestations").insert({ user_id: userId, answer_id: answerId, reason: reason || null });
   if (error) return { error: true };
-  return { reply: contestationReply() };
+  return { reply: contestationReply(await getLocale()) };
 }

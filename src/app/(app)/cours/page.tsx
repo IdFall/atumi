@@ -3,15 +3,18 @@ import { Suspense } from "react";
 
 import { InlineCreateForm } from "@/components/courses/inline-create-form";
 import { ModuleCard } from "@/components/courses/module-card";
-import { getMessages } from "@/i18n/messages";
+import { PendingRefresh } from "@/components/courses/pending-refresh";
+import { getT } from "@/i18n/server";
 import { createModuleAction } from "@/server/courses/actions";
 import { listModules } from "@/server/courses/queries";
 
-const t = getMessages("fr");
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: `${t.courses.title} · ${t.app.name}` };
+}
 
-export const metadata: Metadata = { title: `${t.courses.title} · ${t.app.name}` };
-
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
       <h1 className="text-2xl font-bold">{t.courses.title}</h1>
@@ -24,6 +27,7 @@ export default function CoursesPage() {
 }
 
 async function ModuleList() {
+  const t = await getT();
   const modules = await listModules();
   if (modules.length === 0) {
     return (
@@ -33,12 +37,15 @@ async function ModuleList() {
     );
   }
   return (
-    <ul className="flex flex-col gap-3">
-      {modules.map((m) => (
-        <li key={m.id}>
-          <ModuleCard module={m} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <PendingRefresh active={modules.some((m) => m.next.kind === "reading")} />
+      <ul className="flex flex-col gap-3">
+        {modules.map((m) => (
+          <li key={m.id}>
+            <ModuleCard module={m} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
