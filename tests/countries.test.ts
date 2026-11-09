@@ -33,10 +33,10 @@ describe("pays", () => {
     expect(isCycleOpen("SN", "maternelle")).toBe(false);
   });
 
-  it("propose le wolof au Sénégal en plus du français et de l'anglais", () => {
+  it("propose le français et l'anglais au Sénégal, le wolof restant en attente", () => {
     expect(isTutorLanguageOffered("SN", "fr")).toBe(true);
     expect(isTutorLanguageOffered("SN", "en")).toBe(true);
-    expect(isTutorLanguageOffered("SN", "wo")).toBe(true);
+    expect(isTutorLanguageOffered("SN", "wo")).toBe(false);
     expect(isTutorLanguageOffered("CI", "wo")).toBe(false);
   });
 

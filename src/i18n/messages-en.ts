@@ -13,7 +13,7 @@ export const en: Messages = {
       "Import your courses (PDF, Word or photo). ATUMI summarises them, Prof ATUM explains on the board what you don't understand, and quizzes help you progress.",
     stats: [
       { value: "PDF · Word · Photo", label: "your courses, as they are" },
-      { value: "FR · EN · Wolof", label: "the teacher speaks your language" },
+      { value: "FR · EN", label: "the teacher speaks your language" },
       { value: "Pages cited", label: "answers drawn from your courses" },
       { value: "24 h", label: "free trial" },
     ],

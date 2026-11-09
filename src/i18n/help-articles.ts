@@ -131,7 +131,7 @@ Modes : « Explication » (une question précise), « Approfondir le chapitre »
 En « Explication », « Approfondir le chapitre » et « Culture générale », le professeur explique sur un tableau : formules, symboles, encadrés (définition, exemple, attention, à retenir), schémas, tableaux et, au besoin, images libres de Wikimedia Commons. Le bouton « Plein écran » agrandit le tableau.
 Tu peux effacer une conversation (bouton « Effacer ») ou toutes tes conversations (« Tout effacer ») ; les messages envoyés restent comptés dans ton forfait.
 En mode « S'exercer », le professeur donne la solution seulement après ta propre tentative : il commence par des indices.
-Tu peux choisir la langue de réponse : français, anglais ou wolof (bêta) selon ton pays.
+Tu peux choisir la langue de réponse : français ou anglais.
 Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai). Les questions posées au centre d'aide ne comptent pas.`,
     },
     {
@@ -139,7 +139,7 @@ Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai)
       title: "Appeler le professeur",
       body: `Avec un forfait qui les inclut, tu peux appeler le Prof ATUM en voix : bouton « Appeler le Prof » sur la page du professeur ou dans une conversation. Les minutes d'appel dépendent du forfait ; le temps restant s'affiche pendant l'appel, qui s'arrête tout seul à la fin de tes minutes (30 minutes au plus par appel). Les appels ne sont pas inclus dans l'essai gratuit.
 Tu peux activer la caméra pour montrer ton cahier ou un exercice. Le navigateur te demande l'accès au micro (et à la caméra) la première fois : accepte-le.
-Pendant l'appel, tu peux couper le micro ou raccrocher. Le professeur parle en français ou en anglais (le wolof n'est pas encore proposé à l'oral) et suit les mêmes règles qu'à l'écrit : il ne donne la solution d'un exercice qu'après ta propre tentative.
+Pendant l'appel, tu peux couper le micro ou raccrocher. Le professeur parle en français ou en anglais et suit les mêmes règles qu'à l'écrit : il ne donne la solution d'un exercice qu'après ta propre tentative.
 Seule la transcription écrite de l'appel est gardée, dans ta conversation ; aucun enregistrement audio ou vidéo n'est conservé. Elle ne compte pas dans tes messages au professeur.`,
     },
     {
@@ -236,7 +236,7 @@ Modes: "Explanation" (a specific question), "Go deeper into the chapter" (a whol
 In "Explanation", "Go deeper into the chapter" and "General knowledge", the teacher explains on a board: formulas, symbols, boxes (definition, example, watch out, key points), diagrams, tables and, when useful, free images from Wikimedia Commons. The "Full screen" button enlarges the board.
 You can erase a conversation ("Erase" button) or all your conversations ("Erase all"); the messages you sent still count in your plan.
 In "Practise" mode, the teacher gives the solution only after your own attempt: it starts with hints.
-You can choose the language of the answers: French, English or Wolof (beta) depending on your country.
+You can choose the language of the answers: French or English.
 Each message sent to the teacher counts in your plan (3 during the trial). Questions asked in the help centre do not count.`,
     },
     {
@@ -244,7 +244,7 @@ Each message sent to the teacher counts in your plan (3 during the trial). Quest
       title: "Calling the teacher",
       body: `With a plan that includes them, you can call Prof ATUM by voice: the "Call the Prof" button on the teacher page or in a conversation. Call minutes depend on the plan; the time left is shown during the call, which stops by itself when your minutes run out (30 minutes at most per call). Calls are not included in the free trial.
 You can turn on the camera to show your notebook or an exercise. The browser asks for access to the microphone (and camera) the first time: accept it.
-During the call, you can mute the microphone or hang up. The teacher speaks French or English (Wolof is not yet offered by voice) and follows the same rules as in writing: it gives the solution to an exercise only after your own attempt.
+During the call, you can mute the microphone or hang up. The teacher speaks French or English and follows the same rules as in writing: it gives the solution to an exercise only after your own attempt.
 Only the written transcript of the call is kept, in your conversation; no audio or video recording is stored. It does not count towards your messages to the teacher.`,
     },
     {

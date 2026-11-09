@@ -18,7 +18,7 @@ const fr = {
       "Importe tes cours (PDF, Word ou photo). ATUMI en fait une synthèse, Prof ATUM t'explique au tableau ce que tu ne comprends pas, et les quiz te font progresser.",
     stats: [
       { value: "PDF · Word · Photo", label: "tes cours, tels quels" },
-      { value: "FR · EN · Wolof", label: "le Prof parle ta langue" },
+      { value: "FR · EN", label: "le Prof parle ta langue" },
       { value: "Pages citées", label: "des réponses tirées de tes cours" },
       { value: "24 h", label: "d'essai gratuit" },
     ],
