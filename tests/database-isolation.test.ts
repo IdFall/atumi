@@ -731,6 +731,42 @@ describe("isolation des données entre utilisateurs", () => {
     expect(kept.rows).toEqual([{ title: "Exercices 3 et 4", module_id: null, user_id: A }]);
   });
 
+  it("la recherche web est écrite par le serveur, limitée par 24 h et reste privée", async () => {
+    await asUser(A);
+    await expect(
+      db.exec(`insert into public.research_questions (user_id, question) values ('${A}', 'triche')`),
+    ).rejects.toThrow();
+
+    await asService();
+    for (let i = 0; i < 10; i++) {
+      await db.exec(`insert into public.research_questions (user_id, question, answer) values ('${A}', 'Question ${i}', 'Réponse')`);
+    }
+    await expect(
+      db.exec(`insert into public.research_questions (user_id, question) values ('${A}', 'de trop')`),
+    ).rejects.toThrow(/QUOTA_RECHERCHE/);
+
+    // Une question sans réponse (IA indisponible), effacée par le serveur, ne compte pas.
+    await db.exec(`delete from public.research_questions where question = 'Question 9'`);
+    await db.exec(`update public.quota_consumptions set amount = 0 where kind = 'research'`);
+    await db.exec(`insert into public.research_questions (user_id, question) values ('${A}', 'sans réponse')`);
+    await db.exec(`delete from public.research_questions where question = 'sans réponse'`);
+    expect((await db.query(`select 1 from public.quota_consumptions where kind = 'research' and amount > 0`)).rows).toHaveLength(0);
+    await db.exec(`insert into public.research_questions (user_id, question, answer) values ('${A}', 'Question 9', 'Réponse')`);
+
+    // Effacer son historique ne redonne pas de recherche.
+    await asUser(A);
+    expect((await db.query<{ remaining: number }>(`select remaining from public.research_quota()`)).rows).toEqual([{ remaining: 0 }]);
+    await db.exec(`delete from public.research_questions where question = 'Question 0'`);
+    expect((await db.query<{ remaining: number }>(`select remaining from public.research_quota()`)).rows).toEqual([{ remaining: 0 }]);
+    await asService();
+    await expect(
+      db.exec(`insert into public.research_questions (user_id, question) values ('${A}', 'encore')`),
+    ).rejects.toThrow(/QUOTA_RECHERCHE/);
+
+    await asUser(B);
+    expect((await db.query(`select 1 from public.research_questions`)).rows).toHaveLength(0);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);

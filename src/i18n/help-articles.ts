@@ -151,12 +151,14 @@ Ton agenda n'est visible que par toi.`,
     },
     {
       id: "recherche",
-      title: "Chercher dans mes cours",
+      title: "Recherche : mes cours, le web et les outils",
       body: `La Recherche (loupe en haut de l'écran sur téléphone, entrée « Recherche » du menu sur ordinateur, ou barre de recherche de l'accueil) retrouve un mot ou une notion dans tous tes cours.
 Elle cherche dans le contenu des pages de tes documents (avec la page et un extrait où le mot est surligné), dans les noms de tes modules, chapitres et documents, et dans ton agenda.
 Écris au moins 2 lettres. Les accents et les majuscules ne comptent pas pour le surlignage ; pour le contenu des pages, la recherche reconnaît aussi les formes proches d'un mot français (pluriel, conjugaison).
 Le bouton « Demander au Prof ATUM » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
-La recherche elle-même ne compte pas dans ton forfait. Elle ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.`,
+L'onglet « Mes cours » ne compte pas dans ton forfait et ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.
+L'onglet « Web (IA) » pose ta question au Prof ATUM, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof ATUM. Vérifie toujours les sources.
+L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire (liens vers le Wiktionnaire et Wikipédia). Les outils sont gratuits et sans limite.`,
     },
     {
       id: "compte",
@@ -250,12 +252,14 @@ Only you can see your planner.`,
     },
     {
       id: "recherche",
-      title: "Searching my courses",
+      title: "Search: my courses, the web and tools",
       body: `Search (the magnifying glass at the top of the screen on a phone, the "Search" menu entry on a computer, or the search bar on the home page) finds a word or topic across all your courses.
 It looks in the content of your documents' pages (with the page and an excerpt where the word is highlighted), in the names of your modules, chapters and documents, and in your planner.
 Type at least 2 letters. Accents and capital letters do not matter for highlighting; for page content, search also recognises close forms of a French word (plural, conjugation).
 The "Ask Prof ATUM" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
-Searching itself does not count towards your plan. It does not search the Internet: only what you imported or wrote down.`,
+The "My courses" tab does not count towards your plan and does not search the Internet: only what you imported or wrote down.
+The "Web (AI)" tab asks Prof ATUM, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof ATUM. Always check the sources.
+The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary (links to Wiktionary and Wikipedia). Tools are free and unlimited.`,
     },
     {
       id: "compte",
