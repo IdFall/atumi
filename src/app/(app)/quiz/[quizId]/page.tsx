@@ -6,6 +6,7 @@ import { ChallengeResults } from "@/components/challenge/challenge-results";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { StudyActionButton } from "@/components/study/action-button";
 import { ContestForm } from "@/components/study/contest-form";
+import { MathText } from "@/components/study/math-text";
 import { QuizForm } from "@/components/study/quiz-form";
 import { ScoreGauge } from "@/components/study/score-gauge";
 import { getT } from "@/i18n/server";
@@ -92,16 +93,24 @@ async function Correction({ quiz, back }: { quiz: QuizView; back: string }) {
               <strong className={a.isCorrect ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"}>
                 {a.isCorrect ? "✓" : "✗"} {t.quiz.question} {index + 1} · {a.isCorrect ? t.quiz.right : t.quiz.wrong}
               </strong>
-              <span>{q.prompt}</span>
+              <span>
+                <MathText text={q.prompt} />
+              </span>
               {!a.isCorrect ? (
                 <span className="text-neutral-700 dark:text-neutral-300">
-                  {t.quiz.yourAnswer} : {a.response === null ? t.quiz.noAnswer : q.choices[a.response]} · {t.quiz.expected} :{" "}
-                  {q.choices[a.expected]}
+                  {t.quiz.yourAnswer} : {a.response === null ? t.quiz.noAnswer : <MathText text={q.choices[a.response] ?? ""} />} · {t.quiz.expected} :{" "}
+                  <MathText text={q.choices[a.expected] ?? ""} />
                 </span>
               ) : (
-                <span className="text-neutral-700 dark:text-neutral-300">{q.choices[a.expected]}</span>
+                <span className="text-neutral-700 dark:text-neutral-300">
+                  <MathText text={q.choices[a.expected] ?? ""} />
+                </span>
               )}
-              {a.explanation ? <span className="text-neutral-700 dark:text-neutral-300">{a.explanation}</span> : null}
+              {a.explanation ? (
+                <span className="text-neutral-700 dark:text-neutral-300">
+                  <MathText text={a.explanation} />
+                </span>
+              ) : null}
               {!a.isCorrect ? <ContestForm answerId={a.answerId} alreadyContested={a.contested} /> : null}
             </li>
           );

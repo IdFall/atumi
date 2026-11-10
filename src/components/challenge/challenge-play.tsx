@@ -7,6 +7,7 @@ import { useActionState } from "react";
 import { fill } from "@/i18n/format";
 import { useT } from "@/i18n/client";
 import { challengeOutcome, PLAYER_NAME_MAX } from "@/lib/challenge";
+import { MathText } from "@/components/study/math-text";
 import { playChallengeAction, type PlayState } from "@/server/challenges/actions";
 import type { PublicChallenge } from "@/server/challenges/queries";
 
@@ -54,11 +55,24 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
                 <strong className={a.isCorrect ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"}>
                   {a.isCorrect ? "✓" : "✗"} {t.quiz.question} {index + 1} · {a.isCorrect ? t.quiz.right : t.quiz.wrong}
                 </strong>
-                <span>{q.prompt}</span>
-                <span className="text-neutral-700 dark:text-neutral-300">
-                  {a.isCorrect ? q.choices[a.expected] : `${t.quiz.yourAnswer} : ${q.choices[a.response]} · ${t.quiz.expected} : ${q.choices[a.expected]}`}
+                <span>
+                  <MathText text={q.prompt} />
                 </span>
-                {a.explanation ? <span className="text-neutral-700 dark:text-neutral-300">{a.explanation}</span> : null}
+                <span className="text-neutral-700 dark:text-neutral-300">
+                  {a.isCorrect ? (
+                    <MathText text={q.choices[a.expected] ?? ""} />
+                  ) : (
+                    <>
+                      {t.quiz.yourAnswer} : <MathText text={q.choices[a.response] ?? ""} /> · {t.quiz.expected} :{" "}
+                      <MathText text={q.choices[a.expected] ?? ""} />
+                    </>
+                  )}
+                </span>
+                {a.explanation ? (
+                  <span className="text-neutral-700 dark:text-neutral-300">
+                    <MathText text={a.explanation} />
+                  </span>
+                ) : null}
               </li>
             );
           })}
@@ -97,7 +111,9 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
           <p className="text-sm font-semibold text-primary-strong dark:text-lavande">
             {t.quiz.question} {index + 1} / {challenge.questions.length}
           </p>
-          <p className="font-medium">{q.prompt}</p>
+          <p className="font-medium">
+            <MathText text={q.prompt} />
+          </p>
           <div className="flex flex-col gap-2">
             {q.choices.map((choice, i) => (
               <label
@@ -105,7 +121,9 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
                 className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-neutral-300 px-3 py-2 has-[:checked]:border-2 has-[:checked]:border-primary has-[:checked]:bg-primary-soft dark:border-neutral-700 dark:has-[:checked]:bg-primary-strong/25"
               >
                 <input type="radio" name={`q-${q.id}`} value={i} required className="size-4 accent-primary" />
-                <span>{choice}</span>
+                <span>
+                  <MathText text={choice} />
+                </span>
               </label>
             ))}
           </div>

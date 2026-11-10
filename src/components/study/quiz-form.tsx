@@ -6,6 +6,8 @@ import { useT } from "@/i18n/client";
 import { submitQuizAction, type SubmitState } from "@/server/study/actions";
 import type { QuizQuestionView } from "@/server/study/queries";
 
+import { MathText } from "./math-text";
+
 export function QuizForm({ quizId, questions }: { quizId: string; questions: QuizQuestionView[] }) {
   const t = useT();
   const [state, formAction, pending] = useActionState<SubmitState, FormData>(submitQuizAction, {});
@@ -20,7 +22,9 @@ export function QuizForm({ quizId, questions }: { quizId: string; questions: Qui
           <p className="text-sm font-semibold text-primary-strong dark:text-lavande">
             {t.quiz.question} {index + 1} / {questions.length}
           </p>
-          <p className="font-medium">{q.prompt}</p>
+          <p className="font-medium">
+            <MathText text={q.prompt} />
+          </p>
           <div className="flex flex-col gap-2">
             {q.choices.map((choice, i) => (
               <label
@@ -28,7 +32,9 @@ export function QuizForm({ quizId, questions }: { quizId: string; questions: Qui
                 className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-neutral-300 px-3 py-2 has-[:checked]:border-2 has-[:checked]:border-primary has-[:checked]:bg-primary-soft dark:border-neutral-700 dark:has-[:checked]:bg-primary-strong/25"
               >
                 <input type="radio" name={`q-${q.id}`} value={i} required className="size-4 accent-primary" />
-                <span>{choice}</span>
+                <span>
+                  <MathText text={choice} />
+                </span>
               </label>
             ))}
           </div>

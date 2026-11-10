@@ -1,11 +1,9 @@
-import "katex/dist/katex.min.css";
-
-import katex from "katex";
 import type { ReactNode } from "react";
 
 import { getT } from "@/i18n/server";
 import { isAllowedImage, isAllowedSourcePage, parseBoard, parseInline, type Block, type BoxKind } from "@/lib/board";
 
+import { renderTex } from "./math-text";
 import { SchemaDiagram } from "./schema-diagram";
 
 /**
@@ -44,17 +42,7 @@ const BOX_ICON: Record<BoxKind, string> = {
   methode: "🧭",
 };
 
-function tex(source: string, displayMode: boolean): string {
-  return katex.renderToString(source, {
-    displayMode,
-    throwOnError: false,
-    trust: false,
-    strict: "ignore",
-    maxSize: 20,
-    maxExpand: 200,
-    output: "htmlAndMathml",
-  });
-}
+const tex = renderTex;
 
 function BlockView({ block, labels }: { block: Block; labels: BoardLabels }): ReactNode {
   switch (block.kind) {
