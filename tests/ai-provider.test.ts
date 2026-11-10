@@ -42,3 +42,26 @@ describe("toAnthropicMessage", () => {
     });
   });
 });
+
+describe("AnthropicProvider : requête refusée", () => {
+  it("renvoie « indisponible » au lieu de lever une erreur sur un refus 4xx", async () => {
+    const { default: Anthropic } = await import("@anthropic-ai/sdk");
+    const refusal = Anthropic.APIError.generate(400, { type: "error", error: { type: "invalid_request_error", message: "outil non activé" } }, "outil non activé", new Headers());
+    const client = { beta: { messages: { create: async () => { throw refusal; } } } } as unknown as InstanceType<typeof Anthropic>;
+    const provider = new AnthropicProvider({ models, client });
+    const original = console.error;
+    console.error = () => {};
+    try {
+      const result = await provider.complete({
+        feature: "research",
+        tier: "standard",
+        system: "consignes",
+        messages: [{ role: "user", content: "question" }],
+        webSearch: { maxUses: 3 },
+      });
+      expect(result).toEqual({ status: "unavailable", reason: "request_400" });
+    } finally {
+      console.error = original;
+    }
+  });
+});

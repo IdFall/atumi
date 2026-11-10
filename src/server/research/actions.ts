@@ -42,12 +42,19 @@ export async function askResearchAction(_prev: ResearchFormState, formData: Form
     .single();
   if (error || !row) return { error: quotaError(error?.message ?? "") };
 
-  const answer = await askResearch(getAiProvider(), {
-    question: parsed.data,
-    cycle: user.cycle,
-    locale: await getLocale(),
-    country: user.countryCode,
-  });
+  let answer: Awaited<ReturnType<typeof askResearch>>;
+  try {
+    answer = await askResearch(getAiProvider(), {
+      question: parsed.data,
+      cycle: user.cycle,
+      locale: await getLocale(),
+      country: user.countryCode,
+    });
+  } catch (cause) {
+    // Erreur imprévue : la question sans réponse ne doit pas rester comptée.
+    await service.from("research_questions").delete().eq("id", row.id);
+    throw cause;
+  }
 
   if (answer.answered) {
     await service.from("research_questions").update({ answer: answer.text, sources: answer.sources }).eq("id", row.id);
