@@ -63,6 +63,10 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
             );
           })}
         </ol>
+
+        <Link href="/inscription" className="rounded-xl bg-gradient-to-r from-primary to-electrique px-4 py-3 text-center font-semibold text-white shadow-md shadow-primary/30">
+          {c.cta}
+        </Link>
       </div>
     );
   }
