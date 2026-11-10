@@ -20,6 +20,15 @@ export const CALL_TRANSCRIPT_MAX_CHARS = 20_000;
 export const CALL_INPUT_RATE = 16_000;
 export const CALL_OUTPUT_RATE = 24_000;
 
+/**
+ * Mémoire de l'appel : au-delà de CALL_CONTEXT_TRIGGER_TOKENS (≈ 5 min d'échange
+ * avec les consignes), le modèle ne garde que les CALL_CONTEXT_TARGET_TOKENS
+ * derniers jetons. Google refacture l'historique à chaque réponse : cette
+ * limite garde le coût d'un appel long proche de celui d'un appel court.
+ */
+export const CALL_CONTEXT_TRIGGER_TOKENS = 16_000;
+export const CALL_CONTEXT_TARGET_TOKENS = 8_000;
+
 /** Langues parlées pendant un appel (le wolof n'est pas encore assez fiable à l'oral). */
 export const CALL_LANGUAGES = ["fr", "en"] as const;
 export type CallLanguage = (typeof CALL_LANGUAGES)[number];

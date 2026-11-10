@@ -1,6 +1,6 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 
-import { CALL_SPEECH_CODES, type CallLanguage } from "@/config/calls";
+import { CALL_CONTEXT_TARGET_TOKENS, CALL_CONTEXT_TRIGGER_TOKENS, CALL_SPEECH_CODES, type CallLanguage } from "@/config/calls";
 
 /**
  * Appels voix avec le Prof ATUM : Gemini Live (Google). La clé reste sur le
@@ -28,7 +28,10 @@ export function voiceSessionConfig(systemInstruction: string, language: CallLang
     inputAudioTranscription: {},
     outputAudioTranscription: {},
     sessionResumption: {},
-    contextWindowCompression: { slidingWindow: {} },
+    contextWindowCompression: {
+      triggerTokens: String(CALL_CONTEXT_TRIGGER_TOKENS),
+      slidingWindow: { targetTokens: String(CALL_CONTEXT_TARGET_TOKENS) },
+    },
   };
 }
 

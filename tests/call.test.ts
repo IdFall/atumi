@@ -99,5 +99,6 @@ describe("consignes de l'appel", () => {
     expect(config.systemInstruction).toBe("consignes");
     expect(config.inputAudioTranscription).toEqual({});
     expect(config.outputAudioTranscription).toEqual({});
+    expect(config.contextWindowCompression).toEqual({ triggerTokens: "16000", slidingWindow: { targetTokens: "8000" } });
   });
 });

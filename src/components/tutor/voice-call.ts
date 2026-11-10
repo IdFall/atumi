@@ -41,7 +41,8 @@ registerProcessor("atumi-capture", AtumiCapture);
 `;
 
 const SEND_EVERY_SAMPLES = CALL_INPUT_RATE / 10; // 100 ms
-const VIDEO_FRAME_MS = 1000;
+/** Une image toutes les 2 s suffit pour lire un cahier et limite le coût. */
+const VIDEO_FRAME_MS = 2000;
 const VIDEO_WIDTH = 640;
 const MAX_RECONNECTS = 3;
 
@@ -231,7 +232,7 @@ export class VoiceCall {
     };
   }
 
-  /** Une image par seconde de la caméra (cahier, exercice), réduite avant l'envoi. */
+  /** Une image de la caméra toutes les 2 s (cahier, exercice), réduite avant l'envoi. */
   private startCamera() {
     const track = this.options.stream.getVideoTracks()[0];
     if (!track) return;
