@@ -59,7 +59,10 @@ export class AnthropicProvider implements AiProvider {
         });
 
         usage.model = response.model;
-        usage.inputTokens += response.usage.input_tokens;
+        // Avec la mise en cache automatique, la plupart des jetons d'entrée d'un premier
+        // appel sont comptés comme écriture en cache : on les ajoute à l'entrée (facturés
+        // 1,25 fois le prix d'entrée), sinon la consommation journalisée serait sous-estimée.
+        usage.inputTokens += response.usage.input_tokens + (response.usage.cache_creation_input_tokens ?? 0);
         usage.outputTokens += response.usage.output_tokens;
         usage.cacheReadTokens += response.usage.cache_read_input_tokens ?? 0;
         usage.webSearches += response.usage.server_tool_use?.web_search_requests ?? 0;

@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { challengeOutcome, challengePath, cleanPlayerName, correctFromScore, isChallengeOpen, whatsappShareUrl } from "@/lib/challenge";
+import {
+  challengeOutcome,
+  challengePath,
+  cleanPlayerName,
+  correctFromScore,
+  isChallengeOpen,
+  isMobileUserAgent,
+  whatsappShareUrl,
+  whatsappWebShareUrl,
+} from "@/lib/challenge";
 
 describe("défi quiz", () => {
   it("compare le score de l'ami à celui de l'élève", () => {
@@ -33,5 +42,12 @@ describe("défi quiz", () => {
     expect(cleanPlayerName("  Moussa   Diop ")).toBe("Moussa Diop");
     expect(cleanPlayerName("   ")).toBeNull();
     expect(cleanPlayerName("A".repeat(30))).toHaveLength(20);
+  });
+
+  it("choisit WhatsApp Web sur ordinateur", () => {
+    expect(whatsappWebShareUrl("a b")).toBe("https://web.whatsapp.com/send?text=a%20b");
+    expect(isMobileUserAgent("Mozilla/5.0 (Linux; Android 14; SM-A146B) Mobile Safari/537.36")).toBe(true);
+    expect(isMobileUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)")).toBe(true);
+    expect(isMobileUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/131.0 Safari/537.36")).toBe(false);
   });
 });

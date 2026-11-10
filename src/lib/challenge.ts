@@ -43,3 +43,13 @@ export function challengePath(challengeId: string): string {
 export function whatsappShareUrl(text: string): string {
   return `https://wa.me/?text=${encodeURIComponent(text)}`;
 }
+
+/** WhatsApp Web, pour un ordinateur sans l'application WhatsApp. */
+export function whatsappWebShareUrl(text: string): string {
+  return `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+}
+
+/** Téléphone ou tablette : le menu de partage du système mène à WhatsApp. */
+export function isMobileUserAgent(userAgent: string): boolean {
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+}
