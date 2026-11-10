@@ -767,6 +767,54 @@ describe("isolation des données entre utilisateurs", () => {
     expect((await db.query(`select 1 from public.research_questions`)).rows).toHaveLength(0);
   });
 
+  it("le défi quiz est géré par le serveur ; seul son auteur voit les parties des amis", async () => {
+    await asService();
+    const quizA = (await db.query<{ id: string }>(`select id from public.quizzes where user_id = '${A}' limit 1`)).rows[0].id;
+
+    // Ni l'élève ni un visiteur n'écrivent un défi ou une partie eux-mêmes.
+    await asUser(A);
+    await expect(
+      db.exec(`insert into public.quiz_challenges (user_id, quiz_id) values ('${A}', '${quizA}')`),
+    ).rejects.toThrow();
+    await expect(db.exec(`select public.record_challenge_play(gen_random_uuid(), 'Moussa', 5, 5)`)).rejects.toThrow();
+
+    // Le défi doit porter sur un quiz de l'élève.
+    await asService();
+    await expect(
+      db.exec(`insert into public.quiz_challenges (user_id, quiz_id) values ('${B}', '${quizA}')`),
+    ).rejects.toThrow();
+    const challenge = await db.query<{ id: string }>(
+      `insert into public.quiz_challenges (user_id, quiz_id) values ('${A}', '${quizA}') returning id`,
+    );
+    const id = challenge.rows[0].id;
+    // Un seul défi par quiz : le lien reste le même.
+    await expect(
+      db.exec(`insert into public.quiz_challenges (user_id, quiz_id) values ('${A}', '${quizA}')`),
+    ).rejects.toThrow();
+    await db.exec(`select public.record_challenge_play('${id}', 'Moussa', 5, 5)`);
+    await db.exec(`select public.record_challenge_play('${id}', 'Fatou', 3, 5)`);
+    await expect(db.exec(`select public.record_challenge_play('${id}', 'Triche', 6, 5)`)).rejects.toThrow();
+
+    await asUser(A);
+    const plays = await db.query(`select player_name, correct, user_id from public.quiz_challenge_plays order by player_name`);
+    expect(plays.rows).toEqual([
+      { player_name: "Fatou", correct: 3, user_id: A },
+      { player_name: "Moussa", correct: 5, user_id: A },
+    ]);
+    await expect(db.exec(`update public.quiz_challenges set closed_at = now()`)).rejects.toThrow();
+    await expect(db.exec(`delete from public.quiz_challenge_plays`)).rejects.toThrow();
+    await asUser(B);
+    expect((await db.query(`select 1 from public.quiz_challenges`)).rows).toHaveLength(0);
+    expect((await db.query(`select 1 from public.quiz_challenge_plays`)).rows).toHaveLength(0);
+
+    // Arrêté ou expiré : plus aucune partie enregistrée.
+    await asService();
+    await db.exec(`update public.quiz_challenges set closed_at = now() where id = '${id}'`);
+    await expect(db.exec(`select public.record_challenge_play('${id}', 'Awa', 1, 5)`)).rejects.toThrow(/DEFI_TERMINE/);
+    await db.exec(`update public.quiz_challenges set closed_at = null, expires_at = now() - interval '1 minute' where id = '${id}'`);
+    await expect(db.exec(`select public.record_challenge_play('${id}', 'Awa', 1, 5)`)).rejects.toThrow(/DEFI_TERMINE/);
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);

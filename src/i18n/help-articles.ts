@@ -62,7 +62,7 @@ function presentationBody(locale: Locale = "fr"): string {
       `What ATUMI does: ${a.roles.join(" ")}`,
       `What ATUMI does not do: ${a.limits.join(" ")}`,
       `${a.profIntro} Its modes: ${a.profModes.map((m) => `"${m.title}" (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
-      'The "Who is ATUMI?" page presents all this: link on the home page and on the dashboard.',
+      'On the home screen, the "I’m Prof NEO" card introduces him (open until you import a course, folded afterwards: tap it to reopen). The "Who is ATUMI?" page presents all this: link on the home page and on the dashboard.',
     ].join("\n");
   }
   return [
@@ -71,7 +71,7 @@ function presentationBody(locale: Locale = "fr"): string {
     `Ce que fait ATUMI : ${a.roles.join(" ")}`,
     `Ce qu'ATUMI ne fait pas : ${a.limits.join(" ")}`,
     `${a.profIntro} Ses modes : ${a.profModes.map((m) => `« ${m.title} » (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
-    "La page « Qui est ATUMI ? » présente tout cela : lien sur la page d'accueil et sur le tableau de bord.",
+    "Sur l'accueil, la carte « Je suis Prof NEO » le présente (ouverte tant que tu n'as importé aucun cours, repliée ensuite : touche-la pour la rouvrir). La page « Qui est ATUMI ? » présente tout cela : lien sur la page d'accueil et sur le tableau de bord.",
   ].join("\n");
 }
 
@@ -121,7 +121,8 @@ Pour renommer ou supprimer un module, un chapitre ou un document, utilise les bo
       body: `Dans un module, appuie sur « Synthèse et quiz » à côté d'un chapitre pour obtenir un résumé de ton cours. Elle se prépare en une minute environ. Tu peux la copier vers Word, WhatsApp ou d'autres outils.
 Le bouton « Faire un quiz » prépare un QCM tiré de ton cours. Chaque quiz se passe une seule fois ; le score s'affiche sous la forme « 3 bonnes réponses sur 8 (38 %) ».
 Un quiz dont la préparation a échoué ne compte pas dans ton forfait.
-Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te propose de refaire un quiz sur d'autres questions ou d'en parler avec un professeur.`,
+Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te propose de refaire un quiz sur d'autres questions ou d'en parler avec un professeur.
+Défi entre amis : après la correction, « Défier un ami sur WhatsApp » envoie un lien. Ton ami passe les mêmes questions sans créer de compte, puis voit son score à côté du tien. Ceux qui reçoivent le lien voient tes questions, ton score et ton nom d'utilisateur, rien d'autre. Sous la correction, « Ils ont relevé ton défi » te montre le prénom et le score de chaque ami. Le défi dure 7 jours ; « Arrêter le défi » le termine avant, et tu peux le relancer avec le même lien. Le défi ne compte pas dans ton forfait.`,
     },
     {
       id: "professeur",
@@ -181,7 +182,7 @@ Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : 
     {
       id: "confidentialite",
       title: "Mes données",
-      body: `Tes cours, tes synthèses, tes quiz et tes conversations avec le professeur ne sont visibles que par toi.
+      body: `Tes cours, tes synthèses, tes quiz et tes conversations avec le professeur ne sont visibles que par toi, sauf un quiz que tu choisis de partager en défi (questions, score et nom d'utilisateur).
 ATUMI ne demande jamais le nom de ton établissement.
 Tes documents servent uniquement à t'aider : ils ne sont ni publiés ni partagés avec d'autres utilisateurs.`,
     },
@@ -229,7 +230,8 @@ To rename or delete a module, a chapter or a document, use the "Edit" and "Delet
       body: `In a module, tap "Get the summary and the quiz" next to a chapter to get a summary of your course. It takes about a minute to prepare. You can copy it to Word, WhatsApp or other tools.
 The "Take a quiz" button prepares a multiple-choice quiz from your course. Each quiz can be taken only once; the score is shown as "3 correct answers out of 8 (38%)".
 A quiz whose preparation failed does not count in your plan.
-If you disagree with a correction, you can dispute it: ATUMI suggests taking a new quiz with other questions or talking it over with a teacher.`,
+If you disagree with a correction, you can dispute it: ATUMI suggests taking a new quiz with other questions or talking it over with a teacher.
+Challenge a friend: after the correction, "Challenge a friend on WhatsApp" sends a link. Your friend takes the same questions without creating an account, then sees their score next to yours. People who get the link see your questions, your score and your username, nothing else. Under the correction, "They took your challenge" shows each friend's name and score. The challenge lasts 7 days; "Stop the challenge" ends it earlier, and you can restart it with the same link. The challenge does not count against your plan.`,
     },
     {
       id: "professeur",
@@ -288,7 +290,7 @@ ATUMI is open to high school and university students. A high school student unde
     {
       id: "confidentialite",
       title: "My data",
-      body: `Your courses, summaries, quizzes and conversations with the teacher are visible only to you.
+      body: `Your courses, summaries, quizzes and conversations with the teacher are visible only to you, except a quiz you choose to share as a challenge (questions, score and username).
 ATUMI never asks for the name of your school.
 Your documents are used only to help you: they are neither published nor shared with other users.`,
     },

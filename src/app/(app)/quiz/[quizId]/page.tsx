@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { ChallengeResults } from "@/components/challenge/challenge-results";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { StudyActionButton } from "@/components/study/action-button";
 import { ContestForm } from "@/components/study/contest-form";
 import { QuizForm } from "@/components/study/quiz-form";
 import { ScoreGauge } from "@/components/study/score-gauge";
 import { getT } from "@/i18n/server";
+import { getMyChallenge } from "@/server/challenges/queries";
 import { startQuizAction } from "@/server/study/actions";
 import { studyPath } from "@/server/study/paths";
 import { getQuizView, type QuizView } from "@/server/study/queries";
@@ -73,6 +75,7 @@ async function Correction({ quiz, back }: { quiz: QuizView; back: string }) {
     <>
       <h1 className="text-2xl font-bold">{t.quiz.correctionTitle}</h1>
       <ScoreGauge correct={correction.correct} total={correction.total} />
+      <ChallengeResults quizId={quiz.id} challenge={await getMyChallenge(quiz.id)} myCorrect={correction.correct} />
       <ol className="flex flex-col gap-3">
         {quiz.questions.map((q, index) => {
           const a = correction.answers[q.id];
