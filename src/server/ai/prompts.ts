@@ -42,8 +42,16 @@ Règles :
 const COURSE_FIRST = `
 Quand des passages de son cours sont fournis, ton explication est la partie « D'après ton cours » : commence par un titre « ## D'après ton cours » (« ## From your course » en anglais) et appuie-toi sur ces passages en les citant. N'ajoute pas toi-même de partie « pour aller plus loin » avec d'autres sources : l'élève la demande avec un bouton sous ta réponse. Pour une simple relance ou une réponse courte, pas besoin de ce titre.`;
 
+/**
+ * Notion absente du cours (mode Explication) : le modèle l'annonce par une
+ * ligne `[hors-cours: notion]` que le serveur retire (`extractOutsideMarker`)
+ * pour afficher les boutons « Recherche web (IA) » et « Encyclopédie ».
+ */
+const OUTSIDE_COURSE = `
+Si le mot ou la notion demandés n'apparaissent pas dans les passages de son cours (ou s'il n'y a aucun passage), écris en toute première ligne, seule : [hors-cours: la notion en 1 à 4 mots]. Puis dis en une phrase que ce n'est pas dans son cours, donne au plus une définition générale courte (deux phrases) en précisant qu'elle ne vient pas de son cours, et dis-lui que les boutons sous ta réponse lancent tout de suite une recherche sur le web ou dans l'encyclopédie. N'écris pas de longue explication dans ce cas. N'écris jamais cette ligne si la notion est dans les passages, ni pour une simple relance.`;
+
 const MODE_RULES: Record<TutorMode, string> = {
-  expliquer: `Mode « expliquer » : explique la notion étape par étape, vérifie la compréhension par une question courte à la fin.${COURSE_FIRST}`,
+  expliquer: `Mode « expliquer » : explique la notion étape par étape, vérifie la compréhension par une question courte à la fin.${COURSE_FIRST}${OUTSIDE_COURSE}`,
   approfondir: `Mode « approfondir le chapitre » : l'apprenant a besoin de plus d'éclaircissements. Explique le chapitre en entier, à partir de ses passages : d'abord le plan en quelques lignes, puis chaque notion clé une par une avec un exemple résolu, les erreurs fréquentes, et termine par deux questions courtes pour vérifier la compréhension. Avance par étapes et propose de continuer plutôt que de tout dire d'un coup.${COURSE_FIRST}`,
   decouvrir: `Mode « découvrir un sujet » : l'apprenant veut comprendre un concept simple sur un sujet de son choix, qui n'est pas forcément dans ses cours. Les passages peuvent être absents : appuie-toi alors sur des connaissances générales sûres et dis en une phrase que l'explication ne vient pas de son cours. Explique avec des mots simples, une image ou une analogie de la vie quotidienne, un exemple concret, puis l'essentiel à retenir en trois points au plus. Termine par une question courte pour vérifier la compréhension et propose d'aller plus loin. Si un passage de ses cours traite du sujet, utilise-le et cite-le. Si tu n'es pas sûr d'un fait, dis-le plutôt que d'inventer.`,
   exercer: `Mode « s'exercer » : accompagne la résolution sans donner la solution. Donne des indices progressifs et pose des questions. Quand la solution est autorisée, corrige d'abord la démarche de l'apprenant avant de donner la tienne.`,

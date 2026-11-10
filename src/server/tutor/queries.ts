@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { defaultCountry, getCountry, type TutorLanguage } from "@/config/countries";
 import type { MessageCitation } from "@/lib/further";
+import { isOutsideCitation } from "@/lib/outside-course";
 import { createUserClient } from "@/lib/supabase/server";
 import type { TutorMode } from "@/server/ai/prompts";
 
@@ -81,12 +82,15 @@ export async function listConversations(limit = 5): Promise<ConversationSummary[
   const supabase = await createUserClient();
   const { data } = await supabase
     .from("tutor_conversations")
-    .select("id, mode, created_at, tutor_messages(content, role, id)")
+    .select("id, mode, created_at, tutor_messages(content, role, id, citations)")
     .order("created_at", { ascending: false })
     .limit(limit);
   return (data ?? []).map((c) => {
-    const first = [...(c.tutor_messages ?? [])].sort((a, b) => a.id - b.id).find((m) => m.role === "user");
-    return { id: c.id, mode: c.mode, title: (first?.content ?? "").slice(0, 80) };
+    const messages = [...(c.tutor_messages ?? [])].sort((a, b) => a.id - b.id);
+    const first = messages.find((m) => m.role === "user");
+    // Notion absente du cours, sans message de l'élève : sa question est gardée dans les citations.
+    const outside = messages.flatMap((m) => (Array.isArray(m.citations) ? m.citations : [])).find(isOutsideCitation);
+    return { id: c.id, mode: c.mode, title: (first?.content ?? outside?.question ?? "").slice(0, 80) };
   });
 }
 

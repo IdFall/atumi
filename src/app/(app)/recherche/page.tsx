@@ -67,7 +67,12 @@ async function SearchLoader({ searchParams }: { searchParams: PageProps<"/recher
     return (
       <>
         {tabs}
-        <ResearchPanel items={items} quota={quota} aiEnabled={Boolean(serverEnv().ANTHROPIC_API_KEY)} />
+        <ResearchPanel
+          items={items}
+          quota={quota}
+          aiEnabled={Boolean(serverEnv().ANTHROPIC_API_KEY)}
+          launch={typeof query.lancer === "string" ? query.lancer.trim().slice(0, 500) || undefined : undefined}
+        />
       </>
     );
   }
@@ -75,7 +80,7 @@ async function SearchLoader({ searchParams }: { searchParams: PageProps<"/recher
     return (
       <>
         {tabs}
-        <Toolbox />
+        <Toolbox encyclopedia={typeof query.encyclopedie === "string" ? query.encyclopedie.trim().slice(0, 100) || undefined : undefined} />
       </>
     );
   }

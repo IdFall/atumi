@@ -8,7 +8,18 @@ import type { ResearchItem, ResearchQuota } from "@/server/research/queries";
 import { ResearchForm } from "./research-form";
 
 /** Onglet « Web (IA) » : question libre, limite du jour, dernières réponses avec leurs sources. */
-export async function ResearchPanel({ items, quota, aiEnabled }: { items: ResearchItem[]; quota: ResearchQuota; aiEnabled: boolean }) {
+export async function ResearchPanel({
+  items,
+  quota,
+  aiEnabled,
+  launch,
+}: {
+  items: ResearchItem[];
+  quota: ResearchQuota;
+  aiEnabled: boolean;
+  /** Question à lancer tout de suite (venue du Prof ATUM). */
+  launch?: string;
+}) {
   const t = await getT();
   const r = t.research;
   const blocked = !aiEnabled || !quota.hasAccess || quota.remaining === 0;
@@ -24,7 +35,7 @@ export async function ResearchPanel({ items, quota, aiEnabled }: { items: Resear
           {quota.limit === null ? r.unlimited : fill(r.remaining, { count: quota.remaining ?? 0, limit: quota.limit })}
         </p>
       )}
-      <ResearchForm disabled={blocked} />
+      <ResearchForm disabled={blocked} launch={launch} />
 
       {items.length ? (
         <section className="flex flex-col gap-3">

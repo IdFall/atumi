@@ -661,6 +661,13 @@ export const en: Messages = {
     allCourses: "All your courses",
     deepenCta: "Go deeper into this chapter",
     deepenQuestion: "Explain this whole chapter to me, step by step.",
+    outside: {
+      notFound: "I can't find “{term}” in your courses. I can start a search for you right away:",
+      web: "Web search (AI)",
+      webHint: "Answer with sources · counts as one web search",
+      encyclopedia: "Encyclopaedia",
+      encyclopediaHint: "Wikipedia · free, no AI",
+    },
     further: {
       cta: "Go further",
       hint: "Prof ATUM adds other reliable sources found on the web. Counts as one web search.",

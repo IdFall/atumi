@@ -1,3 +1,5 @@
+import { isOutsideCitation, type OutsideCourse } from "./outside-course";
+
 /**
  * « Pour aller plus loin » : sous une explication du Prof ATUM tirée du cours
  * (modes Explication et Approfondir), l'élève peut demander une suite appuyée
@@ -8,8 +10,8 @@
 /** Modes où l'explication vient du cours et peut être prolongée. */
 export const FURTHER_MODES = ["expliquer", "approfondir"] as const;
 
-/** Source citée par un message : passage du cours ou page web. */
-export type MessageCitation = { page: number | null; documentTitle: string } | { url: string; title: string };
+/** Source citée par un message : passage du cours, page web, ou notion absente du cours. */
+export type MessageCitation = { page: number | null; documentTitle: string } | { url: string; title: string } | OutsideCourse;
 
 export function isWebCitation(c: unknown): c is { url: string; title: string } {
   return (
@@ -34,5 +36,7 @@ export function canExploreFurther(mode: string, messages: readonly { role: strin
   if (!(FURTHER_MODES as readonly string[]).includes(mode)) return false;
   const last = messages.at(-1);
   if (!last || last.role !== "assistant" || isFurtherMessage(last)) return false;
+  // Notion absente du cours : les boutons web et encyclopédie sont déjà proposés.
+  if (last.citations.some(isOutsideCitation)) return false;
   return messages.slice(0, -1).some((m) => m.role === "user");
 }

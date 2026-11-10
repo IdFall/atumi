@@ -5,7 +5,10 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { isTutorLanguageOffered, type Cycle, type TutorLanguage } from "@/config/countries";
+import { fill } from "@/i18n/format";
+import { getMessages } from "@/i18n/messages";
 import { canExploreFurther } from "@/lib/further";
+import { conceptOf, extractOutsideMarker } from "@/lib/outside-course";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { BOARD_MODES, type TutorMode } from "@/server/ai/prompts";
 import { getAiProvider } from "@/server/ai/provider";
@@ -98,6 +101,36 @@ export async function sendTutorMessageAction(_prev: TutorFormState, formData: Fo
     conversation = data;
   }
 
+  const passages =
+    conversation.mode === "decouvrir"
+      ? []
+      : await findPassages(supabase, {
+          mode: conversation.mode,
+          moduleId: conversation.module_id,
+          chapterId: conversation.chapter_id,
+          question: input.text,
+        });
+
+  const language: TutorLanguage = isTutorLanguageOffered(profile.country_code, profile.tutor_language)
+    ? profile.tutor_language
+    : "fr";
+
+  // Première question d'Explication sur une notion absente du cours : réponse
+  // immédiate, sans appel au modèle ni décompte, avec les boutons qui lancent
+  // la recherche web ou l'encyclopédie sans ressaisie.
+  if (isNew && conversation.mode === "expliquer" && passages.length === 0) {
+    const term = conceptOf(input.text);
+    const t = getMessages(language === "en" ? "en" : "fr");
+    await service.from("tutor_messages").insert({
+      user_id: userId,
+      conversation_id: conversation.id,
+      role: "assistant",
+      content: fill(t.tutor.outside.notFound, { term }),
+      citations: [{ outsideTerm: term, question: input.text }],
+    });
+    redirect(`/professeur/${conversation.id}`);
+  }
+
   // Message de l'apprenant : écrit par le serveur, compté par la base.
   const { error: quotaRefusal } = await service
     .from("tutor_messages")
@@ -115,25 +148,11 @@ export async function sendTutorMessageAction(_prev: TutorFormState, formData: Fo
     .limit(HISTORY_SIZE + 1);
   const history = (previous ?? []).slice(1).reverse() as { role: "user" | "assistant"; content: string }[];
 
-  const passages =
-    conversation.mode === "decouvrir"
-      ? []
-      : await findPassages(supabase, {
-          mode: conversation.mode,
-          moduleId: conversation.module_id,
-          chapterId: conversation.chapter_id,
-          question: input.text,
-        });
-
   // S'exercer : les messages de l'apprenant dans cette conversation sont ses tentatives.
   const attempts =
     conversation.mode === "exercer"
       ? [...history.filter((m) => m.role === "user").map((m) => m.content), input.text]
       : [];
-
-  const language: TutorLanguage = isTutorLanguageOffered(profile.country_code, profile.tutor_language)
-    ? profile.tutor_language
-    : "fr";
 
   const answer = await askTutor(getAiProvider(), {
     mode: conversation.mode,
@@ -145,14 +164,19 @@ export async function sendTutorMessageAction(_prev: TutorFormState, formData: Fo
     exerciseAttempts: attempts,
   });
 
+  // Notion absente du cours : le modèle l'annonce par une ligne retirée ici.
+  const outside = extractOutsideMarker(answer.text);
   await service.from("tutor_messages").insert({
     user_id: userId,
     conversation_id: conversation.id,
     role: "assistant",
-    content: BOARD_MODES.includes(conversation.mode) ? await resolveBoardImages(answer.text) : answer.text,
-    citations: passages
-      .filter((p) => answer.citedChunkIds.includes(p.chunkId))
-      .map((p) => ({ chunkId: p.chunkId, page: p.page, documentTitle: p.documentTitle })),
+    content: BOARD_MODES.includes(conversation.mode) ? await resolveBoardImages(outside.text) : outside.text,
+    citations: [
+      ...passages
+        .filter((p) => answer.citedChunkIds.includes(p.chunkId))
+        .map((p) => ({ chunkId: p.chunkId, page: p.page, documentTitle: p.documentTitle })),
+      ...(outside.term ? [{ outsideTerm: outside.term, question: input.text }] : []),
+    ],
   });
   if (answer.usage) {
     await service.from("ai_usage").insert({
