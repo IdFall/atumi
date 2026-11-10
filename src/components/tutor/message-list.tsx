@@ -16,8 +16,16 @@ const UNAVAILABLE = new Set(LOCALES.map((l) => getMessages(l).tutor.unavailable)
 
 /** Passages du cours cités (les pages web sont affichées à part). */
 function courseSources(citations: readonly MessageCitation[]): string {
-  return citations
-    .flatMap((c) => (isWebCitation(c) ? [] : [`${c.documentTitle}${c.page ? `, p. ${c.page}` : ""}`]))
+  // Un document une seule fois, suivi de ses pages : « cours.pdf, p. 2, 3, 4 ».
+  const pages = new Map<string, number[]>();
+  for (const c of citations) {
+    if (isWebCitation(c)) continue;
+    const list = pages.get(c.documentTitle) ?? [];
+    if (c.page && !list.includes(c.page)) list.push(c.page);
+    pages.set(c.documentTitle, list);
+  }
+  return [...pages]
+    .map(([title, list]) => (list.length ? `${title}, p. ${list.sort((a, b) => a - b).join(", ")}` : title))
     .join(" · ");
 }
 
