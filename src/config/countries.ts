@@ -105,6 +105,27 @@ export function defaultCountry(): CountryConfig {
   return country;
 }
 
+/**
+ * Langue d'interface par défaut des pays où ATUMI n'est pas (encore) configuré,
+ * pour un visiteur qui n'a pas choisi : anglais dans les pays anglophones.
+ * Les pays de COUNTRIES utilisent leur `defaultLocale`.
+ */
+const OTHER_COUNTRY_LOCALES: Readonly<Record<string, Locale>> = {
+  GM: "en", GH: "en", NG: "en", LR: "en", SL: "en", KE: "en", UG: "en", TZ: "en", RW: "en",
+  ZA: "en", ZM: "en", ZW: "en", BW: "en", MW: "en", NA: "en", ET: "en", SS: "en",
+  GB: "en", IE: "en", US: "en", AU: "en", NZ: "en", IN: "en",
+  FR: "fr", BE: "fr", CH: "fr", LU: "fr", MC: "fr", BJ: "fr", BF: "fr", NE: "fr", TG: "fr", GN: "fr",
+  GA: "fr", CG: "fr", CD: "fr", TD: "fr", CF: "fr", DJ: "fr", MG: "fr", MR: "fr", MA: "fr", DZ: "fr",
+  TN: "fr", HT: "fr", KM: "fr", BI: "fr",
+};
+
+/** Langue d'interface par défaut d'un pays ; null si le pays est inconnu. */
+export function localeForCountry(code: string | null | undefined): Locale | null {
+  if (!code) return null;
+  const upper = code.toUpperCase();
+  return getCountry(upper)?.defaultLocale ?? OTHER_COUNTRY_LOCALES[upper] ?? null;
+}
+
 /** Vrai si la langue est proposée pour le professeur IA dans ce pays. */
 export function isTutorLanguageOffered(countryCode: string, language: string): language is TutorLanguage {
   return getCountry(countryCode)?.tutorLanguages.includes(language as TutorLanguage) ?? false;

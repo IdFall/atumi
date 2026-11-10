@@ -1,12 +1,14 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { isTutorLanguageOffered, type Cycle, type TutorLanguage } from "@/config/countries";
 import { fill } from "@/i18n/format";
 import { getMessages } from "@/i18n/messages";
+import { isLocale, LOCALE_COOKIE } from "@/i18n/server";
 import { canExploreFurther } from "@/lib/further";
 import { conceptOf, extractOutsideMarker } from "@/lib/outside-course";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
@@ -202,8 +204,11 @@ export async function setTutorLanguageAction(formData: FormData): Promise<void> 
   const supabase = await createUserClient();
   const { data: profile } = await supabase.from("profiles").select("country_code").eq("id", userId).single();
   if (!profile || !isTutorLanguageOffered(profile.country_code, language)) return;
-  await supabase.from("profiles").update({ tutor_language: language }).eq("id", userId);
-  revalidatePath("/professeur", "layout");
+  // Français ou anglais : l'interface suit la langue choisie pour le Prof.
+  const locale = isLocale(language) ? language : null;
+  await supabase.from("profiles").update(locale ? { tutor_language: language, locale } : { tutor_language: language }).eq("id", userId);
+  if (locale) (await cookies()).set(LOCALE_COOKIE, locale, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+  revalidatePath("/", "layout");
 }
 
 export type FurtherErrorKey = "quotaReached" | "noAccess" | "unavailable" | "unknown";
