@@ -90,6 +90,12 @@ export class AnthropicProvider implements AiProvider {
       if (error instanceof Anthropic.APIError && (error.status ?? 0) >= 500) {
         return { status: "unavailable", reason: `upstream_${error.status}` };
       }
+      if (error instanceof Anthropic.APIError && error.status) {
+        // Requête refusée (clé, crédits, outil non activé…) : visible dans les journaux,
+        // et l'élève reçoit le message « indisponible » au lieu d'une page d'erreur.
+        console.error(`[ai] ${request.feature} refusé (${error.status}) : ${error.message}`);
+        return { status: "unavailable", reason: `request_${error.status}` };
+      }
       throw error;
     }
   }

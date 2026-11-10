@@ -51,7 +51,8 @@ export const STUDY_FAILURES = {
 
 /** Sans clé d'API, inutile de relancer : la ligne est clôturée tout de suite. */
 function isPermanentlyUnavailable(reason: string): boolean {
-  return reason === "missing_api_key";
+  // Clé absente ou requête refusée par le fournisseur (4xx) : relancer ne changerait rien.
+  return reason === "missing_api_key" || reason.startsWith("request_");
 }
 
 /** Erreur passagère : pg-boss relancera le travail. */
