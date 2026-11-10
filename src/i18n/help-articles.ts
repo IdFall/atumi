@@ -134,7 +134,7 @@ En « Explication » et « Approfondir le chapitre », la réponse vient d'abord
 Si tu demandes l'explication d'un mot ou d'une notion qui n'est pas dans tes cours, le professeur te le dit et propose deux boutons : « Recherche web (IA) » et « Encyclopédie ». Un clic lance la recherche tout de suite, sans retaper ta question. Quand rien n'est trouvé dès ta première question, cette réponse est immédiate et ne compte pas dans tes messages ; la recherche web compte comme une recherche web, l'encyclopédie est gratuite.
 Tu peux effacer une conversation (bouton « Effacer ») ou toutes tes conversations (« Tout effacer ») ; les messages envoyés restent comptés dans ton forfait.
 En mode « S'exercer », le professeur donne la solution seulement après ta propre tentative : il commence par des indices.
-Tu peux choisir la langue de réponse : français ou anglais.
+Tu peux choisir la langue de réponse : français ou anglais. Toute l'application passe alors dans cette langue. Au premier lancement, ATUMI s'affiche dans la langue de ton pays (français dans les pays francophones, anglais dans les pays anglophones).
 Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai). Les questions posées au centre d'aide ne comptent pas.`,
     },
     {
@@ -243,7 +243,7 @@ In "Explanation" and "Go deeper into the chapter", the answer first comes from y
 If you ask for an explanation of a word or idea that is not in your courses, the teacher tells you and offers two buttons: "Web search (AI)" and "Encyclopaedia". One tap starts the search right away, without typing your question again. When nothing is found from your first question, this answer is instant and does not count in your messages; the web search counts as one web search, the encyclopaedia is free.
 You can erase a conversation ("Erase" button) or all your conversations ("Erase all"); the messages you sent still count in your plan.
 In "Practise" mode, the teacher gives the solution only after your own attempt: it starts with hints.
-You can choose the language of the answers: French or English.
+You can choose the language of the answers: French or English. The whole app then switches to that language. On first launch, ATUMI shows in your country's language (French in French-speaking countries, English in English-speaking ones).
 Each message sent to the teacher counts in your plan (3 during the trial). Questions asked in the help centre do not count.`,
     },
     {
