@@ -815,6 +815,33 @@ describe("isolation des données entre utilisateurs", () => {
     await expect(db.exec(`select public.record_challenge_play('${id}', 'Awa', 1, 5)`)).rejects.toThrow(/DEFI_TERMINE/);
   });
 
+  it("les textes partagés sont écrits par le serveur, limités par 24 h, visibles par leur seul auteur", async () => {
+    await asUser(A);
+    await expect(
+      db.exec(`insert into public.shared_texts (user_id, title, content_md) values ('${A}', 'Titre', 'Texte')`),
+    ).rejects.toThrow();
+
+    await asService();
+    for (let i = 0; i < 30; i++) {
+      await db.exec(`insert into public.shared_texts (user_id, title, content_md) values ('${A}', 'Titre ${i}', 'Texte')`);
+    }
+    await expect(
+      db.exec(`insert into public.shared_texts (user_id, title, content_md) values ('${A}', 'De trop', 'Texte')`),
+    ).rejects.toThrow(/QUOTA_PARTAGE/);
+
+    await asUser(A);
+    expect((await db.query(`select 1 from public.shared_texts`)).rows).toHaveLength(30);
+    await expect(db.exec(`update public.shared_texts set content_md = 'modifié'`)).rejects.toThrow();
+    await asUser(B);
+    expect((await db.query(`select 1 from public.shared_texts`)).rows).toHaveLength(0);
+    await db.exec(`delete from public.shared_texts`);
+    await asUser(A);
+    expect((await db.query(`select 1 from public.shared_texts`)).rows).toHaveLength(30);
+    await db.exec(`delete from public.shared_texts where title = 'Titre 0'`);
+    expect((await db.query(`select 1 from public.shared_texts`)).rows).toHaveLength(29);
+    await asService();
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);

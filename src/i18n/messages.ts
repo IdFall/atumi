@@ -557,6 +557,14 @@ const fr = {
     copied: "Copié !",
     share: "Partager",
     copyFallback: "Copie ce texte :",
+    readMore: "Lire la suite sur ATUMI",
+    preparing: "Préparation…",
+    quota: "Tu as atteint la limite de 30 partages longs par jour. Utilise « Copier ».",
+    error: "Le partage n'a pas pu être préparé. Utilise « Copier ».",
+  },
+  sharedPage: {
+    kicker: "Partagé depuis ATUMI",
+    expired: "Ce partage n'est plus disponible (il dure 30 jours).",
   },
   quiz: {
     title: "Quiz",
