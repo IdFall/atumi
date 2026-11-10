@@ -11,6 +11,7 @@ import type { DashboardStats, Gauge } from "@/server/dashboard/queries";
 
 import { AiPlanet } from "./ai-planet";
 import { AvatarButton } from "./avatar-button";
+import { NeoIntro } from "./neo-intro";
 
 /**
  * Accueil connecté : le poste de pilotage de l'élève. « Mes cours » range les
@@ -80,6 +81,9 @@ export async function DashboardView({ userId, username, avatarUrl, cycle, access
           ))}
         </nav>
       </section>
+
+      {/* Prof NEO se présente : ouvert tant qu'aucun cours n'est importé */}
+      <NeoIntro open={moduleCount === 0} />
 
       {/* Demander à ATUMI : mène à la recherche (cours, web, outils) */}
       <form action="/recherche" role="search" className="flex items-center gap-2 rounded-2xl border border-primary/20 bg-white p-1.5 pl-4 shadow-sm focus-within:ring-2 focus-within:ring-primary dark:border-neutral-800 dark:bg-neutral-950">

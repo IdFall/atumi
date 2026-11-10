@@ -186,6 +186,15 @@ const fr = {
     progressTitle: "Ta progression",
     progress: { modules: "Modules", quizzes: "Quiz passés", average: "Moyenne" },
     noQuizYet: "—",
+    neo: {
+      kicker: "Ton professeur IA",
+      title: "Je suis Prof NEO",
+      intro:
+        "Je t'aide à comprendre tes cours et à réussir tes examens, à ton rythme. Importe un cours : j'en fais une synthèse, des quiz corrigés tout de suite, et je réponds à tes questions en citant tes pages.",
+      modesTitle: "Ce que je fais avec toi",
+      cta: "Parler au Prof NEO",
+      more: "En savoir plus sur ATUMI",
+    },
   },
   agenda: {
     title: "Agenda",

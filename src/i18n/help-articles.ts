@@ -62,7 +62,7 @@ function presentationBody(locale: Locale = "fr"): string {
       `What ATUMI does: ${a.roles.join(" ")}`,
       `What ATUMI does not do: ${a.limits.join(" ")}`,
       `${a.profIntro} Its modes: ${a.profModes.map((m) => `"${m.title}" (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
-      'The "Who is ATUMI?" page presents all this: link on the home page and on the dashboard.',
+      'On the home screen, the "I’m Prof NEO" card introduces him (open until you import a course, folded afterwards: tap it to reopen). The "Who is ATUMI?" page presents all this: link on the home page and on the dashboard.',
     ].join("\n");
   }
   return [
@@ -71,7 +71,7 @@ function presentationBody(locale: Locale = "fr"): string {
     `Ce que fait ATUMI : ${a.roles.join(" ")}`,
     `Ce qu'ATUMI ne fait pas : ${a.limits.join(" ")}`,
     `${a.profIntro} Ses modes : ${a.profModes.map((m) => `« ${m.title} » (${m.body.replace(/\.$/, "")})`).join(", ")}. ${a.profRule}`,
-    "La page « Qui est ATUMI ? » présente tout cela : lien sur la page d'accueil et sur le tableau de bord.",
+    "Sur l'accueil, la carte « Je suis Prof NEO » le présente (ouverte tant que tu n'as importé aucun cours, repliée ensuite : touche-la pour la rouvrir). La page « Qui est ATUMI ? » présente tout cela : lien sur la page d'accueil et sur le tableau de bord.",
   ].join("\n");
 }
 

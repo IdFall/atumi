@@ -180,6 +180,15 @@ export const en: Messages = {
     progressTitle: "Your progress",
     progress: { modules: "Modules", quizzes: "Quizzes taken", average: "Average" },
     noQuizYet: "—",
+    neo: {
+      kicker: "Your AI teacher",
+      title: "I'm Prof NEO",
+      intro:
+        "I help you understand your courses and pass your exams, at your own pace. Import a course: I summarise it, quiz you with instant corrections, and answer your questions by citing your pages.",
+      modesTitle: "What I do with you",
+      cta: "Talk to Prof NEO",
+      more: "Learn more about ATUMI",
+    },
   },
   agenda: {
     title: "Planner",
