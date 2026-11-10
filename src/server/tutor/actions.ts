@@ -5,9 +5,11 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { isTutorLanguageOffered, type Cycle, type TutorLanguage } from "@/config/countries";
+import { canExploreFurther } from "@/lib/further";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { BOARD_MODES, type TutorMode } from "@/server/ai/prompts";
 import { getAiProvider } from "@/server/ai/provider";
+import { askFurther } from "@/server/ai/research";
 import { askTutor } from "@/server/ai/tutor";
 import { requireUserId } from "@/server/auth/session";
 
@@ -178,4 +180,99 @@ export async function setTutorLanguageAction(formData: FormData): Promise<void> 
   if (!profile || !isTutorLanguageOffered(profile.country_code, language)) return;
   await supabase.from("profiles").update({ tutor_language: language }).eq("id", userId);
   revalidatePath("/professeur", "layout");
+}
+
+export type FurtherErrorKey = "quotaReached" | "noAccess" | "unavailable" | "unknown";
+
+export interface FurtherFormState {
+  error?: FurtherErrorKey;
+}
+
+function furtherQuotaError(message: string): FurtherErrorKey {
+  if (message.includes("LULU_QUOTA_RECHERCHE_ATTEINT")) return "quotaReached";
+  if (message.includes("LULU_ACCES_EXPIRE")) return "noAccess";
+  return "unknown";
+}
+
+/**
+ * « Pour aller plus loin » : prolonge la dernière explication du cours avec
+ * d'autres sources crédibles du web. Compte comme une recherche web : la base
+ * vérifie la limite par 24 h (`research_questions`) avant tout appel au
+ * modèle. La suite est gardée comme un message du professeur (hors décompte
+ * des messages), ses sources web dans les citations.
+ */
+export async function exploreFurtherAction(_prev: FurtherFormState, formData: FormData): Promise<FurtherFormState> {
+  const userId = await requireUserId();
+  const conversationId = z.uuid().safeParse(field(formData, "conversationId"));
+  if (!conversationId.success) return { error: "unknown" };
+
+  const supabase = await createUserClient();
+  const service = createServiceClient();
+
+  // Conversation et derniers messages, vérifiés par RLS.
+  const [{ data: conversation }, { data: profile }] = await Promise.all([
+    supabase
+      .from("tutor_conversations")
+      .select("id, mode, tutor_messages(id, role, content, citations)")
+      .eq("id", conversationId.data)
+      .maybeSingle(),
+    supabase.from("profiles").select("cycle, country_code, tutor_language").eq("id", userId).single(),
+  ]);
+  if (!conversation || !profile) return { error: "unknown" };
+  const messages = [...(conversation.tutor_messages ?? [])].sort((a, b) => a.id - b.id) as {
+    role: "user" | "assistant";
+    content: string;
+    citations: unknown[];
+  }[];
+  if (!canExploreFurther(conversation.mode, messages.map((m) => ({ ...m, citations: m.citations ?? [] })))) return { error: "unknown" };
+  const explanation = messages.at(-1)!.content;
+  const question = messages.findLast((m) => m.role === "user")!.content;
+
+  const locale = isTutorLanguageOffered(profile.country_code, profile.tutor_language) && profile.tutor_language === "en" ? "en" : "fr";
+  const label = locale === "en" ? "Go further" : "Pour aller plus loin";
+
+  // Comptée comme une recherche web par la base (limite par 24 h, refus sans droit).
+  const { data: row, error } = await service
+    .from("research_questions")
+    .insert({ user_id: userId, question: `${label} : ${question}`.slice(0, 500) })
+    .select("id")
+    .single();
+  if (error || !row) return { error: furtherQuotaError(error?.message ?? "") };
+
+  const answer = await askFurther(getAiProvider(), {
+    question,
+    explanation,
+    cycle: profile.cycle as Cycle,
+    locale,
+    country: profile.country_code,
+  });
+
+  if (answer.answered) {
+    await service.from("research_questions").update({ answer: answer.text, sources: answer.sources }).eq("id", row.id);
+    await service.from("tutor_messages").insert({
+      user_id: userId,
+      conversation_id: conversation.id,
+      role: "assistant",
+      content: `## ${label}\n\n${answer.text}`,
+      citations: answer.sources.map((s) => ({ url: s.url, title: s.title })),
+    });
+  } else {
+    // L'IA n'a pas répondu : la recherche est retirée et ne compte pas.
+    await service.from("research_questions").delete().eq("id", row.id);
+  }
+  if (answer.usage) {
+    await service.from("ai_usage").insert({
+      user_id: userId,
+      country_code: profile.country_code,
+      feature: "research",
+      model: answer.usage.model,
+      input_tokens: answer.usage.inputTokens,
+      output_tokens: answer.usage.outputTokens,
+      cache_read_tokens: answer.usage.cacheReadTokens,
+    });
+  }
+
+  revalidatePath(`/professeur/${conversation.id}`);
+  revalidatePath("/recherche");
+  return answer.answered ? {} : { error: "unavailable" };
 }

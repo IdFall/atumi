@@ -668,6 +668,19 @@ const fr = {
     allCourses: "Tous tes cours",
     deepenCta: "Approfondir ce chapitre",
     deepenQuestion: "Explique-moi ce chapitre en entier, étape par étape.",
+    further: {
+      cta: "Pour aller plus loin",
+      hint: "Prof ATUM complète avec d'autres sources fiables trouvées sur le web. Compte comme une recherche web.",
+      pending: "Prof ATUM cherche d'autres sources… (jusqu'à une minute)",
+      webSources: "Sources web",
+      check: "Vérifie toujours les sources importantes.",
+      errors: {
+        quotaReached: "Tu as atteint ta limite de recherches web pour aujourd'hui. Réessaie demain.",
+        noAccess: "« Pour aller plus loin » demande un essai en cours ou un forfait actif.",
+        unavailable: "La recherche sur le web est momentanément indisponible. Elle ne compte pas.",
+        unknown: "Une erreur est survenue. Réessaie.",
+      },
+    },
     sources: "Sources",
     intro: {
       expliquer: "Pose ta question sur ton cours : Prof ATUM répond à partir de tes documents et cite les pages.",

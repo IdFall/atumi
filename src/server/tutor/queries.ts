@@ -3,6 +3,7 @@ import "server-only";
 import { z } from "zod";
 
 import { defaultCountry, getCountry, type TutorLanguage } from "@/config/countries";
+import type { MessageCitation } from "@/lib/further";
 import { createUserClient } from "@/lib/supabase/server";
 import type { TutorMode } from "@/server/ai/prompts";
 
@@ -38,7 +39,8 @@ export interface TutorMessage {
   id: number;
   role: "user" | "assistant";
   content: string;
-  citations: { page: number | null; documentTitle: string }[];
+  /** Passages du cours, ou pages web pour un message « Pour aller plus loin ». */
+  citations: MessageCitation[];
 }
 
 export interface Conversation {

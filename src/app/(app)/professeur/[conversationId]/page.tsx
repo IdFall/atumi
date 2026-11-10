@@ -5,9 +5,12 @@ import { Suspense } from "react";
 import { CallButton } from "@/components/tutor/call-button";
 import { TutorComposer } from "@/components/tutor/composer";
 import { EraseButton } from "@/components/tutor/erase-button";
+import { FurtherButton } from "@/components/tutor/further-button";
 import { MessageList } from "@/components/tutor/message-list";
 import { TutorHeader } from "@/components/tutor/tutor-header";
 import { getT } from "@/i18n/server";
+import { canExploreFurther } from "@/lib/further";
+import { serverEnv } from "@/lib/env";
 import { getCallSettings } from "@/server/calls/queries";
 import { getConversation, getTutorSettings } from "@/server/tutor/queries";
 
@@ -70,6 +73,9 @@ async function ConversationView({ params }: { params: Props["params"] }) {
         secondsLeft={call.secondsLeft}
       />
       <MessageList messages={conversation.messages} />
+      {serverEnv().ANTHROPIC_API_KEY && settings.hasAccess && canExploreFurther(conversation.mode, conversation.messages) ? (
+        <FurtherButton conversationId={conversation.id} />
+      ) : null}
       <TutorComposer
         conversationId={conversation.id}
         mode={conversation.mode}

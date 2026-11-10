@@ -129,6 +129,7 @@ Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te pro
       body: `Le professeur répond à partir de tes cours importés et cite les pages utilisées.
 Modes : « Explication » (une question précise), « Approfondir le chapitre » (tout un chapitre, étape par étape), « S'exercer » (aide sur un exercice) et « Culture générale » (un sujet simple, même hors de tes cours).
 En « Explication », « Approfondir le chapitre » et « Culture générale », le professeur explique sur un tableau : formules, symboles, encadrés (définition, exemple, attention, à retenir), schémas, tableaux et, au besoin, images libres de Wikimedia Commons. Le bouton « Plein écran » agrandit le tableau.
+En « Explication » et « Approfondir le chapitre », la réponse vient d'abord de ton cours (partie « D'après ton cours »). Sous la réponse, le bouton « Pour aller plus loin » ajoute en bas une suite tirée d'autres sources fiables trouvées sur le web (encyclopédies, universités, institutions), avec les liens des sources. Elle compte comme une recherche web (3 par 24 h pendant l'essai), pas comme un message au professeur.
 Tu peux effacer une conversation (bouton « Effacer ») ou toutes tes conversations (« Tout effacer ») ; les messages envoyés restent comptés dans ton forfait.
 En mode « S'exercer », le professeur donne la solution seulement après ta propre tentative : il commence par des indices.
 Tu peux choisir la langue de réponse : français ou anglais.
@@ -160,7 +161,7 @@ Elle cherche dans le contenu des pages de tes documents (avec la page et un extr
 Écris au moins 2 lettres. Les accents et les majuscules ne comptent pas pour le surlignage ; pour le contenu des pages, la recherche reconnaît aussi les formes proches d'un mot français (pluriel, conjugaison).
 Le bouton « Demander au Prof ATUM » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
 L'onglet « Mes cours » ne compte pas dans ton forfait et ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.
-L'onglet « Web (IA) » pose ta question au Prof ATUM, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof ATUM. Vérifie toujours les sources.
+L'onglet « Web (IA) » pose ta question au Prof ATUM, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof ATUM. Vérifie toujours les sources. Le bouton « Pour aller plus loin » du Prof ATUM utilise aussi une recherche web.
 L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire et une encyclopédie (définitions du Wiktionnaire et résumés de Wikipédia, affichés directement dans ATUMI). Les outils sont gratuits et sans limite.`,
     },
     {
@@ -235,6 +236,7 @@ If you disagree with a correction, you can dispute it: ATUMI suggests taking a n
       body: `The teacher answers from your imported courses and cites the pages used.
 Modes: "Explanation" (a specific question), "Go deeper into the chapter" (a whole chapter, step by step), "Practise" (help with an exercise) and "General knowledge" (a simple topic, even outside your courses).
 In "Explanation", "Go deeper into the chapter" and "General knowledge", the teacher explains on a board: formulas, symbols, boxes (definition, example, watch out, key points), diagrams, tables and, when useful, free images from Wikimedia Commons. The "Full screen" button enlarges the board.
+In "Explanation" and "Go deeper into the chapter", the answer first comes from your course ("From your course" part). Below the answer, the "Go further" button adds at the bottom a follow-up based on other reliable sources found on the web (encyclopaedias, universities, institutions), with links to the sources. It counts as one web search (3 per 24 h during the trial), not as a message to the teacher.
 You can erase a conversation ("Erase" button) or all your conversations ("Erase all"); the messages you sent still count in your plan.
 In "Practise" mode, the teacher gives the solution only after your own attempt: it starts with hints.
 You can choose the language of the answers: French or English.
@@ -266,7 +268,7 @@ It looks in the content of your documents' pages (with the page and an excerpt w
 Type at least 2 letters. Accents and capital letters do not matter for highlighting; for page content, search also recognises close forms of a French word (plural, conjugation).
 The "Ask Prof ATUM" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
 The "My courses" tab does not count towards your plan and does not search the Internet: only what you imported or wrote down.
-The "Web (AI)" tab asks Prof ATUM, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof ATUM. Always check the sources.
+The "Web (AI)" tab asks Prof ATUM, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof ATUM. Always check the sources. Prof ATUM's "Go further" button also uses a web search.
 The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary and an encyclopedia (Wiktionary definitions and Wikipedia summaries, shown directly in ATUMI). Tools are free and unlimited.`,
     },
     {

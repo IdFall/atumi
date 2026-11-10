@@ -661,6 +661,19 @@ export const en: Messages = {
     allCourses: "All your courses",
     deepenCta: "Go deeper into this chapter",
     deepenQuestion: "Explain this whole chapter to me, step by step.",
+    further: {
+      cta: "Go further",
+      hint: "Prof ATUM adds other reliable sources found on the web. Counts as one web search.",
+      pending: "Prof ATUM is looking for other sources… (up to a minute)",
+      webSources: "Web sources",
+      check: "Always check important sources.",
+      errors: {
+        quotaReached: "You have reached your web search limit for today. Try again tomorrow.",
+        noAccess: "“Go further” needs an ongoing trial or an active plan.",
+        unavailable: "Web search is temporarily unavailable. It does not count.",
+        unknown: "Something went wrong. Try again.",
+      },
+    },
     sources: "Sources",
     intro: {
       expliquer: "Ask your question about your course: Prof ATUM answers from your documents and cites the pages.",
