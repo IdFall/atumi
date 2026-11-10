@@ -551,6 +551,14 @@ export const en: Messages = {
     copied: "Copied!",
     share: "Share",
     copyFallback: "Copy this text:",
+    readMore: "Read more on ATUMI",
+    preparing: "Preparing…",
+    quota: "You have reached the limit of 30 long shares per day. Use \"Copy\".",
+    error: "The share could not be prepared. Use \"Copy\".",
+  },
+  sharedPage: {
+    kicker: "Shared from ATUMI",
+    expired: "This share is no longer available (it lasts 30 days).",
   },
   quiz: {
     title: "Quiz",
