@@ -7,7 +7,7 @@ import { askResearchAction, type ResearchFormState } from "@/server/research/act
 
 /**
  * Question libre pour la recherche sur le web ; la réponse apparaît dans
- * l'historique. `launch` (venu du Prof ATUM, notion absente du cours) préremplit
+ * l'historique. `launch` (venu du Prof NEO, notion absente du cours) préremplit
  * la question et lance la recherche tout de suite, une seule fois.
  */
 export function ResearchForm({ disabled, launch }: { disabled: boolean; launch?: string }) {

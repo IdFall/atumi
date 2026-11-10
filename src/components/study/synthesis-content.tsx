@@ -9,7 +9,7 @@ import { isAllowedImage, isAllowedSourcePage, parseBoard, parseInline, type Bloc
 import { SchemaDiagram } from "./schema-diagram";
 
 /**
- * Affiche le Markdown produit par le modèle (synthèses, Prof ATUM, recherche)
+ * Affiche le Markdown produit par le modèle (synthèses, Prof NEO, recherche)
  * sans jamais injecter de HTML venu du modèle : titres, puces, gras, renvois
  * [p. N], formules (rendues par KaTeX, sans commandes de confiance), encadrés,
  * tableaux, schémas (Mermaid en mode strict) et images de Wikimedia Commons.

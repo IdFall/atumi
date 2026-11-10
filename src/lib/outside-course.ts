@@ -1,6 +1,6 @@
 /**
  * Notion absente du cours : quand l'élève demande une explication sur un mot
- * ou une notion qui n'est pas dans ses documents, le Prof ATUM le lui dit et
+ * ou une notion qui n'est pas dans ses documents, le Prof NEO le lui dit et
  * propose deux boutons qui lancent tout de suite la recherche, sans ressaisie :
  * « Recherche web (IA) » (avec sources, compte comme une recherche web) et
  * « Encyclopédie » (Wikipédia, sans IA ni forfait).

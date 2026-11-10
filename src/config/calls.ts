@@ -1,5 +1,5 @@
 /**
- * Appels voix (vidéo en option) avec le Prof ATUM. Les minutes viennent du
+ * Appels voix (vidéo en option) avec le Prof NEO. Les minutes viennent du
  * forfait (`plans.call_minutes_limit`, `call_quota()`) ; ces réglages bornent
  * chaque appel.
  */

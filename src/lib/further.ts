@@ -1,7 +1,7 @@
 import { isOutsideCitation, type OutsideCourse } from "./outside-course";
 
 /**
- * « Pour aller plus loin » : sous une explication du Prof ATUM tirée du cours
+ * « Pour aller plus loin » : sous une explication du Prof NEO tirée du cours
  * (modes Explication et Approfondir), l'élève peut demander une suite appuyée
  * sur d'autres sources crédibles du web. Cette suite est gardée comme un
  * message du professeur dont les citations sont des pages web.

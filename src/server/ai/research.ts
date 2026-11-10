@@ -42,7 +42,7 @@ export async function askResearch(
 }
 
 /**
- * « Pour aller plus loin » : suite d'une explication du Prof ATUM tirée du
+ * « Pour aller plus loin » : suite d'une explication du Prof NEO tirée du
  * cours, appuyée sur d'autres sources crédibles trouvées sur le web.
  */
 export async function askFurther(

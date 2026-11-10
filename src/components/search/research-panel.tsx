@@ -17,7 +17,7 @@ export async function ResearchPanel({
   items: ResearchItem[];
   quota: ResearchQuota;
   aiEnabled: boolean;
-  /** Question à lancer tout de suite (venue du Prof ATUM). */
+  /** Question à lancer tout de suite (venue du Prof NEO). */
   launch?: string;
 }) {
   const t = await getT();

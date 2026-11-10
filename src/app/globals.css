@@ -58,7 +58,7 @@ body {
 .document-content table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
 .document-content td, .document-content th { border: 1px solid #d4d4d4; padding: 0.25rem 0.5rem; vertical-align: top; }
 
-/* Tableau d'explication du Prof ATUM : papier quadrillé discret. */
+/* Tableau d'explication du Prof NEO : papier quadrillé discret. */
 .board-grid {
   background-image:
     linear-gradient(to right, rgb(7 26 51 / 0.05) 1px, transparent 1px),
@@ -88,7 +88,7 @@ body {
 .atumi-delay { animation-delay: 0.15s; }
 .atumi-delay .atumi-float { animation-delay: 1s; }
 .atumi-ping { animation: atumi-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
-/* Appel : halo autour du Prof ATUM quand il parle. */
+/* Appel : halo autour du Prof NEO quand il parle. */
 @keyframes atumi-call-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(19 184 200 / 0.55); } 50% { box-shadow: 0 0 0 18px rgb(19 184 200 / 0); } }
 .atumi-call-pulse { animation: atumi-call-pulse 1.4s ease-in-out infinite; }
 /* Accueil connecté : espace étoilé, planète IA qui respire, réseau qui scintille. */

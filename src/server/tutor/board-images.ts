@@ -1,7 +1,7 @@
 import { IMAGE_LINE, isAllowedImage } from "@/lib/board";
 
 /**
- * Images du tableau du Prof ATUM. Le modèle n'écrit jamais d'adresse d'image :
+ * Images du tableau du Prof NEO. Le modèle n'écrit jamais d'adresse d'image :
  * il écrit « [image: mots-clés | légende] », et le serveur cherche une image
  * libre sur Wikimedia Commons. La ligne est remplacée par l'adresse trouvée
  * (et la page de l'image, pour l'auteur et la licence) ou supprimée.

@@ -48,7 +48,7 @@ describe("transcription", () => {
     ]);
   });
 
-  const labels = { title: "Appel · 3 min", user: "Toi", assistant: "Prof ATUM" };
+  const labels = { title: "Appel · 3 min", user: "Toi", assistant: "Prof NEO" };
 
   it("garde un texte brut, sans syntaxe du tableau", () => {
     const text = formatCallTranscript(

@@ -32,7 +32,7 @@ flowchart LR
 
 [image: ohm law circuit | Un circuit simple]`;
 
-describe("tableau du Prof ATUM", () => {
+describe("tableau du Prof NEO", () => {
   it("découpe le Markdown en blocs", () => {
     const blocks = parseBoard(SAMPLE);
     expect(blocks.map((b) => b.kind)).toEqual(["heading", "paragraph", "math", "box", "schema", "table", "list", "image"]);
