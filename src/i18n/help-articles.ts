@@ -122,7 +122,7 @@ Pour renommer ou supprimer un module, un chapitre ou un document, utilise les bo
 Le bouton « Faire un quiz » prépare un QCM tiré de ton cours. Chaque quiz se passe une seule fois ; le score s'affiche sous la forme « 3 bonnes réponses sur 8 (38 %) ».
 Un quiz dont la préparation a échoué ne compte pas dans ton forfait.
 Si tu n'es pas d'accord avec une correction, tu peux la contester : ATUMI te propose de refaire un quiz sur d'autres questions ou d'en parler avec un professeur.
-Défi entre amis : après la correction, « Défier un ami sur WhatsApp » envoie un lien. Ton ami passe les mêmes questions sans créer de compte, puis voit son score à côté du tien. Ceux qui reçoivent le lien voient tes questions, ton score et ton nom d'utilisateur, rien d'autre. Le défi ne compte pas dans ton forfait.`,
+Défi entre amis : après la correction, « Défier un ami sur WhatsApp » envoie un lien. Ton ami passe les mêmes questions sans créer de compte, puis voit son score à côté du tien. Ceux qui reçoivent le lien voient tes questions, ton score et ton nom d'utilisateur, rien d'autre. Sous la correction, « Ils ont relevé ton défi » te montre le prénom et le score de chaque ami. Le défi dure 7 jours ; « Arrêter le défi » le termine avant, et tu peux le relancer avec le même lien. Le défi ne compte pas dans ton forfait.`,
     },
     {
       id: "professeur",
@@ -231,7 +231,7 @@ To rename or delete a module, a chapter or a document, use the "Edit" and "Delet
 The "Take a quiz" button prepares a multiple-choice quiz from your course. Each quiz can be taken only once; the score is shown as "3 correct answers out of 8 (38%)".
 A quiz whose preparation failed does not count in your plan.
 If you disagree with a correction, you can dispute it: ATUMI suggests taking a new quiz with other questions or talking it over with a teacher.
-Challenge a friend: after the correction, "Challenge a friend on WhatsApp" sends a link. Your friend takes the same questions without creating an account, then sees their score next to yours. People who get the link see your questions, your score and your username, nothing else. The challenge does not count against your plan.`,
+Challenge a friend: after the correction, "Challenge a friend on WhatsApp" sends a link. Your friend takes the same questions without creating an account, then sees their score next to yours. People who get the link see your questions, your score and your username, nothing else. Under the correction, "They took your challenge" shows each friend's name and score. The challenge lasts 7 days; "Stop the challenge" ends it earlier, and you can restart it with the same link. The challenge does not count against your plan.`,
     },
     {
       id: "professeur",

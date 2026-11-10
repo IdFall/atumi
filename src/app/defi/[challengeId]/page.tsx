@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { ChallengePlay } from "@/components/challenge/challenge-play";
+import { ChallengePlay, Invitation } from "@/components/challenge/challenge-play";
 import { fill } from "@/i18n/format";
 import { getT } from "@/i18n/server";
 import { getPublicChallenge } from "@/server/challenges/queries";
@@ -56,7 +56,17 @@ async function Challenge({ params }: { params: PageProps<"/defi/[challengeId]">[
         <h1 className="text-2xl font-bold">{fill(c.title, values)}</h1>
         <p className="text-sm text-lavande">{fill(c.intro, values)}</p>
       </section>
-      <ChallengePlay challenge={challenge} />
+      {challenge.open ? (
+        <ChallengePlay challenge={challenge} />
+      ) : (
+        <>
+          <p role="status" className="rounded-xl bg-primary-soft p-4 text-sm text-nuit dark:bg-primary-strong/25 dark:text-lavande">
+            <strong className="block">{c.closed}</strong>
+            {fill(c.closedBody, values)}
+          </p>
+          <Invitation />
+        </>
+      )}
     </>
   );
 }

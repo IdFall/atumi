@@ -2,8 +2,8 @@ import "server-only";
 
 import { z } from "zod";
 
-import { correctFromScore } from "@/lib/challenge";
-import { createServiceClient } from "@/lib/supabase/server";
+import { correctFromScore, isChallengeOpen } from "@/lib/challenge";
+import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 
 export interface ChallengeQuestion {
   id: string;
@@ -13,6 +13,8 @@ export interface ChallengeQuestion {
 
 export interface PublicChallenge {
   id: string;
+  /** Faux une fois le défi arrêté par l'élève ou ses 7 jours passés. */
+  open: boolean;
   username: string;
   subject: string;
   /** Bonnes réponses de l'élève qui a lancé le défi. */
@@ -38,7 +40,7 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
   const service = createServiceClient();
   const { data: challenge } = await service
     .from("quiz_challenges")
-    .select("id, user_id, quiz_id")
+    .select("id, user_id, quiz_id, expires_at, closed_at")
     .eq("id", challengeId)
     .maybeSingle();
   if (!challenge) return null;
@@ -80,6 +82,7 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
   }));
   return {
     id: challenge.id,
+    open: isChallengeOpen(challenge, Date.now()),
     username: profile.username,
     subject: chapter?.title ?? mod?.name ?? "",
     correct: correctFromScore(attempt.score, stored.length),
@@ -96,4 +99,34 @@ export async function getPublicChallenge(challengeId: string): Promise<PublicCha
   const { stored: _stored, ...rest } = challenge;
   void _stored;
   return rest;
+}
+
+export interface ChallengePlayView {
+  playerName: string;
+  correct: number;
+  total: number;
+  createdAt: string;
+}
+
+export interface MyChallenge {
+  id: string;
+  open: boolean;
+  expiresAt: string;
+  plays: ChallengePlayView[];
+}
+
+/** Défi d'un quiz de l'élève connecté, avec les parties de ses amis (RLS). */
+export async function getMyChallenge(quizId: string): Promise<MyChallenge | null> {
+  if (!z.uuid().safeParse(quizId).success) return null;
+  const supabase = await createUserClient();
+  const { data } = await supabase
+    .from("quiz_challenges")
+    .select("id, expires_at, closed_at, quiz_challenge_plays(player_name, correct, total, created_at)")
+    .eq("quiz_id", quizId)
+    .maybeSingle();
+  if (!data) return null;
+  const plays = (data.quiz_challenge_plays ?? [])
+    .map((p) => ({ playerName: p.player_name, correct: p.correct, total: p.total, createdAt: p.created_at }))
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  return { id: data.id, open: isChallengeOpen(data, Date.now()), expiresAt: data.expires_at, plays };
 }

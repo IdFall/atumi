@@ -6,7 +6,7 @@ import { useActionState } from "react";
 
 import { fill } from "@/i18n/format";
 import { useT } from "@/i18n/client";
-import { challengeOutcome } from "@/lib/challenge";
+import { challengeOutcome, PLAYER_NAME_MAX } from "@/lib/challenge";
 import { playChallengeAction, type PlayState } from "@/server/challenges/actions";
 import type { PublicChallenge } from "@/server/challenges/queries";
 
@@ -74,6 +74,21 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
   return (
     <form action={action} className="flex flex-col gap-5">
       <input type="hidden" name="challengeId" value={challenge.id} />
+      <div className="flex flex-col gap-1.5 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+        <label htmlFor="player-name" className="text-sm font-semibold">
+          {c.playerName}
+        </label>
+        <input
+          id="player-name"
+          name="playerName"
+          required
+          maxLength={PLAYER_NAME_MAX}
+          autoComplete="given-name"
+          placeholder={c.playerNamePlaceholder}
+          className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950"
+        />
+        <p className="text-xs text-neutral-600 dark:text-neutral-300">{fill(c.nameNotice, names)}</p>
+      </div>
       {challenge.questions.map((q, index) => (
         <fieldset key={q.id} className="flex flex-col gap-2 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
           <legend className="sr-only">
@@ -98,7 +113,7 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
       ))}
       {state.error ? (
         <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
-          {c[state.error]}
+          {state.error === "closed" ? fill(c.closedBody, names) : c[state.error]}
         </p>
       ) : null}
       <button type="submit" disabled={pending} className="rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60">
@@ -108,7 +123,7 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
   );
 }
 
-function Invitation() {
+export function Invitation() {
   const t = useT();
   const c = t.challenge;
   return (
