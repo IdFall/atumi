@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { ShareActions } from "@/components/study/share-actions";
 import { SynthesisContent } from "@/components/study/synthesis-content";
@@ -8,6 +9,7 @@ import { LOCALES } from "@/config/countries";
 import { getMessages } from "@/i18n/messages";
 import { parseBoard, usesBoard } from "@/lib/board";
 import { isFurtherMessage, isWebCitation, type MessageCitation } from "@/lib/further";
+import { isOutsideCitation, outsideLinks, type OutsideCourse } from "@/lib/outside-course";
 
 import { BoardFrame } from "./board-frame";
 
@@ -19,7 +21,7 @@ function courseSources(citations: readonly MessageCitation[]): string {
   // Un document une seule fois, suivi de ses pages : « cours.pdf, p. 2, 3, 4 ».
   const pages = new Map<string, number[]>();
   for (const c of citations) {
-    if (isWebCitation(c)) continue;
+    if (!("documentTitle" in c)) continue;
     const list = pages.get(c.documentTitle) ?? [];
     if (c.page && !list.includes(c.page)) list.push(c.page);
     pages.set(c.documentTitle, list);
@@ -29,11 +31,41 @@ function courseSources(citations: readonly MessageCitation[]): string {
     .join(" · ");
 }
 
+/** Notion absente du cours : boutons qui lancent la recherche tout de suite, sans ressaisie. */
+async function OutsideActions({ outside }: { outside: OutsideCourse }) {
+  const t = (await getT()).tutor.outside;
+  const links = outsideLinks(outside);
+  const item = "flex flex-1 flex-col items-center gap-0.5 rounded-xl px-3 py-2.5 text-center";
+  return (
+    <div className="flex flex-col gap-2 sm:flex-row">
+      <Link href={links.web} className={`${item} bg-gradient-to-r from-primary to-electrique text-white shadow-md shadow-primary/30`}>
+        <span className="font-semibold">🌐 {t.web}</span>
+        <span className="text-xs text-white/80">{t.webHint}</span>
+      </Link>
+      <Link href={links.encyclopedia} className={`${item} border-2 border-primary text-primary-strong dark:border-lavande dark:text-lavande`}>
+        <span className="font-semibold">📖 {t.encyclopedia}</span>
+        <span className="text-xs text-neutral-600 dark:text-neutral-300">{t.encyclopediaHint}</span>
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Réponse immédiate « pas dans ton cours » : la question de l'élève n'est pas
+ * enregistrée comme message (pas de décompte) ; on l'affiche depuis la citation.
+ */
+function withOutsideQuestions(messages: readonly TutorMessage[]): TutorMessage[] {
+  return messages.flatMap((m, i) => {
+    const outside = m.role === "assistant" ? m.citations.find(isOutsideCitation) : undefined;
+    return outside && messages[i - 1]?.role !== "user" ? [{ id: -m.id, role: "user" as const, content: outside.question, citations: [] }, m] : [m];
+  });
+}
+
 export async function MessageList({ messages }: { messages: TutorMessage[] }) {
   const t = await getT();
   return (
     <ol className="flex flex-col gap-3">
-      {messages.map((m) =>
+      {withOutsideQuestions(messages).map((m) =>
         m.role === "user" ? (
           <li key={m.id} className="max-w-[85%] self-end whitespace-pre-wrap rounded-2xl rounded-br-sm bg-primary px-4 py-2.5 text-white">
             {m.content}
@@ -74,11 +106,12 @@ export async function MessageList({ messages }: { messages: TutorMessage[] }) {
             <BoardFrame
               footer={
                 <>
-                  {m.citations.length > 0 ? (
+                  {courseSources(m.citations) ? (
                     <p className="mb-1 text-xs text-neutral-500">
                       {t.tutor.sources} : {courseSources(m.citations)}
                     </p>
                   ) : null}
+                  {m.citations.some(isOutsideCitation) ? <OutsideActions outside={m.citations.find(isOutsideCitation)!} /> : null}
                   <ShareActions title={t.tutor.name} markdown={m.content} />
                 </>
               }
@@ -97,11 +130,12 @@ export async function MessageList({ messages }: { messages: TutorMessage[] }) {
               ) : (
                 <SynthesisContent markdown={m.content} />
               )}
-              {m.citations.length > 0 ? (
+              {courseSources(m.citations) ? (
                 <p className="text-xs text-neutral-500">
                   {t.tutor.sources} : {courseSources(m.citations)}
                 </p>
               ) : null}
+              {m.citations.some(isOutsideCitation) ? <OutsideActions outside={m.citations.find(isOutsideCitation)!} /> : null}
               <ShareActions title={t.tutor.name} markdown={m.content} />
             </div>
           </li>

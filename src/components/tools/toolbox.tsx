@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, type ReactNode } from "react";
+import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
 
 import { useLocale, useT } from "@/i18n/client";
 import { calculate, type AngleUnit } from "@/lib/calculator";
@@ -12,13 +12,16 @@ import type { ReferenceResult } from "@/server/tools/reference";
 const INPUT =
   "w-full min-w-0 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950";
 
-/** Boîte à outils : calculatrice, conversions, tableau périodique, formules, dictionnaire. Sans IA. */
-export function Toolbox() {
+/**
+ * Boîte à outils : calculatrice, conversions, tableau périodique, formules, dictionnaire. Sans IA.
+ * `encyclopedia` (venu du Prof ATUM, notion absente du cours) ouvre l'encyclopédie sur ce mot.
+ */
+export function Toolbox({ encyclopedia }: { encyclopedia?: string }) {
   const t = useT().tools;
   return (
     <div className="flex flex-col gap-3">
       <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.intro}</p>
-      <Tool title={t.calculator.title} open>
+      <Tool title={t.calculator.title} open={!encyclopedia}>
         <Calculator />
       </Tool>
       <Tool title={t.converter.title}>
@@ -30,8 +33,8 @@ export function Toolbox() {
       <Tool title={t.formulas.title}>
         <Formulas />
       </Tool>
-      <Tool title={t.dictionary.title}>
-        <Dictionary />
+      <Tool title={t.dictionary.title} open={Boolean(encyclopedia)}>
+        <Dictionary encyclopedia={encyclopedia} />
       </Tool>
     </div>
   );
@@ -278,9 +281,11 @@ function Formulas() {
   );
 }
 
-function Dictionary() {
+function Dictionary({ encyclopedia }: { encyclopedia?: string }) {
   const t = useT().tools.dictionary;
-  const [word, setWord] = useState("");
+  const [word, setWord] = useState(encyclopedia ?? "");
+  const box = useRef<HTMLDivElement>(null);
+  const launched = useRef(false);
   const [result, setResult] = useState<ReferenceResult | null>(null);
   const [pending, startTransition] = useTransition();
   const term = word.trim();
@@ -293,8 +298,18 @@ function Dictionary() {
   };
   const button = "flex-1 rounded-lg px-3 py-2 text-center text-sm font-semibold disabled:opacity-50";
 
+  // Venu du Prof ATUM : l'article s'ouvre tout de suite, sans ressaisie.
+  useEffect(() => {
+    if (!encyclopedia || launched.current) return;
+    launched.current = true;
+    box.current?.scrollIntoView({ block: "start" });
+    startTransition(async () => {
+      setResult(await lookupReferenceAction("encyclopedia", encyclopedia).catch((): ReferenceResult => ({ ok: false, error: "unavailable" })));
+    });
+  }, [encyclopedia]);
+
   return (
-    <div className="flex flex-col gap-3">
+    <div ref={box} className="flex scroll-mt-4 flex-col gap-3">
       <form
         className="flex flex-col gap-2"
         onSubmit={(e) => {

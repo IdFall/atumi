@@ -668,6 +668,13 @@ const fr = {
     allCourses: "Tous tes cours",
     deepenCta: "Approfondir ce chapitre",
     deepenQuestion: "Explique-moi ce chapitre en entier, étape par étape.",
+    outside: {
+      notFound: "Je ne trouve pas « {term} » dans tes cours. Je peux lancer tout de suite une recherche pour toi :",
+      web: "Recherche web (IA)",
+      webHint: "Réponse avec sources · compte comme une recherche web",
+      encyclopedia: "Encyclopédie",
+      encyclopediaHint: "Wikipédia · gratuit, sans IA",
+    },
     further: {
       cta: "Pour aller plus loin",
       hint: "Prof ATUM complète avec d'autres sources fiables trouvées sur le web. Compte comme une recherche web.",
