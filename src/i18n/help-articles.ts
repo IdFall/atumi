@@ -139,7 +139,7 @@ Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai)
     {
       id: "appels",
       title: "Appeler le professeur",
-      body: `Avec un forfait qui les inclut, tu peux appeler le Prof ATUM en voix : bouton « Appeler le Prof » sur la page du professeur ou dans une conversation. Les minutes d'appel dépendent du forfait ; le temps restant s'affiche pendant l'appel, qui s'arrête tout seul à la fin de tes minutes (30 minutes au plus par appel). Les appels ne sont pas inclus dans l'essai gratuit.
+      body: `Avec un forfait qui les inclut, tu peux appeler le Prof NEO en voix : bouton « Appeler le Prof » sur la page du professeur ou dans une conversation. Les minutes d'appel dépendent du forfait ; le temps restant s'affiche pendant l'appel, qui s'arrête tout seul à la fin de tes minutes (30 minutes au plus par appel). Les appels ne sont pas inclus dans l'essai gratuit.
 Tu peux activer la caméra pour montrer ton cahier ou un exercice. Le navigateur te demande l'accès au micro (et à la caméra) la première fois : accepte-le.
 Pendant l'appel, tu peux couper le micro ou raccrocher. Le professeur parle en français ou en anglais et suit les mêmes règles qu'à l'écrit : il ne donne la solution d'un exercice qu'après ta propre tentative.
 Seule la transcription écrite de l'appel est gardée, dans ta conversation ; aucun enregistrement audio ou vidéo n'est conservé. Elle ne compte pas dans tes messages au professeur.`,
@@ -160,9 +160,9 @@ Ton agenda n'est visible que par toi.`,
       body: `La Recherche (loupe en haut de l'écran sur téléphone, entrée « Recherche » du menu sur ordinateur, ou barre de recherche de l'accueil) retrouve un mot ou une notion dans tous tes cours.
 Elle cherche dans le contenu des pages de tes documents (avec la page et un extrait où le mot est surligné), dans les noms de tes modules, chapitres et documents, et dans ton agenda.
 Écris au moins 2 lettres. Les accents et les majuscules ne comptent pas pour le surlignage ; pour le contenu des pages, la recherche reconnaît aussi les formes proches d'un mot français (pluriel, conjugaison).
-Le bouton « Demander au Prof ATUM » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
+Le bouton « Demander au Prof NEO » ouvre le professeur avec ta recherche déjà écrite : tu la relis puis tu l'envoies. Ce message compte comme un message au professeur.
 L'onglet « Mes cours » ne compte pas dans ton forfait et ne cherche pas sur Internet : seulement dans ce que tu as importé ou noté.
-L'onglet « Web (IA) » pose ta question au Prof ATUM, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof ATUM. Vérifie toujours les sources. Le bouton « Pour aller plus loin » du Prof ATUM utilise aussi une recherche web.
+L'onglet « Web (IA) » pose ta question au Prof NEO, qui cherche sur Internet et répond en citant ses sources (liens cliquables). Le nombre de recherches web est limité par 24 h selon ton forfait (3 pendant l'essai) ; une recherche effacée reste comptée. Pour un exercice, il ne donne pas la solution : il t'envoie vers le Prof NEO. Vérifie toujours les sources. Le bouton « Pour aller plus loin » du Prof NEO utilise aussi une recherche web.
 L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire et une encyclopédie (définitions du Wiktionnaire et résumés de Wikipédia, affichés directement dans ATUMI). Les outils sont gratuits et sans limite.`,
     },
     {
@@ -174,7 +174,7 @@ Pour te déconnecter : sur téléphone, l'icône de sortie en haut à droite de 
 Photo de profil (facultative) : sur l'accueil, appuie sur le rond avec tes initiales pour ajouter ta photo (JPG, PNG ou WebP), puis dessus à nouveau pour la changer ou la retirer. Elle est recadrée en carré et reste privée : toi seul la vois.
 Pour protéger ton compte, ATUMI te déconnecte automatiquement après 1 h sans activité (appli fermée ou laissée ouverte sans y toucher). Il suffit de te reconnecter.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
-Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof ATUM, Agenda, Emploi du temps et Aide ; la Recherche est la loupe en haut de l'écran sur téléphone et une entrée du menu sur ordinateur. La langue de réponse du professeur se choisit à part, sur la page « Prof ATUM ».
+Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof NEO, Agenda, Emploi du temps et Aide ; la Recherche est la loupe en haut de l'écran sur téléphone et une entrée du menu sur ordinateur. La langue de réponse du professeur se choisit à part, sur la page « Prof NEO ».
 ATUMI est ouvert aux lycéens et aux étudiants.
 Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
@@ -247,7 +247,7 @@ Each message sent to the teacher counts in your plan (3 during the trial). Quest
     {
       id: "appels",
       title: "Calling the teacher",
-      body: `With a plan that includes them, you can call Prof ATUM by voice: the "Call the Prof" button on the teacher page or in a conversation. Call minutes depend on the plan; the time left is shown during the call, which stops by itself when your minutes run out (30 minutes at most per call). Calls are not included in the free trial.
+      body: `With a plan that includes them, you can call Prof NEO by voice: the "Call the Prof" button on the teacher page or in a conversation. Call minutes depend on the plan; the time left is shown during the call, which stops by itself when your minutes run out (30 minutes at most per call). Calls are not included in the free trial.
 You can turn on the camera to show your notebook or an exercise. The browser asks for access to the microphone (and camera) the first time: accept it.
 During the call, you can mute the microphone or hang up. The teacher speaks French or English and follows the same rules as in writing: it gives the solution to an exercise only after your own attempt.
 Only the written transcript of the call is kept, in your conversation; no audio or video recording is stored. It does not count towards your messages to the teacher.`,
@@ -268,9 +268,9 @@ Only you can see your planner.`,
       body: `Search (the magnifying glass at the top of the screen on a phone, the "Search" menu entry on a computer, or the search bar on the home page) finds a word or topic across all your courses.
 It looks in the content of your documents' pages (with the page and an excerpt where the word is highlighted), in the names of your modules, chapters and documents, and in your planner.
 Type at least 2 letters. Accents and capital letters do not matter for highlighting; for page content, search also recognises close forms of a French word (plural, conjugation).
-The "Ask Prof ATUM" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
+The "Ask Prof NEO" button opens the teacher with your search already written: you check it, then send it. That message counts as a message to the teacher.
 The "My courses" tab does not count towards your plan and does not search the Internet: only what you imported or wrote down.
-The "Web (AI)" tab asks Prof ATUM, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof ATUM. Always check the sources. Prof ATUM's "Go further" button also uses a web search.
+The "Web (AI)" tab asks Prof NEO, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof NEO. Always check the sources. Prof NEO's "Go further" button also uses a web search.
 The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary and an encyclopedia (Wiktionary definitions and Wikipedia summaries, shown directly in ATUMI). Tools are free and unlimited.`,
     },
     {
@@ -282,7 +282,7 @@ To sign out: on a phone, the exit icon at the top right of the screen; on a comp
 Profile photo (optional): on the home page, tap the circle with your initials to add your photo (JPG, PNG or WebP), then tap it again to change or remove it. It is cropped to a square and stays private: only you can see it.
 To protect your account, ATUMI signs you out automatically after 1 hour without activity (app closed or left open untouched). Just sign in again.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
-The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof ATUM, Planner, Timetable and Help; Search is the magnifying glass at the top of the screen on a phone and a menu entry on a computer. The teacher's answer language is chosen separately, on the "Prof ATUM" page.
+The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof NEO, Planner, Timetable and Help; Search is the magnifying glass at the top of the screen on a phone and a menu entry on a computer. The teacher's answer language is chosen separately, on the "Prof NEO" page.
 ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {

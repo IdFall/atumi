@@ -14,7 +14,7 @@ const INPUT =
 
 /**
  * Boîte à outils : calculatrice, conversions, tableau périodique, formules, dictionnaire. Sans IA.
- * `encyclopedia` (venu du Prof ATUM, notion absente du cours) ouvre l'encyclopédie sur ce mot.
+ * `encyclopedia` (venu du Prof NEO, notion absente du cours) ouvre l'encyclopédie sur ce mot.
  */
 export function Toolbox({ encyclopedia }: { encyclopedia?: string }) {
   const t = useT().tools;
@@ -298,7 +298,7 @@ function Dictionary({ encyclopedia }: { encyclopedia?: string }) {
   };
   const button = "flex-1 rounded-lg px-3 py-2 text-center text-sm font-semibold disabled:opacity-50";
 
-  // Venu du Prof ATUM : l'article s'ouvre tout de suite, sans ressaisie.
+  // Venu du Prof NEO : l'article s'ouvre tout de suite, sans ressaisie.
   useEffect(() => {
     if (!encyclopedia || launched.current) return;
     launched.current = true;

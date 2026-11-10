@@ -1,5 +1,5 @@
 /**
- * Fonctions pures des appels avec le Prof ATUM : conversion de l'audio
+ * Fonctions pures des appels avec le Prof NEO : conversion de l'audio
  * (navigateur ↔ modèle), durée facturée et transcription gardée.
  */
 

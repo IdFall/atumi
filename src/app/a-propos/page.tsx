@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: `${t.about.title} · ${t.app.name}` };
 }
 
-/** Présentation publique d'ATUMI et de Prof ATUM : objectif, rôle, modes. */
+/** Présentation publique d'ATUMI et de Prof NEO : objectif, rôle, modes. */
 export default async function AboutPage() {
   const t = await getT();
   return (

@@ -18,7 +18,7 @@ function Group({ title, children }: { title: string; children: ReactNode }) {
 
 const ITEM = "block rounded-xl border border-neutral-200 bg-white p-3 hover:border-primary dark:border-neutral-800 dark:bg-neutral-950";
 
-/** Résultats groupés (contenu, modules, chapitres, documents, agenda) et lien vers le Prof ATUM. */
+/** Résultats groupés (contenu, modules, chapitres, documents, agenda) et lien vers le Prof NEO. */
 export async function SearchResultsView({ results: r, q }: { results: SearchResults; q: string }) {
   const s = (await getT()).search;
   const tag = DATE_LOCALES[await getLocale()];

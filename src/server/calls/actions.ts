@@ -15,7 +15,7 @@ import { createVoiceToken } from "@/server/ai/voice";
 import { requireUserId } from "@/server/auth/session";
 
 /**
- * Appels avec le Prof ATUM. Le serveur crée l'appel (minutes du forfait
+ * Appels avec le Prof NEO. Le serveur crée l'appel (minutes du forfait
  * vérifiées avant), donne au navigateur un jeton Gemini Live limité aux
  * minutes restantes, suit la durée par des signaux réguliers et la clôture.
  * Seule la transcription est gardée, comme un message de la conversation.

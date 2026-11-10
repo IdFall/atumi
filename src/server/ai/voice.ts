@@ -3,7 +3,7 @@ import { GoogleGenAI, Modality } from "@google/genai";
 import { CALL_CONTEXT_TARGET_TOKENS, CALL_CONTEXT_TRIGGER_TOKENS, CALL_SPEECH_CODES, type CallLanguage } from "@/config/calls";
 
 /**
- * Appels voix avec le Prof ATUM : Gemini Live (Google). La clé reste sur le
+ * Appels voix avec le Prof NEO : Gemini Live (Google). La clé reste sur le
  * serveur ; le navigateur reçoit un jeton éphémère, utilisable une seule fois,
  * qui verrouille le modèle et les consignes, et qui expire à la fin des
  * minutes autorisées (le serveur de Google refuse alors la suite de l'appel).

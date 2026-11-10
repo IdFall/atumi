@@ -15,7 +15,7 @@ const fr = {
     slogan: "Avec ATUMI, développe tes capacités.",
     badge: "Ton professeur IA, 24 h/24",
     heroIntro:
-      "Importe tes cours (PDF, Word ou photo). ATUMI en fait une synthèse, Prof ATUM t'explique au tableau ce que tu ne comprends pas, et les quiz te font progresser.",
+      "Importe tes cours (PDF, Word ou photo). ATUMI en fait une synthèse, Prof NEO t'explique au tableau ce que tu ne comprends pas, et les quiz te font progresser.",
     stats: [
       { value: "PDF · Word · Photo", label: "tes cours, tels quels" },
       { value: "FR · EN", label: "le Prof parle ta langue" },
@@ -26,7 +26,7 @@ const fr = {
     featuresIntro: "Des outils puissants, pensés pour les lycéens et les étudiants.",
     features: [
       { title: "Synthèse de tes cours", body: "L'essentiel de chaque chapitre, clair et structuré, avec les pages de ton cours." },
-      { title: "Prof ATUM au tableau", body: "Formules, schémas, encadrés et images : il explique comme un vrai professeur, et te fait réfléchir avant de donner la réponse." },
+      { title: "Prof NEO au tableau", body: "Formules, schémas, encadrés et images : il explique comme un vrai professeur, et te fait réfléchir avant de donner la réponse." },
       { title: "Quiz qui font progresser", body: "Des QCM par module ou par chapitre, corrigés tout de suite, pour savoir ce qui est acquis et ce qu'il faut revoir." },
       { title: "Recherche et outils", body: "Retrouve une notion dans tes cours, interroge le web avec ses sources, calcule, convertis, consulte le tableau périodique." },
       { title: "Agenda et emploi du temps", body: "Tes devoirs, tes examens et ta semaine au même endroit, avec des rappels et un partage par WhatsApp." },
@@ -57,7 +57,7 @@ const fr = {
     signIn: "Me connecter",
     aboutLink: "Qui est ATUMI ?",
   },
-  /** Présentation d'ATUMI et de Prof ATUM (page /a-propos et article d'aide). */
+  /** Présentation d'ATUMI et de Prof NEO (page /a-propos et article d'aide). */
   about: {
     title: "Qui est ATUMI ?",
     nameMeaning: "Le « I » d'ATUMI veut dire Intelligent : un savoir qui se construit point par point, avec toi.",
@@ -77,9 +77,9 @@ const fr = {
       "Il ne remplace pas tes professeurs : il t'accompagne entre deux cours.",
       "Il ne demande jamais le nom de ton établissement et garde tes cours privés.",
     ],
-    profTitle: "Qui est Prof ATUM ?",
+    profTitle: "Qui est Prof NEO ?",
     profIntro:
-      "Prof ATUM est ton professeur particulier IA. Il répond à partir de tes cours et te dit quand une explication n'en vient pas.",
+      "Prof NEO est ton professeur particulier IA. Il répond à partir de tes cours et te dit quand une explication n'en vient pas.",
     profModes: [
       { title: "Explication", body: "une notion ou tout un chapitre, étape par étape." },
       { title: "S'exercer", body: "de l'aide sur un exercice, avec des indices ; la solution vient après ta propre tentative." },
@@ -161,7 +161,7 @@ const fr = {
     slogan: "Avec ATUMI, développe tes capacités.",
     station: "Ta station ATUMI",
     askPlaceholder: "Demande à ATUMI…",
-    satellites: { tutor: "Prof ATUM", import: "Importer", search: "Rechercher", agenda: "Agenda" },
+    satellites: { tutor: "Prof NEO", import: "Importer", search: "Rechercher", agenda: "Agenda" },
     missionTitle: "Ta prochaine mission",
     missions: {
       overdue: "En retard : {title}. Fais-le maintenant ou marque-le comme fait.",
@@ -256,11 +256,11 @@ const fr = {
     submit: "Chercher",
     tooShort: "Écris au moins 2 lettres.",
     resultsFor: "Résultats pour « {q} »",
-    none: "Rien trouvé dans tes cours pour « {q} ». Vérifie l'orthographe, essaie un autre mot, ou pose la question au Prof ATUM.",
+    none: "Rien trouvé dans tes cours pour « {q} ». Vérifie l'orthographe, essaie un autre mot, ou pose la question au Prof NEO.",
     groups: { passages: "Dans le contenu de tes cours", modules: "Modules", chapters: "Chapitres", documents: "Documents", events: "Agenda" },
     page: "page {page}",
-    askTutor: "Demander au Prof ATUM",
-    askTutorHint: "Le Prof ATUM peut t'expliquer « {q} » à partir de tes cours.",
+    askTutor: "Demander au Prof NEO",
+    askTutorHint: "Le Prof NEO peut t'expliquer « {q} » à partir de tes cours.",
     tips: "Astuce : la recherche ne compte pas dans ton forfait.",
   },
   research: {
@@ -287,7 +287,7 @@ const fr = {
   },
   call: {
     button: "Appeler le Prof",
-    title: "Appel avec le Prof ATUM",
+    title: "Appel avec le Prof NEO",
     minutesLeft: "{minutes} min restantes",
     noMinutes: "Tu n'as plus de minutes d'appel sur ton forfait.",
     noAccess: "Les appels avec le Prof sont inclus dans les forfaits.",
@@ -306,7 +306,7 @@ const fr = {
     unmute: "Rétablir le micro",
     cameraOff: "Couper la caméra",
     cameraOn: "Rétablir la caméra",
-    transcriptTitle: "Appel avec le Prof ATUM · {minutes} min",
+    transcriptTitle: "Appel avec le Prof NEO · {minutes} min",
     transcriptYou: "Toi",
     errors: {
       unavailable: "Les appels sont indisponibles pour le moment. Réessaie plus tard.",
@@ -318,7 +318,7 @@ const fr = {
     },
   },
   board: {
-    title: "Tableau du Prof ATUM",
+    title: "Tableau du Prof NEO",
     expand: "Plein écran",
     close: "Fermer",
     schema: "Schéma",
@@ -438,7 +438,7 @@ const fr = {
     home: "Accueil",
     courses: "Mes cours",
     import: "Importer",
-    tutor: "Prof ATUM",
+    tutor: "Prof NEO",
     agenda: "Agenda",
     timetable: "Emploi du temps",
     search: "Recherche",
@@ -534,7 +534,7 @@ const fr = {
     quizNoneLeft: "Tu as utilisé tous les quiz de ton forfait.",
     quizUnlimited: "Quiz sans limite avec ton forfait.",
     openSynthesis: "Synthèse et quiz",
-    askTutor: "Poser une question à Prof ATUM",
+    askTutor: "Poser une question à Prof NEO",
     errors: {
       accessExpired: "Ton accès est terminé : il faut un forfait pour continuer.",
       quotaReached: "Tu as utilisé tous les quiz de ton forfait.",
@@ -619,10 +619,10 @@ const fr = {
     notInDocuments:
       "Je ne trouve pas cette information dans tes documents. Vérifie que le bon cours est importé.",
     unavailable: "Le professeur IA est momentanément indisponible. Réessaie dans quelques minutes.",
-    name: "Prof ATUM",
-    avatarAlt: "Professeur ATUM",
+    name: "Prof NEO",
+    avatarAlt: "Professeur NEO",
     subtitle: "Répond à partir de ton cours",
-    whoIs: "Qui est Prof ATUM ?",
+    whoIs: "Qui est Prof NEO ?",
     languageLabel: "Langue du professeur",
     languages: { fr: "Français", en: "English", wo: "Wolof" },
     betaBadge: "bêta",
@@ -639,13 +639,13 @@ const fr = {
       confirmYes: "Oui, effacer",
       cancel: "Annuler",
       confirmOne: "Effacer cette conversation ? Elle disparaîtra définitivement ; les messages envoyés restent comptés dans ton forfait.",
-      confirmAll: "Effacer toutes tes conversations avec Prof ATUM ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
+      confirmAll: "Effacer toutes tes conversations avec Prof NEO ? C'est définitif ; les messages envoyés restent comptés dans ton forfait.",
     },
-    languageNotice: "Prof ATUM te répond en {language}.",
+    languageNotice: "Prof NEO te répond en {language}.",
     languageNames: { fr: "français", en: "anglais", wo: "wolof" },
     call: {
-      start: "Appeler Prof ATUM",
-      title: "Appel avec Prof ATUM",
+      start: "Appeler Prof NEO",
+      title: "Appel avec Prof NEO",
       remaining: "min restantes",
       mute: "Couper le micro",
       camera: "Caméra",
@@ -659,7 +659,7 @@ const fr = {
     placeholder: "Écris ta question",
     exercisePlaceholder: "Écris ta question ou ta démarche",
     send: "Envoyer",
-    thinking: "Prof ATUM réfléchit…",
+    thinking: "Prof NEO réfléchit…",
     messagesLeft: "Messages restants pendant l'essai : {n} sur {total}",
     noMessagesLeft: "Tu as utilisé tes messages au professeur. Abonne-toi pour continuer.",
     newConversation: "Nouvelle question",
@@ -677,8 +677,8 @@ const fr = {
     },
     further: {
       cta: "Pour aller plus loin",
-      hint: "Prof ATUM complète avec d'autres sources fiables trouvées sur le web. Compte comme une recherche web.",
-      pending: "Prof ATUM cherche d'autres sources… (jusqu'à une minute)",
+      hint: "Prof NEO complète avec d'autres sources fiables trouvées sur le web. Compte comme une recherche web.",
+      pending: "Prof NEO cherche d'autres sources… (jusqu'à une minute)",
       webSources: "Sources web",
       check: "Vérifie toujours les sources importantes.",
       errors: {
@@ -690,10 +690,10 @@ const fr = {
     },
     sources: "Sources",
     intro: {
-      expliquer: "Pose ta question sur ton cours : Prof ATUM répond à partir de tes documents et cite les pages.",
-      approfondir: "Prof ATUM reprend le chapitre en entier, étape par étape.",
-      exercer: "Donne ton exercice et ta démarche. Prof ATUM t'aide avec des indices ; la solution vient après ta tentative.",
-      decouvrir: "Choisis un sujet : Prof ATUM l'explique simplement, avec des exemples de la vie de tous les jours.",
+      expliquer: "Pose ta question sur ton cours : Prof NEO répond à partir de tes documents et cite les pages.",
+      approfondir: "Prof NEO reprend le chapitre en entier, étape par étape.",
+      exercer: "Donne ton exercice et ta démarche. Prof NEO t'aide avec des indices ; la solution vient après ta tentative.",
+      decouvrir: "Choisis un sujet : Prof NEO l'explique simplement, avec des exemples de la vie de tous les jours.",
     },
     errors: {
       empty: "Écris ton message.",
@@ -833,7 +833,7 @@ const fr = {
       syntheses: "Synthèses prêtes",
       quizzes: "Quiz créés",
       quizzesHint: "{attempts} passés · moyenne {average}",
-      tutor: "Messages au Prof ATUM",
+      tutor: "Messages au Prof NEO",
       calls: "Appels avec le Prof",
       callsHint: "{minutes} minutes au total",
       contestations: "Contestations de correction",
@@ -986,7 +986,7 @@ const fr = {
       },
       empty: "Aucun appel au modèle sur la période (clé d'API absente ou pas encore d'activité).",
       features: {
-        tutor: "Prof ATUM",
+        tutor: "Prof NEO",
         help: "Assistant d'aide",
         synthesis: "Synthèses",
         quiz_generation: "Quiz",

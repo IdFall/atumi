@@ -5,7 +5,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useT } from "@/i18n/client";
 
 /**
- * Cadre du tableau d'explication du Prof ATUM : bandeau « Tableau », surface
+ * Cadre du tableau d'explication du Prof NEO : bandeau « Tableau », surface
  * quadrillée, et bouton pour l'afficher en plein écran (fenêtre par-dessus la
  * page, qui marche aussi sur iPhone, où le plein écran du navigateur n'existe pas).
  */

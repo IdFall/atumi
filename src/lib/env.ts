@@ -13,7 +13,7 @@ const serverSchema = publicSchema.extend({
   ANTHROPIC_API_KEY: z.string().min(1).optional(),
   ATUMI_AI_MODEL: z.string().min(1).default("claude-opus-5-5"),
   ATUMI_AI_MODEL_LIGHT: z.string().min(1).default("claude-opus-5-5"),
-  /** Appels voix avec le Prof ATUM (Gemini Live). Sans clé, les appels ne sont pas proposés. */
+  /** Appels voix avec le Prof NEO (Gemini Live). Sans clé, les appels ne sont pas proposés. */
   GEMINI_API_KEY: z.string().min(1).optional(),
   ATUMI_VOICE_MODEL: z.string().min(1).default("gemini-3.8-live"),
 });

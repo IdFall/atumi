@@ -2,7 +2,7 @@ import { CALL_INPUT_RATE, CALL_OUTPUT_RATE } from "@/config/calls";
 import { appendTranscript, downsample, floatToPcm16Base64, pcm16Base64ToFloat, type TranscriptLine } from "@/lib/call";
 
 /**
- * Appel en direct avec le Prof ATUM, dans le navigateur : micro (et caméra en
+ * Appel en direct avec le Prof NEO, dans le navigateur : micro (et caméra en
  * option) envoyés à Gemini Live avec le jeton éphémère donné par le serveur,
  * voix du professeur jouée au fil de l'eau, transcription des deux côtés.
  * Rien n'est enregistré : l'audio et les images ne font que passer.

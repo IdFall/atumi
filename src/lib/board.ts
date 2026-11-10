@@ -1,7 +1,7 @@
 /**
- * Lecture du Markdown produit par le modèle (synthèses, Prof ATUM, recherche)
+ * Lecture du Markdown produit par le modèle (synthèses, Prof NEO, recherche)
  * en blocs à afficher, sans jamais interpréter de HTML. En plus du Markdown
- * simple (titres, puces, gras, renvois [p. N]), le « tableau » du Prof ATUM
+ * simple (titres, puces, gras, renvois [p. N]), le « tableau » du Prof NEO
  * comprend : formules LaTeX ($…$, $$…$$), encadrés (:::retenir … :::),
  * schémas (bloc ```schema en Mermaid), tableaux (| a | b |) et images
  * ([image: adresse | légende | page source]).
