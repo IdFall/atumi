@@ -3,13 +3,14 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
-import { AgendaReminders } from "@/components/agenda/reminders";
-import { AccessBanner } from "@/components/courses/access-banner";
-import { ModuleCard } from "@/components/courses/module-card";
+import { DashboardView } from "@/components/dashboard/dashboard-view";
 import { getT } from "@/i18n/server";
+import { nextMission } from "@/lib/mission";
 import { listReminders, todayFor } from "@/server/agenda/queries";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
+import { getDashboardStats } from "@/server/dashboard/queries";
+import { getAvatarUrl } from "@/server/profile/avatar";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -19,17 +20,17 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function DashboardPage() {
   const t = await getT();
   return (
-    <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 md:py-8">
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
         <Dashboard />
       </Suspense>
-      <Link href="/aide" className="text-sm font-medium text-primary dark:text-lavande">
-        {t.help.link}
-      </Link>
-      <Link href="/a-propos" className="text-sm font-medium text-primary dark:text-lavande">
-        {t.home.aboutLink}
-      </Link>
-      <div className="self-start">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <Link href="/aide" className="font-medium text-primary dark:text-lavande">
+          {t.help.link}
+        </Link>
+        <Link href="/a-propos" className="font-medium text-primary dark:text-lavande">
+          {t.home.aboutLink}
+        </Link>
         <SignOutButton />
       </div>
     </main>
@@ -37,65 +38,27 @@ export default async function DashboardPage() {
 }
 
 async function Dashboard() {
-  const t = await getT();
   const user = await getCurrentUser();
   const today = todayFor(user.countryCode);
-  const [access, modules, reminders] = await Promise.all([getAccess(), listModules(), listReminders(today)]);
+  const [access, modules, reminders, stats, avatarUrl] = await Promise.all([
+    getAccess(),
+    listModules(),
+    listReminders(today),
+    getDashboardStats(),
+    getAvatarUrl(user.id),
+  ]);
   return (
-    <>
-      <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold">
-          {t.dashboard.greeting}, {user.username}
-        </h1>
-        <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.auth.cycles[user.cycle]}</p>
-      </header>
-
-      <form action="/recherche" role="search" className="flex gap-2">
-        <label htmlFor="dashboard-search" className="sr-only">
-          {t.search.label}
-        </label>
-        <input
-          id="dashboard-search"
-          name="q"
-          type="search"
-          maxLength={100}
-          placeholder={t.search.placeholder}
-          className="min-w-0 flex-1 rounded-xl border border-neutral-300 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950"
-        />
-        <button type="submit" className="rounded-xl border-2 border-primary px-4 py-2 font-semibold text-primary dark:border-lavande dark:text-lavande">
-          {t.search.submit}
-        </button>
-      </form>
-
-      <AccessBanner access={access} />
-
-      <AgendaReminders events={reminders} today={today} />
-
-      <Link href="/importer" className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white">
-        {t.dashboard.importCta}
-      </Link>
-
-      {modules.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-neutral-300 p-6 text-center text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
-          {t.dashboard.empty}
-        </p>
-      ) : (
-        <section className="flex flex-col gap-3">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-lg font-semibold">{t.dashboard.recentModules}</h2>
-            <Link href="/cours" className="text-sm font-medium text-primary dark:text-lavande">
-              {t.dashboard.seeAll}
-            </Link>
-          </div>
-          <ul className="flex flex-col gap-3">
-            {modules.slice(0, 3).map((m) => (
-              <li key={m.id}>
-                <ModuleCard module={m} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </>
+    <DashboardView
+      userId={user.id}
+      username={user.username}
+      avatarUrl={avatarUrl}
+      cycle={user.cycle}
+      access={access}
+      mission={nextMission(modules, reminders)}
+      reminders={reminders}
+      today={today}
+      stats={stats}
+      moduleCount={modules.length}
+    />
   );
 }

@@ -91,7 +91,38 @@ body {
 /* Appel : halo autour du Prof ATUM quand il parle. */
 @keyframes atumi-call-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(19 184 200 / 0.55); } 50% { box-shadow: 0 0 0 18px rgb(19 184 200 / 0); } }
 .atumi-call-pulse { animation: atumi-call-pulse 1.4s ease-in-out infinite; }
+/* Accueil connecté : espace étoilé, planète IA qui respire, réseau qui scintille. */
+.atumi-cosmos {
+  background-color: #071A33;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, rgb(255 255 255 / 0.8), transparent 60%),
+    radial-gradient(1px 1px at 78% 14%, rgb(255 255 255 / 0.7), transparent 60%),
+    radial-gradient(1.5px 1.5px at 88% 62%, rgb(185 168 242 / 0.9), transparent 60%),
+    radial-gradient(1px 1px at 30% 80%, rgb(255 255 255 / 0.6), transparent 60%),
+    radial-gradient(1px 1px at 55% 35%, rgb(127 243 255 / 0.7), transparent 60%),
+    radial-gradient(1.5px 1.5px at 6% 64%, rgb(255 255 255 / 0.5), transparent 60%),
+    radial-gradient(1px 1px at 66% 90%, rgb(255 255 255 / 0.6), transparent 60%),
+    radial-gradient(120% 90% at 85% 0%, rgb(117 87 217 / 0.55), transparent 60%),
+    radial-gradient(90% 80% at 0% 100%, rgb(19 184 200 / 0.25), transparent 60%);
+}
+@keyframes atumi-breathe { 0%, 100% { opacity: 0.75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.04); } }
+.atumi-planet-breathe { transform-box: fill-box; transform-origin: center; animation: atumi-breathe 5s ease-in-out infinite; }
+@keyframes atumi-twinkle { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+.atumi-node { animation: atumi-twinkle 2.4s ease-in-out infinite; }
+.atumi-node-1 { animation-delay: 0.6s; }
+.atumi-node-2 { animation-delay: 1.2s; }
+.atumi-node-3 { animation-delay: 1.8s; }
+/* Carte « prochaine mission » : bordure lumineuse violet → cyan. */
+.atumi-mission {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--atumi-card, #ffffff), var(--atumi-card, #ffffff)) padding-box,
+    linear-gradient(120deg, #7557D9, #13B8C8, #4C6BFF) border-box;
+}
+@media (prefers-color-scheme: dark) { .atumi-mission { --atumi-card: #0b2142; } }
 @media (prefers-reduced-motion: reduce) {
+  .atumi-planet-breathe, .atumi-node { animation: none; }
+  .atumi-orbiter { display: none; }
   .atumi-orb, .atumi-float, .atumi-float-alt, .atumi-fade-up, .atumi-ping, .atumi-call-pulse { animation: none; }
 }
 .atumi-grid-light {
