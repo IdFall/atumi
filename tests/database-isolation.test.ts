@@ -767,6 +767,41 @@ describe("isolation des données entre utilisateurs", () => {
     expect((await db.query(`select 1 from public.research_questions`)).rows).toHaveLength(0);
   });
 
+  it("le défi quiz est créé et compté par le serveur, visible par son seul auteur", async () => {
+    await asService();
+    const quizA = (await db.query<{ id: string }>(`select id from public.quizzes where user_id = '${A}' limit 1`)).rows[0].id;
+
+    // Ni l'élève ni un visiteur n'écrivent un défi eux-mêmes.
+    await asUser(A);
+    await expect(
+      db.exec(`insert into public.quiz_challenges (user_id, quiz_id) values ('${A}', '${quizA}')`),
+    ).rejects.toThrow();
+    await expect(db.exec(`select public.record_challenge_play(gen_random_uuid())`)).rejects.toThrow();
+
+    // Le défi doit porter sur un quiz de l'élève.
+    await asService();
+    await expect(
+      db.exec(`insert into public.quiz_challenges (user_id, quiz_id) values ('${B}', '${quizA}')`),
+    ).rejects.toThrow();
+    const challenge = await db.query<{ id: string }>(
+      `insert into public.quiz_challenges (user_id, quiz_id) values ('${A}', '${quizA}') returning id`,
+    );
+    const id = challenge.rows[0].id;
+    // Un seul défi par quiz : le lien reste le même.
+    await expect(
+      db.exec(`insert into public.quiz_challenges (user_id, quiz_id) values ('${A}', '${quizA}')`),
+    ).rejects.toThrow();
+    await db.exec(`select public.record_challenge_play('${id}')`);
+    await db.exec(`select public.record_challenge_play('${id}')`);
+
+    await asUser(A);
+    expect((await db.query(`select play_count from public.quiz_challenges`)).rows).toEqual([{ play_count: 2 }]);
+    await expect(db.exec(`update public.quiz_challenges set play_count = 99`)).rejects.toThrow();
+    await asUser(B);
+    expect((await db.query(`select 1 from public.quiz_challenges`)).rows).toHaveLength(0);
+    await asService();
+  });
+
   it("seul le Sénégal est ouvert au lancement", async () => {
     await asUser(A);
     const { rows } = await db.query<{ code: string }>(`select code from public.countries where is_active`);

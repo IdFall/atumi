@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { ChallengeButton } from "@/components/challenge/challenge-button";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { StudyActionButton } from "@/components/study/action-button";
 import { ContestForm } from "@/components/study/contest-form";
@@ -73,6 +74,7 @@ async function Correction({ quiz, back }: { quiz: QuizView; back: string }) {
     <>
       <h1 className="text-2xl font-bold">{t.quiz.correctionTitle}</h1>
       <ScoreGauge correct={correction.correct} total={correction.total} />
+      <ChallengeButton quizId={quiz.id} />
       <ol className="flex flex-col gap-3">
         {quiz.questions.map((q, index) => {
           const a = correction.answers[q.id];
