@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { SignOutButton } from "@/components/auth/sign-out-button";
 import { DashboardView } from "@/components/dashboard/dashboard-view";
 import { getT } from "@/i18n/server";
 import { nextMission } from "@/lib/mission";
@@ -31,7 +30,6 @@ export default async function DashboardPage() {
         <Link href="/a-propos" className="font-medium text-primary dark:text-lavande">
           {t.home.aboutLink}
         </Link>
-        <SignOutButton />
       </div>
     </main>
   );

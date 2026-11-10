@@ -168,7 +168,7 @@ L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
-Pour te déconnecter, appuie sur « Me déconnecter » en bas de l'accueil.
+Pour te déconnecter : sur téléphone, l'icône de sortie en haut à droite de l'écran ; sur ordinateur, « Me déconnecter » en bas du menu.
 Photo de profil (facultative) : sur l'accueil, appuie sur le rond avec tes initiales pour ajouter ta photo (JPG, PNG ou WebP), puis dessus à nouveau pour la changer ou la retirer. Elle est recadrée en carré et reste privée : toi seul la vois.
 Pour protéger ton compte, ATUMI te déconnecte automatiquement après 1 h sans activité (appli fermée ou laissée ouverte sans y toucher). Il suffit de te reconnecter.
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
@@ -274,7 +274,7 @@ The "Tools" tab gathers a scientific calculator, unit conversions, the periodic 
       title: "My account and password",
       body: `To sign in, use your email or phone number with your password, from the sign-in page.
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
-To sign out, tap "Sign out" at the bottom of the home page.
+To sign out: on a phone, the exit icon at the top right of the screen; on a computer, "Sign out" at the bottom of the menu.
 Profile photo (optional): on the home page, tap the circle with your initials to add your photo (JPG, PNG or WebP), then tap it again to change or remove it. It is cropped to a square and stays private: only you can see it.
 To protect your account, ATUMI signs you out automatically after 1 hour without activity (app closed or left open untouched). Just sign in again.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
