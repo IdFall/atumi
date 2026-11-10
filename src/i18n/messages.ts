@@ -176,6 +176,12 @@ const fr = {
     energy: { messages: "Messages au Prof", imports: "Imports de cours", research: "Recherches web (24 h)", call: "Minutes d'appel" },
     unlimited: "Illimité",
     notIncluded: "Non inclus",
+    avatar: {
+      add: "Ajouter ma photo de profil",
+      change: "Changer ma photo",
+      remove: "Retirer ma photo",
+      error: "La photo n'a pas pu être enregistrée. Essaie une image JPG, PNG ou WebP.",
+    },
     noAccess: "Choisis un forfait pour recharger ton énergie.",
     progressTitle: "Ta progression",
     progress: { modules: "Modules", quizzes: "Quiz passés", average: "Moyenne" },

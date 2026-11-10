@@ -10,6 +10,7 @@ import type { Access } from "@/server/courses/queries";
 import type { DashboardStats, Gauge } from "@/server/dashboard/queries";
 
 import { AiPlanet } from "./ai-planet";
+import { AvatarButton } from "./avatar-button";
 
 /**
  * Accueil connecté : le poste de pilotage de l'élève. « Mes cours » range les
@@ -26,7 +27,10 @@ const SATELLITES = [
 ] as const;
 
 export interface DashboardViewProps {
+  userId: string;
   username: string;
+  /** Lien signé de la photo de profil ; null sans photo (initiales). */
+  avatarUrl: string | null;
   cycle: Cycle;
   access: Access;
   mission: Mission;
@@ -37,7 +41,7 @@ export interface DashboardViewProps {
 }
 
 /** Affichage de l'accueil, séparé de la lecture des données (aperçus et tests visuels). */
-export async function DashboardView({ username, cycle, access, mission, reminders, today, stats, moduleCount }: DashboardViewProps) {
+export async function DashboardView({ userId, username, avatarUrl, cycle, access, mission, reminders, today, stats, moduleCount }: DashboardViewProps) {
   const t = await getT();
   const missionText = t.dashboard.missions[mission.kind].replace("{title}", mission.title ?? "");
 
@@ -47,13 +51,16 @@ export async function DashboardView({ username, cycle, access, mission, reminder
 
       {/* Station : planète IA, salutation, satellites (accès rapides) */}
       <section className="atumi-cosmos relative overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lg shadow-primary/20 md:px-8 md:pb-8">
-        <div className="relative z-10 flex flex-col gap-1 md:max-w-[55%]">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{t.dashboard.station}</p>
-          <h1 className="text-2xl font-bold md:text-3xl">
-            {t.dashboard.greeting}, {username}
-          </h1>
-          <p className="text-sm text-lavande">{t.dashboard.slogan}</p>
-          <p className="mt-1 text-xs text-white/60">{t.auth.cycles[cycle]}</p>
+        <div className="relative z-10 flex items-center gap-4 md:max-w-[60%]">
+          <AvatarButton userId={userId} username={username} avatarUrl={avatarUrl} />
+          <div className="flex min-w-0 flex-col gap-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{t.dashboard.station}</p>
+            <h1 className="truncate text-2xl font-bold md:text-3xl">
+              {t.dashboard.greeting}, {username}
+            </h1>
+            <p className="text-sm text-lavande">{t.dashboard.slogan}</p>
+            <p className="text-xs text-white/60">{t.auth.cycles[cycle]}</p>
+          </div>
         </div>
         <AiPlanet className="atumi-float mx-auto -my-2 w-full max-w-[340px] md:absolute md:-right-6 md:top-1/2 md:my-0 md:w-[420px] md:max-w-none md:-translate-y-1/2" />
         <nav className="relative z-10 mt-1 grid grid-cols-4 gap-2 md:mt-8 md:max-w-[55%]">

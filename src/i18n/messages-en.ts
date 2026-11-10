@@ -170,6 +170,12 @@ export const en: Messages = {
     energy: { messages: "Messages to the Prof", imports: "Course imports", research: "Web searches (24 h)", call: "Call minutes" },
     unlimited: "Unlimited",
     notIncluded: "Not included",
+    avatar: {
+      add: "Add my profile photo",
+      change: "Change my photo",
+      remove: "Remove my photo",
+      error: "The photo could not be saved. Try a JPG, PNG or WebP image.",
+    },
     noAccess: "Choose a plan to recharge your energy.",
     progressTitle: "Your progress",
     progress: { modules: "Modules", quizzes: "Quizzes taken", average: "Average" },

@@ -10,6 +10,7 @@ import { listReminders, todayFor } from "@/server/agenda/queries";
 import { getCurrentUser } from "@/server/auth/session";
 import { getAccess, listModules } from "@/server/courses/queries";
 import { getDashboardStats } from "@/server/dashboard/queries";
+import { getAvatarUrl } from "@/server/profile/avatar";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -39,10 +40,18 @@ export default async function DashboardPage() {
 async function Dashboard() {
   const user = await getCurrentUser();
   const today = todayFor(user.countryCode);
-  const [access, modules, reminders, stats] = await Promise.all([getAccess(), listModules(), listReminders(today), getDashboardStats()]);
+  const [access, modules, reminders, stats, avatarUrl] = await Promise.all([
+    getAccess(),
+    listModules(),
+    listReminders(today),
+    getDashboardStats(),
+    getAvatarUrl(user.id),
+  ]);
   return (
     <DashboardView
+      userId={user.id}
       username={user.username}
+      avatarUrl={avatarUrl}
       cycle={user.cycle}
       access={access}
       mission={nextMission(modules, reminders)}
