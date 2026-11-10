@@ -67,6 +67,7 @@ export function NavBar({ pathname }: { pathname: string | null }) {
             <Icon d={SEARCH_ICON} />
           </Link>
           <LocaleSwitcher />
+          <SignOutButton tone="icon" />
         </div>
       </header>
 
