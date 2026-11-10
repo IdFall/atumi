@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { CallButton } from "@/components/tutor/call-button";
 import { TutorComposer } from "@/components/tutor/composer";
 import { DeepenButton } from "@/components/tutor/deepen-button";
 import { EraseButton } from "@/components/tutor/erase-button";
 import { TutorHeader } from "@/components/tutor/tutor-header";
 import { getT } from "@/i18n/server";
 import type { TutorMode } from "@/server/ai/prompts";
+import { getCallSettings } from "@/server/calls/queries";
 import { getChapterScope, getTutorSettings, listConversations } from "@/server/tutor/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -34,10 +36,11 @@ async function NewConversation({ searchParams }: { searchParams: PageProps<"/pro
   const pick = (v: string | string[] | undefined) => (typeof v === "string" ? v : "");
   const mode = (MODES as readonly string[]).includes(pick(query.mode)) ? (pick(query.mode) as TutorMode) : "expliquer";
 
-  const [settings, recent, scope] = await Promise.all([
+  const [settings, recent, scope, call] = await Promise.all([
     getTutorSettings(),
     listConversations(),
     pick(query.module) && pick(query.chapitre) ? getChapterScope(pick(query.module), pick(query.chapitre)) : null,
+    getCallSettings(),
   ]);
   const scopeQuery = scope ? `&module=${scope.moduleId}&chapitre=${scope.chapterId}` : "";
   const scoped = mode !== "decouvrir" && scope;
@@ -59,6 +62,16 @@ async function NewConversation({ searchParams }: { searchParams: PageProps<"/pro
       {scoped && mode === "expliquer" && settings.messagesLeft !== 0 ? (
         <DeepenButton moduleId={scoped.moduleId} chapterId={scoped.chapterId} />
       ) : null}
+
+      <CallButton
+        conversationId={null}
+        mode={mode}
+        moduleId={scoped ? scoped.moduleId : null}
+        chapterId={scoped ? scoped.chapterId : null}
+        available={call.available}
+        hasAccess={call.hasAccess}
+        secondsLeft={call.secondsLeft}
+      />
 
       <TutorComposer
         conversationId={null}

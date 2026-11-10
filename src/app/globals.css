@@ -88,8 +88,11 @@ body {
 .atumi-delay { animation-delay: 0.15s; }
 .atumi-delay .atumi-float { animation-delay: 1s; }
 .atumi-ping { animation: atumi-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+/* Appel : halo autour du Prof ATUM quand il parle. */
+@keyframes atumi-call-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(19 184 200 / 0.55); } 50% { box-shadow: 0 0 0 18px rgb(19 184 200 / 0); } }
+.atumi-call-pulse { animation: atumi-call-pulse 1.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .atumi-orb, .atumi-float, .atumi-float-alt, .atumi-fade-up, .atumi-ping { animation: none; }
+  .atumi-orb, .atumi-float, .atumi-float-alt, .atumi-fade-up, .atumi-ping, .atumi-call-pulse { animation: none; }
 }
 .atumi-grid-light {
   background-image:

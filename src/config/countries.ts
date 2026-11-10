@@ -34,7 +34,7 @@ const V1_CYCLES: readonly Cycle[] = ["lycee", "universite"];
 export type Locale = "fr" | "en";
 export const LOCALES: readonly Locale[] = ["fr", "en"];
 
-/** Langues dans lesquelles le professeur IA peut répondre. Le wolof est en bêta. */
+/** Langues dans lesquelles le professeur IA peut répondre. Le wolof (bêta) est prêt dans les consignes mais en attente : proposé dans aucun pays pour l'instant. */
 export type TutorLanguage = "fr" | "en" | "wo";
 export const TUTOR_LANGUAGES: readonly TutorLanguage[] = ["fr", "en", "wo"];
 
@@ -48,7 +48,8 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Dakar",
     paymentMethods: ["wave", "orange_money", "free_money"],
     openCycles: V1_CYCLES,
-    tutorLanguages: ["fr", "en", "wo"],
+    // Wolof en attente (décision du 2026-11-09) : remettre "wo" ici pour le rouvrir.
+    tutorLanguages: ["fr", "en"],
     isActive: true,
   },
   {
