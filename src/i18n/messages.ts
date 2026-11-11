@@ -667,6 +667,7 @@ const fr = {
     help: "Aide",
     call: "Appel Prof NEO",
     library: "Ma bibliothèque",
+    subscribe: "Abonnement",
   },
   library: {
     title: "Ma bibliothèque",
@@ -727,6 +728,7 @@ const fr = {
     minutes: "min",
     subscribed: "Abonnement actif jusqu'au",
     expired: "Ton accès est terminé. Abonne-toi pour continuer à réviser.",
+    manage: "Forfait et recharges",
   },
   courses: {
     title: "Mes cours",

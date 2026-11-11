@@ -658,6 +658,7 @@ export const en: Messages = {
     help: "Help",
     call: "Call Prof NEO",
     library: "My library",
+    subscribe: "Subscription",
   },
   library: {
     title: "My library",
@@ -718,6 +719,7 @@ export const en: Messages = {
     minutes: "min",
     subscribed: "Subscription active until",
     expired: "Your access has ended. Subscribe to keep revising.",
+    manage: "Plan and top-ups",
   },
   courses: {
     title: "My courses",
