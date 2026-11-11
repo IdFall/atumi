@@ -150,8 +150,8 @@ Seule la transcription écrite de l'appel est gardée, dans ta conversation ; au
       id: "agenda",
       title: "Mon agenda et mon emploi du temps",
       body: `Le menu a deux entrées : « Agenda » et « Emploi du temps ».
-« Agenda » : note tes devoirs, tes examens et tes autres dates (type, quoi, date, heure et module facultatifs, note). Coche le rond quand c'est fait. Les échéances sont rangées en « En retard », « Cette semaine », « Plus tard » et « Fait ».
-« Emploi du temps » : ajoute tes cours de la semaine (matière, jour, heure de début et de fin, salle et module facultatifs). Le jour d'aujourd'hui est signalé. Le bouton « Partager sur WhatsApp » ouvre WhatsApp avec ton emploi du temps déjà écrit : tu choisis à qui l'envoyer (un parent, un camarade). ATUMI n'envoie rien tout seul.
+« Agenda » : note tes devoirs, tes examens et tes autres dates (type, quoi, date, heure facultative, note). Coche le rond quand c'est fait. Les échéances sont rangées en « En retard », « Cette semaine », « Plus tard » et « Fait ».
+« Emploi du temps » : ajoute tes cours de la semaine (matière, jour, heure de début et de fin, salle facultative). Le jour d'aujourd'hui est signalé. Le bouton « Partager sur WhatsApp » ouvre WhatsApp avec ton emploi du temps déjà écrit : tu choisis à qui l'envoyer (un parent, un camarade). ATUMI n'envoie rien tout seul.
 Rappels : l'accueil affiche « À ne pas oublier » avec tes échéances en retard et celles des 7 prochains jours. Les rappels par WhatsApp ou par notification ne sont pas encore disponibles.
 Chaque échéance et chaque créneau peut être modifié ou supprimé. Si tu supprimes un module, l'échéance reste, sans lien vers le module.
 Ton agenda n'est visible que par toi.`,
@@ -260,8 +260,8 @@ Only the written transcript of the call is kept, in your conversation; no audio 
       id: "agenda",
       title: "My planner and timetable",
       body: `The menu has two entries: "Planner" and "Timetable".
-"Planner": write down your homework, exams and other dates (type, what, date, optional time and module, note). Tick the circle when it is done. Deadlines are sorted into "Overdue", "This week", "Later" and "Done".
-"Timetable": add your classes for the week (subject, day, start and end time, optional room and module). Today is highlighted. The "Share on WhatsApp" button opens WhatsApp with your timetable already written: you choose who to send it to (a parent, a classmate). ATUMI sends nothing on its own.
+"Planner": write down your homework, exams and other dates (type, what, date, optional time, note). Tick the circle when it is done. Deadlines are sorted into "Overdue", "This week", "Later" and "Done".
+"Timetable": add your classes for the week (subject, day, start and end time, optional room). Today is highlighted. The "Share on WhatsApp" button opens WhatsApp with your timetable already written: you choose who to send it to (a parent, a classmate). ATUMI sends nothing on its own.
 Reminders: the home page shows "Don't forget" with your overdue deadlines and those in the next 7 days. Reminders by WhatsApp or notification are not available yet.
 Every deadline and class can be edited or deleted. If you delete a module, the deadline stays, without a link to the module.
 Only you can see your planner.`,

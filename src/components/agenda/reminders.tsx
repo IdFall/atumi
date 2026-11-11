@@ -32,7 +32,6 @@ export function AgendaReminders({ events, today }: { events: AgendaEvent[]; toda
               <p className="text-neutral-600 dark:text-neutral-300">
                 {dayLabel(e.dueOn)}
                 {e.dueTime ? ` · ${shortTime(e.dueTime)}` : ""}
-                {e.moduleName ? ` · ${e.moduleName}` : ""}
               </p>
             </div>
             <ReminderBadge event={e} today={today} />

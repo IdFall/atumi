@@ -5,7 +5,6 @@ import { TimetableView } from "@/components/agenda/agenda-views";
 import { getT } from "@/i18n/server";
 import { weekdayOf } from "@/lib/agenda";
 import { agendaToday, listSlots } from "@/server/agenda/queries";
-import { listModules } from "@/server/courses/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -29,7 +28,6 @@ export default async function TimetablePage() {
 }
 
 async function TimetableLoader() {
-  const [today, modules, slots] = await Promise.all([agendaToday(), listModules(), listSlots()]);
-  const options = modules.map((m) => ({ id: m.id, name: m.name }));
-  return <TimetableView slots={slots} todayWeekday={weekdayOf(today)} modules={options} />;
+  const [today, slots] = await Promise.all([agendaToday(), listSlots()]);
+  return <TimetableView slots={slots} todayWeekday={weekdayOf(today)} />;
 }

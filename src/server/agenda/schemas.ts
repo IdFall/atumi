@@ -5,7 +5,6 @@ import type { AgendaErrorKey } from "@/i18n/messages";
 export const EVENT_KINDS = ["devoir", "examen", "autre"] as const;
 export type EventKind = (typeof EVENT_KINDS)[number];
 
-const optionalUuid = z.union([z.literal(""), z.uuid()]).transform((v) => (v === "" ? null : v));
 const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
 
 const eventSchema = z.object({
@@ -13,7 +12,6 @@ const eventSchema = z.object({
   title: z.string().trim().min(1).max(200),
   dueOn: z.iso.date(),
   dueTime: z.union([z.literal(""), time]).transform((v) => (v === "" ? null : v)),
-  moduleId: optionalUuid,
   note: z.string().trim().max(1000).transform((v) => (v === "" ? null : v)),
 });
 
@@ -24,7 +22,6 @@ const slotSchema = z
     endsAt: time,
     label: z.string().trim().min(1).max(120),
     place: z.string().trim().max(80).transform((v) => (v === "" ? null : v)),
-    moduleId: optionalUuid,
   })
   .refine((s) => s.endsAt > s.startsAt, { path: ["endsAt"] });
 

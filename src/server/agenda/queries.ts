@@ -15,8 +15,6 @@ export interface AgendaEvent {
   title: string;
   dueOn: string;
   dueTime: string | null;
-  moduleId: string | null;
-  moduleName: string | null;
   note: string | null;
   done: boolean;
   reminder: Reminder;
@@ -29,7 +27,6 @@ export interface TimetableSlot {
   endsAt: string;
   label: string;
   place: string | null;
-  moduleId: string | null;
 }
 
 /** Date du jour de l'élève, dans le fuseau de son pays. */
@@ -45,21 +42,18 @@ export async function listEvents(today: string): Promise<AgendaEvent[]> {
   const supabase = await createUserClient();
   const { data, error } = await supabase
     .from("agenda_events")
-    .select("id, kind, title, due_on, due_time, module_id, note, done_at, modules(name)")
+    .select("id, kind, title, due_on, due_time, note, done_at")
     .order("due_on", { ascending: true })
     .order("due_time", { ascending: true, nullsFirst: true });
   if (error) throw error;
   return (data ?? []).map((e) => {
     const done = e.done_at !== null;
-    const linked = e.modules as { name: string } | { name: string }[] | null;
     return {
       id: e.id,
       kind: e.kind as EventKind,
       title: e.title,
       dueOn: e.due_on,
       dueTime: e.due_time,
-      moduleId: e.module_id,
-      moduleName: (Array.isArray(linked) ? linked[0]?.name : linked?.name) ?? null,
       note: e.note,
       done,
       reminder: reminderOf({ dueOn: e.due_on, done }, today),
@@ -76,7 +70,7 @@ export async function listSlots(): Promise<TimetableSlot[]> {
   const supabase = await createUserClient();
   const { data, error } = await supabase
     .from("timetable_slots")
-    .select("id, weekday, starts_at, ends_at, label, place, module_id")
+    .select("id, weekday, starts_at, ends_at, label, place")
     .order("weekday")
     .order("starts_at");
   if (error) throw error;
@@ -87,6 +81,5 @@ export async function listSlots(): Promise<TimetableSlot[]> {
     endsAt: s.ends_at,
     label: s.label,
     place: s.place,
-    moduleId: s.module_id,
   }));
 }

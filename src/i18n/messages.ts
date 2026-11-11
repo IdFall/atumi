@@ -224,8 +224,6 @@ const fr = {
       titlePlaceholder: "Ex. : exercices 3 et 4 page 52",
       dueOn: "Date",
       dueTime: "Heure (facultatif)",
-      module: "Module (facultatif)",
-      noModule: "Aucun",
       note: "Note (facultatif)",
       weekday: "Jour",
       startsAt: "Début",
@@ -246,7 +244,6 @@ const fr = {
     confirmYes: "Oui, supprimer",
     confirmEvent: "Supprimer « {name} » de ton agenda ?",
     confirmSlot: "Supprimer le créneau « {name} » de ton emploi du temps ?",
-    reviseModule: "Réviser ce module",
     errors: {
       titleRequired: "Indique ce qu'il y a à faire.",
       dateRequired: "Choisis une date.",

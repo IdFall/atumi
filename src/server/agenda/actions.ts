@@ -16,8 +16,8 @@ export interface AgendaFormState {
   saved?: boolean;
 }
 
-const EVENT_FIELDS = ["kind", "title", "dueOn", "dueTime", "moduleId", "note"] as const;
-const SLOT_FIELDS = ["weekday", "startsAt", "endsAt", "label", "place", "moduleId"] as const;
+const EVENT_FIELDS = ["kind", "title", "dueOn", "dueTime", "note"] as const;
+const SLOT_FIELDS = ["weekday", "startsAt", "endsAt", "label", "place"] as const;
 
 function fields(formData: FormData, names: readonly string[]): Record<string, string> {
   return Object.fromEntries(
@@ -48,7 +48,7 @@ export async function saveEventAction(_prev: AgendaFormState, formData: FormData
   const parsed = parseEvent(fields(formData, EVENT_FIELDS));
   if (!parsed.ok) return { error: parsed.error };
   const e = parsed.value;
-  const row = { kind: e.kind, title: e.title, due_on: e.dueOn, due_time: e.dueTime, module_id: e.moduleId, note: e.note };
+  const row = { kind: e.kind, title: e.title, due_on: e.dueOn, due_time: e.dueTime, note: e.note };
 
   const supabase = await createUserClient();
   const { error } = id
@@ -81,7 +81,7 @@ export async function saveSlotAction(_prev: AgendaFormState, formData: FormData)
   const parsed = parseSlot(fields(formData, SLOT_FIELDS));
   if (!parsed.ok) return { error: parsed.error };
   const s = parsed.value;
-  const row = { weekday: s.weekday, starts_at: s.startsAt, ends_at: s.endsAt, label: s.label, place: s.place, module_id: s.moduleId };
+  const row = { weekday: s.weekday, starts_at: s.startsAt, ends_at: s.endsAt, label: s.label, place: s.place };
 
   const supabase = await createUserClient();
   const { error } = id
