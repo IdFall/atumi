@@ -86,6 +86,7 @@ export const en: Messages = {
   auth: {
     signUpTitle: "Create your account",
     signInTitle: "Sign in",
+    backHome: "Back",
     verifyTitle: "Confirm your number",
     fields: {
       username: "Username",
