@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useActionState, useState, type FormEvent } from "react";
+import { useActionState, useState } from "react";
 
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { LIBRARY_BUCKET, LIBRARY_MAX_FILE_BYTES, LIBRARY_MIME, titleFromFileName } from "@/config/library";
@@ -11,101 +11,121 @@ import { addBookAction, deleteBookAction, type LibraryFormState } from "@/server
 
 type UploadError = "fileType" | "fileTooLarge" | "noSpace" | "uploadFailed" | NonNullable<LibraryFormState["error"]>;
 
-const INPUT =
-  "w-full min-w-0 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950";
-
 /**
- * Ajout d'un livre : le PDF part du navigateur vers le bucket privé (dossier de
- * l'élève, nom aléatoire), puis le serveur l'enregistre ; la base vérifie le
- * forfait et la place restante.
+ * Ajout d'un livre en un geste : le bouton ouvre le choix du fichier, et le PDF
+ * part aussitôt du navigateur vers le bucket privé (dossier de l'élève, nom
+ * aléatoire). Le titre vient du nom du fichier. Le serveur l'enregistre ensuite ;
+ * la base vérifie le forfait et la place restante.
  */
 export function UploadBook({ userId, freeBytes, maxLabel }: { userId: string; freeBytes: number | null; maxLabel: string }) {
   const l = useT().library;
   const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [title, setTitle] = useState("");
   const [phase, setPhase] = useState<"idle" | "uploading" | "saving">("idle");
   const [error, setError] = useState<UploadError | null>(null);
 
-  if (!open) {
-    return (
-      <button type="button" onClick={() => setOpen(true)} className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white">
-        + {l.add}
-      </button>
-    );
-  }
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function upload(file: File) {
     setError(null);
-    if (!file || (file.type !== LIBRARY_MIME && !file.name.toLowerCase().endsWith(".pdf"))) return setError("fileType");
+    if (file.type !== LIBRARY_MIME && !file.name.toLowerCase().endsWith(".pdf")) return setError("fileType");
     if (file.size > LIBRARY_MAX_FILE_BYTES) return setError("fileTooLarge");
     if (freeBytes !== null && file.size > freeBytes) return setError("noSpace");
-    if (!title.trim()) return setError("title");
 
     const storagePath = `${userId}/${crypto.randomUUID()}.pdf`;
     setPhase("uploading");
-    const { error: uploadError } = await createBrowserSupabase()
-      .storage.from(LIBRARY_BUCKET)
-      .upload(storagePath, file, { contentType: LIBRARY_MIME, upsert: false });
-    if (uploadError) {
+    try {
+      const { error: uploadError } = await createBrowserSupabase()
+        .storage.from(LIBRARY_BUCKET)
+        .upload(storagePath, file, { contentType: LIBRARY_MIME, upsert: false });
+      if (uploadError) {
+        console.error("[bibliotheque] dépôt refusé", uploadError.message);
+        setPhase("idle");
+        return setError("uploadFailed");
+      }
+      setPhase("saving");
+      const formData = new FormData();
+      formData.set("title", titleFromFileName(file.name));
+      formData.set("storagePath", storagePath);
+      const result = await addBookAction({}, formData);
       setPhase("idle");
-      return setError("uploadFailed");
+      if (result.error) return setError(result.error);
+      router.refresh();
+    } catch (cause) {
+      console.error("[bibliotheque] ajout impossible", cause);
+      setPhase("idle");
+      setError("uploadFailed");
     }
-    setPhase("saving");
-    const formData = new FormData();
-    formData.set("title", title);
-    formData.set("storagePath", storagePath);
-    const result = await addBookAction({}, formData);
-    setPhase("idle");
-    if (result.error) return setError(result.error);
-    setOpen(false);
-    setFile(null);
-    setTitle("");
-    router.refresh();
   }
 
   const busy = phase !== "idle";
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-primary-soft/40 p-4 dark:bg-primary-strong/10">
-      <div className="flex flex-col gap-1 text-sm">
-        <label htmlFor="book-file" className="font-medium">
-          {l.fileLabel}
-        </label>
+    <div className="flex flex-col gap-1">
+      <label
+        className={`flex min-h-12 cursor-pointer items-center justify-center rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white ${busy ? "pointer-events-none opacity-60" : ""}`}
+      >
+        {phase === "uploading" ? l.uploading : phase === "saving" ? l.saving : `+ ${l.add}`}
         <input
-          id="book-file"
           type="file"
           accept=".pdf,application/pdf"
+          disabled={busy}
+          className="sr-only"
           onChange={(e) => {
-            const chosen = e.target.files?.[0] ?? null;
-            setFile(chosen);
-            if (chosen && !title) setTitle(titleFromFileName(chosen.name));
+            const chosen = e.target.files?.[0];
+            e.target.value = "";
+            if (chosen) void upload(chosen);
           }}
-          className="text-sm"
         />
-        <span className="text-xs text-neutral-600 dark:text-neutral-300">{l.fileHint.replace("{max}", maxLabel)}</span>
-      </div>
-      <div className="flex flex-col gap-1 text-sm">
-        <label htmlFor="book-title" className="font-medium">
-          {l.titleLabel}
-        </label>
-        <input id="book-title" value={title} maxLength={200} onChange={(e) => setTitle(e.target.value)} className={INPUT} />
-      </div>
+      </label>
+      <span className="text-xs text-neutral-600 dark:text-neutral-300">{l.fileHint.replace("{max}", maxLabel)}</span>
       {error ? (
         <p role="alert" className="text-sm text-red-700 dark:text-red-400">
           {l.errors[error].replace("{max}", maxLabel)}
         </p>
       ) : null}
-      <div className="flex gap-2">
-        <button type="submit" disabled={busy} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
-          {phase === "uploading" ? l.uploading : phase === "saving" ? l.saving : l.submit}
-        </button>
-        <button type="button" disabled={busy} onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 text-sm font-medium text-neutral-600 dark:text-neutral-300">
-          {l.cancel}
-        </button>
-      </div>
-    </form>
+    </div>
+  );
+}
+
+/**
+ * Téléchargement d'un livre (abonnés) : le fichier est lu par la page puis
+ * enregistré par le navigateur. Plus sûr qu'un simple lien quand ATUMI est
+ * installée sur l'écran d'accueil du téléphone, où un lien de téléchargement
+ * peut rester sans effet.
+ */
+export function DownloadBook({ bookId, fileName, className }: { bookId: string; fileName: string; className: string }) {
+  const l = useT().library;
+  const [busy, setBusy] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const href = `/api/bibliotheque/${bookId}?telecharger=1`;
+
+  async function download(event: React.MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    setBusy(true);
+    setFailed(false);
+    try {
+      const response = await fetch(href, { credentials: "same-origin" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const url = URL.createObjectURL(await response.blob());
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch (cause) {
+      console.error("[bibliotheque] téléchargement impossible", cause);
+      setFailed(true);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <span className="inline-flex flex-col">
+      <a href={href} download={fileName} onClick={download} aria-busy={busy} className={className}>
+        {busy ? l.downloading : l.download}
+      </a>
+      {failed ? <span role="alert" className="text-xs text-red-700 dark:text-red-400">{l.downloadFailed}</span> : null}
+    </span>
   );
 }
 

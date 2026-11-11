@@ -4,6 +4,7 @@ import { Suspense } from "react";
 
 import { CloseOnEscape } from "@/components/courses/close-on-escape";
 import { DocumentViewer } from "@/components/courses/document-viewer";
+import { DownloadBook } from "@/components/library/library-actions";
 import { defaultBook } from "@/config/library";
 import { getT } from "@/i18n/server";
 import { getAccess } from "@/server/courses/queries";
@@ -64,9 +65,11 @@ async function BookReader({ params }: { params: Props["params"] }) {
               {l.importToCourses}
             </Link>
             {rights.download ? (
-              <a href={`/api/bibliotheque/${bookId}?telecharger=1`} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white">
-                {l.download}
-              </a>
+              <DownloadBook
+                bookId={bookId}
+                fileName={offered?.file ?? `${title}.pdf`}
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white"
+              />
             ) : null}
           </div>
         </div>
