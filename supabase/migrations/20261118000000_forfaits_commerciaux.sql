@@ -38,7 +38,7 @@ insert into public.plans (
   ('sn-enseignant',    'SN', 'abonnement', 'enseignant', 'Enseignant',          7500, 'XOF', 30, null, 20,  40,  400, 10,  30, 10737418240, true, true),
   ('sn-enseignant-3m', 'SN', 'abonnement', 'enseignant', 'Enseignant · 3 mois',20500, 'XOF', 90, null, 20, 120, 1200, 10,  90, 10737418240, true, true),
   -- Recharges : call_minutes_limit = minutes ajoutées, library_bytes_limit = espace ajouté.
-  ('sn-pass-appel-3j',       'SN', 'recharge', 'tous', 'Pass 3 jours · 20 min d''appel', 1000, 'XOF', 3, null, null, null, null, null, 20, 0, false, true),
+  ('sn-pass-appel-3j',       'SN', 'recharge', 'tous', 'Pass 3 jours · 20 min d''appel',  500, 'XOF', 3, null, null, null, null, null, 20, 0, false, true),
   ('sn-pass-appel-semaine',  'SN', 'recharge', 'tous', 'Pass semaine · 60 min d''appel', 3000, 'XOF', 7, null, null, null, null, null, 60, 0, false, true),
   ('sn-recharge-espace-5go', 'SN', 'recharge', 'tous', '+5 Go d''espace (30 jours)', 1000, 'XOF', 30, null, null, null, null, null, 0, 5368709120, false, true)
 on conflict (code) do nothing;
