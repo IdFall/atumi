@@ -444,6 +444,16 @@ export const en: Messages = {
     timetable: "Timetable",
     search: "Search",
     help: "Help",
+    call: "Call Prof NEO",
+  },
+  premiumCall: {
+    title: "Voice call with Prof NEO",
+    intro: "Talk to Prof NEO like a real teacher: ask your question out loud, it explains and answers, and you can show it your notebook with the camera.",
+    reservedPrice: "This feature is reserved for the Premium plan at {price}.",
+    reserved: "This feature is reserved for the Premium plan.",
+    soon: "It will be switched on very soon. Meanwhile, Prof NEO answers you in writing.",
+    subscribe: "See plans",
+    write: "Write to Prof NEO",
   },
   access: {
     trialNotStarted: "Your 24-hour free trial will start with your first import.",

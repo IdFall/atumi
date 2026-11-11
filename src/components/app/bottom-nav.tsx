@@ -7,22 +7,25 @@ import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
 
-type NavKey = "home" | "courses" | "import" | "tutor" | "agenda" | "timetable" | "search" | "help";
+type NavKey = "home" | "courses" | "import" | "tutor" | "call" | "agenda" | "timetable" | "search" | "help";
 
 const SEARCH_ICON = "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4";
+const CALL_ICON =
+  "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z";
 
 const ITEMS = [
   { href: "/tableau-de-bord", label: "home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
   { href: "/cours", label: "courses", icon: "M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM4 19V5M8 7h6" },
   { href: "/importer", label: "import", icon: "M12 16V4M7 9l5-5 5 5M4 20h16" },
   { href: "/professeur", label: "tutor", icon: "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" },
+  { href: "/appel", label: "call", icon: CALL_ICON, desktopOnly: true },
   { href: "/agenda", label: "agenda", icon: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M8 2v4M16 2v4M8 14h2M14 14h2M8 17h2" },
   { href: "/emploi-du-temps", label: "timetable", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2" },
   { href: "/recherche", label: "search", icon: SEARCH_ICON, desktopOnly: true },
   { href: "/aide", label: "help", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01" },
 ] as const satisfies readonly { href: string; label: NavKey; icon: string; desktopOnly?: boolean }[];
 
-/** Barre du bas (téléphone) : la recherche est dans l'en-tête, pour garder 7 entrées. */
+/** Barre du bas (téléphone) : la recherche et l'appel sont dans l'en-tête, pour garder 7 entrées. */
 const MOBILE_ITEMS = ITEMS.filter((item) => !("desktopOnly" in item));
 
 function isActive(pathname: string | null, href: string) {
@@ -65,6 +68,16 @@ export function NavBar({ pathname }: { pathname: string | null }) {
             }`}
           >
             <Icon d={SEARCH_ICON} />
+          </Link>
+          <Link
+            href="/appel"
+            aria-label={t.nav.call}
+            aria-current={isActive(pathname, "/appel") ? "page" : undefined}
+            className={`flex size-9 items-center justify-center rounded-full ${
+              isActive(pathname, "/appel") ? "bg-primary text-white" : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+            }`}
+          >
+            <Icon d={CALL_ICON} />
           </Link>
           <LocaleSwitcher />
           <SignOutButton tone="icon" />

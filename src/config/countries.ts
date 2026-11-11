@@ -25,6 +25,8 @@ export interface CountryConfig {
   openCycles: readonly Cycle[];
   /** Langues proposées pour le professeur IA, la première étant celle par défaut. */
   tutorLanguages: readonly TutorLanguage[];
+  /** Prix annoncé de l'abonnement Premium (appels voix avec le Prof), en unités mineures ; absent = non annoncé. */
+  premiumPriceMinor?: number;
   isActive: boolean;
 }
 
@@ -50,6 +52,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     openCycles: V1_CYCLES,
     // Wolof en attente (décision du 2026-11-09) : remettre "wo" ici pour le rouvrir.
     tutorLanguages: ["fr", "en"],
+    premiumPriceMinor: 10_000,
     isActive: true,
   },
   {

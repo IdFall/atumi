@@ -450,6 +450,16 @@ const fr = {
     timetable: "Emploi du temps",
     search: "Recherche",
     help: "Aide",
+    call: "Appel Prof NEO",
+  },
+  premiumCall: {
+    title: "Appel voix avec Prof NEO",
+    intro: "Parle à Prof NEO comme à un vrai professeur : tu poses ta question à voix haute, il t'explique et te répond, et tu peux lui montrer ton cahier avec la caméra.",
+    reservedPrice: "Cette fonctionnalité est réservée à l'abonnement Premium à {price}.",
+    reserved: "Cette fonctionnalité est réservée à l'abonnement Premium.",
+    soon: "Elle sera activée très bientôt. En attendant, Prof NEO te répond par écrit.",
+    subscribe: "Voir les abonnements",
+    write: "Écrire à Prof NEO",
   },
   access: {
     trialNotStarted: "Ton essai gratuit de 24 h démarrera à ton premier import.",
