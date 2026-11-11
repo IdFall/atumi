@@ -112,7 +112,7 @@ export function NavBar({ pathname }: { pathname: string | null }) {
 
       <nav
         aria-label={t.nav.label}
-        className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col gap-6 bg-nuit px-4 py-6 text-white md:flex"
+        className="fixed inset-y-0 left-0 z-10 hidden w-56 flex-col gap-6 bg-nuit px-4 py-6 text-white md:flex"
       >
         <Link href="/tableau-de-bord" className="px-3 text-lg font-bold tracking-wide text-lavande">
           {t.app.name}
