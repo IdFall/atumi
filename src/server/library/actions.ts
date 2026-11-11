@@ -3,9 +3,15 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { isOwnLibraryPath, LIBRARY_BUCKET } from "@/config/library";
+import { MAX_DOCUMENT_BYTES, PDF_MIME } from "@/config/documents";
+import { bookImportError, isOwnLibraryPath, LIBRARY_BUCKET } from "@/config/library";
 import { createUserClient } from "@/lib/supabase/server";
 import { requireUserId } from "@/server/auth/session";
+import { registerDocumentAction, type ImportResult } from "@/server/courses/actions";
+import { getAccess } from "@/server/courses/queries";
+
+import { libraryRights } from "./queries";
+import { readBookFile } from "./source";
 
 export type LibraryErrorKey = "title" | "subscribersOnly" | "full" | "missingFile" | "accessExpired" | "unknown";
 
@@ -58,4 +64,48 @@ export async function deleteBookAction(_prev: LibraryFormState, formData: FormDa
   await supabase.storage.from(LIBRARY_BUCKET).remove([data.storage_path]);
   revalidatePath("/bibliotheque");
   return { saved: true };
+}
+
+/**
+ * Importe un livre de la bibliothèque dans « Mes cours » : le serveur copie le
+ * PDF dans le dossier de l'élève (bucket des documents), puis l'import habituel
+ * prend le relais (essai, quota d'imports, lecture par le worker). Les gros
+ * livres sont refusés (LIBRARY_IMPORT_MAX_PAGES) : l'élève importe un chapitre.
+ */
+export async function importBookAction(raw: Record<string, string>): Promise<ImportResult> {
+  const userId = await requireUserId();
+  if (!libraryRights(await getAccess(), false).read) return { ok: false, error: "accessExpired" };
+
+  const book = typeof raw.bookId === "string" ? await readBookFile(raw.bookId) : null;
+  if (!book) return { ok: false, error: "unknown" };
+
+  let pages: number;
+  try {
+    const { getDocumentProxy } = await import("unpdf");
+    const pdf = await getDocumentProxy(book.bytes.slice());
+    pages = pdf.numPages;
+  } catch {
+    return { ok: false, error: "fileType" };
+  }
+  const refused = bookImportError(book.bytes.byteLength, pages, MAX_DOCUMENT_BYTES);
+  if (refused) return { ok: false, error: refused };
+
+  const storagePath = `${userId}/${crypto.randomUUID()}.pdf`;
+  const supabase = await createUserClient();
+  const { error } = await supabase.storage
+    .from("documents")
+    .upload(storagePath, book.bytes, { contentType: PDF_MIME, upsert: false });
+  if (error) return { ok: false, error: "uploadFailed" };
+
+  return registerDocumentAction({
+    moduleId: raw.moduleId ?? "",
+    newModuleName: raw.newModuleName ?? "",
+    chapterId: raw.chapterId ?? "",
+    newChapterTitle: raw.newChapterTitle ?? "",
+    kind: raw.kind ?? "cours",
+    fileName: `${book.title.slice(0, 200)}.pdf`,
+    storagePath,
+    mimeType: PDF_MIME,
+    sizeBytes: String(book.bytes.byteLength),
+  });
 }

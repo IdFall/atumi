@@ -166,7 +166,8 @@ Ton agenda n'est visible que par toi.`,
 Le « Guide IA pour l'Élève et l'Étudiant 2.0 » est offert par ATUMI dans chaque compte.
 Abonné : tu peux lire, télécharger, ajouter tes propres PDF (50 Mo au plus par fichier) et les supprimer. Ton espace est de 200 Mo ; la barre d'espace montre ce qui est utilisé.
 Pendant l'essai gratuit : tu peux ouvrir la page et lire les livres offerts, en lecture seule, sans téléchargement ni ajout.
-Tes livres ne sont visibles que par toi. Ils ne passent pas par le Prof NEO : pas de synthèse ni de quiz à partir de la bibliothèque (pour ça, importe le document dans « Mes cours »).`,
+Pour réviser un livre avec le Prof NEO (synthèse, quiz, questions), utilise « Importer » (ou « Importer dans Mes cours » sur la page du livre) : choisis le module et le chapitre, ATUMI le copie dans tes cours. Cela compte comme un import de ton forfait (pendant l'essai, c'est ton unique import). Un livre de plus de 60 pages ne peut pas être importé en entier : importe plutôt le chapitre que tu révises.
+Tes livres ne sont visibles que par toi.`,
     },
     {
       id: "recherche",
@@ -287,7 +288,8 @@ Only you can see your planner.`,
 The "Guide IA pour l'Élève et l'Étudiant 2.0" (in French) is offered by ATUMI in every account.
 Subscriber: you can read, download, add your own PDFs (50 MB at most per file) and delete them. Your space is 200 MB; the space bar shows what is used.
 During the free trial: you can open the page and read the offered books, read-only, with no download or upload.
-Your books are visible only to you. They do not go through Prof NEO: no summary or quiz from the library (for that, import the document in "My courses").`,
+To revise a book with Prof NEO (summary, quiz, questions), use "Import" (or "Import into My courses" on the book page): choose the module and chapter, and ATUMI copies it into your courses. It counts as one import of your plan (during the trial, it is your only import). A book of more than 60 pages cannot be imported whole: import the chapter you are revising instead.
+Your books are visible only to you.`,
     },
     {
       id: "recherche",

@@ -56,11 +56,19 @@ async function BookReader({ params }: { params: Props["params"] }) {
         </Link>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <h1 className="min-w-0 flex-1 text-xl font-bold">{title}</h1>
-          {rights.download ? (
-            <a href={`/api/bibliotheque/${bookId}?telecharger=1`} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white">
-              {l.download}
-            </a>
-          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/bibliotheque/${bookId}/importer`}
+              className="rounded-lg border border-primary px-4 py-2 text-sm font-semibold text-primary-strong dark:text-lavande"
+            >
+              {l.importToCourses}
+            </Link>
+            {rights.download ? (
+              <a href={`/api/bibliotheque/${bookId}?telecharger=1`} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white">
+                {l.download}
+              </a>
+            ) : null}
+          </div>
         </div>
         {!rights.download ? <p className="text-xs text-neutral-600 dark:text-neutral-300">{l.readOnly}</p> : null}
       </header>

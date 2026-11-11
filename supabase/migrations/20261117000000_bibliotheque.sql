@@ -4,7 +4,8 @@
 -- forfait (`plans.library_bytes_limit`, en octets ; null = sans limite,
 -- 0 = pas d'ajout, comme pendant l'essai). Les livres offerts par ATUMI
 -- (guide IA) ne sont pas en base : ils sont livrés avec l'application.
--- Les fichiers ne passent pas par le modèle : ni synthèse ni quiz.
+-- Les fichiers ne passent pas par le modèle ; pour une synthèse ou un quiz,
+-- l'élève importe le livre dans « Mes cours » (copie dans le bucket documents).
 
 alter table public.plans add column library_bytes_limit bigint check (library_bytes_limit >= 0) default 209715200;
 update public.plans set library_bytes_limit = 0 where kind = 'essai';

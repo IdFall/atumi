@@ -30,6 +30,20 @@ export const LIBRARY_MIME = "application/pdf";
 /** Taille maximale d'un fichier (comme le bucket) : 50 Mo. */
 export const LIBRARY_MAX_FILE_BYTES = 50 * 1024 * 1024;
 
+/**
+ * Import d'un livre dans « Mes cours » (synthèse, quiz, Prof NEO) : limité en
+ * pages, car un gros livre coûte cher à lire par le modèle. Au-delà, l'élève
+ * importe plutôt un chapitre.
+ */
+export const LIBRARY_IMPORT_MAX_PAGES = 60;
+
+/** Un livre peut-il être importé dans « Mes cours » ? (taille déjà vérifiée par le bucket des documents) */
+export function bookImportError(sizeBytes: number, pages: number, maxDocumentBytes: number): "fileTooLarge" | "tooManyPages" | null {
+  if (sizeBytes > maxDocumentBytes) return "fileTooLarge";
+  if (pages > LIBRARY_IMPORT_MAX_PAGES) return "tooManyPages";
+  return null;
+}
+
 export function defaultBook(id: string): DefaultBook | undefined {
   return DEFAULT_BOOKS.find((b) => b.id === id);
 }

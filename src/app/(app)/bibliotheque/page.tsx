@@ -96,6 +96,9 @@ async function LibraryContent() {
                 <Link href={`/bibliotheque/${book.id}`} className={`${LINK} bg-primary text-white`}>
                   {l.read}
                 </Link>
+                <Link href={`/bibliotheque/${book.id}/importer`} title={l.importToCourses} className={`${LINK} text-primary-strong dark:text-lavande`}>
+                  {l.importShort}
+                </Link>
                 {library.rights.download ? (
                   <a href={`/api/bibliotheque/${book.id}?telecharger=1`} className={`${LINK} text-primary-strong dark:text-lavande`}>
                     {l.download}
@@ -139,6 +142,9 @@ async function LibraryContent() {
                   <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center">
                     <Link href={`/bibliotheque/${book.id}`} className={`${LINK} bg-primary text-white`}>
                       {l.read}
+                    </Link>
+                    <Link href={`/bibliotheque/${book.id}/importer`} title={l.importToCourses} className={`${LINK} text-primary-strong dark:text-lavande`}>
+                      {l.importShort}
                     </Link>
                     <a href={`/api/bibliotheque/${book.id}?telecharger=1`} className={`${LINK} text-primary-strong dark:text-lavande`}>
                       {l.download}

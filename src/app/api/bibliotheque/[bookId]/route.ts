@@ -1,10 +1,7 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-
-import { defaultBook, LIBRARY_BUCKET } from "@/config/library";
 import { createUserClient } from "@/lib/supabase/server";
 import { getAccess } from "@/server/courses/queries";
-import { getUserBook, libraryRights } from "@/server/library/queries";
+import { libraryRights } from "@/server/library/queries";
+import { readBookFile } from "@/server/library/source";
 
 /**
  * Fichier d'un livre de « Ma bibliothèque », lu par le serveur : pas de lien
@@ -21,26 +18,13 @@ export async function GET(request: Request, { params }: RouteContext<"/api/bibli
   const download = new URL(request.url).searchParams.get("telecharger") === "1";
   if (!rights.read || (download && !rights.download)) return new Response(null, { status: 403 });
 
-  let bytes: ArrayBuffer;
-  let fileName: string;
-  const offered = defaultBook(bookId);
-  if (offered) {
-    const file = await readFile(join(process.cwd(), "content", "bibliotheque", offered.file));
-    bytes = file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength) as ArrayBuffer;
-    fileName = offered.file;
-  } else {
-    const book = /^[0-9a-f-]{36}$/.test(bookId) ? await getUserBook(bookId) : null;
-    if (!book) return new Response(null, { status: 404 });
-    const { data, error } = await supabase.storage.from(LIBRARY_BUCKET).download(book.storagePath);
-    if (error || !data) return new Response(null, { status: 404 });
-    bytes = await data.arrayBuffer();
-    fileName = `${book.title.replace(/[^\p{L}\p{N} ._-]+/gu, "").trim() || "livre"}.pdf`;
-  }
+  const book = await readBookFile(bookId);
+  if (!book) return new Response(null, { status: 404 });
 
-  return new Response(bytes, {
+  return new Response(book.bytes.slice().buffer as ArrayBuffer, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `${download ? "attachment" : "inline"}; filename*=UTF-8''${encodeURIComponent(fileName)}`,
+      "Content-Disposition": `${download ? "attachment" : "inline"}; filename*=UTF-8''${encodeURIComponent(book.fileName)}`,
       "Cache-Control": "private, no-store",
       "X-Content-Type-Options": "nosniff",
     },
