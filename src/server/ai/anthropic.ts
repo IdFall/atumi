@@ -39,19 +39,8 @@ export class AnthropicProvider implements AiProvider {
 
   async complete(request: AiRequest): Promise<AiResult> {
     const model = this.models[request.tier];
-    const result = await this.attempt(request, request.webSearch ? webSearchTool(model, request.webSearch) : undefined);
-    // Recherche web refusée (400) : un second essai avec l'outil de base, sans
-    // localisation ni filtrage dynamique, que tous les modèles acceptent.
-    if (request.webSearch && result.status === "unavailable" && result.reason === "request_400") {
-      return this.attempt(request, basicWebSearchTool(request.webSearch.maxUses));
-    }
-    return result;
-  }
-
-  private async attempt(request: AiRequest, tool: Anthropic.Beta.BetaToolUnion | undefined): Promise<AiResult> {
-    const model = this.models[request.tier];
     const messages: Anthropic.Beta.BetaMessageParam[] = request.messages.map(toAnthropicMessage);
-    const tools = tool ? [tool] : undefined;
+    const tools = request.webSearch ? [webSearchTool(model, request.webSearch)] : undefined;
     const usage = { model, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, webSearches: 0 };
     const content: Anthropic.Beta.BetaContentBlock[] = [];
     try {
@@ -123,11 +112,6 @@ export function webSearchTool(model: string, options: { maxUses: number; country
   return recent
     ? { type: "web_search_20260209", name: "web_search", max_uses: options.maxUses, ...userLocation }
     : { type: "web_search_20250305", name: "web_search", max_uses: options.maxUses, ...userLocation };
-}
-
-/** Outil de recherche web de base, appelé directement par le modèle, sans localisation. */
-export function basicWebSearchTool(maxUses: number): Anthropic.Beta.BetaToolUnion {
-  return { type: "web_search_20250305", name: "web_search", max_uses: maxUses };
 }
 
 /** Pages citées dans la réponse, sans doublon, dans l'ordre d'apparition. */

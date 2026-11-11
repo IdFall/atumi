@@ -64,43 +64,4 @@ describe("AnthropicProvider : requête refusée", () => {
       console.error = original;
     }
   });
-
-  it("réessaie une fois avec l'outil de recherche web de base après un refus 400", async () => {
-    const { default: Anthropic } = await import("@anthropic-ai/sdk");
-    const refusal = Anthropic.APIError.generate(400, { type: "error", error: { type: "invalid_request_error", message: "paramètre refusé" } }, "paramètre refusé", new Headers());
-    const tools: unknown[] = [];
-    const client = {
-      beta: {
-        messages: {
-          create: async (body: { tools: unknown[] }) => {
-            tools.push(body.tools[0]);
-            if (tools.length === 1) throw refusal;
-            return {
-              model: "modele-standard",
-              stop_reason: "end_turn",
-              content: [{ type: "text", text: "réponse" }],
-              usage: { input_tokens: 1, output_tokens: 1 },
-            };
-          },
-        },
-      },
-    } as unknown as InstanceType<typeof Anthropic>;
-    const provider = new AnthropicProvider({ models: { standard: "claude-sonnet-5-5", light: "modele-leger" }, client });
-    const original = console.error;
-    console.error = () => {};
-    try {
-      const result = await provider.complete({
-        feature: "research",
-        tier: "standard",
-        system: "consignes",
-        messages: [{ role: "user", content: "question" }],
-        webSearch: { maxUses: 3, country: "SN" },
-      });
-      expect(result).toMatchObject({ status: "ok", text: "réponse" });
-      expect(tools[0]).toMatchObject({ type: "web_search_20260209", user_location: { country: "SN" } });
-      expect(tools[1]).toEqual({ type: "web_search_20250305", name: "web_search", max_uses: 3 });
-    } finally {
-      console.error = original;
-    }
-  });
 });
