@@ -10,7 +10,14 @@ export async function AccessBanner({ access }: { access: Access }) {
   const t = await getT();
   if (access.state === "subscribed") {
     const date = new Date(access.endsAt).toLocaleDateString(DATE_LOCALES[await getLocale()], { day: "numeric", month: "long" });
-    return <Banner tone="ok">{`${t.access.subscribed} ${date}.`}</Banner>;
+    return (
+      <Banner tone="ok">
+        {`${t.access.subscribed} ${date}.`}{" "}
+        <Link href="/abonnement" className="font-semibold underline">
+          {t.access.manage}
+        </Link>
+      </Banner>
+    );
   }
   if (access.state === "trial") {
     const minutes = access.minutesLeft;
@@ -35,7 +42,14 @@ export async function AccessBanner({ access }: { access: Access }) {
       </Banner>
     );
   }
-  return <Banner tone="info">{t.access.trialNotStarted}</Banner>;
+  return (
+    <Banner tone="info">
+      {t.access.trialNotStarted}{" "}
+      <Link href="/abonnement" className="font-semibold underline">
+        {t.subscribe.link}
+      </Link>
+    </Banner>
+  );
 }
 
 function Banner({ tone, children }: { tone: "ok" | "info" | "warn"; children: ReactNode }) {

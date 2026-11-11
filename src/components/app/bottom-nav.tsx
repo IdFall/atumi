@@ -7,9 +7,11 @@ import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
 
-type NavKey = "home" | "courses" | "library" | "import" | "tutor" | "call" | "agenda" | "timetable" | "search" | "help";
+type NavKey = "home" | "courses" | "library" | "import" | "tutor" | "call" | "agenda" | "timetable" | "search" | "subscribe" | "help";
 
 const SEARCH_ICON = "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4";
+/** Carte de paiement : page Abonnement (forfaits, recharges). */
+const SUBSCRIBE_ICON = "M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 10h18M7 15h4";
 const CALL_ICON =
   "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z";
 
@@ -23,10 +25,11 @@ const ITEMS = [
   { href: "/agenda", label: "agenda", icon: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M8 2v4M16 2v4M8 14h2M14 14h2M8 17h2" },
   { href: "/emploi-du-temps", label: "timetable", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2" },
   { href: "/recherche", label: "search", icon: SEARCH_ICON, desktopOnly: true },
+  { href: "/abonnement", label: "subscribe", icon: SUBSCRIBE_ICON, desktopOnly: true },
   { href: "/aide", label: "help", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01" },
 ] as const satisfies readonly { href: string; label: NavKey; icon: string; desktopOnly?: boolean }[];
 
-/** Barre du bas (téléphone) : 7 entrées ; recherche et appel dans l'en-tête, bibliothèque depuis l'accueil. */
+/** Barre du bas (téléphone) : 7 entrées ; recherche, appel et abonnement dans l'en-tête, bibliothèque depuis l'accueil. */
 const MOBILE_ITEMS = ITEMS.filter((item) => !("desktopOnly" in item));
 
 function isActive(pathname: string | null, href: string) {
@@ -79,6 +82,16 @@ export function NavBar({ pathname }: { pathname: string | null }) {
             }`}
           >
             <Icon d={CALL_ICON} />
+          </Link>
+          <Link
+            href="/abonnement"
+            aria-label={t.nav.subscribe}
+            aria-current={isActive(pathname, "/abonnement") ? "page" : undefined}
+            className={`flex size-9 items-center justify-center rounded-full ${
+              isActive(pathname, "/abonnement") ? "bg-primary text-white" : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+            }`}
+          >
+            <Icon d={SUBSCRIBE_ICON} />
           </Link>
           <LocaleSwitcher />
           <SignOutButton tone="icon" />
