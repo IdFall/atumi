@@ -51,6 +51,26 @@ export const en: Messages = {
     signUp: "Create my account",
     signIn: "Sign in",
     aboutLink: "Who is ATUMI?",
+    challenge: {
+      badge: "New · Challenges with friends",
+      title: "Challenge your friends on WhatsApp",
+      body: "After your quiz, send the same quiz to your friends in one tap. They play without an account, see the corrections, and you see their scores. Who will get the best mark?",
+      points: [
+        "One link to share on WhatsApp, in one tap",
+        "Your friends play right away, no account needed",
+        "Their scores show up under your corrections",
+        "Challenge open for 7 days, and you can stop it anytime",
+      ],
+      cta: "Start my first challenge",
+      mockTitle: "Challenge · Electricity",
+      mockYou: "You",
+      mockPlayers: [
+        { name: "Awa", score: "8/8" },
+        { name: "You", score: "7/8" },
+        { name: "Moussa", score: "6/8" },
+      ],
+      mockShare: "Challenge a friend on WhatsApp",
+    },
   },
   about: {
     title: "Who is ATUMI?",

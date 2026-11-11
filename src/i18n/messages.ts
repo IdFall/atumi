@@ -56,6 +56,26 @@ const fr = {
     signUp: "Créer mon compte",
     signIn: "Me connecter",
     aboutLink: "Qui est ATUMI ?",
+    challenge: {
+      badge: "Nouveau · Défis entre amis",
+      title: "Défie tes amis sur WhatsApp",
+      body: "Après ton quiz, envoie le même quiz à tes amis en un clic. Ils jouent sans créer de compte, voient la correction, et toi tu vois leurs scores. Qui aura la meilleure note ?",
+      points: [
+        "Un lien à partager sur WhatsApp, en un clic",
+        "Tes amis jouent tout de suite, sans compte",
+        "Leurs scores s'affichent sous ta correction",
+        "Défi ouvert 7 jours, que tu peux arrêter quand tu veux",
+      ],
+      cta: "Lancer mon premier défi",
+      mockTitle: "Défi · Électricité",
+      mockYou: "Toi",
+      mockPlayers: [
+        { name: "Awa", score: "8/8" },
+        { name: "Toi", score: "7/8" },
+        { name: "Moussa", score: "6/8" },
+      ],
+      mockShare: "Défier un ami sur WhatsApp",
+    },
   },
   /** Présentation d'ATUMI et de Prof NEO (page /a-propos et article d'aide). */
   about: {
