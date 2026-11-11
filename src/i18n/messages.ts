@@ -109,6 +109,195 @@ const fr = {
     profLanguages: "Tu choisis la langue de ses réponses parmi celles proposées dans ton pays.",
     back: "Retour",
   },
+  /** Pages légales publiques : /conditions (CGU et CGV) et /confidentialite. */
+  legal: {
+    back: "Retour",
+    updated: "Dernière mise à jour : 11 novembre 2026",
+    termsLink: "Conditions d'utilisation et de vente",
+    privacyLink: "Confidentialité",
+    contactTitle: "Nous écrire",
+    contactBody: "Pour toute question sur ces textes : ifallcv@gmail.com, ou « Écrire à l'équipe » dans le centre d'aide.",
+    terms: {
+      title: "Conditions d'utilisation et de vente",
+      intro:
+        "Ces conditions s'appliquent à toute personne qui crée un compte ATUMI, utilise l'application ou achète un forfait. En cochant la case à l'inscription, tu les acceptes.",
+      sections: [
+        {
+          title: "1. Qui édite ATUMI",
+          body: [
+            "ATUMI est un service édité par Idrissa Fall, entrepreneur individuel, Grand Dakar, Dakar (Sénégal). Contact : ifallcv@gmail.com.",
+            "L'application est hébergée par Vercel Inc. (site), Supabase Inc. (comptes et données) et Railway Corp. (traitements en arrière-plan).",
+          ],
+        },
+        {
+          title: "2. Le service",
+          body: [
+            "ATUMI aide les lycéens, les étudiants et les enseignants à réviser : import de cours (PDF, Word, photos), synthèses, quiz, échanges avec le professeur IA « Prof NEO », recherche, bibliothèque, agenda et, selon le forfait, appels vocaux avec le professeur.",
+            "Les réponses sont produites par une intelligence artificielle. Elles peuvent contenir des erreurs : vérifie-les avec ton cours ou ton enseignant. ATUMI ne remplace pas un enseignant et ne garantit aucun résultat à un examen.",
+            "Pour un exercice, le professeur ne donne la solution qu'après ta propre tentative. Une contestation de correction reçoit une réponse fixe qui t'invite à refaire le quiz ou à voir un enseignant.",
+          ],
+        },
+        {
+          title: "3. Ton compte",
+          body: [
+            "L'inscription demande un nom d'utilisateur, un e-mail ou un numéro de téléphone, un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
+            "Un lycéen de moins de 18 ans indique le numéro d'un parent ou tuteur. Ce parent est prévenu par WhatsApp et peut refuser l'inscription ; un refus suspend le compte.",
+            "Pour ta sécurité, ATUMI te déconnecte après 1 h sans activité.",
+          ],
+        },
+        {
+          title: "4. Essai gratuit",
+          body: [
+            "L'essai dure 24 heures à partir de ton premier import de cours. Il comprend 1 import, 1 quiz de 5 questions et 3 messages au professeur, sans appel. Il y a un seul essai par numéro de téléphone (un par compte pour un compte e-mail). À la fin, un forfait est nécessaire pour continuer.",
+          ],
+        },
+        {
+          title: "5. Forfaits et prix",
+          body: [
+            "Les forfaits (Essentiel, Plus, Premium) sont les mêmes pour tous les utilisateurs. Ils s'achètent pour 1 mois ou 3 mois. Les prix, en francs CFA toutes taxes comprises, et ce que chaque forfait comprend (cours importés, quiz, messages, recherches, minutes d'appel, espace) sont affichés sur la page Abonnement au moment de l'achat.",
+            "Un forfait n'est jamais renouvelé automatiquement : à la fin de la période, tu choisis de reprendre ou non un forfait. Les quantités non utilisées ne sont pas reportées sur la période suivante.",
+            "Les recharges (pass de minutes d'appel valable 3 jours, espace supplémentaire pour 30 jours) sont réservées aux abonnés. Les minutes ou l'espace non utilisés à la fin de leur durée sont perdus.",
+            "ATUMI peut changer ses prix ; un changement ne s'applique jamais à une période déjà payée.",
+          ],
+        },
+        {
+          title: "6. Paiement et activation",
+          body: [
+            "Le paiement se fait par Wave ou Orange Money au numéro affiché sur la page Abonnement. Tu déclares ensuite ton paiement dans ATUMI avec la référence de la transaction. L'équipe vérifie le paiement puis active le forfait ou la recharge ; la période commence à cette activation.",
+            "Un paiement introuvable ou d'un montant différent n'est pas validé : l'équipe te le signale et t'aide à régulariser. Garde le message de confirmation de Wave ou d'Orange Money.",
+          ],
+        },
+        {
+          title: "7. Remboursement",
+          body: [
+            "Le service commence dès l'activation, à ta demande. Une période commencée n'est pas remboursée, sauf en cas d'erreur de paiement (paiement en double, montant trop élevé, forfait jamais activé) ou d'indisponibilité prolongée d'ATUMI de son fait. Dans ces cas, écris à ifallcv@gmail.com dans les 14 jours : le remboursement se fait sur le même moyen de paiement.",
+          ],
+        },
+        {
+          title: "8. Tes contenus",
+          body: [
+            "Tu restes propriétaire des documents que tu importes. Tu dois avoir le droit de les utiliser pour tes révisions. Tu autorises ATUMI à les conserver et à les traiter (y compris par ses prestataires d'IA) dans le seul but de te rendre le service. Ils ne sont ni publiés ni montrés à d'autres utilisateurs.",
+            "Ce que tu choisis de partager (défi quiz, texte partagé sur WhatsApp) devient lisible par toute personne qui a le lien, pendant la durée indiquée.",
+          ],
+        },
+        {
+          title: "9. Ce qui est interdit",
+          body: [
+            "Utiliser ATUMI pour tricher pendant un examen ou un devoir surveillé ; importer des contenus illicites, haineux, violents ou à caractère sexuel ; harceler quelqu'un ; revendre ou partager l'accès ; contourner les limites des forfaits ou utiliser des robots ; tenter d'accéder aux données d'autres personnes.",
+          ],
+        },
+        {
+          title: "10. Propriété d'ATUMI",
+          body: [
+            "Le nom ATUMI, le personnage Prof NEO, l'application et les livres offerts par ATUMI sont protégés. Tu peux les utiliser pour tes révisions personnelles, sans les copier ni les revendre.",
+          ],
+        },
+        {
+          title: "11. Disponibilité et responsabilité",
+          body: [
+            "ATUMI fait de son mieux pour que le service soit disponible et fiable, sans pouvoir le garantir en permanence (maintenance, panne d'un prestataire, réseau). ATUMI n'est pas responsable d'une décision prise sur la seule base d'une réponse de l'IA, ni de la perte de fichiers dont tu n'as pas gardé de copie.",
+          ],
+        },
+        {
+          title: "12. Suspension et fin du compte",
+          body: [
+            "En cas de non-respect de ces conditions, ATUMI peut suspendre ou fermer un compte, après t'avoir prévenu sauf urgence. Tu peux demander la fermeture de ton compte à tout moment depuis le centre d'aide ou par e-mail.",
+            "À la fin d'un abonnement, tes contenus restent dans ton compte ; il faut un forfait actif pour continuer à t'en servir pleinement.",
+          ],
+        },
+        {
+          title: "13. Modifications et droit applicable",
+          body: [
+            "Ces conditions peuvent évoluer ; la nouvelle version est publiée sur cette page avec sa date, et un changement important t'est signalé dans l'application.",
+            "Elles sont soumises au droit sénégalais. En cas de désaccord, cherchons d'abord une solution amiable en écrivant à ifallcv@gmail.com ; à défaut, les tribunaux de Dakar sont compétents.",
+          ],
+        },
+      ],
+    },
+    privacy: {
+      title: "Politique de confidentialité",
+      intro:
+        "Cette page explique quelles données ATUMI recueille, pourquoi, avec qui elles sont partagées et quels sont tes droits, conformément à la loi sénégalaise n° 2008-12 sur la protection des données à caractère personnel.",
+      sections: [
+        {
+          title: "1. Responsable du traitement",
+          body: [
+            "Idrissa Fall, éditeur d'ATUMI, Grand Dakar, Dakar (Sénégal). Contact : ifallcv@gmail.com.",
+          ],
+        },
+        {
+          title: "2. Les données recueillies",
+          body: [
+            "Compte : nom d'utilisateur, e-mail ou numéro de téléphone, mot de passe (enregistré chiffré, jamais lisible), pays, niveau, rôle (élève ou enseignant), langue, photo de profil si tu en ajoutes une, et la date d'acceptation de ces textes.",
+            "Lycéen mineur : numéro de téléphone d'un parent ou tuteur, et sa réponse éventuelle.",
+            "Études : cours importés (PDF, Word, photos), livres ajoutés à ta bibliothèque, synthèses, quiz et résultats, conversations avec le professeur, recherches, agenda et emploi du temps. Pour un appel, seule la transcription écrite est gardée : aucun enregistrement audio ou vidéo n'est conservé ; les images de la caméra, si tu l'actives, sont seulement transmises au professeur pendant l'appel.",
+            "Paiements : forfait choisi, montant, moyen de paiement (Wave ou Orange Money), numéro utilisé et référence de la transaction. ATUMI ne reçoit jamais ton code secret.",
+            "Technique : journaux de connexion, consommation de l'IA (nombre de mots traités, sans le contenu) et messages envoyés à l'équipe.",
+            "ATUMI ne demande jamais le nom de ton établissement et ne recueille ni ta position, ni tes contacts.",
+          ],
+        },
+        {
+          title: "3. Pourquoi",
+          body: [
+            "Pour te fournir le service (compte, révisions, professeur IA), gérer l'essai, les forfaits et les paiements, prévenir le parent d'un lycéen mineur, répondre à tes messages, assurer la sécurité et éviter les abus (limites des forfaits, un essai par numéro).",
+            "Tes données ne servent ni à la publicité, ni à entraîner des modèles d'IA, et ne sont jamais vendues.",
+          ],
+        },
+        {
+          title: "4. Qui les voit",
+          body: [
+            "Tes cours, synthèses, quiz, conversations et livres ne sont visibles que par toi. L'équipe d'ATUMI voit ton compte, ton forfait, tes paiements, tes messages à l'équipe et ta consommation, mais pas tes cours ni tes conversations.",
+            "Ce que tu choisis de partager est visible par ceux qui ont le lien : un défi quiz montre les questions, ton score et ton nom d'utilisateur (7 jours) ; un texte partagé sur WhatsApp est lisible sans ton nom pendant 30 jours.",
+          ],
+        },
+        {
+          title: "5. Les prestataires",
+          body: [
+            "Pour fonctionner, ATUMI fait appel à des prestataires qui traitent certaines données pour son compte : Supabase (base de données et fichiers), Vercel (site) et Railway (traitements) pour l'hébergement ; Anthropic (modèle Claude) pour les réponses écrites, les synthèses, les quiz et la recherche web ; Google (Gemini) pour les appels vocaux ; Resend (e-mails) et Meta (WhatsApp) pour les messages à l'équipe et l'avis aux parents ; Wikimedia (Wikipédia, Wiktionnaire, Commons) pour les définitions et les images, sans aucune donnée te concernant.",
+            "Ces prestataires sont situés hors du Sénégal (notamment aux États-Unis et en Europe). ATUMI choisit des prestataires qui s'engagent par contrat à protéger les données et à ne pas les utiliser pour leur propre compte, et ne leur envoie que ce qui est nécessaire.",
+          ],
+        },
+        {
+          title: "6. Durée de conservation",
+          body: [
+            "Tes contenus sont gardés tant que ton compte existe, ou jusqu'à ce que tu les supprimes. ATUMI peut supprimer les fichiers d'un compte sans forfait depuis plus de 12 mois, après t'avoir prévenu au moins 30 jours avant.",
+            "Après la fermeture de ton compte, tes données sont supprimées dans les 30 jours, sauf les traces de paiement, gardées le temps exigé par la loi pour la comptabilité.",
+          ],
+        },
+        {
+          title: "7. Sécurité",
+          body: [
+            "Connexions chiffrées, mots de passe chiffrés, accès à chaque donnée réservé à son propriétaire dans la base, fichiers dans des espaces privés, déconnexion automatique après 1 h sans activité.",
+          ],
+        },
+        {
+          title: "8. Cookies",
+          body: [
+            "ATUMI n'utilise que des cookies nécessaires : ta session de connexion, l'heure de ta dernière activité (pour la déconnexion automatique) et ta langue. Aucun cookie de publicité ni de mesure d'audience.",
+          ],
+        },
+        {
+          title: "9. Mineurs",
+          body: [
+            "Les lycéens de moins de 18 ans peuvent s'inscrire ; le parent ou tuteur indiqué est prévenu et peut refuser l'inscription. Un parent peut aussi demander l'accès aux données de son enfant mineur ou leur suppression en écrivant à ifallcv@gmail.com.",
+          ],
+        },
+        {
+          title: "10. Tes droits",
+          body: [
+            "Tu peux demander l'accès à tes données, leur correction, leur suppression ou une copie, et t'opposer à un traitement. Écris à ifallcv@gmail.com ou utilise « Écrire à l'équipe » dans le centre d'aide, depuis le compte concerné. Réponse sous 30 jours au plus.",
+            "Si tu n'es pas satisfait de la réponse, tu peux saisir la Commission de Protection des Données Personnelles (CDP) du Sénégal : www.cdp.sn.",
+          ],
+        },
+        {
+          title: "11. Modifications",
+          body: [
+            "Cette politique peut évoluer avec le service. La nouvelle version est publiée sur cette page avec sa date, et un changement important t'est signalé dans l'application.",
+          ],
+        },
+      ],
+    },
+  },
   auth: {
     signUpTitle: "Créer ton compte",
     signInTitle: "Te connecter",
@@ -126,7 +315,9 @@ const fr = {
       guardianPhone: "Téléphone d'un parent ou tuteur",
       guardianPhoneHint: "Ton parent reçoit un message qui le prévient de ton inscription et lui permet de la refuser.",
       isAdult: "J'ai 18 ans ou plus",
-      acceptCgu: "J'accepte les conditions d'utilisation et la politique de confidentialité.",
+      acceptCgu: "J'accepte les {terms} et la {privacy}.",
+      acceptCguTerms: "conditions d'utilisation et de vente",
+      acceptCguPrivacy: "politique de confidentialité",
       code: "Code reçu par SMS",
     },
     roles: { eleve: "Élève ou étudiant", enseignant: "Enseignant" },

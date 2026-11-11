@@ -200,7 +200,8 @@ Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : 
       title: "Mes données",
       body: `Tes cours, tes synthèses, tes quiz et tes conversations avec le professeur ne sont visibles que par toi, sauf un quiz que tu choisis de partager en défi (questions, score et nom d'utilisateur).
 ATUMI ne demande jamais le nom de ton établissement.
-Tes documents servent uniquement à t'aider : ils ne sont ni publiés ni partagés avec d'autres utilisateurs.`,
+Tes documents servent uniquement à t'aider : ils ne sont ni publiés ni partagés avec d'autres utilisateurs.
+Le détail (données recueillies, prestataires, durée de conservation, tes droits) est dans la politique de confidentialité, page /confidentialite ; les règles d'utilisation, de paiement et de remboursement sont dans les conditions, page /conditions. Pour accéder à tes données, les corriger ou les supprimer, ou fermer ton compte : écris à l'équipe depuis le centre d'aide.`,
     },
   ];
 }
@@ -323,7 +324,8 @@ ATUMI is open to high school and university students. A high school student unde
       title: "My data",
       body: `Your courses, summaries, quizzes and conversations with the teacher are visible only to you, except a quiz you choose to share as a challenge (questions, score and username).
 ATUMI never asks for the name of your school.
-Your documents are used only to help you: they are neither published nor shared with other users.`,
+Your documents are used only to help you: they are neither published nor shared with other users.
+The details (data collected, providers, retention, your rights) are in the privacy policy, page /confidentialite; the rules for use, payment and refunds are in the terms, page /conditions. To access, correct or delete your data, or close your account: write to the team from the help centre.`,
     },
   ];
 }

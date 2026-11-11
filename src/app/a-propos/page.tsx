@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { BackLink } from "@/components/about/back-link";
 import { Hero } from "@/components/layout/hero";
+import { LegalLinks } from "@/components/legal/legal-page";
 import { getT } from "@/i18n/server";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -65,6 +66,8 @@ export default async function AboutPage() {
         <p className="text-sm font-semibold">{t.about.profRule}</p>
         <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.about.profLanguages}</p>
       </section>
+
+      <LegalLinks legal={t.legal} />
     </main>
   );
 }

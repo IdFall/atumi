@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { LegalLinks } from "@/components/legal/legal-page";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { SynthesisContent } from "@/components/study/synthesis-content";
 import { getT } from "@/i18n/server";
@@ -216,6 +217,7 @@ export default async function Home() {
           <p className="text-sm text-white/80">{h.trial}</p>
         </div>
       </section>
+      <LegalLinks legal={t.legal} className="mx-auto w-full max-w-6xl justify-center px-4 py-6" />
     </main>
   );
 }
