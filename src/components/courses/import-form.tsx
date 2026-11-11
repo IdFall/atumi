@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { checkFile, isImageMime, resolveMime } from "@/config/documents";
+import { LIBRARY_IMPORT_MAX_PAGES } from "@/config/library";
 import { useT } from "@/i18n/client";
+import { fill } from "@/i18n/format";
 import type { ImportErrorKey } from "@/i18n/messages";
 import { preparePhoto } from "@/lib/prepare-photo";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
 import { registerDocumentAction } from "@/server/courses/actions";
+import { importBookAction } from "@/server/library/actions";
 import { EXTENSION_BY_MIME, IMPORT_KINDS, NEW, type DocumentKind } from "@/server/courses/schemas";
 
 interface ModuleOption {
@@ -17,12 +20,13 @@ interface ModuleOption {
   chapters: { id: string; title: string }[];
 }
 
-type Phase = "idle" | "preparing" | "uploading" | "registering";
+type Phase = "idle" | "preparing" | "uploading" | "registering" | "copying";
 
 const PHASE_LABELS = {
   preparing: "preparingPhoto",
   uploading: "uploading",
   registering: "registering",
+  copying: "copying",
 } as const;
 
 const DOCUMENT_ACCEPT = ".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -36,6 +40,8 @@ const inputClass =
  * l'utilisateur, nom aléatoire), puis le serveur enregistre le document.
  * Une photo est d'abord réduite dans le navigateur ; les photos ne sont
  * proposées que si le service d'IA (qui les lit) est configuré.
+ * Avec `book`, pas de fichier à choisir : le serveur copie le livre de
+ * « Ma bibliothèque » puis l'importe de la même façon.
  */
 export function ImportForm({
   userId,
@@ -44,6 +50,7 @@ export function ImportForm({
   initialChapterId,
   firstImport,
   photosEnabled,
+  book,
 }: {
   userId: string;
   modules: ModuleOption[];
@@ -51,6 +58,7 @@ export function ImportForm({
   initialChapterId: string;
   firstImport: boolean;
   photosEnabled: boolean;
+  book?: { id: string; title: string };
 }) {
   const t = useT();
   const router = useRouter();
@@ -73,6 +81,26 @@ export function ImportForm({
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     setError(null);
+    const target = {
+      moduleId,
+      newModuleName: String(form.get("newModuleName") ?? ""),
+      chapterId,
+      newChapterTitle: String(form.get("newChapterTitle") ?? ""),
+      kind,
+    };
+
+    if (book) {
+      setPhase("copying");
+      const copied = await importBookAction({
+        ...target,
+        bookId: book.id,
+      }).catch(() => ({ ok: false as const, error: "unknown" as const }));
+      if (!copied.ok) {
+        setPhase("idle");
+        return setError(copied.error);
+      }
+      return router.push(`/cours/${copied.moduleId}`);
+    }
 
     if (!file) return setError("fileRequired");
     let upload = file;
@@ -105,11 +133,7 @@ export function ImportForm({
 
     setPhase("registering");
     const result = await registerDocumentAction({
-      moduleId,
-      newModuleName: String(form.get("newModuleName") ?? ""),
-      chapterId,
-      newChapterTitle: String(form.get("newChapterTitle") ?? ""),
-      kind,
+      ...target,
       fileName: upload.name,
       storagePath,
       mimeType,
@@ -188,40 +212,67 @@ export function ImportForm({
         </div>
       </fieldset>
 
-      <div className="flex flex-col gap-2">
-        <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-neutral-400 bg-white p-6 text-center text-sm dark:bg-nuit">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
-            <path d="M14 3v6h6" />
-          </svg>
-          <span className="font-semibold">{file ? file.name : photosEnabled ? t.import.chooseFileOrPhoto : t.import.chooseFile}</span>
-          <span className="text-neutral-600 dark:text-neutral-300">{photosEnabled ? t.import.formatsWithPhotos : t.import.formats}</span>
-          <input
-            type="file"
-            name="file"
-            accept={photosEnabled ? `${DOCUMENT_ACCEPT},${PHOTO_ACCEPT}` : DOCUMENT_ACCEPT}
-            className="sr-only"
-            onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
-          />
-        </label>
-        {photosEnabled ? (
-          <label className="flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 text-sm font-semibold dark:border-neutral-700 dark:bg-neutral-900">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M4 8a2 2 0 0 1 2-2h2l2-2h4l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
-              <circle cx="12" cy="13" r="3.5" />
+      {book ? (
+        <div className="flex flex-col gap-1 rounded-xl border border-neutral-300 bg-white p-4 text-sm dark:border-neutral-700 dark:bg-nuit">
+          <span className="font-medium text-neutral-600 dark:text-neutral-300">{t.import.book}</span>
+          <span className="font-semibold">{book.title}</span>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-neutral-400 bg-white p-6 text-center text-sm dark:bg-nuit">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+              <path d="M14 3v6h6" />
             </svg>
-            {t.import.takePhoto}
+            <span className="font-semibold">{file ? file.name : photosEnabled ? t.import.chooseFileOrPhoto : t.import.chooseFile}</span>
+            <span className="text-neutral-600 dark:text-neutral-300">{photosEnabled ? t.import.formatsWithPhotos : t.import.formats}</span>
             <input
               type="file"
-              accept={PHOTO_ACCEPT}
-              capture="environment"
+              name="file"
+              accept={photosEnabled ? `${DOCUMENT_ACCEPT},${PHOTO_ACCEPT}` : DOCUMENT_ACCEPT}
               className="sr-only"
               onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
             />
           </label>
-        ) : null}
-        {photosEnabled ? <p className="text-xs text-neutral-600 dark:text-neutral-300">{t.import.photoTips}</p> : null}
-      </div>
+          {photosEnabled ? (
+            <label className="flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 text-sm font-semibold dark:border-neutral-700 dark:bg-neutral-900">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 8a2 2 0 0 1 2-2h2l2-2h4l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+                <circle cx="12" cy="13" r="3.5" />
+              </svg>
+              {t.import.takePhoto}
+              <input
+                type="file"
+                accept={PHOTO_ACCEPT}
+                capture="environment"
+                className="sr-only"
+                onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+              />
+            </label>
+          ) : null}
+          {photosEnabled ? <p className="text-xs text-neutral-600 dark:text-neutral-300">{t.import.photoTips}</p> : null}
+        </div>
+      )}
 
       {file && isPhoto(file) ? (
         <p className="rounded-xl bg-primary-soft p-3 text-sm dark:bg-primary-strong/25">{t.import.photoNotice}</p>
@@ -235,7 +286,7 @@ export function ImportForm({
 
       {error ? (
         <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
-          {t.import.errors[error]}
+          {fill(t.import.errors[error], { max: LIBRARY_IMPORT_MAX_PAGES })}
         </p>
       ) : null}
 

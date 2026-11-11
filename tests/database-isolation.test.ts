@@ -42,7 +42,7 @@ beforeAll(async () => {
     create schema storage;
     create table storage.buckets (id text primary key, name text, public boolean,
       file_size_limit bigint, allowed_mime_types text[]);
-    create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text);
+    create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text, metadata jsonb);
     alter table storage.objects enable row level security;
     create function storage.foldername(name text) returns text[] language sql immutable as
       $$ select string_to_array(name, '/') $$;
@@ -840,6 +840,58 @@ describe("isolation des données entre utilisateurs", () => {
     await db.exec(`delete from public.shared_texts where title = 'Titre 0'`);
     expect((await db.query(`select 1 from public.shared_texts`)).rows).toHaveLength(29);
     await asService();
+  });
+
+  it("la bibliothèque est privée, limitée par l'espace du forfait et fermée à l'essai", async () => {
+    await asService();
+    await db.exec(`update public.plans set library_bytes_limit = 1000 where code = 'test-illimite'`);
+    await db.exec(`insert into storage.objects (bucket_id, name, metadata) values
+      ('bibliotheque', '${A}/livre-1.pdf', '{"size": 600}'),
+      ('bibliotheque', '${A}/livre-2.pdf', '{"size": 600}'),
+      ('bibliotheque', '${B}/livre-b.pdf', '{"size": 10}')`);
+
+    await asUser(A);
+    // Taille lue dans le stockage, pas celle envoyée.
+    await db.exec(`insert into public.library_books (user_id, title, storage_path, size_bytes) values ('${A}', 'Livre 1', '${A}/livre-1.pdf', 1)`);
+    expect((await db.query(`select size_bytes from public.library_books`)).rows).toEqual([{ size_bytes: 600 }]);
+    await expect(
+      db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${A}', 'Livre 2', '${A}/livre-2.pdf')`),
+    ).rejects.toThrow(/BIBLIO_ESPACE_PLEIN/);
+    await expect(
+      db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${A}', 'Absent', '${A}/absent.pdf')`),
+    ).rejects.toThrow(/BIBLIO_FICHIER_ABSENT/);
+    // Le fichier d'un autre ou une ligne au nom d'un autre : refusés.
+    await expect(
+      db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${A}', 'Vol', '${B}/livre-b.pdf')`),
+    ).rejects.toThrow();
+    await expect(
+      db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${B}', 'Vol', '${B}/livre-b.pdf')`),
+    ).rejects.toThrow();
+    await expect(db.exec(`update public.library_books set title = 'modifié'`)).rejects.toThrow();
+    expect((await db.query(`select bytes_limit, used from public.library_quota()`)).rows).toEqual([{ bytes_limit: 1000, used: 600 }]);
+    expect((await db.query(`select public.library_upload_allowed() as ok`)).rows).toEqual([{ ok: true }]);
+
+    // Un autre élève ne voit rien et n'efface rien.
+    await asUser(B);
+    expect((await db.query(`select 1 from public.library_books`)).rows).toHaveLength(0);
+    await db.exec(`delete from public.library_books`);
+
+    // Forfait sans ajout (comme l'essai) : dépôt et ajout refusés.
+    await asService();
+    await db.exec(`update public.plans set library_bytes_limit = 0 where code = 'test-illimite'`);
+    await asUser(A);
+    expect((await db.query(`select public.library_upload_allowed() as ok`)).rows).toEqual([{ ok: false }]);
+    await expect(
+      db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${A}', 'Livre 2', '${A}/livre-2.pdf')`),
+    ).rejects.toThrow(/BIBLIO_ABONNES/);
+    expect((await db.query(`select 1 from public.library_books`)).rows).toHaveLength(1);
+
+    await asUser(A);
+    await db.exec(`delete from public.library_books`);
+    expect((await db.query(`select 1 from public.library_books`)).rows).toHaveLength(0);
+    await asService();
+    await db.exec(`update public.plans set library_bytes_limit = 209715200 where code = 'test-illimite'`);
+    expect((await db.query(`select library_bytes_limit from public.plans where kind = 'essai'`)).rows.every((r) => (r as { library_bytes_limit: number }).library_bytes_limit === 0)).toBe(true);
   });
 
   it("seul le Sénégal est ouvert au lancement", async () => {

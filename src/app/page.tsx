@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { SynthesisContent } from "@/components/study/synthesis-content";
 import { getT } from "@/i18n/server";
+import { WHATSAPP_ICON } from "@/lib/challenge";
 
 /**
  * Accueil public, version claire : fond lumineux avec des halos de couleur
@@ -112,6 +113,65 @@ export default async function Home() {
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* Défis entre amis */}
+      <section className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
+        <div className="relative isolate grid items-center gap-10 overflow-hidden rounded-3xl border border-[#25D366]/25 bg-white p-6 shadow-sm sm:p-10 lg:grid-cols-[1.2fr_1fr]">
+          <div aria-hidden="true" className="absolute -right-20 -top-20 -z-10 h-72 w-72 rounded-full bg-[#25D366]/15 blur-3xl" />
+          <div className="flex flex-col gap-4">
+            <p className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E7F8EE] px-3 py-1 text-xs font-semibold text-[#0F7A3A]">
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d={WHATSAPP_ICON} />
+              </svg>
+              {h.challenge.badge}
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{h.challenge.title}</h2>
+            <p className="text-neutral-600">{h.challenge.body}</p>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {h.challenge.points.map((point) => (
+                <li key={point} className="flex items-start gap-2 text-sm">
+                  <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-xs font-bold text-white">
+                    ✓
+                  </span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/inscription"
+              className="w-fit rounded-xl bg-[#1FAF55] px-6 py-3 font-semibold text-white shadow-lg shadow-[#25D366]/25 transition hover:brightness-110"
+            >
+              {h.challenge.cta}
+            </Link>
+          </div>
+
+          {/* Aperçu : classement d'un défi */}
+          <div aria-hidden="true" className="atumi-float mx-auto flex w-full max-w-sm flex-col gap-3 rounded-2xl border border-neutral-200 bg-[#F7F9FD] p-5 shadow-xl shadow-[#25D366]/10">
+            <p className="text-sm font-semibold text-primary-strong">🏆 {h.challenge.mockTitle}</p>
+            <ol className="flex flex-col gap-2">
+              {h.challenge.mockPlayers.map((player, index) => {
+                const you = player.name === h.challenge.mockYou;
+                return (
+                  <li
+                    key={player.name}
+                    className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm ${you ? "bg-primary text-white" : "bg-white text-neutral-900"}`}
+                  >
+                    <span className="w-5 font-bold">{index + 1}</span>
+                    <span className="flex-1 font-medium">{player.name}</span>
+                    <span className="font-bold">{player.score}</span>
+                  </li>
+                );
+              })}
+            </ol>
+            <span className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d={WHATSAPP_ICON} />
+              </svg>
+              {h.challenge.mockShare}
+            </span>
+          </div>
+        </div>
       </section>
 
       {/* Étapes */}

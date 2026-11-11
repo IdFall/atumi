@@ -17,6 +17,7 @@ export type HelpArticleId =
   | "professeur"
   | "appels"
   | "agenda"
+  | "bibliotheque"
   | "recherche"
   | "compte"
   | "confidentialite";
@@ -159,6 +160,16 @@ Chaque échéance et chaque créneau peut être modifié ou supprimé. Si tu sup
 Ton agenda n'est visible que par toi.`,
     },
     {
+      id: "bibliotheque",
+      title: "Ma bibliothèque",
+      body: `« Ma bibliothèque » (menu) range tes livres et documents PDF.
+Le « Guide IA pour l'Élève et l'Étudiant 2.0 » est offert par ATUMI dans chaque compte.
+Abonné : tu peux lire, télécharger, ajouter tes propres PDF (50 Mo au plus par fichier) et les supprimer. Ton espace est de 200 Mo ; la barre d'espace montre ce qui est utilisé.
+Pendant l'essai gratuit : tu peux ouvrir la page et lire les livres offerts, en lecture seule, sans téléchargement ni ajout.
+Pour réviser un livre avec le Prof NEO (synthèse, quiz, questions), utilise « Importer » (ou « Importer dans Mes cours » sur la page du livre) : choisis le module et le chapitre, ATUMI le copie dans tes cours. Cela compte comme un import de ton forfait (pendant l'essai, c'est ton unique import). Un livre de plus de 60 pages ne peut pas être importé en entier : importe plutôt le chapitre que tu révises.
+Tes livres ne sont visibles que par toi.`,
+    },
+    {
       id: "recherche",
       title: "Recherche : mes cours, le web et les outils",
       body: `La Recherche (loupe en haut de l'écran sur téléphone, entrée « Recherche » du menu sur ordinateur, ou barre de recherche de l'accueil) retrouve un mot ou une notion dans tous tes cours.
@@ -269,6 +280,16 @@ Only the written transcript of the call is kept, in your conversation; no audio 
 Reminders: the home page shows "Don't forget" with your overdue deadlines and those in the next 7 days. Reminders by WhatsApp or notification are not available yet.
 Every deadline and class can be edited or deleted. If you delete a module, the deadline stays, without a link to the module.
 Only you can see your planner.`,
+    },
+    {
+      id: "bibliotheque",
+      title: "My library",
+      body: `"My library" (menu) keeps your books and PDF documents.
+The "Guide IA pour l'Élève et l'Étudiant 2.0" (in French) is offered by ATUMI in every account.
+Subscriber: you can read, download, add your own PDFs (50 MB at most per file) and delete them. Your space is 200 MB; the space bar shows what is used.
+During the free trial: you can open the page and read the offered books, read-only, with no download or upload.
+To revise a book with Prof NEO (summary, quiz, questions), use "Import" (or "Import into My courses" on the book page): choose the module and chapter, and ATUMI copies it into your courses. It counts as one import of your plan (during the trial, it is your only import). A book of more than 60 pages cannot be imported whole: import the chapter you are revising instead.
+Your books are visible only to you.`,
     },
     {
       id: "recherche",
