@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useState } from "react";
 
@@ -11,7 +10,7 @@ import { daysBetween, shortTime, slotsByDay, timetableText, whatsappShareUrl, ty
 import { deleteAgendaItemAction, setEventDoneAction, type AgendaFormState } from "@/server/agenda/actions";
 import type { AgendaEvent, TimetableSlot } from "@/server/agenda/queries";
 
-import { AddToggle, EventForm, SlotForm, type ModuleOption } from "./forms";
+import { AddToggle, EventForm, SlotForm } from "./forms";
 
 const BADGE: Record<Reminder, string> = {
   overdue: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300",
@@ -68,13 +67,13 @@ function DeleteButton({ kind, id, name }: { kind: "event" | "slot"; id: string; 
   );
 }
 
-function EventItem({ event, today, modules }: { event: AgendaEvent; today: string; modules: ModuleOption[] }) {
+function EventItem({ event, today }: { event: AgendaEvent; today: string }) {
   const a = useT().agenda;
   const dayLabel = useDayLabel();
   const [editing, setEditing] = useState(false);
   const [, doneAction, toggling] = useRefreshingAction(setEventDoneAction);
 
-  if (editing) return <EventForm event={event} modules={modules} today={today} onClose={() => setEditing(false)} />;
+  if (editing) return <EventForm event={event} today={today} onClose={() => setEditing(false)} />;
 
   return (
     <article className="flex flex-col gap-2 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-950">
@@ -103,17 +102,11 @@ function EventItem({ event, today, modules }: { event: AgendaEvent; today: strin
           <p className="text-sm text-neutral-600 dark:text-neutral-300">
             {dayLabel(event.dueOn)}
             {event.dueTime ? ` · ${shortTime(event.dueTime)}` : ""}
-            {event.moduleName ? ` · ${event.moduleName}` : ""}
           </p>
           {event.note ? <p className="text-sm text-neutral-600 dark:text-neutral-300">{event.note}</p> : null}
         </div>
       </div>
       <div className="flex flex-wrap items-start gap-2 pl-9 text-xs">
-        {event.moduleId && !event.done ? (
-          <Link href={`/cours/${event.moduleId}`} className={EDIT_LINK}>
-            {a.reviseModule}
-          </Link>
-        ) : null}
         <button type="button" onClick={() => setEditing(true)} className={EDIT_LINK}>
           {a.edit}
         </button>
@@ -130,11 +123,11 @@ const GROUPS = [
   { key: "done", has: (r: Reminder) => r === "done" },
 ] as const;
 
-export function EventsView({ events, today, modules }: { events: AgendaEvent[]; today: string; modules: ModuleOption[] }) {
+export function EventsView({ events, today }: { events: AgendaEvent[]; today: string }) {
   const a = useT().agenda;
   return (
     <div className="flex flex-col gap-5">
-      <AddToggle label={a.add}>{(close) => <EventForm modules={modules} today={today} onClose={close} />}</AddToggle>
+      <AddToggle label={a.add}>{(close) => <EventForm today={today} onClose={close} />}</AddToggle>
       {events.length === 0 ? (
         <p className="rounded-xl border border-dashed border-neutral-300 p-6 text-center text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
           {a.empty}
@@ -153,7 +146,7 @@ export function EventsView({ events, today, modules }: { events: AgendaEvent[]; 
               <ul className="flex flex-col gap-2">
                 {items.map((e) => (
                   <li key={e.id}>
-                    <EventItem event={e} today={today} modules={modules} />
+                    <EventItem event={e} today={today} />
                   </li>
                 ))}
               </ul>
@@ -165,11 +158,10 @@ export function EventsView({ events, today, modules }: { events: AgendaEvent[]; 
   );
 }
 
-function SlotItem({ slot, modules }: { slot: TimetableSlot; modules: ModuleOption[] }) {
+function SlotItem({ slot }: { slot: TimetableSlot }) {
   const a = useT().agenda;
   const [editing, setEditing] = useState(false);
-  if (editing) return <SlotForm slot={slot} modules={modules} weekday={slot.weekday} onClose={() => setEditing(false)} />;
-  const moduleName = modules.find((m) => m.id === slot.moduleId)?.name;
+  if (editing) return <SlotForm slot={slot} weekday={slot.weekday} onClose={() => setEditing(false)} />;
   return (
     <div className="flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-950">
       <div className="flex items-baseline gap-3">
@@ -178,9 +170,7 @@ function SlotItem({ slot, modules }: { slot: TimetableSlot; modules: ModuleOptio
         </span>
         <div className="min-w-0">
           <p className="font-semibold">{slot.label}</p>
-          {slot.place || moduleName ? (
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">{[slot.place, moduleName].filter(Boolean).join(" · ")}</p>
-          ) : null}
+          {slot.place ? <p className="text-sm text-neutral-600 dark:text-neutral-300">{slot.place}</p> : null}
         </div>
       </div>
       <div className="flex flex-wrap items-start gap-2 text-xs">
@@ -193,12 +183,12 @@ function SlotItem({ slot, modules }: { slot: TimetableSlot; modules: ModuleOptio
   );
 }
 
-export function TimetableView({ slots, todayWeekday, modules }: { slots: TimetableSlot[]; todayWeekday: Weekday; modules: ModuleOption[] }) {
+export function TimetableView({ slots, todayWeekday }: { slots: TimetableSlot[]; todayWeekday: Weekday }) {
   const a = useT().agenda;
   const days = slotsByDay(slots);
   return (
     <div className="flex flex-col gap-5">
-      <AddToggle label={a.addSlot}>{(close) => <SlotForm modules={modules} weekday={todayWeekday} onClose={close} />}</AddToggle>
+      <AddToggle label={a.addSlot}>{(close) => <SlotForm weekday={todayWeekday} onClose={close} />}</AddToggle>
       {days.length > 0 ? (
         <a
           href={whatsappShareUrl(timetableText(a.shareHeading, slots, (d) => a.weekdays[d]))}
@@ -228,7 +218,7 @@ export function TimetableView({ slots, todayWeekday, modules }: { slots: Timetab
             <ul className="flex flex-col gap-2">
               {day.slots.map((s) => (
                 <li key={s.id}>
-                  <SlotItem slot={s} modules={modules} />
+                  <SlotItem slot={s} />
                 </li>
               ))}
             </ul>

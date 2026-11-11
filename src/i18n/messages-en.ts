@@ -218,8 +218,6 @@ export const en: Messages = {
       titlePlaceholder: "E.g. exercises 3 and 4 page 52",
       dueOn: "Date",
       dueTime: "Time (optional)",
-      module: "Module (optional)",
-      noModule: "None",
       note: "Note (optional)",
       weekday: "Day",
       startsAt: "Start",
@@ -240,7 +238,6 @@ export const en: Messages = {
     confirmYes: "Yes, delete",
     confirmEvent: "Delete “{name}” from your planner?",
     confirmSlot: "Delete the “{name}” class from your timetable?",
-    reviseModule: "Revise this module",
     errors: {
       titleRequired: "Say what needs doing.",
       dateRequired: "Choose a date.",

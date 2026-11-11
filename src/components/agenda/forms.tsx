@@ -9,11 +9,6 @@ import { saveEventAction, saveSlotAction, type AgendaFormState } from "@/server/
 import type { AgendaEvent, TimetableSlot } from "@/server/agenda/queries";
 import { EVENT_KINDS } from "@/server/agenda/schemas";
 
-export interface ModuleOption {
-  id: string;
-  name: string;
-}
-
 const INPUT =
   "w-full min-w-0 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-primary dark:border-neutral-700 dark:bg-neutral-950";
 
@@ -64,28 +59,12 @@ function ErrorLine({ error }: { error?: AgendaFormState["error"] }) {
   ) : null;
 }
 
-function ModuleSelect({ id, modules, value }: { id: string; modules: ModuleOption[]; value: string | null }) {
-  const a = useT().agenda;
-  return (
-    <select id={id} name="moduleId" defaultValue={value ?? ""} className={INPUT}>
-      <option value="">{a.fields.noModule}</option>
-      {modules.map((m) => (
-        <option key={m.id} value={m.id}>
-          {m.name}
-        </option>
-      ))}
-    </select>
-  );
-}
-
 export function EventForm({
   event,
-  modules,
   today,
   onClose,
 }: {
   event?: AgendaEvent;
-  modules: ModuleOption[];
   today: string;
   onClose: () => void;
 }) {
@@ -95,8 +74,7 @@ export function EventForm({
   return (
     <form action={action} className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-primary-soft/40 p-4 dark:bg-primary-strong/10">
       {event ? <input type="hidden" name="id" value={event.id} /> : null}
-      <div className="grid grid-cols-2 gap-3">
-        <Field label={a.fields.kind} htmlFor={`kind-${key}`}>
+      <Field label={a.fields.kind} htmlFor={`kind-${key}`}>
           <select id={`kind-${key}`} name="kind" defaultValue={event?.kind ?? "devoir"} className={INPUT}>
             {EVENT_KINDS.map((k) => (
               <option key={k} value={k}>
@@ -105,10 +83,6 @@ export function EventForm({
             ))}
           </select>
         </Field>
-        <Field label={a.fields.module} htmlFor={`module-${key}`}>
-          <ModuleSelect id={`module-${key}`} modules={modules} value={event?.moduleId ?? null} />
-        </Field>
-      </div>
       <Field label={a.fields.title} htmlFor={`title-${key}`}>
         <input id={`title-${key}`} name="title" required maxLength={200} defaultValue={event?.title} placeholder={a.fields.titlePlaceholder} className={INPUT} />
       </Field>
@@ -131,12 +105,10 @@ export function EventForm({
 
 export function SlotForm({
   slot,
-  modules,
   weekday,
   onClose,
 }: {
   slot?: TimetableSlot;
-  modules: ModuleOption[];
   weekday: Weekday;
   onClose: () => void;
 }) {
@@ -166,14 +138,9 @@ export function SlotForm({
           <input id={`end-${key}`} name="endsAt" type="time" required defaultValue={shortTime(slot?.endsAt ?? null) ?? "10:00"} className={INPUT} />
         </Field>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Field label={a.fields.place} htmlFor={`place-${key}`}>
-          <input id={`place-${key}`} name="place" maxLength={80} defaultValue={slot?.place ?? ""} className={INPUT} />
-        </Field>
-        <Field label={a.fields.module} htmlFor={`smodule-${key}`}>
-          <ModuleSelect id={`smodule-${key}`} modules={modules} value={slot?.moduleId ?? null} />
-        </Field>
-      </div>
+      <Field label={a.fields.place} htmlFor={`place-${key}`}>
+        <input id={`place-${key}`} name="place" maxLength={80} defaultValue={slot?.place ?? ""} className={INPUT} />
+      </Field>
       <ErrorLine error={state.error} />
       <Buttons pending={pending} onCancel={onClose} />
     </form>

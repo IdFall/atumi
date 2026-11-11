@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import { EventsView } from "@/components/agenda/agenda-views";
 import { getT } from "@/i18n/server";
 import { agendaToday, listEvents } from "@/server/agenda/queries";
-import { listModules } from "@/server/courses/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -28,7 +27,6 @@ export default async function AgendaPage() {
 }
 
 async function AgendaLoader() {
-  const [today, modules] = await Promise.all([agendaToday(), listModules()]);
-  const options = modules.map((m) => ({ id: m.id, name: m.name }));
-  return <EventsView events={await listEvents(today)} today={today} modules={options} />;
+  const today = await agendaToday();
+  return <EventsView events={await listEvents(today)} today={today} />;
 }
