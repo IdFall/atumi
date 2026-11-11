@@ -7,7 +7,7 @@ import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
 
-type NavKey = "home" | "courses" | "import" | "tutor" | "call" | "agenda" | "timetable" | "search" | "help";
+type NavKey = "home" | "courses" | "library" | "import" | "tutor" | "call" | "agenda" | "timetable" | "search" | "help";
 
 const SEARCH_ICON = "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4";
 const CALL_ICON =
@@ -16,6 +16,7 @@ const CALL_ICON =
 const ITEMS = [
   { href: "/tableau-de-bord", label: "home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
   { href: "/cours", label: "courses", icon: "M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM4 19V5M8 7h6" },
+  { href: "/bibliotheque", label: "library", icon: "M4 4h4v16H4zM10 4h4v16h-4zM15.5 5.2l3.9-1 3.6 14.6-3.9 1z", desktopOnly: true },
   { href: "/importer", label: "import", icon: "M12 16V4M7 9l5-5 5 5M4 20h16" },
   { href: "/professeur", label: "tutor", icon: "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" },
   { href: "/appel", label: "call", icon: CALL_ICON, desktopOnly: true },
@@ -25,7 +26,7 @@ const ITEMS = [
   { href: "/aide", label: "help", icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01" },
 ] as const satisfies readonly { href: string; label: NavKey; icon: string; desktopOnly?: boolean }[];
 
-/** Barre du bas (téléphone) : la recherche et l'appel sont dans l'en-tête, pour garder 7 entrées. */
+/** Barre du bas (téléphone) : 7 entrées ; recherche et appel dans l'en-tête, bibliothèque depuis l'accueil. */
 const MOBILE_ITEMS = ITEMS.filter((item) => !("desktopOnly" in item));
 
 function isActive(pathname: string | null, href: string) {

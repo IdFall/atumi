@@ -25,6 +25,7 @@ const SATELLITES = [
   { key: "import", href: "/importer", icon: "M12 16V4M7 9l5-5 5 5M4 20h16" },
   { key: "search", href: "/recherche", icon: "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4" },
   { key: "agenda", href: "/agenda", icon: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M8 2v4M16 2v4" },
+  { key: "library", href: "/bibliotheque", icon: "M4 4h4v16H4zM10 4h4v16h-4zM15.5 5.2l3.9-1 3.6 14.6-3.9 1z" },
 ] as const;
 
 export interface DashboardViewProps {
@@ -64,12 +65,12 @@ export async function DashboardView({ userId, username, avatarUrl, cycle, access
           </div>
         </div>
         <AiPlanet className="atumi-float mx-auto -my-2 w-full max-w-[340px] md:absolute md:-right-6 md:top-1/2 md:my-0 md:w-[420px] md:max-w-none md:-translate-y-1/2" />
-        <nav className="relative z-10 mt-1 grid grid-cols-4 gap-2 md:mt-8 md:max-w-[55%]">
+        <nav className="relative z-10 mt-1 grid grid-cols-5 gap-1.5 md:mt-8 md:max-w-[55%]">
           {SATELLITES.map((s) => (
             <Link
               key={s.key}
               href={s.href}
-              className="group flex flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-1 py-3 text-center text-xs font-semibold backdrop-blur-sm hover:border-accent/60 hover:bg-white/10"
+              className="group flex flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-0.5 py-3 text-center text-[11px] font-semibold leading-tight break-words backdrop-blur-sm hover:border-accent/60 hover:bg-white/10"
             >
               <span className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-primary to-electrique shadow-md shadow-accent/30 group-hover:from-accent group-hover:to-primary">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
