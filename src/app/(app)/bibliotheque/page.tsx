@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { DeleteBook, UploadBook } from "@/components/library/library-actions";
+import { DeleteBook, DownloadBook, UploadBook } from "@/components/library/library-actions";
 import { formatBytes, LIBRARY_MAX_FILE_BYTES } from "@/config/library";
 import { fill } from "@/i18n/format";
 import { DATE_LOCALES } from "@/i18n/messages";
@@ -100,9 +100,7 @@ async function LibraryContent() {
                   {l.importShort}
                 </Link>
                 {library.rights.download ? (
-                  <a href={`/api/bibliotheque/${book.id}?telecharger=1`} className={`${LINK} text-primary-strong dark:text-lavande`}>
-                    {l.download}
-                  </a>
+                  <DownloadBook bookId={book.id} fileName={book.file} className={`${LINK} text-primary-strong dark:text-lavande`} />
                 ) : null}
               </div>
             </li>
@@ -146,9 +144,7 @@ async function LibraryContent() {
                     <Link href={`/bibliotheque/${book.id}/importer`} title={l.importToCourses} className={`${LINK} text-primary-strong dark:text-lavande`}>
                       {l.importShort}
                     </Link>
-                    <a href={`/api/bibliotheque/${book.id}?telecharger=1`} className={`${LINK} text-primary-strong dark:text-lavande`}>
-                      {l.download}
-                    </a>
+                    <DownloadBook bookId={book.id} fileName={`${book.title}.pdf`} className={`${LINK} text-primary-strong dark:text-lavande`} />
                     <DeleteBook id={book.id} name={book.title} />
                   </div>
                 </li>
