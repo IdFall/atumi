@@ -29,6 +29,7 @@ describe("inscription", () => {
         identifier: { kind: "email", email: "awa@exemple.sn" },
         password: "motdepasse",
         cycle: "universite",
+        role: "eleve",
         countryCode: "SN",
         guardianPhone: null,
         isAdult: false,
@@ -42,6 +43,14 @@ describe("inscription", () => {
     // La case n'a pas d'effet pour un étudiant.
     const student = parseSignUp({ ...base, isAdult: "on" }, "SN");
     expect(student.ok && student.data.isAdult).toBe(false);
+  });
+
+  it("un enseignant au lycée n'a pas besoin du numéro d'un parent", () => {
+    const teacher = parseSignUp({ ...base, cycle: "lycee", role: "enseignant" }, "SN");
+    expect(teacher.ok && teacher.data).toMatchObject({ role: "enseignant", cycle: "lycee", guardianPhone: null });
+    // Valeur inconnue : élève.
+    const other = parseSignUp({ ...base, role: "admin" }, "SN");
+    expect(other.ok && other.data.role).toBe("eleve");
   });
 
   it("exige le numéro d'un parent pour un lycéen", () => {

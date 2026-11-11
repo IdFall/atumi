@@ -488,7 +488,10 @@ describe("isolation des données entre utilisateurs", () => {
     await asUser(A);
     await expect(db.exec(`update public.plans set quiz_limit = null`)).rejects.toThrow();
     const visibles = await db.query<{ code: string }>(`select code from public.plans order by code`);
-    expect(visibles.rows.map((r) => r.code)).toEqual(["sn-essai"]);
+    const codes = visibles.rows.map((r) => r.code);
+    expect(codes).toContain("sn-essai");
+    expect(codes).toContain("sn-essentiel");
+    expect(codes).not.toContain("sn-testeur");
   });
 
   it("centre d'aide : questions et demandes à l'équipe restent privées et limitées", async () => {
@@ -891,7 +894,110 @@ describe("isolation des données entre utilisateurs", () => {
     expect((await db.query(`select 1 from public.library_books`)).rows).toHaveLength(0);
     await asService();
     await db.exec(`update public.plans set library_bytes_limit = 209715200 where code = 'test-illimite'`);
-    expect((await db.query(`select library_bytes_limit from public.plans where kind = 'essai'`)).rows.every((r) => (r as { library_bytes_limit: number }).library_bytes_limit === 0)).toBe(true);
+    expect((await db.query(`select library_bytes_limit, library_upload from public.plans where kind = 'essai'`)).rows).toEqual([
+      { library_bytes_limit: 52428800, library_upload: false },
+    ]);
+  });
+
+  it("forfaits commerciaux : enseignant, recharges d'appel et d'espace, espace commun", async () => {
+    const T = "00000000-0000-0000-0000-0000000000a1";
+    const D = "00000000-0000-0000-0000-0000000000a2";
+    const MODULE_D = "10000000-0000-0000-0000-0000000000a2";
+    const CONV_D = "20000000-0000-0000-0000-0000000000a2";
+    const MB = 1048576;
+    const GB = 1024 * MB;
+    await asService();
+    await db.exec(`
+      insert into auth.users (id, email, raw_user_meta_data) values
+        ('${T}', 't@exemple.sn', '{"username": "prof_ndiaye", "cycle": "lycee", "role": "enseignant", "cgu_accepted": true}'),
+        ('${D}', 'd@exemple.sn', '{"username": "abonnee_essentiel", "cycle": "universite", "cgu_accepted": true}');
+      insert into public.admins (user_id) values ('${A}') on conflict do nothing;
+      insert into public.modules (id, user_id, name) values ('${MODULE_D}', '${D}', 'Physique');
+      insert into public.subscriptions (user_id, plan_code, status, amount_minor, currency, payment_provider,
+        payment_reference, starts_at, ends_at)
+        values ('${D}', 'sn-essentiel', 'active', 3500, 'XOF', 'wave', 'WV-D', now() - interval '1 day', now() + interval '29 days');
+    `);
+
+    // Enseignant : majeur, sans avis au parent, même s'il enseigne au lycée.
+    const teacher = await db.query(`select role, cycle from public.profiles where id = '${T}'`);
+    expect(teacher.rows).toEqual([{ role: "enseignant", cycle: "lycee" }]);
+    expect((await db.query(`select kind from public.consents where user_id = '${T}' order by kind`)).rows).toEqual([
+      { kind: "cgu" },
+      { kind: "majorite" },
+    ]);
+    expect((await db.query(`select 1 from public.parental_notices where user_id = '${T}'`)).rows).toHaveLength(0);
+
+    // Recharge : réservée à un abonnement en cours.
+    await asUser(T);
+    await expect(
+      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${T}', 'sn-recharge-appel-30', 'wave', 'WV-T1')`),
+    ).rejects.toThrow(/ATUMI_RECHARGE_ABONNES/);
+
+    await asUser(D);
+    expect((await db.query(`select seconds_remaining from public.call_quota()`)).rows).toEqual([{ seconds_remaining: 900 }]);
+    await db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${D}', 'sn-recharge-appel-30', 'wave', 'WV-D2')`);
+    await expect(db.exec(`insert into public.plan_credits (user_id, plan_code, call_seconds, amount_minor, currency, payment_provider, payment_reference)
+      values ('${D}', 'sn-recharge-appel-30', 99999, 0, 'XOF', 'wave', 'x')`)).rejects.toThrow();
+
+    await asUser(A);
+    const request = await db.query<{ id: string }>(`select id from public.admin_payment_requests('en_attente') where reference = 'WV-D2'`);
+    await db.exec(`select public.admin_confirm_payment_request('${request.rows[0].id}')`);
+
+    await asUser(D);
+    expect((await db.query(`select call_seconds from public.plan_credits`)).rows).toEqual([{ call_seconds: 1800 }]);
+    expect((await db.query(`select minutes_limit, seconds_remaining from public.call_quota()`)).rows).toEqual([
+      { minutes_limit: 45, seconds_remaining: 2700 },
+    ]);
+
+    // Appel de 1 000 s : 900 s du forfait, puis 100 s prises sur la recharge.
+    await asService();
+    await db.exec(`
+      insert into public.tutor_conversations (id, user_id, mode) values ('${CONV_D}', '${D}', 'decouvrir');
+      insert into public.tutor_calls (id, user_id, conversation_id, language, started_at)
+        values ('30000000-0000-0000-0000-0000000000a2', '${D}', '${CONV_D}', 'fr', now() - interval '1 minute');
+      update public.tutor_calls set duration_seconds = 600, ended_at = now() where id = '30000000-0000-0000-0000-0000000000a2';
+      update public.tutor_calls set duration_seconds = 1000, ended_at = now() where id = '30000000-0000-0000-0000-0000000000a2';
+    `);
+    await asUser(D);
+    expect((await db.query(`select call_seconds from public.plan_credits`)).rows).toEqual([{ call_seconds: 1700 }]);
+    expect((await db.query(`select seconds_remaining from public.call_quota()`)).rows).toEqual([{ seconds_remaining: 1700 }]);
+
+    // Espace commun (1 Go) : cours importés + bibliothèque, taille lue dans le stockage.
+    await asService();
+    await db.exec(`insert into storage.objects (bucket_id, name, metadata) values
+      ('documents', '${D}/cours-1.pdf', '{"size": ${600 * MB}}'),
+      ('documents', '${D}/cours-2.pdf', '{"size": ${600 * MB}}'),
+      ('bibliotheque', '${D}/livre.pdf', '{"size": ${500 * MB}}')`);
+    await asUser(D);
+    await db.exec(`insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+      values ('${D}', '${MODULE_D}', 'cours', 'Cours 1', '${D}/cours-1.pdf', 'application/pdf', 1)`);
+    expect((await db.query(`select size_bytes from public.documents`)).rows).toEqual([{ size_bytes: 600 * MB }]);
+    await expect(
+      db.exec(`insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+        values ('${D}', '${MODULE_D}', 'cours', 'Cours 2', '${D}/cours-2.pdf', 'application/pdf', 1)`),
+    ).rejects.toThrow(/ATUMI_ESPACE_PLEIN/);
+    await expect(
+      db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${D}', 'Livre', '${D}/livre.pdf')`),
+    ).rejects.toThrow(/BIBLIO_ESPACE_PLEIN/);
+    expect((await db.query(`select bytes_limit, used from public.library_quota()`)).rows).toEqual([
+      { bytes_limit: GB, used: 600 * MB },
+    ]);
+
+    // Recharge d'espace (+5 Go pour 30 jours) : l'ajout passe.
+    await asUser(A);
+    await db.exec(`select public.admin_grant_credit('${D}', 'sn-recharge-espace-5go', 'orange_money', 'OM-D3')`);
+    await asUser(D);
+    await db.exec(`insert into public.documents (user_id, module_id, kind, title, storage_path, mime_type, size_bytes)
+      values ('${D}', '${MODULE_D}', 'cours', 'Cours 2', '${D}/cours-2.pdf', 'application/pdf', 1)`);
+    await db.exec(`insert into public.library_books (user_id, title, storage_path) values ('${D}', 'Livre', '${D}/livre.pdf')`);
+    expect((await db.query(`select bytes_limit, used from public.library_quota()`)).rows).toEqual([
+      { bytes_limit: 6 * GB, used: 1700 * MB },
+    ]);
+
+    // Les recharges d'un autre restent privées.
+    await asUser(B);
+    expect((await db.query(`select 1 from public.plan_credits`)).rows).toHaveLength(0);
+    await asService();
   });
 
   it("seul le Sénégal est ouvert au lancement", async () => {

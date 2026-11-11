@@ -10,6 +10,8 @@ export interface CurrentUser {
   username: string;
   cycle: Cycle;
   countryCode: string;
+  /** Élève ou enseignant (choisi à l'inscription). */
+  role: "eleve" | "enseignant";
 }
 
 /**
@@ -25,7 +27,7 @@ export async function getCurrentUser(): Promise<CurrentUser> {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, cycle, country_code")
+    .select("username, cycle, country_code, role")
     .eq("id", userId)
     .single();
   if (!profile) redirect("/connexion");
@@ -35,6 +37,7 @@ export async function getCurrentUser(): Promise<CurrentUser> {
     username: profile.username,
     cycle: profile.cycle as Cycle,
     countryCode: profile.country_code,
+    role: profile.role === "enseignant" ? "enseignant" : "eleve",
   };
 }
 

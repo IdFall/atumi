@@ -34,6 +34,8 @@ export interface SignUpData {
   identifier: Identifier;
   password: string;
   cycle: Cycle;
+  /** Élève (par défaut) ou enseignant : un enseignant est majeur, sans accord parental. */
+  role: "eleve" | "enseignant";
   countryCode: string;
   guardianPhone: string | null;
   /** Lycéen qui déclare avoir 18 ans ou plus : pas d'accord parental. */
@@ -45,6 +47,7 @@ export interface SignUpInput {
   identifier?: unknown;
   password?: unknown;
   cycle?: unknown;
+  role?: unknown;
   guardianPhone?: unknown;
   isAdult?: unknown;
   acceptCgu?: unknown;
@@ -82,8 +85,10 @@ export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseRe
   if (!cycleOk) errors.cycle = rawCycle ? "cycleNotOpen" : "cycleRequired";
   const cycle = rawCycle as Cycle;
 
-  // Lycéen majeur (case « 18 ans ou plus ») : pas de numéro de parent.
-  const needsConsent = cycleOk && requiresParentalConsent(cycle);
+  const role = text(input.role) === "enseignant" ? "enseignant" : "eleve";
+
+  // Lycéen majeur (case « 18 ans ou plus ») ou enseignant : pas de numéro de parent.
+  const needsConsent = role === "eleve" && cycleOk && requiresParentalConsent(cycle);
   const isAdult = needsConsent && (input.isAdult === "on" || input.isAdult === true);
   let guardianPhone: string | null = null;
   if (needsConsent && !isAdult) {
@@ -99,7 +104,7 @@ export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseRe
   if (Object.keys(errors).length > 0 || !identifier || !getCountry(countryCode)) {
     return { ok: false, errors };
   }
-  return { ok: true, data: { username, identifier, password, cycle, countryCode, guardianPhone, isAdult } };
+  return { ok: true, data: { username, identifier, password, cycle, role, countryCode, guardianPhone, isAdult } };
 }
 
 type SignInField = "identifier" | "password";

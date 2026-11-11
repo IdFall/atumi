@@ -176,6 +176,7 @@ export async function registerDocumentAction(raw: Record<string, string>): Promi
 function importError(message: string): ImportErrorKey {
   if (message.includes("LULU_ACCES_EXPIRE")) return "accessExpired";
   if (message.includes("LULU_QUOTA_IMPORT_ATTEINT")) return "importLimit";
+  if (message.includes("ATUMI_ESPACE_PLEIN")) return "storageFull";
   return "unknown";
 }
 

@@ -100,8 +100,10 @@ Le temps qui reste s'affiche en haut du tableau de bord. À la fin de l'essai, i
       id: "paiement",
       title: "S'abonner et payer",
       body: `Les forfaits se paient par mobile money. Moyens de paiement dans ton pays : ${listLabels(context.paymentMethods)}.
-Pour t'abonner, ouvre la page « S'abonner » (lien « Voir les forfaits » dans le bandeau de l'accueil) : choisis un forfait, envoie le montant au numéro de l'équipe, puis indique la référence de la transaction (elle est dans le SMS de confirmation). L'équipe vérifie le paiement et active ton forfait, en général dans la journée. Tu suis l'état de ton paiement sur la même page.
-Le nombre de quiz, de messages au professeur et de minutes d'appel dépend du forfait choisi.`,
+Pour t'abonner, ouvre la page « Abonnement » (lien « Voir les forfaits » dans le bandeau de l'accueil) : choisis « Élève ou étudiant » ou « Enseignant », la durée (1 mois, ou plusieurs mois pour un prix plus bas par mois), puis un forfait. Envoie le montant au numéro de l'équipe, puis indique la référence de la transaction (elle est dans le SMS de confirmation). L'équipe vérifie le paiement et active ton forfait, en général dans la journée. Tu suis l'état de ton paiement sur la même page. Les prix et le détail de chaque forfait sont sur la page Abonnement.
+Chaque forfait fixe ton espace (cours importés et Ma bibliothèque ensemble), le nombre d'imports, de quiz, de messages au professeur, de recherches web par jour et de minutes d'appel. En haut de la page Abonnement, tu vois ce qu'il te reste.
+Recharges : si tu manques de minutes d'appel ou d'espace avant la fin de ton abonnement, achète une recharge dans la rubrique « Recharges » de la page Abonnement, payée de la même façon. Les minutes achetées restent tant que ton abonnement est actif et servent après celles du forfait ; l'espace ajouté dure 30 jours. Les recharges complètent un abonnement en cours : elles ne sont pas proposées pendant l'essai.
+Enseignants : ATUMI convient aussi aux enseignants (choix « Enseignant » à l'inscription, forfait Enseignant) : importer ses cours, préparer synthèses et quiz, et partager un défi WhatsApp à toute une classe.`,
     },
     {
       id: "import",
@@ -142,9 +144,9 @@ Chaque message envoyé au professeur compte dans ton forfait (3 pendant l'essai)
     {
       id: "appels",
       title: "Appeler le professeur",
-      body: `Les appels voix sont réservés à l'abonnement Premium et seront activés très bientôt : l'entrée « Appel Prof NEO » du menu (icône de téléphone) le rappelle.
+      body: `Les appels voix sont inclus dans les forfaits (des minutes chaque mois) et seront activés très bientôt : l'entrée « Appel Prof NEO » du menu (icône de téléphone) le rappelle.
 
-Avec un forfait qui les inclut, tu peux appeler le Prof NEO en voix : bouton « Appeler le Prof » sur la page du professeur ou dans une conversation. Les minutes d'appel dépendent du forfait ; le temps restant s'affiche pendant l'appel, qui s'arrête tout seul à la fin de tes minutes (30 minutes au plus par appel). Les appels ne sont pas inclus dans l'essai gratuit.
+Avec un forfait qui les inclut, tu peux appeler le Prof NEO en voix : bouton « Appeler le Prof » sur la page du professeur ou dans une conversation. Les minutes d'appel dépendent du forfait ; le temps restant s'affiche pendant l'appel, qui s'arrête tout seul à la fin de tes minutes (30 minutes au plus par appel). Quand tes minutes sont épuisées, le bouton propose « Acheter des minutes » : une recharge sur la page Abonnement. Les appels ne sont pas inclus dans l'essai gratuit.
 Tu peux activer la caméra pour montrer ton cahier ou un exercice. Le navigateur te demande l'accès au micro (et à la caméra) la première fois : accepte-le.
 Pendant l'appel, tu peux couper le micro ou raccrocher. Le professeur parle en français ou en anglais et suit les mêmes règles qu'à l'écrit : il ne donne la solution d'un exercice qu'après ta propre tentative.
 Seule la transcription écrite de l'appel est gardée, dans ta conversation ; aucun enregistrement audio ou vidéo n'est conservé. Elle ne compte pas dans tes messages au professeur.`,
@@ -164,7 +166,7 @@ Ton agenda n'est visible que par toi.`,
       title: "Ma bibliothèque",
       body: `« Ma bibliothèque » (menu) range tes livres et documents PDF.
 Le « Guide IA pour l'Élève et l'Étudiant 2.0 » est offert par ATUMI dans chaque compte.
-Abonné : tu peux lire, télécharger, ajouter tes propres PDF (50 Mo au plus par fichier) et les supprimer. Ton espace est de 200 Mo ; la barre d'espace montre ce qui est utilisé.
+Abonné : tu peux lire, télécharger, ajouter tes propres PDF (50 Mo au plus par fichier) et les supprimer. Ton espace dépend de ton forfait et est partagé avec tes cours importés ; la barre d'espace montre ce qui est utilisé. Pour plus de place, supprime des fichiers ou prends une recharge d'espace sur la page Abonnement.
 Pendant l'essai gratuit : tu peux ouvrir la page et lire les livres offerts, en lecture seule, sans téléchargement ni ajout.
 Pour réviser un livre avec le Prof NEO (synthèse, quiz, questions), utilise « Importer » (ou « Importer dans Mes cours » sur la page du livre) : choisis le module et le chapitre, ATUMI le copie dans tes cours. Cela compte comme un import de ton forfait (pendant l'essai, c'est ton unique import). Un livre de plus de 60 pages ne peut pas être importé en entier : importe plutôt le chapitre que tu révises.
 Tes livres ne sont visibles que par toi.`,
@@ -222,8 +224,10 @@ The time left is shown at the top of the dashboard. When the trial ends, you nee
       id: "paiement",
       title: "Subscribing and paying",
       body: `Plans are paid by mobile money. Payment methods in your country: ${listLabels(context.paymentMethods, "en")}.
-To subscribe, open the "Subscribe" page ("See the plans" link in the banner on the home page): choose a plan, send the amount to the team's number, then enter the transaction reference (it is in the confirmation SMS). The team checks the payment and activates your plan, usually within the day. You can follow your payment's status on the same page.
-The number of quizzes, messages to the teacher and call minutes depends on the plan you choose.`,
+To subscribe, open the "Subscription" page ("See the plans" link in the banner on the home page): choose "A student" or "A teacher", the duration (1 month, or several months for a lower price per month), then a plan. Send the amount to the team's number, then enter the transaction reference (it is in the confirmation SMS). The team checks the payment and activates your plan, usually within the day. You can follow your payment's status on the same page. Prices and the details of each plan are on the Subscription page.
+Each plan sets your space (imported courses and My library together), the number of imports, quizzes, messages to the teacher, web searches per day and call minutes. The top of the Subscription page shows what you have left.
+Top-ups: if you run out of call minutes or space before your subscription ends, buy a top-up in the "Top-ups" section of the Subscription page, paid the same way. Bought minutes stay as long as your subscription is active and are used after your plan's minutes; added space lasts 30 days. Top-ups add to an active subscription: they are not offered during the trial.
+Teachers: ATUMI also suits teachers ("A teacher" at sign-up, Teacher plan): import your courses, prepare summaries and quizzes, and share a WhatsApp challenge with a whole class.`,
     },
     {
       id: "import",
@@ -264,9 +268,9 @@ Each message sent to the teacher counts in your plan (3 during the trial). Quest
     {
       id: "appels",
       title: "Calling the teacher",
-      body: `Voice calls are reserved for the Premium plan and will be switched on very soon: the "Call Prof NEO" menu entry (phone icon) says so.
+      body: `Voice calls are included in the plans (minutes each month) and will be switched on very soon: the "Call Prof NEO" menu entry (phone icon) says so.
 
-With a plan that includes them, you can call Prof NEO by voice: the "Call the Prof" button on the teacher page or in a conversation. Call minutes depend on the plan; the time left is shown during the call, which stops by itself when your minutes run out (30 minutes at most per call). Calls are not included in the free trial.
+With a plan that includes them, you can call Prof NEO by voice: the "Call the Prof" button on the teacher page or in a conversation. Call minutes depend on the plan; the time left is shown during the call, which stops by itself when your minutes run out (30 minutes at most per call). When your minutes run out, the button offers "Buy minutes": a top-up on the Subscription page. Calls are not included in the free trial.
 You can turn on the camera to show your notebook or an exercise. The browser asks for access to the microphone (and camera) the first time: accept it.
 During the call, you can mute the microphone or hang up. The teacher speaks French or English and follows the same rules as in writing: it gives the solution to an exercise only after your own attempt.
 Only the written transcript of the call is kept, in your conversation; no audio or video recording is stored. It does not count towards your messages to the teacher.`,
@@ -286,7 +290,7 @@ Only you can see your planner.`,
       title: "My library",
       body: `"My library" (menu) keeps your books and PDF documents.
 The "Guide IA pour l'Élève et l'Étudiant 2.0" (in French) is offered by ATUMI in every account.
-Subscriber: you can read, download, add your own PDFs (50 MB at most per file) and delete them. Your space is 200 MB; the space bar shows what is used.
+Subscriber: you can read, download, add your own PDFs (50 MB at most per file) and delete them. Your space depends on your plan and is shared with your imported courses; the space bar shows what is used. For more room, delete files or buy a space top-up on the Subscription page.
 During the free trial: you can open the page and read the offered books, read-only, with no download or upload.
 To revise a book with Prof NEO (summary, quiz, questions), use "Import" (or "Import into My courses" on the book page): choose the module and chapter, and ATUMI copies it into your courses. It counts as one import of your plan (during the trial, it is your only import). A book of more than 60 pages cannot be imported whole: import the chapter you are revising instead.
 Your books are visible only to you.`,

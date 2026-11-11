@@ -32,6 +32,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     username: field(formData, "username"),
     identifier: field(formData, "identifier"),
     cycle: field(formData, "cycle"),
+    role: field(formData, "role"),
     guardianPhone: field(formData, "guardianPhone"),
     isAdult: field(formData, "isAdult"),
   };
@@ -52,6 +53,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
   const metadata = {
     username: input.username,
     cycle: input.cycle,
+    role: input.role,
     country_code: input.countryCode,
     guardian_phone: input.guardianPhone,
     is_adult: input.isAdult,
