@@ -166,7 +166,8 @@ export async function signOutAction(): Promise<void> {
   const supabase = await createUserClient();
   // « local » : ferme la session de cet appareil sans dépendre d'un appel réseau qui échouerait.
   await supabase.auth.signOut({ scope: "local" });
-  redirect("/connexion");
+  // Déconnexion volontaire : retour à l'accueil public.
+  redirect("/");
 }
 
 /** Déconnexion automatique après 1 h sans activité, demandée par le navigateur (`IdleSignOut`). */

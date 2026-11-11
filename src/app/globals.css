@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Mode sombre selon l'appareil, sauf dans une zone « .atumi-clair » (accueil public, toujours clair). */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:not(.atumi-clair, .atumi-clair *) {
+      @slot;
+    }
+  }
+}
+
 :root {
   /* Palette ATUMI. Le cyan est trop clair pour du texte sur fond clair :
      utiliser accent-texte pour un texte cyan. La lavande reste décorative. */

@@ -16,7 +16,7 @@ export default async function Home() {
   const t = await getT();
   const h = t.home;
   return (
-    <main className="flex flex-1 flex-col bg-[#F7F9FD] text-nuit dark:bg-neutral-950 dark:text-white">
+    <main className="atumi-clair flex flex-1 flex-col bg-[#F7F9FD] text-nuit [color-scheme:light]">
       {/* Bandeau */}
       <section className="relative isolate overflow-hidden">
         <div aria-hidden="true" className="absolute inset-0 -z-10">
