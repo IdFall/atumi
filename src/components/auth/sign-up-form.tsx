@@ -137,7 +137,22 @@ export function SignUpForm() {
 
       <label className="flex items-start gap-2 text-sm">
         <input type="checkbox" name="acceptCgu" className="mt-1" required />
-        <span>{t.auth.fields.acceptCgu}</span>
+        <span>
+          {t.auth.fields.acceptCgu.split(/(\{terms\}|\{privacy\})/).map((part, i) =>
+            part === "{terms}" || part === "{privacy}" ? (
+              <Link
+                key={i}
+                href={part === "{terms}" ? "/conditions" : "/confidentialite"}
+                target="_blank"
+                className="text-primary underline dark:text-lavande"
+              >
+                {part === "{terms}" ? t.auth.fields.acceptCguTerms : t.auth.fields.acceptCguPrivacy}
+              </Link>
+            ) : (
+              part
+            ),
+          )}
+        </span>
       </label>
       {err("acceptCgu") ? (
         <span className="text-sm text-red-700 dark:text-red-400" role="alert">

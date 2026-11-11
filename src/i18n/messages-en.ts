@@ -103,6 +103,192 @@ export const en: Messages = {
     profLanguages: "You choose the language of its answers among those offered in your country.",
     back: "Back",
   },
+  legal: {
+    back: "Back",
+    updated: "Last updated: November 11, 2026",
+    termsLink: "Terms of use and sale",
+    privacyLink: "Privacy",
+    contactTitle: "Contact us",
+    contactBody: "For any question about these texts: ifallcv@gmail.com, or \"Write to the team\" in the help centre.",
+    terms: {
+      title: "Terms of use and sale",
+      intro:
+        "These terms apply to anyone who creates an ATUMI account, uses the app or buys a plan. By ticking the box when you sign up, you accept them.",
+      sections: [
+        {
+          title: "1. Who publishes ATUMI",
+          body: [
+            "ATUMI is a service published by Idrissa Fall, sole trader, Grand Dakar, Dakar (Senegal). Contact: ifallcv@gmail.com.",
+            "The app is hosted by Vercel Inc. (website), Supabase Inc. (accounts and data) and Railway Corp. (background processing).",
+          ],
+        },
+        {
+          title: "2. The service",
+          body: [
+            "ATUMI helps high school students, university students and teachers revise: course import (PDF, Word, photos), summaries, quizzes, conversations with the AI teacher \"Prof NEO\", search, library, planner and, depending on the plan, voice calls with the teacher.",
+            "Answers are produced by artificial intelligence. They may contain mistakes: check them against your course or with your teacher. ATUMI does not replace a teacher and guarantees no exam result.",
+            "For an exercise, the teacher only gives the solution after your own attempt. A challenge to a correction gets a fixed answer inviting you to retake the quiz or see a teacher.",
+          ],
+        },
+        {
+          title: "3. Your account",
+          body: [
+            "Sign-up asks for a username, an email or phone number, a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
+            "A high school student under 18 gives the phone number of a parent or guardian. This parent is notified on WhatsApp and can refuse the sign-up; a refusal suspends the account.",
+            "For your security, ATUMI signs you out after 1 hour without activity.",
+          ],
+        },
+        {
+          title: "4. Free trial",
+          body: [
+            "The trial lasts 24 hours from your first course import. It includes 1 import, 1 quiz of 5 questions and 3 messages to the teacher, with no calls. There is only one trial per phone number (one per account for an email account). Afterwards, a plan is needed to continue.",
+          ],
+        },
+        {
+          title: "5. Plans and prices",
+          body: [
+            "The plans (Essentiel, Plus, Premium) are the same for all users. They are bought for 1 month or 3 months. Prices, in CFA francs including all taxes, and what each plan includes (imported courses, quizzes, messages, searches, call minutes, storage) are shown on the Subscription page at the time of purchase.",
+            "A plan is never renewed automatically: at the end of the period, you choose whether to take a plan again. Unused quantities are not carried over to the next period.",
+            "Top-ups (call-minute pass valid 3 days, extra storage for 30 days) are for subscribers only. Minutes or storage not used by the end of their validity are lost.",
+            "ATUMI may change its prices; a change never applies to a period already paid.",
+          ],
+        },
+        {
+          title: "6. Payment and activation",
+          body: [
+            "Payment is made by Wave or Orange Money to the number shown on the Subscription page. You then declare your payment in ATUMI with the transaction reference. The team checks the payment and activates the plan or top-up; the period starts at activation.",
+            "A payment that cannot be found or has a different amount is not validated: the team tells you and helps you sort it out. Keep the confirmation message from Wave or Orange Money.",
+          ],
+        },
+        {
+          title: "7. Refunds",
+          body: [
+            "The service starts at activation, at your request. A period that has started is not refunded, except for a payment error (double payment, amount too high, plan never activated) or a prolonged unavailability of ATUMI caused by ATUMI. In these cases, write to ifallcv@gmail.com within 14 days: the refund is made to the same payment method.",
+          ],
+        },
+        {
+          title: "8. Your content",
+          body: [
+            "You remain the owner of the documents you import. You must have the right to use them for your revision. You allow ATUMI to store and process them (including through its AI providers) only to provide the service to you. They are neither published nor shown to other users.",
+            "What you choose to share (quiz challenge, text shared on WhatsApp) can be read by anyone who has the link, for the period shown.",
+          ],
+        },
+        {
+          title: "9. What is not allowed",
+          body: [
+            "Using ATUMI to cheat during an exam or supervised test; importing illegal, hateful, violent or sexual content; harassing someone; reselling or sharing access; getting around plan limits or using bots; trying to access other people's data.",
+          ],
+        },
+        {
+          title: "10. ATUMI's property",
+          body: [
+            "The ATUMI name, the Prof NEO character, the app and the books offered by ATUMI are protected. You may use them for your personal revision, without copying or reselling them.",
+          ],
+        },
+        {
+          title: "11. Availability and liability",
+          body: [
+            "ATUMI does its best to keep the service available and reliable, but cannot guarantee it at all times (maintenance, provider outage, network). ATUMI is not responsible for a decision made solely on the basis of an AI answer, nor for the loss of files you did not keep a copy of.",
+          ],
+        },
+        {
+          title: "12. Suspension and closing the account",
+          body: [
+            "If these terms are not respected, ATUMI may suspend or close an account, after warning you except in an emergency. You can ask to close your account at any time from the help centre or by email.",
+            "At the end of a subscription, your content stays in your account; an active plan is needed to keep using it fully.",
+          ],
+        },
+        {
+          title: "13. Changes and governing law",
+          body: [
+            "These terms may change; the new version is published on this page with its date, and an important change is pointed out to you in the app.",
+            "They are governed by Senegalese law. In case of disagreement, let us first look for an amicable solution by writing to ifallcv@gmail.com; failing that, the courts of Dakar have jurisdiction.",
+          ],
+        },
+      ],
+    },
+    privacy: {
+      title: "Privacy policy",
+      intro:
+        "This page explains what data ATUMI collects, why, who it is shared with and what your rights are, in line with Senegalese law no. 2008-12 on the protection of personal data.",
+      sections: [
+        {
+          title: "1. Data controller",
+          body: ["Idrissa Fall, publisher of ATUMI, Grand Dakar, Dakar (Senegal). Contact: ifallcv@gmail.com."],
+        },
+        {
+          title: "2. Data collected",
+          body: [
+            "Account: username, email or phone number, password (stored encrypted, never readable), country, level, role (student or teacher), language, profile photo if you add one, and the date you accepted these texts.",
+            "High school student under 18: phone number of a parent or guardian, and their possible answer.",
+            "Studies: imported courses (PDF, Word, photos), books added to your library, summaries, quizzes and results, conversations with the teacher, searches, planner and timetable. For a call, only the written transcript is kept: no audio or video recording is stored; camera images, if you turn it on, are only passed to the teacher during the call.",
+            "Payments: chosen plan, amount, payment method (Wave or Orange Money), number used and transaction reference. ATUMI never receives your PIN.",
+            "Technical: sign-in logs, AI usage (amount of text processed, without the content) and messages sent to the team.",
+            "ATUMI never asks for the name of your school and collects neither your location nor your contacts.",
+          ],
+        },
+        {
+          title: "3. Why",
+          body: [
+            "To provide the service (account, revision, AI teacher), manage the trial, plans and payments, notify the parent of a minor high school student, answer your messages, keep the service secure and prevent abuse (plan limits, one trial per number).",
+            "Your data is not used for advertising or to train AI models, and is never sold.",
+          ],
+        },
+        {
+          title: "4. Who sees it",
+          body: [
+            "Your courses, summaries, quizzes, conversations and books are visible to you only. The ATUMI team sees your account, plan, payments, messages to the team and usage, but not your courses or conversations.",
+            "What you choose to share is visible to those who have the link: a quiz challenge shows the questions, your score and your username (7 days); a text shared on WhatsApp can be read without your name for 30 days.",
+          ],
+        },
+        {
+          title: "5. Service providers",
+          body: [
+            "To work, ATUMI uses providers that process some data on its behalf: Supabase (database and files), Vercel (website) and Railway (processing) for hosting; Anthropic (Claude model) for written answers, summaries, quizzes and web search; Google (Gemini) for voice calls; Resend (email) and Meta (WhatsApp) for messages to the team and the parent notice; Wikimedia (Wikipedia, Wiktionary, Commons) for definitions and images, without any data about you.",
+            "These providers are located outside Senegal (notably in the United States and Europe). ATUMI chooses providers that commit by contract to protect data and not to use it for their own purposes, and only sends them what is necessary.",
+          ],
+        },
+        {
+          title: "6. How long it is kept",
+          body: [
+            "Your content is kept as long as your account exists, or until you delete it. ATUMI may delete the files of an account that has had no plan for more than 12 months, after warning you at least 30 days in advance.",
+            "After your account is closed, your data is deleted within 30 days, except payment records, kept as long as the law requires for accounting.",
+          ],
+        },
+        {
+          title: "7. Security",
+          body: [
+            "Encrypted connections, encrypted passwords, each piece of data reserved for its owner in the database, files in private storage, automatic sign-out after 1 hour without activity.",
+          ],
+        },
+        {
+          title: "8. Cookies",
+          body: [
+            "ATUMI only uses necessary cookies: your sign-in session, the time of your last activity (for automatic sign-out) and your language. No advertising or audience measurement cookies.",
+          ],
+        },
+        {
+          title: "9. Minors",
+          body: [
+            "High school students under 18 can sign up; the parent or guardian given is notified and can refuse the sign-up. A parent can also ask for access to their minor child's data or its deletion by writing to ifallcv@gmail.com.",
+          ],
+        },
+        {
+          title: "10. Your rights",
+          body: [
+            "You can ask for access to your data, its correction, deletion or a copy, and object to processing. Write to ifallcv@gmail.com or use \"Write to the team\" in the help centre, from the account concerned. Answer within 30 days at most.",
+            "If you are not satisfied with the answer, you can contact Senegal's Personal Data Protection Commission (CDP): www.cdp.sn.",
+          ],
+        },
+        {
+          title: "11. Changes",
+          body: [
+            "This policy may change with the service. The new version is published on this page with its date, and an important change is pointed out to you in the app.",
+          ],
+        },
+      ],
+    },
+  },
   auth: {
     signUpTitle: "Create your account",
     signInTitle: "Sign in",
@@ -120,7 +306,9 @@ export const en: Messages = {
       guardianPhone: "Phone number of a parent or guardian",
       guardianPhoneHint: "Your parent receives a message telling them about your sign-up, with a way to refuse it.",
       isAdult: "I am 18 or older",
-      acceptCgu: "I accept the terms of use and the privacy policy.",
+      acceptCgu: "I accept the {terms} and the {privacy}.",
+      acceptCguTerms: "terms of use and sale",
+      acceptCguPrivacy: "privacy policy",
       code: "Code received by SMS",
     },
     roles: { eleve: "A student", enseignant: "A teacher" },
