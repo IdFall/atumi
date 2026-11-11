@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { CopyNumber } from "@/components/billing/copy-number";
 import { PaymentForm } from "@/components/billing/payment-form";
 import { AccessBanner } from "@/components/courses/access-banner";
 import { getCountry } from "@/config/countries";
@@ -74,7 +75,8 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
   const shown = subscriptions.filter((p) => monthsOf(p) === duration);
   // Le forfait le plus complet (le plus cher) de la durée affichée.
   const topCode = shown.reduce<OfferedPlan | undefined>((best, p) => (!best || p.priceMinor > best.priceMinor ? p : best), undefined)?.code;
-  const chosen = plans.find((p) => p.code === one(params.forfait)) ?? shown[0];
+  // Le numéro de paiement n'apparaît qu'après le choix d'un forfait ou d'une recharge.
+  const chosen = plans.find((p) => p.code === one(params.forfait));
   const subscribed = access.state === "subscribed";
 
   const methods = getCountry(user.countryCode)?.paymentMethods ?? [];
@@ -173,45 +175,54 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
             </section>
           ) : null}
 
-          <section
-            id="payer"
-            className="flex scroll-mt-4 flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-nuit"
-          >
-            <h2 className="text-xl font-bold">{s.payTitle}</h2>
-            {chosen ? <p className="text-sm">{fill(s.chosenPlan, { plan: chosen.label, price: money(chosen.priceMinor, chosen.currency) })}</p> : null}
-            <div className="flex flex-col gap-2">
-              <h3 className="font-semibold">{s.step1}</h3>
-              {numbers.length ? (
-                <>
-                  <p className="text-sm">{s.numbersIntro}</p>
-                  <ul className="flex flex-col gap-1 text-sm">
-                    {numbers.map((n) => (
-                      <li key={n.method} className="flex justify-between gap-2 rounded-lg bg-neutral-50 px-3 py-2 dark:bg-neutral-900">
-                        <span>{providerLabels[n.method] ?? n.method}</span>
-                        <strong className="tabular-nums">{n.number}</strong>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <p className="text-sm">
-                  {s.noNumbers}{" "}
-                  <Link href="/aide" className="font-semibold text-primary dark:text-lavande">
-                    {t.help.link}
-                  </Link>
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col gap-3">
-              <h3 className="font-semibold">{s.step2}</h3>
-              <PaymentForm
-                plans={formPlans.map((p) => ({ code: p.code, label: `${p.label} · ${money(p.priceMinor, p.currency)}` }))}
-                providers={providers}
-                defaultCode={chosen?.code}
-              />
-            </div>
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">{s.step3}</p>
-          </section>
+          {chosen ? (
+            <section
+              id="payer"
+              className="flex scroll-mt-4 flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-nuit"
+            >
+              <h2 className="text-xl font-bold">{s.payTitle}</h2>
+              <p className="text-sm">{fill(s.chosenPlan, { plan: chosen.label, price: money(chosen.priceMinor, chosen.currency) })}</p>
+              <div className="flex flex-col gap-2">
+                <h3 className="font-semibold">{s.step1}</h3>
+                {numbers.length ? (
+                  <>
+                    <p className="text-sm">{s.numbersIntro}</p>
+                    <ul className="flex flex-col gap-1 text-sm">
+                      {numbers.map((n) => (
+                        <li key={n.method} className="flex justify-between gap-2 rounded-lg bg-neutral-50 px-3 py-2 dark:bg-neutral-900">
+                          <span>{providerLabels[n.method] ?? n.method}</span>
+                          <span className="flex items-center gap-3">
+                            <strong className="tabular-nums">{n.number}</strong>
+                            <CopyNumber number={n.number} />
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <p className="text-sm">
+                    {s.noNumbers}{" "}
+                    <Link href="/aide" className="font-semibold text-primary dark:text-lavande">
+                      {t.help.link}
+                    </Link>
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col gap-3">
+                <h3 className="font-semibold">{s.step2}</h3>
+                <PaymentForm
+                  plans={formPlans.map((p) => ({ code: p.code, label: `${p.label} · ${money(p.priceMinor, p.currency)}` }))}
+                  providers={providers}
+                  defaultCode={chosen.code}
+                />
+              </div>
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">{s.step3}</p>
+            </section>
+          ) : (
+            <p id="payer" className="rounded-xl border border-dashed border-neutral-300 p-4 text-sm dark:border-neutral-700">
+              {s.pickFirst}
+            </p>
+          )}
         </>
       )}
 
