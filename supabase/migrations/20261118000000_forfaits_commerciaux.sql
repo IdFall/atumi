@@ -6,9 +6,9 @@
 --    importés ET Ma bibliothèque (taille lue dans le stockage par la base).
 --    `plans.library_upload` dit si le forfait permet d'ajouter des livres
 --    (fermé pendant l'essai, qui garde 50 Mo pour ses cours).
--- 3. Recharges (`plans.kind = 'recharge'`) : minutes d'appel (gardées tant que
---    l'abonnement est actif, consommées après celles du forfait) ou espace en
---    plus (pour `duration_days` jours). Achetées comme un forfait (demande de
+-- 3. Recharges (`plans.kind = 'recharge'`), valables `duration_days` jours :
+--    pass de minutes d'appel (3 jours ou une semaine, consommées après celles
+--    du forfait) ou espace en plus (30 jours). Achetées comme un forfait (demande de
 --    paiement validée par l'équipe), rangées dans `plan_credits`.
 -- 4. Profil enseignant à l'inscription (`profiles.role`) : pas d'avis au
 --    parent, le niveau choisi est celui où il enseigne.
@@ -38,8 +38,8 @@ insert into public.plans (
   ('sn-enseignant',    'SN', 'abonnement', 'enseignant', 'Enseignant',          7500, 'XOF', 30, null, 20,  40,  400, 10,  30, 10737418240, true, true),
   ('sn-enseignant-3m', 'SN', 'abonnement', 'enseignant', 'Enseignant · 3 mois',20500, 'XOF', 90, null, 20, 120, 1200, 10,  90, 10737418240, true, true),
   -- Recharges : call_minutes_limit = minutes ajoutées, library_bytes_limit = espace ajouté.
-  ('sn-recharge-appel-30',   'SN', 'recharge', 'tous', '+30 min d''appel',       2000, 'XOF', 30, null, null, null, null, null, 30, 0, false, true),
-  ('sn-recharge-appel-60',   'SN', 'recharge', 'tous', '+60 min d''appel',       3500, 'XOF', 30, null, null, null, null, null, 60, 0, false, true),
+  ('sn-pass-appel-3j',       'SN', 'recharge', 'tous', 'Pass 3 jours · 20 min d''appel', 1000, 'XOF', 3, null, null, null, null, null, 20, 0, false, true),
+  ('sn-pass-appel-semaine',  'SN', 'recharge', 'tous', 'Pass semaine · 60 min d''appel', 3000, 'XOF', 7, null, null, null, null, null, 60, 0, false, true),
   ('sn-recharge-espace-5go', 'SN', 'recharge', 'tous', '+5 Go d''espace (30 jours)', 1000, 'XOF', 30, null, null, null, null, null, 0, 5368709120, false, true)
 on conflict (code) do nothing;
 
@@ -111,9 +111,10 @@ create table public.plan_credits (
   plan_code text not null references public.plans (code),
   -- Secondes d'appel restantes (diminuent quand le forfait est épuisé).
   call_seconds int not null default 0 check (call_seconds >= 0),
-  -- Espace ajouté, jusqu'à ends_at.
+  -- Espace ajouté.
   storage_bytes bigint not null default 0 check (storage_bytes >= 0),
-  ends_at timestamptz,
+  -- Fin de validité (pass de 3 jours, d'une semaine ; espace pour 30 jours).
+  ends_at timestamptz not null,
   amount_minor bigint not null check (amount_minor >= 0),
   currency text not null,
   payment_provider text not null,
@@ -122,7 +123,7 @@ create table public.plan_credits (
   unique (id, user_id)
 );
 
-create index plan_credits_user_created_idx on public.plan_credits (user_id, created_at);
+create index plan_credits_user_ends_idx on public.plan_credits (user_id, ends_at);
 
 alter table public.plan_credits enable row level security;
 create policy "propriétaire : lecture" on public.plan_credits for select using (user_id = auth.uid());
@@ -158,7 +159,7 @@ as $$
   select case when p.library_bytes_limit is null then null
               else p.library_bytes_limit + case when p.kind = 'abonnement' then (
                 select coalesce(sum(c.storage_bytes), 0) from public.plan_credits c
-                where c.user_id = p_user and c.storage_bytes > 0 and (c.ends_at is null or c.ends_at > now())
+                where c.user_id = p_user and c.storage_bytes > 0 and c.ends_at > now()
               ) else 0 end
          end::bigint
   from public.current_entitlement(p_user) e
@@ -275,7 +276,7 @@ create trigger documents_zz_espace
 -- Minutes d'appel : forfait d'abord, puis recharges
 -- ---------------------------------------------------------------------------
 
--- Secondes de recharge utilisables : seulement pendant un abonnement limité en minutes.
+-- Secondes de pass encore valables : seulement pendant un abonnement limité en minutes.
 create function public.call_credit_seconds(p_user uuid)
 returns int
 language sql
@@ -284,7 +285,8 @@ security definer
 set search_path = ''
 as $$
   select coalesce((
-    select sum(c.call_seconds)::int from public.plan_credits c where c.user_id = p_user and c.call_seconds > 0
+    select sum(c.call_seconds)::int from public.plan_credits c
+    where c.user_id = p_user and c.call_seconds > 0 and c.ends_at > now()
   ), 0)
   where exists (
     select 1 from public.current_entitlement(p_user) e
@@ -322,7 +324,7 @@ as $$
 $$;
 
 -- Quand la durée d'un appel augmente, la part qui dépasse les minutes du
--- forfait est retirée des recharges, les plus anciennes d'abord.
+-- forfait est retirée des pass encore valables, ceux qui expirent le plus tôt d'abord.
 create function public.consume_call_credits()
 returns trigger
 language plpgsql
@@ -360,8 +362,8 @@ begin
   v_delta := greatest(v_used - v_limit, 0) - greatest(v_used - v_delta - v_limit, 0);
   for c in
     select pc.id, pc.call_seconds from public.plan_credits pc
-    where pc.user_id = new.user_id and pc.call_seconds > 0
-    order by pc.created_at
+    where pc.user_id = new.user_id and pc.call_seconds > 0 and pc.ends_at > now()
+    order by pc.ends_at, pc.created_at
     for update
   loop
     exit when v_delta <= 0;
@@ -455,7 +457,7 @@ begin
     amount_minor, currency, payment_provider, payment_reference
   ) values (
     p_user, v_plan.code, coalesce(v_plan.call_minutes_limit, 0) * 60, coalesce(v_plan.library_bytes_limit, 0),
-    case when coalesce(v_plan.library_bytes_limit, 0) > 0 then now() + make_interval(days => v_plan.duration_days) end,
+    now() + make_interval(days => v_plan.duration_days),
     coalesce(p_amount_minor, v_plan.price_minor), v_plan.currency, p_provider, trim(p_reference)
   ) returning id into v_id;
 

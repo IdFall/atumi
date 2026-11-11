@@ -930,26 +930,26 @@ describe("isolation des données entre utilisateurs", () => {
     // Recharge : réservée à un abonnement en cours.
     await asUser(T);
     await expect(
-      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${T}', 'sn-recharge-appel-30', 'wave', 'WV-T1')`),
+      db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${T}', 'sn-pass-appel-3j', 'wave', 'WV-T1')`),
     ).rejects.toThrow(/ATUMI_RECHARGE_ABONNES/);
 
     await asUser(D);
     expect((await db.query(`select seconds_remaining from public.call_quota()`)).rows).toEqual([{ seconds_remaining: 900 }]);
-    await db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${D}', 'sn-recharge-appel-30', 'wave', 'WV-D2')`);
+    await db.exec(`insert into public.payment_requests (user_id, plan_code, provider, reference) values ('${D}', 'sn-pass-appel-3j', 'wave', 'WV-D2')`);
     await expect(db.exec(`insert into public.plan_credits (user_id, plan_code, call_seconds, amount_minor, currency, payment_provider, payment_reference)
-      values ('${D}', 'sn-recharge-appel-30', 99999, 0, 'XOF', 'wave', 'x')`)).rejects.toThrow();
+      values ('${D}', 'sn-pass-appel-3j', 99999, 0, 'XOF', 'wave', 'x')`)).rejects.toThrow();
 
     await asUser(A);
     const request = await db.query<{ id: string }>(`select id from public.admin_payment_requests('en_attente') where reference = 'WV-D2'`);
     await db.exec(`select public.admin_confirm_payment_request('${request.rows[0].id}')`);
 
     await asUser(D);
-    expect((await db.query(`select call_seconds from public.plan_credits`)).rows).toEqual([{ call_seconds: 1800 }]);
+    expect((await db.query(`select call_seconds from public.plan_credits`)).rows).toEqual([{ call_seconds: 1200 }]);
     expect((await db.query(`select minutes_limit, seconds_remaining from public.call_quota()`)).rows).toEqual([
-      { minutes_limit: 45, seconds_remaining: 2700 },
+      { minutes_limit: 35, seconds_remaining: 2100 },
     ]);
 
-    // Appel de 1 000 s : 900 s du forfait, puis 100 s prises sur la recharge.
+    // Appel de 1 000 s : 900 s du forfait, puis 100 s prises sur le pass.
     await asService();
     await db.exec(`
       insert into public.tutor_conversations (id, user_id, mode) values ('${CONV_D}', '${D}', 'decouvrir');
@@ -959,8 +959,14 @@ describe("isolation des données entre utilisateurs", () => {
       update public.tutor_calls set duration_seconds = 1000, ended_at = now() where id = '30000000-0000-0000-0000-0000000000a2';
     `);
     await asUser(D);
-    expect((await db.query(`select call_seconds from public.plan_credits`)).rows).toEqual([{ call_seconds: 1700 }]);
-    expect((await db.query(`select seconds_remaining from public.call_quota()`)).rows).toEqual([{ seconds_remaining: 1700 }]);
+    expect((await db.query(`select call_seconds from public.plan_credits`)).rows).toEqual([{ call_seconds: 1100 }]);
+    expect((await db.query(`select seconds_remaining from public.call_quota()`)).rows).toEqual([{ seconds_remaining: 1100 }]);
+
+    // Pass expiré : ses minutes ne comptent plus.
+    await asService();
+    await db.exec(`update public.plan_credits set ends_at = now() - interval '1 minute' where user_id = '${D}'`);
+    await asUser(D);
+    expect((await db.query(`select seconds_remaining from public.call_quota()`)).rows).toEqual([{ seconds_remaining: 0 }]);
 
     // Espace commun (1 Go) : cours importés + bibliothèque, taille lue dans le stockage.
     await asService();

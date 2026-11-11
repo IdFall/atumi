@@ -931,7 +931,7 @@ export const en: Messages = {
     choose: "Choose {plan}",
     chosen: "Chosen plan",
     rechargesTitle: "Top-ups",
-    rechargesIntro: "More call minutes or space before your subscription ends. Bought minutes stay as long as your subscription is active and are used after your plan's minutes.",
+    rechargesIntro: "A pass of call minutes (3 days or one week) or extra space for 30 days. Pass minutes are used after your plan's minutes.",
     rechargesSubscribersOnly: "Top-ups add to an active subscription.",
     buy: "Buy",
     payTitle: "Pay in 3 steps",

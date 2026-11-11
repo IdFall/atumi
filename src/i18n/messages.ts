@@ -940,7 +940,7 @@ const fr = {
     choose: "Choisir {plan}",
     chosen: "Forfait choisi",
     rechargesTitle: "Recharges",
-    rechargesIntro: "Plus de minutes d'appel ou d'espace avant la fin de ton abonnement. Les minutes achetées restent tant que ton abonnement est actif et servent après celles du forfait.",
+    rechargesIntro: "Un pass de minutes d'appel (3 jours ou une semaine) ou de l'espace en plus pour 30 jours. Les minutes du pass servent après celles du forfait.",
     rechargesSubscribersOnly: "Les recharges complètent un abonnement en cours.",
     buy: "Acheter",
     payTitle: "Payer en 3 étapes",
