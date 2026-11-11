@@ -92,6 +92,7 @@ const fr = {
   auth: {
     signUpTitle: "Créer ton compte",
     signInTitle: "Te connecter",
+    backHome: "Retour",
     verifyTitle: "Confirmer ton numéro",
     fields: {
       username: "Nom d'utilisateur",
