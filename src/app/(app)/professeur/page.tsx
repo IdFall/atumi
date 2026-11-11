@@ -10,7 +10,8 @@ import { TutorHeader } from "@/components/tutor/tutor-header";
 import { getT } from "@/i18n/server";
 import type { TutorMode } from "@/server/ai/prompts";
 import { getCallSettings } from "@/server/calls/queries";
-import { getChapterScope, getTutorSettings, listConversations } from "@/server/tutor/queries";
+import { HISTORY_FILTERS, historyFilter, modesForFilter } from "@/lib/tutor-history";
+import { getChapterScope, getTutorSettings, hasConversations, listConversations } from "@/server/tutor/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -36,9 +37,11 @@ async function NewConversation({ searchParams }: { searchParams: PageProps<"/pro
   const pick = (v: string | string[] | undefined) => (typeof v === "string" ? v : "");
   const mode = (MODES as readonly string[]).includes(pick(query.mode)) ? (pick(query.mode) as TutorMode) : "expliquer";
 
-  const [settings, recent, scope, call] = await Promise.all([
+  const filter = historyFilter(pick(query.liste), mode);
+  const [settings, recent, anyConversation, scope, call] = await Promise.all([
     getTutorSettings(),
-    listConversations(),
+    listConversations(10, modesForFilter(filter)),
+    hasConversations(),
     pick(query.module) && pick(query.chapitre) ? getChapterScope(pick(query.module), pick(query.chapitre)) : null,
     getCallSettings(),
   ]);
@@ -84,12 +87,28 @@ async function NewConversation({ searchParams }: { searchParams: PageProps<"/pro
         initialText={pick(query.q).slice(0, 4000)}
       />
 
-      {recent.length > 0 ? (
+      {anyConversation ? (
         <section className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between gap-3">
             <h2 className="text-base font-semibold">{t.tutor.recent}</h2>
             <EraseButton />
           </div>
+          <nav aria-label={t.tutor.recentFilterLabel} className="flex flex-wrap gap-1.5 text-xs">
+            {HISTORY_FILTERS.map((f) => (
+              <Link
+                key={f}
+                href={`/professeur?mode=${mode}${scopeQuery}&liste=${f}`}
+                scroll={false}
+                aria-current={f === filter ? "true" : undefined}
+                className={`rounded-full px-3 py-1 font-semibold ${
+                  f === filter ? "bg-primary text-white" : "border border-neutral-300 text-neutral-700 dark:border-neutral-700 dark:text-neutral-200"
+                }`}
+              >
+                {f === "tous" ? t.tutor.recentAll : t.tutor.modes[f]}
+              </Link>
+            ))}
+          </nav>
+          {recent.length === 0 ? <p className="text-sm text-neutral-600 dark:text-neutral-300">{t.tutor.recentEmpty}</p> : null}
           <ul className="flex flex-col gap-2">
             {recent.map((c) => (
               <li

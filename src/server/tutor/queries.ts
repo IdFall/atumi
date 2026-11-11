@@ -78,13 +78,16 @@ export interface ConversationSummary {
   title: string;
 }
 
-export async function listConversations(limit = 5): Promise<ConversationSummary[]> {
+/** Dernières conversations, limitées à certains modes si `modes` est donné. */
+export async function listConversations(limit = 5, modes: readonly TutorMode[] | null = null): Promise<ConversationSummary[]> {
   const supabase = await createUserClient();
-  const { data } = await supabase
+  let query = supabase
     .from("tutor_conversations")
     .select("id, mode, created_at, tutor_messages(content, role, id, citations)")
     .order("created_at", { ascending: false })
     .limit(limit);
+  if (modes) query = query.in("mode", modes);
+  const { data } = await query;
   return (data ?? []).map((c) => {
     const messages = [...(c.tutor_messages ?? [])].sort((a, b) => a.id - b.id);
     const first = messages.find((m) => m.role === "user");
@@ -92,6 +95,13 @@ export async function listConversations(limit = 5): Promise<ConversationSummary[
     const outside = messages.flatMap((m) => (Array.isArray(m.citations) ? m.citations : [])).find(isOutsideCitation);
     return { id: c.id, mode: c.mode, title: (first?.content ?? outside?.question ?? "").slice(0, 80) };
   });
+}
+
+/** Vrai si l'élève a au moins une conversation, tous modes confondus. */
+export async function hasConversations(): Promise<boolean> {
+  const supabase = await createUserClient();
+  const { count } = await supabase.from("tutor_conversations").select("id", { count: "exact", head: true });
+  return (count ?? 0) > 0;
 }
 
 /** Chapitre choisi pour une nouvelle conversation (vérifié par RLS). */
