@@ -56,6 +56,18 @@ const fr = {
     signUp: "Créer mon compte",
     signIn: "Me connecter",
     aboutLink: "Qui est ATUMI ?",
+    teachers: {
+      badge: "Vous êtes enseignant ?",
+      title: "ATUMI aide aussi les enseignants",
+      intro: "Le même compte, les mêmes forfaits : ATUMI vous fait gagner du temps pour préparer, évaluer et organiser.",
+      points: [
+        { title: "Préparer ses cours plus vite", body: "Importez votre propre cours : vous obtenez une synthèse claire et des quiz prêts à l'emploi." },
+        { title: "Évaluer sa classe gratuitement", body: "Avec le Défi WhatsApp, partagez un quiz dans le groupe de la classe. Les élèves répondent sans compte, et vous voyez leurs prénoms et leurs scores (jusqu'à 100 par défi, pendant 7 jours)." },
+        { title: "Approfondir et vérifier", body: "Prof NEO et la recherche web avec ses sources vous aident à préparer une explication, un exemple ou un schéma." },
+        { title: "Organiser", body: "Agenda, emploi du temps et bibliothèque de PDF, au même endroit." },
+      ],
+      cta: "Créer mon compte enseignant",
+    },
     challenge: {
       badge: "Nouveau · Défis entre amis",
       title: "Défie tes amis sur WhatsApp",
@@ -107,6 +119,8 @@ const fr = {
     ],
     profRule: "Sa règle d'or : te faire réfléchir avant de te donner la réponse.",
     profLanguages: "Tu choisis la langue de ses réponses parmi celles proposées dans ton pays.",
+    teachersTitle: "Et pour les enseignants ?",
+    teachers: "Un enseignant utilise ATUMI avec les mêmes forfaits : il importe ses propres cours pour obtenir synthèses et quiz, évalue sa classe avec le Défi WhatsApp (les élèves répondent sans compte, il voit leurs scores), prépare ses explications avec Prof NEO et la recherche web, et organise son agenda et sa bibliothèque.",
     back: "Retour",
   },
   /** Pages légales publiques : /conditions (CGU et CGV) et /confidentialite. */

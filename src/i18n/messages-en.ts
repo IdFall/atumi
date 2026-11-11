@@ -51,6 +51,18 @@ export const en: Messages = {
     signUp: "Create my account",
     signIn: "Sign in",
     aboutLink: "Who is ATUMI?",
+    teachers: {
+      badge: "Are you a teacher?",
+      title: "ATUMI helps teachers too",
+      intro: "Same account, same plans: ATUMI saves you time to prepare, assess and organise.",
+      points: [
+        { title: "Prepare lessons faster", body: "Import your own course: you get a clear summary and ready-to-use quizzes." },
+        { title: "Assess your class for free", body: "With the WhatsApp Challenge, share a quiz in the class group. Students answer without an account, and you see their first names and scores (up to 100 per challenge, for 7 days)." },
+        { title: "Go deeper and check", body: "Prof NEO and web search with sources help you prepare an explanation, an example or a diagram." },
+        { title: "Get organised", body: "Planner, timetable and PDF library, all in one place." },
+      ],
+      cta: "Create my teacher account",
+    },
     challenge: {
       badge: "New · Challenges with friends",
       title: "Challenge your friends on WhatsApp",
@@ -101,6 +113,8 @@ export const en: Messages = {
     ],
     profRule: "Its golden rule: make you think before giving you the answer.",
     profLanguages: "You choose the language of its answers among those offered in your country.",
+    teachersTitle: "What about teachers?",
+    teachers: "A teacher uses ATUMI with the same plans: they import their own courses to get summaries and quizzes, assess their class with the WhatsApp Challenge (students answer without an account, the teacher sees their scores), prepare explanations with Prof NEO and web search, and organise their planner and library.",
     back: "Back",
   },
   legal: {

@@ -19,6 +19,7 @@ export type HelpArticleId =
   | "agenda"
   | "bibliotheque"
   | "recherche"
+  | "enseignants"
   | "compte"
   | "confidentialite";
 
@@ -183,6 +184,16 @@ L'onglet « Web (IA) » pose ta question au Prof NEO, qui cherche sur Internet e
 L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'unités, le tableau périodique, des formules utiles et un dictionnaire et une encyclopédie (définitions du Wiktionnaire et résumés de Wikipédia, affichés directement dans ATUMI). Les outils sont gratuits et sans limite.`,
     },
     {
+      id: "enseignants",
+      title: "ATUMI pour les enseignants",
+      body: `Les enseignants peuvent utiliser ATUMI : à l'inscription, choisissez « Enseignant » dans « Je suis », puis le niveau où vous enseignez (lycée ou université). Pas d'avis aux parents pour un enseignant. Les forfaits sont les mêmes que pour les élèves.
+Préparer ses cours : importez votre propre cours (PDF, Word ou photo) pour obtenir une synthèse claire et des quiz prêts à l'emploi.
+Évaluer sa classe gratuitement : passez d'abord le quiz une fois vous-même, puis appuyez sur « Défier un ami sur WhatsApp » sous la correction et partagez le lien dans le groupe WhatsApp de la classe. Les élèves répondent sans compte et voient la correction ; vous voyez leurs prénoms et leurs scores sous votre correction (100 participations au plus par défi). Le défi reste ouvert 7 jours et peut être arrêté avant.
+Approfondir : Prof NEO (modes Explication, Approfondir le chapitre, Culture générale) et la recherche web avec ses sources aident à préparer une explication, un exemple ou un schéma.
+Organiser : agenda, emploi du temps et Ma bibliothèque pour ranger vos PDF.
+Pas encore disponible : espace classe, suivi individuel des élèves, correction de copies.`,
+    },
+    {
       id: "compte",
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
@@ -306,6 +317,16 @@ The "Ask Prof NEO" button opens the teacher with your search already written: yo
 The "My courses" tab does not count towards your plan and does not search the Internet: only what you imported or wrote down.
 The "Web (AI)" tab asks Prof NEO, who searches the Internet and answers with its sources (clickable links). Web searches are limited per 24 hours depending on your plan (3 during the trial); a deleted search still counts. For an exercise, it does not give the solution: it sends you to Prof NEO. Always check the sources. Prof NEO's "Go further" button also uses a web search.
 The "Tools" tab gathers a scientific calculator, unit conversions, the periodic table, useful formulas and a dictionary and an encyclopedia (Wiktionary definitions and Wikipedia summaries, shown directly in ATUMI). Tools are free and unlimited.`,
+    },
+    {
+      id: "enseignants",
+      title: "ATUMI for teachers",
+      body: `Teachers can use ATUMI: when signing up, choose "A teacher" under "I am", then the level you teach (high school or university). No parent notice for a teacher. Plans are the same as for students.
+Prepare lessons: import your own course (PDF, Word or photo) to get a clear summary and ready-to-use quizzes.
+Assess your class for free: take the quiz once yourself first, then tap "Challenge a friend on WhatsApp" under the correction and share the link in the class WhatsApp group. Students answer without an account and see the correction; you see their first names and scores under your correction (100 plays at most per challenge). The challenge stays open 7 days and can be stopped earlier.
+Go deeper: Prof NEO (Explanation, Go deeper into the chapter, General knowledge modes) and web search with sources help you prepare an explanation, an example or a diagram.
+Get organised: planner, timetable and My library for your PDFs.
+Not available yet: class space, individual student tracking, marking work.`,
     },
     {
       id: "compte",

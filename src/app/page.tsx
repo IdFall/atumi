@@ -175,6 +175,31 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Enseignants */}
+      <section className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
+        <div className="flex flex-col gap-6 rounded-3xl border border-primary/15 bg-primary-soft/60 p-6 sm:p-10 dark:border-primary/30 dark:bg-primary-strong/15">
+          <header className="flex max-w-2xl flex-col gap-2">
+            <p className="w-fit rounded-full bg-white px-3 py-1 text-xs font-semibold text-primary-strong shadow-sm dark:bg-white/10 dark:text-lavande">{h.teachers.badge}</p>
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{h.teachers.title}</h2>
+            <p className="text-neutral-600 dark:text-neutral-300">{h.teachers.intro}</p>
+          </header>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {h.teachers.points.map((point) => (
+              <li key={point.title} className="flex flex-col gap-1 rounded-2xl bg-white p-5 shadow-sm dark:bg-neutral-900">
+                <h3 className="font-semibold text-primary-strong dark:text-lavande">{point.title}</h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">{point.body}</p>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/inscription?role=enseignant"
+            className="w-fit rounded-xl bg-primary px-6 py-3 font-semibold text-white shadow-lg shadow-primary/25 transition hover:brightness-110"
+          >
+            {h.teachers.cta}
+          </Link>
+        </div>
+      </section>
+
       {/* Étapes */}
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 sm:px-6">
         <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{h.stepsTitle}</h2>
