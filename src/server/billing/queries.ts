@@ -4,12 +4,9 @@ import { createUserClient } from "@/lib/supabase/server";
 
 /** Forfaits proposés et demandes de paiement de l'utilisateur connecté (RLS). */
 
-export type PlanAudience = "eleve" | "enseignant" | "tous";
-
 export interface OfferedPlan {
   code: string;
   kind: "abonnement" | "recharge";
-  audience: PlanAudience;
   label: string;
   priceMinor: number;
   currency: string;
@@ -31,7 +28,7 @@ export async function listOfferedPlans(countryCode: string): Promise<OfferedPlan
   const { data, error } = await supabase
     .from("plans")
     .select(
-      "code, kind, audience, label, price_minor, currency, duration_days, quiz_limit, quiz_question_limit, document_limit, tutor_message_limit, research_daily_limit, call_minutes_limit, library_bytes_limit",
+      "code, kind, label, price_minor, currency, duration_days, quiz_limit, quiz_question_limit, document_limit, tutor_message_limit, research_daily_limit, call_minutes_limit, library_bytes_limit",
     )
     .eq("country_code", countryCode)
     .in("kind", ["abonnement", "recharge"])
@@ -40,7 +37,6 @@ export async function listOfferedPlans(countryCode: string): Promise<OfferedPlan
   return (data ?? []).map((p) => ({
     code: p.code,
     kind: p.kind as OfferedPlan["kind"],
-    audience: p.audience as PlanAudience,
     label: p.label,
     priceMinor: Number(p.price_minor),
     currency: p.currency,

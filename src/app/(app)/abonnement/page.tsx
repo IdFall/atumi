@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t.subscribe.title };
 }
 
-/** Abonnement : ce qu'il reste, forfaits (élève ou enseignant, au mois ou plusieurs mois), recharges, paiement. */
+/** Abonnement : ce qu'il reste, forfaits (au mois ou plusieurs mois), recharges, paiement. */
 export default async function SubscribePage({ searchParams }: PageProps<"/abonnement">) {
   const t = await getT();
   return (
@@ -37,8 +37,6 @@ export default async function SubscribePage({ searchParams }: PageProps<"/abonne
   );
 }
 
-type Audience = "eleve" | "enseignant";
-
 function one(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
@@ -48,8 +46,8 @@ function monthsOf(plan: OfferedPlan): number {
   return Math.max(1, Math.round(plan.durationDays / 30));
 }
 
-function query(params: { profil: Audience; duree: number; forfait?: string }): string {
-  const q = new URLSearchParams({ profil: params.profil, duree: String(params.duree) });
+function query(params: { duree: number; forfait?: string }): string {
+  const q = new URLSearchParams({ duree: String(params.duree) });
   if (params.forfait) q.set("forfait", params.forfait);
   return `/abonnement?${q.toString()}`;
 }
@@ -70,13 +68,12 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
 
   const subscriptions = plans.filter((p) => p.kind === "abonnement");
   const recharges = plans.filter((p) => p.kind === "recharge");
-  const profileParam = one(params.profil);
-  const audience: Audience = profileParam === "enseignant" || profileParam === "eleve" ? profileParam : user.role;
-  const forAudience = subscriptions.filter((p) => p.audience === audience || p.audience === "tous");
-  const durations = [...new Set(forAudience.map(monthsOf))].sort((a, b) => a - b);
+  const durations = [...new Set(subscriptions.map(monthsOf))].sort((a, b) => a - b);
   const askedDuration = Number(one(params.duree));
   const duration = durations.includes(askedDuration) ? askedDuration : (durations[0] ?? 1);
-  const shown = forAudience.filter((p) => monthsOf(p) === duration);
+  const shown = subscriptions.filter((p) => monthsOf(p) === duration);
+  // Le forfait le plus complet (le plus cher) de la durée affichée.
+  const topCode = shown.reduce<OfferedPlan | undefined>((best, p) => (!best || p.priceMinor > best.priceMinor ? p : best), undefined)?.code;
   const chosen = plans.find((p) => p.code === one(params.forfait)) ?? shown[0];
   const subscribed = access.state === "subscribed";
 
@@ -85,8 +82,8 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
   const providerLabels = t.admin.plans.providers as Record<string, string>;
   const providers = (numbers.length ? numbers.map((n) => n.method) : methods).map((id) => ({ id, label: providerLabels[id] ?? id }));
   const money = (minor: number, currency: string) => formatMoney(minor, currency, tag);
-  // Choix proposés dans le formulaire : les forfaits du profil affiché, puis les recharges (abonnés).
-  const formPlans = [...forAudience, ...(subscribed ? recharges : [])];
+  // Choix proposés dans le formulaire : les forfaits, puis les recharges (abonnés).
+  const formPlans = [...subscriptions, ...(subscribed ? recharges : [])];
   if (chosen && !formPlans.some((p) => p.code === chosen.code)) formPlans.unshift(chosen);
 
   return (
@@ -105,24 +102,6 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
         <>
           <section className="flex flex-col gap-3">
             <div className="flex flex-wrap items-end justify-between gap-3">
-              <div className="flex flex-col gap-1">
-                <span className="text-sm font-semibold">{s.audienceLabel}</span>
-                <nav aria-label={s.audienceLabel} className="grid grid-cols-2 gap-1 rounded-xl bg-neutral-100 p-1 dark:bg-neutral-800">
-                  {(["eleve", "enseignant"] as const).map((a) => (
-                    <Link
-                      key={a}
-                      href={query({ profil: a, duree: duration })}
-                      aria-current={a === audience ? "page" : undefined}
-                      scroll={false}
-                      className={`rounded-lg px-4 py-2.5 text-center text-sm font-semibold ${
-                        a === audience ? "bg-white text-nuit shadow-sm dark:bg-nuit dark:text-white" : "text-neutral-600 dark:text-neutral-300"
-                      }`}
-                    >
-                      {s.audiences[a]}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
               {durations.length > 1 ? (
                 <div className="flex flex-col gap-1">
                   <span className="text-sm font-semibold">{s.durationLabel}</span>
@@ -130,7 +109,7 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
                     {durations.map((d) => (
                       <Link
                         key={d}
-                        href={query({ profil: audience, duree: d })}
+                        href={query({ duree: d })}
                         aria-current={d === duration ? "page" : undefined}
                         scroll={false}
                         className={`rounded-full border px-4 py-2.5 text-sm font-semibold ${
@@ -156,7 +135,8 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
                   tag={tag}
                   callsAvailable={callsAvailable}
                   selected={plan.code === chosen?.code}
-                  href={`${query({ profil: audience, duree: duration, forfait: plan.code })}#payer`}
+                  top={plan.code === topCode && shown.length > 1}
+                  href={`${query({ duree: duration, forfait: plan.code })}#payer`}
                 />
               ))}
             </ul>
@@ -181,7 +161,7 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
                     </div>
                     {subscribed ? (
                       <Link
-                        href={`${query({ profil: audience, duree: duration, forfait: r.code })}#payer`}
+                        href={`${query({ duree: duration, forfait: r.code })}#payer`}
                         className="rounded-xl border-2 border-primary px-4 py-2 text-sm font-semibold text-primary-strong dark:text-lavande"
                       >
                         {s.buy}
@@ -315,6 +295,7 @@ function PlanCard({
   tag,
   callsAvailable,
   selected,
+  top,
   href,
 }: {
   plan: OfferedPlan;
@@ -322,6 +303,8 @@ function PlanCard({
   tag: string;
   callsAvailable: boolean;
   selected: boolean;
+  /** Le forfait le plus complet : mis en avant. */
+  top: boolean;
   href: string;
 }) {
   const months = monthsOf(plan);
@@ -331,7 +314,6 @@ function PlanCard({
     fill(s.features.documents, { n: n(plan.documentLimit) }),
     fill(s.features.quizzes, { n: n(plan.quizLimit) }),
     plan.quizQuestionLimit !== null ? fill(s.features.quizQuestions, { n: plan.quizQuestionLimit }) : null,
-    plan.audience === "enseignant" ? s.features.challenges : null,
     fill(s.features.messages, { n: n(plan.tutorMessageLimit) }),
     plan.researchDailyLimit !== null ? fill(s.features.research, { n: plan.researchDailyLimit }) : null,
     plan.callMinutesLimit === 0 ? null : fill(callsAvailable ? s.features.calls : s.features.callsSoon, { n: n(plan.callMinutesLimit) }),
@@ -343,7 +325,10 @@ function PlanCard({
         selected ? "border-2 border-primary shadow-md" : "border border-neutral-200 dark:border-neutral-800"
       }`}
     >
-      <h2 className="text-xl font-bold">{plan.label}</h2>
+      <div className="flex items-start justify-between gap-2">
+        <h2 className="text-xl font-bold">{plan.label}</h2>
+        {top ? <span className="shrink-0 rounded-full bg-primary px-2.5 py-1 text-xs font-bold text-white">{s.topPlan}</span> : null}
+      </div>
       <p className="flex flex-wrap items-baseline gap-x-2">
         <strong className="text-3xl font-extrabold text-primary-strong dark:text-lavande">{formatMoney(plan.priceMinor, plan.currency, tag)}</strong>
         <span className="text-sm text-neutral-600 dark:text-neutral-300">

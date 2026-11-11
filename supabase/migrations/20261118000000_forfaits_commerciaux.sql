@@ -1,46 +1,44 @@
 -- Forfaits commerciaux (Idrissa, 2026-11-11).
 --
--- 1. Forfaits payants du Sénégal : Essentiel (3 500 F), Premium (10 000 F) et
---    Enseignant (7 500 F), au mois ou pour 3 mois (-10 %).
+-- 1. Forfaits payants du Sénégal, les mêmes pour tous les utilisateurs :
+--    Essentiel (3 500 F), Plus (7 500 F) et Premium (10 000 F, le plus complet),
+--    au mois ou pour 3 mois (-10 %).
 -- 2. Espace commun : `plans.library_bytes_limit` borne désormais les cours
 --    importés ET Ma bibliothèque (taille lue dans le stockage par la base).
 --    `plans.library_upload` dit si le forfait permet d'ajouter des livres
 --    (fermé pendant l'essai, qui garde 50 Mo pour ses cours).
 -- 3. Recharges (`plans.kind = 'recharge'`), valables `duration_days` jours :
---    pass de minutes d'appel (3 jours ou une semaine, consommées après celles
---    du forfait) ou espace en plus (30 jours). Achetées comme un forfait (demande de
+--    pass de minutes d'appel (20 min pour 3 jours, consommées après celles du
+--    forfait) ou espace en plus (+5 Go pour 30 jours). Achetées comme un forfait (demande de
 --    paiement validée par l'équipe), rangées dans `plan_credits`.
 -- 4. Profil enseignant à l'inscription (`profiles.role`) : pas d'avis au
 --    parent, le niveau choisi est celui où il enseigne.
 
 -- ---------------------------------------------------------------------------
--- Forfaits : recharges, public visé, ajout dans la bibliothèque
+-- Forfaits : recharges, ajout dans la bibliothèque
 -- ---------------------------------------------------------------------------
 
 alter table public.plans drop constraint plans_kind_check;
 alter table public.plans add constraint plans_kind_check check (kind in ('essai', 'abonnement', 'recharge'));
-alter table public.plans add column audience text not null default 'eleve'
-  check (audience in ('eleve', 'enseignant', 'tous'));
 alter table public.plans add column library_upload boolean not null default true;
 
 -- Essai : 50 Mo pour ses cours, pas d'ajout dans la bibliothèque.
 update public.plans set library_bytes_limit = 52428800, library_upload = false where kind = 'essai';
 
 insert into public.plans (
-  code, country_code, kind, audience, label, price_minor, currency, duration_days,
+  code, country_code, kind, label, price_minor, currency, duration_days,
   quiz_limit, quiz_question_limit, document_limit, tutor_message_limit,
   research_daily_limit, call_minutes_limit, library_bytes_limit, library_upload, is_active
 ) values
-  ('sn-essentiel',     'SN', 'abonnement', 'eleve',      'Essentiel',           3500, 'XOF', 30,   20, 10,  10,  200,  5,  15,  1073741824, true, true),
-  ('sn-essentiel-3m',  'SN', 'abonnement', 'eleve',      'Essentiel · 3 mois',  9500, 'XOF', 90,   60, 10,  30,  600,  5,  45,  1073741824, true, true),
-  ('sn-premium',       'SN', 'abonnement', 'eleve',      'Premium',            10000, 'XOF', 30, null, 15,  40,  600, 15,  90,  5368709120, true, true),
-  ('sn-premium-3m',    'SN', 'abonnement', 'eleve',      'Premium · 3 mois',   27000, 'XOF', 90, null, 15, 120, 1800, 15, 270,  5368709120, true, true),
-  ('sn-enseignant',    'SN', 'abonnement', 'enseignant', 'Enseignant',          7500, 'XOF', 30, null, 20,  40,  400, 10,  30, 10737418240, true, true),
-  ('sn-enseignant-3m', 'SN', 'abonnement', 'enseignant', 'Enseignant · 3 mois',20500, 'XOF', 90, null, 20, 120, 1200, 10,  90, 10737418240, true, true),
+  ('sn-essentiel',    'SN', 'abonnement', 'Essentiel',          3500, 'XOF', 30,   20, 10,  10,  200,  5,  15,  1073741824, true, true),
+  ('sn-essentiel-3m', 'SN', 'abonnement', 'Essentiel · 3 mois', 9500, 'XOF', 90,   60, 10,  30,  600,  5,  45,  1073741824, true, true),
+  ('sn-plus',         'SN', 'abonnement', 'Plus',               7500, 'XOF', 30,   50, 15,  25,  400, 10,  40,  3221225472, true, true),
+  ('sn-plus-3m',      'SN', 'abonnement', 'Plus · 3 mois',     20500, 'XOF', 90,  150, 15,  75, 1200, 10, 120,  3221225472, true, true),
+  ('sn-premium',      'SN', 'abonnement', 'Premium',           10000, 'XOF', 30, null, 20,  40,  600, 15,  90, 10737418240, true, true),
+  ('sn-premium-3m',   'SN', 'abonnement', 'Premium · 3 mois',  27000, 'XOF', 90, null, 20, 120, 1800, 15, 270, 10737418240, true, true),
   -- Recharges : call_minutes_limit = minutes ajoutées, library_bytes_limit = espace ajouté.
-  ('sn-pass-appel-3j',       'SN', 'recharge', 'tous', 'Pass 3 jours · 20 min d''appel',  600, 'XOF', 3, null, null, null, null, null, 20, 0, false, true),
-  ('sn-pass-appel-semaine',  'SN', 'recharge', 'tous', 'Pass semaine · 60 min d''appel', 3000, 'XOF', 7, null, null, null, null, null, 60, 0, false, true),
-  ('sn-recharge-espace-5go', 'SN', 'recharge', 'tous', '+5 Go d''espace (30 jours)', 1000, 'XOF', 30, null, null, null, null, null, 0, 5368709120, false, true)
+  ('sn-pass-appel-3j',       'SN', 'recharge', 'Pass 3 jours · 20 min d''appel', 600, 'XOF',  3, null, null, null, null, null, 20,          0, false, true),
+  ('sn-recharge-espace-5go', 'SN', 'recharge', '+5 Go d''espace (30 jours)',    1000, 'XOF', 30, null, null, null, null, null,  0, 5368709120, false, true)
 on conflict (code) do nothing;
 
 -- ---------------------------------------------------------------------------
