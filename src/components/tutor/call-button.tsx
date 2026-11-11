@@ -145,8 +145,8 @@ export function CallButton({ conversationId, mode, moduleId, chapterId, availabl
       <p className="flex flex-wrap items-center gap-2 rounded-xl border border-neutral-200 px-4 py-3 text-sm dark:border-neutral-800">
         <PhoneIcon />
         <span className="text-neutral-600 dark:text-neutral-300">{hasAccess ? t.call.noMinutes : t.call.noAccess}</span>
-        <Link href="/abonnement" className="font-semibold text-primary dark:text-lavande">
-          {t.call.seePlans}
+        <Link href={hasAccess ? "/abonnement#recharges" : "/abonnement"} className="font-semibold text-primary dark:text-lavande">
+          {hasAccess ? t.call.buyMinutes : t.call.seePlans}
         </Link>
       </p>
     );

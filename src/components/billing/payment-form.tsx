@@ -9,9 +9,12 @@ import { requestPaymentAction, type PaymentRequestState } from "@/server/billing
 export function PaymentForm({
   plans,
   providers,
+  defaultCode,
 }: {
   plans: readonly { code: string; label: string }[];
   providers: readonly { id: string; label: string }[];
+  /** Forfait ou recharge choisi sur la page. */
+  defaultCode?: string;
 }) {
   const t = useT();
   const s = t.subscribe;
@@ -29,7 +32,7 @@ export function PaymentForm({
     <form action={formAction} className="flex flex-col gap-3">
       <label className="flex flex-col gap-1 text-sm">
         <span className="font-medium">{s.plan}</span>
-        <select name="planCode" required disabled={pending} className={control}>
+        <select key={defaultCode} name="planCode" required disabled={pending} defaultValue={defaultCode} className={control}>
           {plans.map((p) => (
             <option key={p.code} value={p.code}>
               {p.label}

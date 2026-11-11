@@ -108,7 +108,7 @@ export interface AdminUser {
   created_at: string;
   plan_code: string | null;
   plan_label: string | null;
-  plan_kind: "essai" | "abonnement" | null;
+  plan_kind: "essai" | "abonnement" | "recharge" | null;
   access_end: string | null;
   trial_state: TrialState;
   documents: number;
@@ -147,7 +147,7 @@ export function listSubscriptions(userId?: string): Promise<AdminSubscription[]>
 export interface AdminPlan {
   code: string;
   country_code: string;
-  kind: "essai" | "abonnement";
+  kind: "essai" | "abonnement" | "recharge";
   label: string;
   price_minor: number;
   currency: string;

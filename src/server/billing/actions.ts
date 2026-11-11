@@ -43,6 +43,7 @@ export async function requestPaymentAction(_prev: PaymentRequestState, formData:
   if (error) {
     if (error.code === "23505") return { error: "duplicate" };
     if (error.message.includes("ATUMI_TROP_DE_DEMANDES")) return { error: "tooMany" };
+    if (error.message.includes("ATUMI_RECHARGE_ABONNES")) return { error: "rechargeSubscribersOnly" };
     return { error: "unknown" };
   }
   revalidatePath("/abonnement");
