@@ -18,14 +18,14 @@ export const en: Messages = {
       { value: "24 h", label: "free trial" },
     ],
     featuresTitle: "Everything you need to succeed, in one place",
-    featuresIntro: "Powerful tools, designed for high school and university students.",
+    featuresIntro: "Powerful tools, designed for high school students, university students and teachers.",
     features: [
       { title: "Summaries of your courses", body: "The key points of each chapter, clear and structured, with the pages of your course." },
       { title: "Prof NEO at the board", body: "Formulas, diagrams, boxes and images: explains like a real teacher, and makes you think before giving the answer." },
       { title: "Quizzes that help you progress", body: "Multiple-choice questions by module or chapter, marked instantly, so you know what you have mastered and what to review." },
       { title: "Search and tools", body: "Find a topic in your courses, ask the web with its sources, calculate, convert, check the periodic table." },
       { title: "Planner and timetable", body: "Your homework, exams and week in one place, with reminders and sharing via WhatsApp." },
-      { title: "Calls with the teacher", body: "Ask your questions out loud, like in a private lesson." },
+      { title: "Calls with Prof NEO", body: "Ask your questions out loud, like in a private lesson." },
     ],
     stepsTitle: "How it works",
     preview: {

@@ -23,14 +23,14 @@ const fr = {
       { value: "24 h", label: "d'essai gratuit" },
     ],
     featuresTitle: "Tout ce qu'il te faut pour réussir, au même endroit",
-    featuresIntro: "Des outils puissants, pensés pour les lycéens et les étudiants.",
+    featuresIntro: "Des outils puissants, pensés pour les lycéens, les étudiants et les enseignants.",
     features: [
       { title: "Synthèse de tes cours", body: "L'essentiel de chaque chapitre, clair et structuré, avec les pages de ton cours." },
       { title: "Prof NEO au tableau", body: "Formules, schémas, encadrés et images : il explique comme un vrai professeur, et te fait réfléchir avant de donner la réponse." },
       { title: "Quiz qui font progresser", body: "Des QCM par module ou par chapitre, corrigés tout de suite, pour savoir ce qui est acquis et ce qu'il faut revoir." },
       { title: "Recherche et outils", body: "Retrouve une notion dans tes cours, interroge le web avec ses sources, calcule, convertis, consulte le tableau périodique." },
       { title: "Agenda et emploi du temps", body: "Tes devoirs, tes examens et ta semaine au même endroit, avec des rappels et un partage par WhatsApp." },
-      { title: "Appels avec le Prof", body: "Pose tes questions à voix haute, comme en cours particulier." },
+      { title: "Appels avec le Prof NEO", body: "Pose tes questions à voix haute, comme en cours particulier." },
     ],
     stepsTitle: "Comment ça marche",
     preview: {
