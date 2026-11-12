@@ -14,7 +14,7 @@ describe("partage d'un long texte", () => {
     expect(excerpt.length).toBeLessThanOrEqual(101);
     expect(excerpt.endsWith("mot…")).toBe(true);
     expect(shareExcerpt("court", 100)).toBe("court");
-    expect(readMoreMessage(text, "Lire la suite sur ATUMI", "https://x.sn/partage/1")).toMatch(/…\n\nLire la suite sur ATUMI 👉 https:\/\/x\.sn\/partage\/1$/);
+    expect(readMoreMessage(text, "Lire la suite sur AtumiNeo", "https://x.sn/partage/1")).toMatch(/…\n\nLire la suite sur AtumiNeo 👉 https:\/\/x\.sn\/partage\/1$/);
     expect(sharePath("abc")).toBe("/partage/abc");
   });
 });

@@ -3,14 +3,14 @@ import type { Messages } from "./messages";
 /** Interface en anglais : mêmes clés que le dictionnaire français. */
 export const en: Messages = {
   app: {
-    name: "ATUMI",
+    name: "AtumiNeo",
     tagline: "Your study companion, from high school to university.",
   },
   home: {
-    slogan: "With ATUMI, build your abilities.",
+    slogan: "With AtumiNeo, build your abilities.",
     badge: "Your AI teacher, 24/7",
     heroIntro:
-      "Import your courses (PDF, Word or photo). ATUMI summarises them, Prof NEO explains on the board what you don't understand, and quizzes help you progress.",
+      "Import your courses (PDF, Word or photo). AtumiNeo summarises them, Prof NEO explains on the board what you don't understand, and quizzes help you progress.",
     stats: [
       { value: "PDF · Word · Photo", label: "your courses, as they are" },
       { value: "FR · EN", label: "the teacher speaks your language" },
@@ -46,15 +46,15 @@ export const en: Messages = {
     quoteOpen: "“",
     quoteClose: "”",
     quote: "Knowledge has a price: the effort you put in.",
-    quoteNote: "ATUMI helps you pay it every day, at your own pace.",
+    quoteNote: "AtumiNeo helps you pay it every day, at your own pace.",
     trial: "24-hour free trial, starting with your first import.",
     signUp: "Create my account",
     signIn: "Sign in",
-    aboutLink: "Who is ATUMI?",
+    aboutLink: "Who is AtumiNeo?",
     teachers: {
       badge: "Are you a teacher?",
-      title: "ATUMI helps teachers too",
-      intro: "ATUMI saves you time to prepare, assess and organise. With the Teacher plan, the class challenge hides your score and the correction until you publish it, for 300 students per challenge.",
+      title: "AtumiNeo helps teachers too",
+      intro: "AtumiNeo saves you time to prepare, assess and organise. With the Teacher plan, the class challenge hides your score and the correction until you publish it, for 300 students per challenge.",
       points: [
         { title: "Prepare lessons faster", body: "Import your own course: you get a clear summary and ready-to-use quizzes." },
         { title: "Assess your class for free", body: "With the WhatsApp Challenge, share a quiz in the class group. Students answer without an account, and you see their first names and scores (up to 100 per challenge, for 7 days)." },
@@ -85,19 +85,19 @@ export const en: Messages = {
     },
   },
   about: {
-    title: "Who is ATUMI?",
-    nameMeaning: "The “I” in ATUMI stands for Intelligent: knowledge built point by point, with you.",
-    intro: "ATUMI is a revision app with an AI teacher, designed for high school and university students.",
+    title: "Who is AtumiNeo?",
+    nameMeaning: "In AtumiNeo, the “I” stands for Intelligent: knowledge built point by point, with you. “Neo” stands for new and for innovation, and echoes Prof NEO, your AI tutor.",
+    intro: "AtumiNeo is a revision app with an AI teacher, designed for high school and university students.",
     missionTitle: "Our goal",
     mission:
       "Help every student understand their courses and pass their exams, at their own pace, from their own documents.",
-    roleTitle: "What ATUMI does",
+    roleTitle: "What AtumiNeo does",
     roles: [
       "It reads the courses you import and turns them into a clear summary.",
       "It helps you revise with quizzes drawn from your course, corrected right away.",
       "It gives you an AI teacher available at any time, who cites the pages of your course.",
     ],
-    limitsTitle: "What ATUMI does not do",
+    limitsTitle: "What AtumiNeo does not do",
     limits: [
       "It does not do your homework for you: it helps you succeed at it yourself.",
       "It does not replace your teachers: it supports you between classes.",
@@ -114,7 +114,7 @@ export const en: Messages = {
     profRule: "Its golden rule: make you think before giving you the answer.",
     profLanguages: "You choose the language of its answers among those offered in your country.",
     teachersTitle: "What about teachers?",
-    teachers: "A teacher uses ATUMI with the same plans: they import their own courses to get summaries and quizzes, assess their class with the WhatsApp Challenge (students answer without an account, the teacher sees their scores), prepare explanations with Prof NEO and web search, and organise their planner and library.",
+    teachers: "A teacher uses AtumiNeo with the same plans: they import their own courses to get summaries and quizzes, assess their class with the WhatsApp Challenge (students answer without an account, the teacher sees their scores), prepare explanations with Prof NEO and web search, and organise their planner and library.",
     back: "Back",
   },
   legal: {
@@ -127,20 +127,20 @@ export const en: Messages = {
     terms: {
       title: "Terms of use and sale",
       intro:
-        "These terms apply to anyone who creates an ATUMI account, uses the app or buys a plan. By ticking the box when you sign up, you accept them.",
+        "These terms apply to anyone who creates an AtumiNeo account, uses the app or buys a plan. By ticking the box when you sign up, you accept them.",
       sections: [
         {
-          title: "1. Who publishes ATUMI",
+          title: "1. Who publishes AtumiNeo",
           body: [
-            "ATUMI is a service published by Idrissa Fall, sole trader, Grand Dakar, Dakar (Senegal). Contact: ifallcv@gmail.com.",
+            "AtumiNeo is a service published by Idrissa Fall, sole trader, Grand Dakar, Dakar (Senegal). Contact: ifallcv@gmail.com.",
             "The app is hosted by Vercel Inc. (website), Supabase Inc. (accounts and data) and Railway Corp. (background processing).",
           ],
         },
         {
           title: "2. The service",
           body: [
-            "ATUMI helps high school students, university students and teachers revise: course import (PDF, Word, photos), summaries, quizzes, conversations with the AI teacher \"Prof NEO\", search, library, planner and, depending on the plan, voice calls with the teacher.",
-            "Answers are produced by artificial intelligence. They may contain mistakes: check them against your course or with your teacher. ATUMI does not replace a teacher and guarantees no exam result.",
+            "AtumiNeo helps high school students, university students and teachers revise: course import (PDF, Word, photos), summaries, quizzes, conversations with the AI teacher \"Prof NEO\", search, library, planner and, depending on the plan, voice calls with the teacher.",
+            "Answers are produced by artificial intelligence. They may contain mistakes: check them against your course or with your teacher. AtumiNeo does not replace a teacher and guarantees no exam result.",
             "For an exercise, the teacher only gives the solution after your own attempt. A challenge to a correction gets a fixed answer inviting you to retake the quiz or see a teacher.",
           ],
         },
@@ -149,7 +149,7 @@ export const en: Messages = {
           body: [
             "Sign-up asks for a username, an email or phone number, a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
             "Sign-up asks for your age. A student under 18 gives the phone number of a parent or guardian; a teacher account is for adults only. This parent is notified on WhatsApp and can refuse the sign-up; a refusal suspends the account.",
-            "For your security, ATUMI signs you out after 1 hour without activity.",
+            "For your security, AtumiNeo signs you out after 1 hour without activity.",
           ],
         },
         {
@@ -164,51 +164,51 @@ export const en: Messages = {
             "The Essentiel, Plus and Premium plans are open to all users; the Teacher plan adds the class challenge (correction published by the teacher). They are bought for 1 month or 3 months. Prices, in CFA francs including all taxes, and what each plan includes (imported courses, quizzes, messages, searches, call minutes, storage) are shown on the Subscription page at the time of purchase.",
             "A plan is never renewed automatically: at the end of the period, you choose whether to take a plan again. Unused quantities are not carried over to the next period.",
             "Top-ups (call-minute pass valid 3 days, extra storage for 30 days) are for subscribers only. Minutes or storage not used by the end of their validity are lost.",
-            "ATUMI may change its prices; a change never applies to a period already paid.",
+            "AtumiNeo may change its prices; a change never applies to a period already paid.",
           ],
         },
         {
           title: "6. Payment and activation",
           body: [
-            "Payment is made by Wave or Orange Money to the number shown on the Subscription page. You then declare your payment in ATUMI with the transaction reference. The team checks the payment and activates the plan or top-up; the period starts at activation.",
+            "Payment is made by Wave or Orange Money to the number shown on the Subscription page. You then declare your payment in AtumiNeo with the transaction reference. The team checks the payment and activates the plan or top-up; the period starts at activation.",
             "A payment that cannot be found or has a different amount is not validated: the team tells you and helps you sort it out. Keep the confirmation message from Wave or Orange Money.",
           ],
         },
         {
           title: "7. Refunds",
           body: [
-            "The service starts at activation, at your request. A period that has started is not refunded, except for a payment error (double payment, amount too high, plan never activated) or a prolonged unavailability of ATUMI caused by ATUMI. In these cases, write to ifallcv@gmail.com within 14 days: the refund is made to the same payment method.",
+            "The service starts at activation, at your request. A period that has started is not refunded, except for a payment error (double payment, amount too high, plan never activated) or a prolonged unavailability of AtumiNeo caused by AtumiNeo. In these cases, write to ifallcv@gmail.com within 14 days: the refund is made to the same payment method.",
           ],
         },
         {
           title: "8. Your content",
           body: [
-            "You remain the owner of the documents you import. You must have the right to use them for your revision. You allow ATUMI to store and process them (including through its AI providers) only to provide the service to you. They are neither published nor shown to other users.",
+            "You remain the owner of the documents you import. You must have the right to use them for your revision. You allow AtumiNeo to store and process them (including through its AI providers) only to provide the service to you. They are neither published nor shown to other users.",
             "What you choose to share (quiz challenge, text shared on WhatsApp) can be read by anyone who has the link, for the period shown.",
           ],
         },
         {
           title: "9. What is not allowed",
           body: [
-            "Using ATUMI to cheat during an exam or supervised test; importing illegal, hateful, violent or sexual content; harassing someone; reselling or sharing access; getting around plan limits or using bots; trying to access other people's data.",
+            "Using AtumiNeo to cheat during an exam or supervised test; importing illegal, hateful, violent or sexual content; harassing someone; reselling or sharing access; getting around plan limits or using bots; trying to access other people's data.",
           ],
         },
         {
-          title: "10. ATUMI's property",
+          title: "10. AtumiNeo's property",
           body: [
-            "The ATUMI name, the Prof NEO character, the app and the books offered by ATUMI are protected. You may use them for your personal revision, without copying or reselling them.",
+            "The AtumiNeo name, the Prof NEO character, the app and the books offered by AtumiNeo are protected. You may use them for your personal revision, without copying or reselling them.",
           ],
         },
         {
           title: "11. Availability and liability",
           body: [
-            "ATUMI does its best to keep the service available and reliable, but cannot guarantee it at all times (maintenance, provider outage, network). ATUMI is not responsible for a decision made solely on the basis of an AI answer, nor for the loss of files you did not keep a copy of.",
+            "AtumiNeo does its best to keep the service available and reliable, but cannot guarantee it at all times (maintenance, provider outage, network). AtumiNeo is not responsible for a decision made solely on the basis of an AI answer, nor for the loss of files you did not keep a copy of.",
           ],
         },
         {
           title: "12. Suspension and closing the account",
           body: [
-            "If these terms are not respected, ATUMI may suspend or close an account, after warning you except in an emergency. You can ask to close your account at any time from the help centre or by email.",
+            "If these terms are not respected, AtumiNeo may suspend or close an account, after warning you except in an emergency. You can ask to close your account at any time from the help centre or by email.",
             "At the end of a subscription, your content stays in your account; an active plan is needed to keep using it fully.",
           ],
         },
@@ -224,11 +224,11 @@ export const en: Messages = {
     privacy: {
       title: "Privacy policy",
       intro:
-        "This page explains what data ATUMI collects, why, who it is shared with and what your rights are, in line with Senegalese law no. 2008-12 on the protection of personal data.",
+        "This page explains what data AtumiNeo collects, why, who it is shared with and what your rights are, in line with Senegalese law no. 2008-12 on the protection of personal data.",
       sections: [
         {
           title: "1. Data controller",
-          body: ["Idrissa Fall, publisher of ATUMI, Grand Dakar, Dakar (Senegal). Contact: ifallcv@gmail.com."],
+          body: ["Idrissa Fall, publisher of AtumiNeo, Grand Dakar, Dakar (Senegal). Contact: ifallcv@gmail.com."],
         },
         {
           title: "2. Data collected",
@@ -236,9 +236,9 @@ export const en: Messages = {
             "Account: username, email or phone number, password (stored encrypted, never readable), declared age, country, level, role (student or teacher), language, profile photo if you add one, and the date you accepted these texts.",
             "Student under 18: phone number of a parent or guardian, and their possible answer.",
             "Studies: imported courses (PDF, Word, photos), books added to your library, summaries, quizzes and results, conversations with the teacher, searches, planner and timetable. For a call, only the written transcript is kept: no audio or video recording is stored; camera images, if you turn it on, are only passed to the teacher during the call.",
-            "Payments: chosen plan, amount, payment method (Wave or Orange Money), number used and transaction reference. ATUMI never receives your PIN.",
+            "Payments: chosen plan, amount, payment method (Wave or Orange Money), number used and transaction reference. AtumiNeo never receives your PIN.",
             "Technical: sign-in logs, AI usage (amount of text processed, without the content) and messages sent to the team.",
-            "ATUMI never asks for the name of your school and collects neither your location nor your contacts.",
+            "AtumiNeo never asks for the name of your school and collects neither your location nor your contacts.",
           ],
         },
         {
@@ -251,21 +251,21 @@ export const en: Messages = {
         {
           title: "4. Who sees it",
           body: [
-            "Your courses, summaries, quizzes, conversations and books are visible to you only. The ATUMI team sees your account, plan, payments, messages to the team and usage, but not your courses or conversations.",
+            "Your courses, summaries, quizzes, conversations and books are visible to you only. The AtumiNeo team sees your account, plan, payments, messages to the team and usage, but not your courses or conversations.",
             "What you choose to share is visible to those who have the link: a quiz challenge shows the questions, your score and your username (7 days); a text shared on WhatsApp can be read without your name for 30 days.",
           ],
         },
         {
           title: "5. Service providers",
           body: [
-            "To work, ATUMI uses providers that process some data on its behalf: Supabase (database and files), Vercel (website) and Railway (processing) for hosting; Anthropic (Claude model) for written answers, summaries, quizzes and web search; Google (Gemini) for voice calls; Resend (email) and Meta (WhatsApp) for messages to the team and the parent notice; Wikimedia (Wikipedia, Wiktionary, Commons) for definitions and images, without any data about you.",
-            "These providers are located outside Senegal (notably in the United States and Europe). ATUMI chooses providers that commit by contract to protect data and not to use it for their own purposes, and only sends them what is necessary.",
+            "To work, AtumiNeo uses providers that process some data on its behalf: Supabase (database and files), Vercel (website) and Railway (processing) for hosting; Anthropic (Claude model) for written answers, summaries, quizzes and web search; Google (Gemini) for voice calls; Resend (email) and Meta (WhatsApp) for messages to the team and the parent notice; Wikimedia (Wikipedia, Wiktionary, Commons) for definitions and images, without any data about you.",
+            "These providers are located outside Senegal (notably in the United States and Europe). AtumiNeo chooses providers that commit by contract to protect data and not to use it for their own purposes, and only sends them what is necessary.",
           ],
         },
         {
           title: "6. How long it is kept",
           body: [
-            "Your content is kept as long as your account exists, or until you delete it. ATUMI may delete the files of an account that has had no plan for more than 12 months, after warning you at least 30 days in advance.",
+            "Your content is kept as long as your account exists, or until you delete it. AtumiNeo may delete the files of an account that has had no plan for more than 12 months, after warning you at least 30 days in advance.",
             "After your account is closed, your data is deleted within 30 days, except payment records, kept as long as the law requires for accounting.",
           ],
         },
@@ -278,7 +278,7 @@ export const en: Messages = {
         {
           title: "8. Cookies",
           body: [
-            "ATUMI only uses necessary cookies: your sign-in session, the time of your last activity (for automatic sign-out) and your language. No advertising or audience measurement cookies.",
+            "AtumiNeo only uses necessary cookies: your sign-in session, the time of your last activity (for automatic sign-out) and your language. No advertising or audience measurement cookies.",
             "Offline mode: pages you opened and the last books you read are kept on your device only, so you can reread them without a connection; they are erased when you sign out or after 1 hour without activity.",
           ],
         },
@@ -357,11 +357,11 @@ export const en: Messages = {
       usernameTaken: "This username is already taken.",
       identifierInvalid: "Enter a valid email address or phone number.",
       identifierTaken: "An account already exists with this email or number.",
-      countryNotOpen: "ATUMI is not available in this country yet.",
+      countryNotOpen: "AtumiNeo is not available in this country yet.",
       passwordLength: "The password must be 8 to 72 characters long.",
       passwordRequired: "Enter your password.",
       cycleRequired: "Choose your level of study.",
-      cycleNotOpen: "ATUMI is open to high school and university students for now.",
+      cycleNotOpen: "AtumiNeo is open to high school and university students for now.",
       ageRequired: "Enter your age.",
       ageInvalid: "Enter your age in years, using digits.",
       teacherMinor: "A teacher account is for people aged 18 or over.",
@@ -386,16 +386,16 @@ export const en: Messages = {
     seeAll: "See all",
     reminders: "Don't forget",
     seeAgenda: "Open the planner",
-    slogan: "With ATUMI, grow your abilities.",
-    station: "Your ATUMI station",
-    askPlaceholder: "Ask ATUMI…",
+    slogan: "With AtumiNeo, grow your abilities.",
+    station: "Your AtumiNeo station",
+    askPlaceholder: "Ask AtumiNeo…",
     satellites: { tutor: "Prof NEO", import: "Import", search: "Search", agenda: "Planner", library: "Library" },
     missionTitle: "Your next mission",
     missions: {
       overdue: "Overdue: {title}. Do it now or mark it as done.",
       dueSoon: "Due soon: {title}. Start preparing it today.",
       study: "Your course \u201c{title}\u201d is ready: start the summary and the quiz.",
-      reading: "ATUMI is reading your course \u201c{title}\u201d. Come back in a few minutes.",
+      reading: "AtumiNeo is reading your course \u201c{title}\u201d. Come back in a few minutes.",
       import: "Import your first course (PDF, Word or photo) to wake up your Prof.",
     },
     missionCta: { overdue: "Open the planner", dueSoon: "Open the planner", study: "Review", reading: "See the course", import: "Import a course" },
@@ -421,16 +421,16 @@ export const en: Messages = {
         "I help you understand your courses and pass your exams, at your own pace. Import a course: I summarise it, quiz you with instant corrections, and answer your questions by citing your pages.",
       modesTitle: "What I do with you",
       cta: "Talk to Prof NEO",
-      more: "Learn more about ATUMI",
+      more: "Learn more about AtumiNeo",
     },
   },
   agenda: {
     title: "Planner",
-    intro: "Write down your homework and exam dates: ATUMI reminds you.",
+    intro: "Write down your homework and exam dates: AtumiNeo reminds you.",
     timetableTitle: "Timetable",
     timetableIntro: "Your classes for the week, day by day. You can send it to a parent or a classmate on WhatsApp.",
     share: "Share on WhatsApp",
-    shareHeading: "My timetable (ATUMI)",
+    shareHeading: "My timetable (AtumiNeo)",
     kinds: { devoir: "Homework", examen: "Exam", autre: "Other" },
     reminders: {
       overdue: "Overdue",
@@ -548,7 +548,7 @@ export const en: Messages = {
       noMinutes: "You have no call minutes left on your plan.",
       accessExpired: "Your access has expired. Choose a plan to call the Prof.",
       unknown: "The call could not start. Please try again.",
-      microphone: "ATUMI cannot access your microphone (or camera). Allow it in your browser, then try again.",
+      microphone: "AtumiNeo cannot access your microphone (or camera). Allow it in your browser, then try again.",
       connection: "The call was cut off (connection). The transcript is kept in your conversation.",
     },
   },
@@ -655,7 +655,7 @@ export const en: Messages = {
     },
     dictionary: {
       title: "Dictionary and encyclopedia",
-      hint: "The definition (Wiktionary) and the article (Wikipedia) are shown here, in ATUMI.",
+      hint: "The definition (Wiktionary) and the article (Wikipedia) are shown here, in AtumiNeo.",
       loading: "Searching…",
       notFound: "No result for this word. Check the spelling or try a simpler word.",
       unavailable: "The dictionary is not responding right now. Try again in a moment.",
@@ -684,8 +684,8 @@ export const en: Messages = {
   },
   library: {
     title: "My library",
-    intro: "Your books and PDF documents, kept in one place and readable in ATUMI.",
-    offeredTitle: "Offered by ATUMI",
+    intro: "Your books and PDF documents, kept in one place and readable in AtumiNeo.",
+    offeredTitle: "Offered by AtumiNeo",
     offeredBy: "Offered to every student",
     pages: "{n} pages",
     mineTitle: "My books",
@@ -773,7 +773,7 @@ export const en: Messages = {
     nextStep: {
       importLabel: "To do: import a course",
       importAction: "Import a course",
-      readingLabel: "ATUMI is reading your course…",
+      readingLabel: "AtumiNeo is reading your course…",
       readingHint: "The summary and the quiz will be available as soon as reading is done.",
       studyLabel: "Ready to revise",
       studyAction: "Get the summary and the quiz",
@@ -811,7 +811,7 @@ export const en: Messages = {
   study: {
     synthesisTitle: "Summary",
     wholeModule: "Whole module",
-    synthesisPending: "ATUMI is preparing your summary from your course. It usually takes about a minute.",
+    synthesisPending: "AtumiNeo is preparing your summary from your course. It usually takes about a minute.",
     synthesisFailed: "The summary could not be prepared.",
     synthesisNone: "No summary for this chapter yet.",
     synthesisNoDocument: "First import a course into this chapter: the summary will be prepared as soon as it has been read.",
@@ -839,18 +839,18 @@ export const en: Messages = {
     copied: "Copied!",
     share: "Share",
     copyFallback: "Copy this text:",
-    readMore: "Read more on ATUMI",
+    readMore: "Read more on AtumiNeo",
     preparing: "Preparing…",
     quota: "You have reached the limit of 30 long shares per day. Use \"Copy\".",
     error: "The share could not be prepared. Use \"Copy\".",
   },
   sharedPage: {
-    kicker: "Shared from ATUMI",
+    kicker: "Shared from AtumiNeo",
     expired: "This share is no longer available (it lasts 30 days).",
   },
   quiz: {
     title: "Quiz",
-    preparing: "ATUMI is preparing your questions…",
+    preparing: "AtumiNeo is preparing your questions…",
     failed: "The quiz could not be prepared. It does not count in your plan.",
     question: "Question",
     submit: "Submit my answers",
@@ -900,10 +900,10 @@ export const en: Messages = {
     closed: "This challenge is over.",
     closedBody: "{username} stopped this challenge, or its 7 days are over. Create your account: you'll be able to launch your own challenges.",
     error: "The challenge could not be created. Try again in a moment.",
-    shareText: "I scored {correct}/{total} on the \"{subject}\" quiz on ATUMI. Prof NEO challenges you to beat me 👉 {url}",
-    metaTitle: "{username} challenges you on ATUMI",
+    shareText: "I scored {correct}/{total} on the \"{subject}\" quiz on AtumiNeo. Prof NEO challenges you to beat me 👉 {url}",
+    metaTitle: "{username} challenges you on AtumiNeo",
     metaDescription: "{correct}/{total} on the \"{subject}\" quiz. Your turn, no account needed!",
-    kicker: "ATUMI challenge",
+    kicker: "AtumiNeo challenge",
     title: "{username} challenges you!",
     intro: "{username} scored {correct}/{total} on the \"{subject}\" quiz. Prof NEO gives you the same challenge: {total} questions, no account needed.",
     play: "Submit my answers",
@@ -915,11 +915,11 @@ export const en: Messages = {
     lose: "{username} stays ahead. Rematch?",
     versus: "You {mine}/{total} · {username} {theirs}/{total}",
     ctaTitle: "Revise your own courses with Prof NEO",
-    ctaBody: "Import your course (PDF, Word or photo): ATUMI turns it into a summary and quizzes, and Prof NEO answers your questions. 24-hour free trial.",
+    ctaBody: "Import your course (PDF, Word or photo): AtumiNeo turns it into a summary and quizzes, and Prof NEO answers your questions. 24-hour free trial.",
     cta: "Create my free account",
     signIn: "I already have an account",
     classPrivacy: "Class challenge: each student only sees their own score. Your score and the correction stay hidden until you publish the correction.",
-    classShareText: "Quiz \"{subject}\" ({total} questions) on ATUMI: answer here, no account needed 👉 {url}",
+    classShareText: "Quiz \"{subject}\" ({total} questions) on AtumiNeo: answer here, no account needed 👉 {url}",
     classResultsTitle: "Class results",
     classNoPlays: "No student has answered yet. Share the link in the class WhatsApp group.",
     classCount: "Answers: {n} out of {max} at most.",
@@ -927,8 +927,8 @@ export const en: Messages = {
     publishHint: "The challenge closes and the same link shows the correction to all students.",
     published: "Correction published on {date}: the link now shows the correction.",
     shareCorrection: "Send the correction on WhatsApp",
-    correctionShareText: "The correction of the quiz \"{subject}\" is available on ATUMI 👉 {url}",
-    classMetaTitle: "Quiz \"{subject}\" on ATUMI",
+    correctionShareText: "The correction of the quiz \"{subject}\" is available on AtumiNeo 👉 {url}",
+    classMetaTitle: "Quiz \"{subject}\" on AtumiNeo",
     classMetaDescription: "{total} questions from {username}. Answer without an account.",
     classTitle: "{username}'s quiz",
     classIntro: "{username} gives you the quiz \"{subject}\": {total} questions, no account needed. The correction will come later.",
@@ -952,16 +952,16 @@ export const en: Messages = {
     formats: "Accepted formats: PDF and Word (.docx), 20 MB maximum.",
     formatsWithPhotos: "Accepted formats: PDF, Word (.docx) and photos (JPG, PNG, WebP). One photo per page.",
     photoTips: "For a sharp photo: page flat, well lit, no glare, fully in the frame, phone held still.",
-    photoNotice: "ATUMI checks the photo. If it is blurry or cut off, you will be asked to retake it.",
+    photoNotice: "AtumiNeo checks the photo. If it is blurry or cut off, you will be asked to retake it.",
     quality: {
-      checking: "ATUMI is checking your photo is sharp…",
+      checking: "AtumiNeo is checking your photo is sharp…",
       ok: "Sharp photo: you can import it.",
       blurry: "Your photo looks blurry: retake it. Hold the phone still, well above the flat page.",
       dark: "Your photo is too dark: retake it with more light, without flash.",
       retake: "Retake the photo",
       importAnyway: "Import anyway",
       cancel: "Cancel (remove this photo)",
-      anywayHint: "If the text looks readable to you, you can import it anyway: ATUMI will read it again before the summary.",
+      anywayHint: "If the text looks readable to you, you can import it anyway: AtumiNeo will read it again before the summary.",
       preview: "Preview of your photo",
     },
     preparingPhoto: "Preparing the photo…",
@@ -969,9 +969,9 @@ export const en: Messages = {
     submit: "Import",
     uploading: "Uploading the file…",
     registering: "Saving…",
-    done: "Document imported. ATUMI is reading it; it usually takes less than a minute.",
+    done: "Document imported. AtumiNeo is reading it; it usually takes less than a minute.",
     fromLibraryTitle: "Import into My courses",
-    fromLibraryIntro: "ATUMI copies this book into your courses: you can then get a summary, a quiz and ask Prof NEO your questions. It counts as one import of your plan.",
+    fromLibraryIntro: "AtumiNeo copies this book into your courses: you can then get a summary, a quiz and ask Prof NEO your questions. It counts as one import of your plan.",
     book: "Book",
     copying: "Copying the book…",
     errors: {
@@ -1094,10 +1094,10 @@ export const en: Messages = {
   help: {
     title: "Help centre",
     link: "Help centre",
-    intro: "A question about ATUMI? The assistant answers right away.",
+    intro: "A question about AtumiNeo? The assistant answers right away.",
     featured: "Frequently asked questions",
     back: "← Help centre",
-    placeholder: "Ask your question about ATUMI…",
+    placeholder: "Ask your question about AtumiNeo…",
     send: "Send",
     thinking: "The assistant is looking for the answer…",
     unavailable: "The help assistant is temporarily unavailable. See the frequently asked questions or write to the team.",
@@ -1111,7 +1111,7 @@ export const en: Messages = {
     contactCta: "Write to the team",
     contactPlaceholder: "Explain your request. For an account problem, give your username.",
     contactSend: "Send to the team",
-    contactSent: "Message sent: the ATUMI team has received it and will get back to you.",
+    contactSent: "Message sent: the AtumiNeo team has received it and will get back to you.",
     errors: {
       empty: "Type your question.",
       quotaReached: "You have reached today's question limit. Try again tomorrow.",
@@ -1120,16 +1120,16 @@ export const en: Messages = {
   },
   parental: {
     title: "Your child's sign-up",
-    intro: "Your child has signed up to ATUMI as “{username}” and gave your number as parent or guardian.",
+    intro: "Your child has signed up to AtumiNeo as “{username}” and gave your number as parent or guardian.",
     points: [
-      "ATUMI is a revision app: your child imports their courses and revises with summaries, quizzes and an AI teacher.",
+      "AtumiNeo is a revision app: your child imports their courses and revises with summaries, quizzes and an AI teacher.",
       "We never ask for the name of their school. Their courses and conversations stay private.",
       "After a free 24-hour trial, access requires a paid plan.",
     ],
     nothingToDo: "If you agree, there is nothing to do.",
     refuseHint: "If you refuse, your child's account will be suspended.",
     refuse: "I refuse this sign-up",
-    refused: "Your refusal is recorded: the account “{username}” is suspended. For any question, write to the ATUMI team.",
+    refused: "Your refusal is recorded: the account “{username}” is suspended. For any question, write to the AtumiNeo team.",
     unknown: "This link is not valid. Check that it is complete.",
     suspended: "A parent refused your sign-up: your account is suspended. Write to the team from the help centre if this is a mistake.",
   },
@@ -1181,7 +1181,7 @@ export const en: Messages = {
     copy: "Copy",
     copied: "Copied",
     step1: "1. Send the amount",
-    numbersIntro: "To the ATUMI team's numbers:",
+    numbersIntro: "To the AtumiNeo team's numbers:",
     noNumbers: "The payment number is not shown here yet: write to the team from the help centre and they will give it to you.",
     step2: "2. Enter your payment",
     step3: "3. The team checks your payment and activates your plan or top-up. You see it here as soon as it is done.",
@@ -1223,7 +1223,7 @@ export const en: Messages = {
     dash: "—",
     overview: {
       title: "Overview",
-      intro: "How ATUMI is doing, in figures, over the selected period.",
+      intro: "How AtumiNeo is doing, in figures, over the selected period.",
       users: "Registered students",
       usersNew: "+{n} over the period",
       trials: "Trials in progress",
@@ -1449,7 +1449,7 @@ export const en: Messages = {
   },
   offline: {
     title: "No connection",
-    intro: "ATUMI needs the Internet for Prof NEO, quizzes, imports and web search. Meanwhile, reread what you have already opened on this device.",
+    intro: "AtumiNeo needs the Internet for Prof NEO, quizzes, imports and web search. Meanwhile, reread what you have already opened on this device.",
     banner: "No connection: you are seeing pages already opened on this device.",
     savedTitle: "Already opened on this device",
     savedEmpty: "No saved pages yet. Once online, open your summaries, corrections or planner: they will stay readable without a connection.",

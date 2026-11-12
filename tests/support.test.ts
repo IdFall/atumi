@@ -43,7 +43,7 @@ afterEach(() => vi.unstubAllGlobals());
 describe("envoi des demandes d'aide à l'équipe", () => {
   it("le message à l'équipe contient l'utilisateur, son contact et le texte", () => {
     const n = buildTeamNotification(request());
-    expect(n.subject).toBe("[ATUMI] Demande d'aide n° 12 de awa");
+    expect(n.subject).toBe("[AtumiNeo] Demande d'aide n° 12 de awa");
     expect(n.text).toContain("Contact : awa@exemple.sn");
     expect(n.text).toContain("2026-11-07 10:30 UTC");
     expect(n.text).toContain("Je n'arrive pas à payer.\nMerci");

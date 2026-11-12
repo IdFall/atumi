@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ATUMI",
-    short_name: "ATUMI",
+    name: "AtumiNeo",
+    short_name: "AtumiNeo",
     description: "Ton compagnon d'apprentissage, de l'école à l'université.",
     lang: "fr",
     start_url: "/",

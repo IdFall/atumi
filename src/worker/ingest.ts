@@ -44,10 +44,10 @@ export const PHOTO_FAILURE_REASONS: Record<PhotoProblem, string> = {
   cropped: "Une partie de la page est coupée ou cachée. Reprends la photo en cadrant la page entière, puis importe-la à nouveau.",
   dark: "La photo est trop sombre ou gênée par un reflet. Reprends-la avec plus de lumière, sans flash, puis importe-la à nouveau.",
   offTopic: "Cette photo ne montre pas de cours ou d'exercice lisible. Prends en photo ta page de cours, puis importe-la à nouveau.",
-  noText: "ATUMI n'a pas trouvé assez de texte sur cette photo. Reprends-la en cadrant la page entière, nette et bien éclairée.",
+  noText: "AtumiNeo n'a pas trouvé assez de texte sur cette photo. Reprends-la en cadrant la page entière, nette et bien éclairée.",
   tooLarge: "Cette photo est trop lourde. Reprends-la ou envoie-la en taille réduite.",
   corrupted: "Cette photo est endommagée. Reprends-la, puis importe-la à nouveau.",
-  refused: "ATUMI n'a pas pu lire cette photo. Reprends-la, ou importe ton cours en PDF ou en Word.",
+  refused: "AtumiNeo n'a pas pu lire cette photo. Reprends-la, ou importe ton cours en PDF ou en Word.",
   aiDisabled: "La lecture des photos n'est pas encore activée. Importe ton cours en PDF ou en Word.",
 };
 
