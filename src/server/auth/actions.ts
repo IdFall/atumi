@@ -34,7 +34,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     cycle: field(formData, "cycle"),
     role: field(formData, "role"),
     guardianPhone: field(formData, "guardianPhone"),
-    isAdult: field(formData, "isAdult"),
+    age: field(formData, "age"),
   };
   const parsed = parseSignUp(
     { ...values, password: field(formData, "password"), acceptCgu: formData.get("acceptCgu") },
@@ -56,6 +56,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     role: input.role,
     country_code: input.countryCode,
     guardian_phone: input.guardianPhone,
+    age: input.age,
     is_adult: input.isAdult,
     cgu_accepted: true,
     cgu_version: CGU_VERSION,
@@ -83,7 +84,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     return { formError: "unknown", values };
   }
 
-  // Lycéen mineur : l'avis au parent (préparé par la base) part par le worker.
+  // Élève mineur : l'avis au parent (préparé par la base) part par le worker.
   if (input.guardianPhone && data.user) {
     try {
       await enqueue(QUEUES.parentNotify, { userId: data.user.id });

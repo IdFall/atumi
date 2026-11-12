@@ -217,7 +217,7 @@ Pour protéger ton compte, ATUMI te déconnecte automatiquement après 1 h sans 
 Langue de l'interface : boutons « FR » et « EN » en haut de l'écran sur téléphone, en bas du menu sur ordinateur, et sur les pages de connexion.
 Le menu (en bas sur téléphone, à gauche sur ordinateur) mène à toutes les parties d'ATUMI : Accueil, Mes cours, Importer, Prof NEO, Agenda, Emploi du temps et Aide ; la Recherche, l'Appel et l'Abonnement sont des icônes en haut de l'écran sur téléphone et des entrées du menu sur ordinateur. La langue de réponse du professeur se choisit à part, sur la page « Prof NEO ».
 ATUMI est ouvert aux lycéens et aux étudiants.
-Un lycéen de moins de 18 ans indique le numéro d'un parent à l'inscription : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
+L'inscription demande ton âge. Un élève de moins de 18 ans indique le numéro d'un parent : ce parent reçoit un message qui le prévient et lui permet de refuser l'inscription. En cas de refus, le compte est suspendu.`,
     },
     {
       id: "confidentialite",
@@ -363,7 +363,7 @@ Profile photo (optional): on the home page, tap the circle with your initials to
 To protect your account, ATUMI signs you out automatically after 1 hour without activity (app closed or left open untouched). Just sign in again.
 Interface language: "FR" and "EN" buttons at the top of the screen on a phone, at the bottom of the menu on a computer, and on the sign-in pages.
 The menu (at the bottom on a phone, on the left on a computer) leads to every part of ATUMI: Home, My courses, Import, Prof NEO, Planner, Timetable and Help; Search, Call and Subscription are icons at the top of the screen on a phone and menu entries on a computer. The teacher's answer language is chosen separately, on the "Prof NEO" page.
-ATUMI is open to high school and university students. A high school student under 18 gives a parent's number at sign-up: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
+ATUMI is open to high school and university students. Sign-up asks for your age. A student under 18 gives a parent's number: the parent receives a message about the sign-up, with a link to refuse it. If they refuse, the account is suspended.`,
     },
     {
       id: "confidentialite",

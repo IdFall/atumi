@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { getCountry } from "@/config/countries";
 import { parseIdentifier, parseSignIn, parseSignUp } from "@/server/auth/schemas";
 
 const base = {
@@ -7,6 +8,7 @@ const base = {
   identifier: "awa@exemple.sn",
   password: "motdepasse",
   cycle: "universite",
+  age: "20",
   acceptCgu: "on",
 };
 
@@ -32,17 +34,48 @@ describe("inscription", () => {
         role: "eleve",
         countryCode: "SN",
         guardianPhone: null,
-        isAdult: false,
+        age: 20,
+        isAdult: true,
       },
     });
   });
 
-  it("un lycéen majeur n'a pas besoin du numéro d'un parent", () => {
-    const adult = parseSignUp({ ...base, cycle: "lycee", isAdult: "on" }, "SN");
-    expect(adult.ok && adult.data).toMatchObject({ guardianPhone: null, isAdult: true });
-    // La case n'a pas d'effet pour un étudiant.
-    const student = parseSignUp({ ...base, isAdult: "on" }, "SN");
-    expect(student.ok && student.data.isAdult).toBe(false);
+  it("un lycéen de 18 ans ou plus n'a pas besoin du numéro d'un parent", () => {
+    const adult = parseSignUp({ ...base, cycle: "lycee", age: "18" }, "SN");
+    expect(adult.ok && adult.data).toMatchObject({ guardianPhone: null, age: 18, isAdult: true });
+  });
+
+  it("exige un âge valable", () => {
+    expect(parseSignUp({ ...base, age: "" }, "SN")).toEqual({ ok: false, errors: { age: "ageRequired" } });
+    for (const bad of ["douze", "-3", "2", "150", "17.5"]) {
+      expect(parseSignUp({ ...base, age: bad }, "SN")).toEqual({ ok: false, errors: { age: "ageInvalid" } });
+    }
+    expect(parseSignUp({ ...base, age: " 25 " }, "SN").ok).toBe(true);
+  });
+
+  it("un élève mineur donne le numéro d'un parent, quel que soit son niveau", () => {
+    const missing = parseSignUp({ ...base, age: "17" }, "SN");
+    expect(missing).toEqual({ ok: false, errors: { guardianPhone: "guardianPhoneRequired" } });
+    const ok = parseSignUp({ ...base, age: "17", guardianPhone: "77 000 00 00" }, "SN");
+    expect(ok.ok && ok.data).toMatchObject({ age: 17, isAdult: false, guardianPhone: "+221770000000" });
+  });
+
+  it("pays qui ferme l'inscription aux mineurs : refus avec le message pour un parent", () => {
+    const sn = getCountry("SN") as { minorSignUp: string };
+    const before = sn.minorSignUp;
+    sn.minorSignUp = "closed";
+    try {
+      const result = parseSignUp({ ...base, cycle: "lycee", age: "16", guardianPhone: "77 000 00 00" }, "SN");
+      expect(result).toEqual({ ok: false, errors: { age: "minorClosed" } });
+      expect(parseSignUp({ ...base, cycle: "lycee", age: "18" }, "SN").ok).toBe(true);
+    } finally {
+      sn.minorSignUp = before;
+    }
+  });
+
+  it("un compte enseignant est réservé aux majeurs", () => {
+    const result = parseSignUp({ ...base, role: "enseignant", age: "16", guardianPhone: "77 000 00 00" }, "SN");
+    expect(result).toEqual({ ok: false, errors: { age: "teacherMinor" } });
   });
 
   it("un enseignant au lycée n'a pas besoin du numéro d'un parent", () => {
@@ -58,17 +91,17 @@ describe("inscription", () => {
     expect(other.ok && other.data.role).toBe("eleve");
   });
 
-  it("exige le numéro d'un parent pour un lycéen", () => {
-    const missing = parseSignUp({ ...base, cycle: "lycee" }, "SN");
+  it("exige le numéro d'un parent pour un lycéen mineur", () => {
+    const missing = parseSignUp({ ...base, cycle: "lycee", age: "16" }, "SN");
     expect(missing).toEqual({ ok: false, errors: { guardianPhone: "guardianPhoneRequired" } });
 
-    const ok = parseSignUp({ ...base, cycle: "lycee", guardianPhone: "77 000 00 00" }, "SN");
+    const ok = parseSignUp({ ...base, cycle: "lycee", age: "16", guardianPhone: "77 000 00 00" }, "SN");
     expect(ok.ok && ok.data.guardianPhone).toBe("+221770000000");
   });
 
   it("refuse que le parent ait le même numéro que l'élève", () => {
     const result = parseSignUp(
-      { ...base, identifier: "771234567", cycle: "lycee", guardianPhone: "+221771234567" },
+      { ...base, identifier: "771234567", cycle: "lycee", age: "15", guardianPhone: "+221771234567" },
       "SN",
     );
     expect(result).toEqual({ ok: false, errors: { guardianPhone: "guardianPhoneSameAsUser" } });
@@ -92,6 +125,7 @@ describe("inscription", () => {
         username: "usernameInvalid",
         identifier: "identifierInvalid",
         password: "passwordLength",
+        age: "ageRequired",
         cycle: "cycleRequired",
         acceptCgu: "cguRequired",
       },

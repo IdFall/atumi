@@ -155,7 +155,7 @@ const fr = {
           title: "3. Ton compte",
           body: [
             "L'inscription demande un nom d'utilisateur, un e-mail ou un numéro de téléphone, un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
-            "Un lycéen de moins de 18 ans indique le numéro d'un parent ou tuteur. Ce parent est prévenu par WhatsApp et peut refuser l'inscription ; un refus suspend le compte.",
+            "L'inscription demande ton âge. Un élève de moins de 18 ans indique le numéro d'un parent ou tuteur ; un compte enseignant est réservé aux majeurs. Ce parent est prévenu par WhatsApp et peut refuser l'inscription ; un refus suspend le compte.",
             "Pour ta sécurité, ATUMI te déconnecte après 1 h sans activité.",
           ],
         },
@@ -242,8 +242,8 @@ const fr = {
         {
           title: "2. Les données recueillies",
           body: [
-            "Compte : nom d'utilisateur, e-mail ou numéro de téléphone, mot de passe (enregistré chiffré, jamais lisible), pays, niveau, rôle (élève ou enseignant), langue, photo de profil si tu en ajoutes une, et la date d'acceptation de ces textes.",
-            "Lycéen mineur : numéro de téléphone d'un parent ou tuteur, et sa réponse éventuelle.",
+            "Compte : nom d'utilisateur, e-mail ou numéro de téléphone, mot de passe (enregistré chiffré, jamais lisible), âge déclaré, pays, niveau, rôle (élève ou enseignant), langue, photo de profil si tu en ajoutes une, et la date d'acceptation de ces textes.",
+            "Élève mineur : numéro de téléphone d'un parent ou tuteur, et sa réponse éventuelle.",
             "Études : cours importés (PDF, Word, photos), livres ajoutés à ta bibliothèque, synthèses, quiz et résultats, conversations avec le professeur, recherches, agenda et emploi du temps. Pour un appel, seule la transcription écrite est gardée : aucun enregistrement audio ou vidéo n'est conservé ; les images de la caméra, si tu l'actives, sont seulement transmises au professeur pendant l'appel.",
             "Paiements : forfait choisi, montant, moyen de paiement (Wave ou Orange Money), numéro utilisé et référence de la transaction. ATUMI ne reçoit jamais ton code secret.",
             "Technique : journaux de connexion, consommation de l'IA (nombre de mots traités, sans le contenu) et messages envoyés à l'équipe.",
@@ -294,7 +294,7 @@ const fr = {
         {
           title: "9. Mineurs",
           body: [
-            "Les lycéens de moins de 18 ans peuvent s'inscrire ; le parent ou tuteur indiqué est prévenu et peut refuser l'inscription. Un parent peut aussi demander l'accès aux données de son enfant mineur ou leur suppression en écrivant à ifallcv@gmail.com.",
+            "Les élèves de moins de 18 ans (âge déclaré à l'inscription) peuvent s'inscrire ; le parent ou tuteur indiqué est prévenu et peut refuser l'inscription. Un parent peut aussi demander l'accès aux données de son enfant mineur ou leur suppression en écrivant à ifallcv@gmail.com.",
           ],
         },
         {
@@ -329,7 +329,8 @@ const fr = {
       cycleTeacher: "Niveau où tu enseignes",
       guardianPhone: "Téléphone d'un parent ou tuteur",
       guardianPhoneHint: "Ton parent reçoit un message qui le prévient de ton inscription et lui permet de la refuser.",
-      isAdult: "J'ai 18 ans ou plus",
+      age: "Âge",
+      ageHint: "En années, avec des chiffres.",
       acceptCgu: "J'accepte les {terms} et la {privacy}.",
       acceptCguTerms: "conditions d'utilisation et de vente",
       acceptCguPrivacy: "politique de confidentialité",
@@ -370,6 +371,10 @@ const fr = {
       passwordRequired: "Saisis ton mot de passe.",
       cycleRequired: "Choisis ton niveau d'étude.",
       cycleNotOpen: "ATUMI est ouvert aux lycéens et aux étudiants pour le moment.",
+      ageRequired: "Indique ton âge.",
+      ageInvalid: "Saisis ton âge en années, avec des chiffres.",
+      teacherMinor: "Un compte enseignant est réservé aux personnes de 18 ans ou plus.",
+      minorClosed: "L'inscription n'est pas ouverte aux mineurs. Demande à un parent majeur d'ouvrir un compte pour toi.",
       guardianPhoneRequired: "Saisis le numéro d'un parent ou tuteur.",
       guardianPhoneSameAsUser: "Le numéro du parent doit être différent du tien.",
       cguRequired: "Tu dois accepter les conditions pour continuer.",

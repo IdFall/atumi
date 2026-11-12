@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
-import { defaultCountry, requiresParentalConsent, type Cycle } from "@/config/countries";
+import { defaultCountry, isAdultAge, parseAge, type Cycle } from "@/config/countries";
 import { useT } from "@/i18n/client";
 import { signUpAction, type FormState } from "@/server/auth/actions";
 
 /** Niveaux proposés : lycée et université pour un élève ; du primaire à l'université pour un enseignant. */
 const STUDENT_CYCLES = defaultCountry().openCycles;
 const TEACHER_CYCLES = defaultCountry().teacherCycles;
+const COUNTRY = defaultCountry();
 
 export function SignUpForm() {
   const t = useT();
@@ -23,7 +24,7 @@ export function SignUpForm() {
     if (!state.values && new URLSearchParams(window.location.search).get("role") === "enseignant") setRole("enseignant");
   }, [state.values]);
   const [cycle, setCycle] = useState<string>(state.values?.cycle ?? "");
-  const [adult, setAdult] = useState<boolean>(state.values?.isAdult === "on");
+  const [ageText, setAgeText] = useState<string>(state.values?.age ?? "");
   const err = (name: string) => {
     const key = state.errors?.[name];
     return key ? t.auth.errors[key] : undefined;
@@ -35,7 +36,12 @@ export function SignUpForm() {
 
   const teacher = role === "enseignant";
   const cycles = teacher ? TEACHER_CYCLES : STUDENT_CYCLES;
-  const minor = !teacher && STUDENT_CYCLES.includes(cycle as Cycle) && requiresParentalConsent(cycle as Cycle);
+  // Âge déclaré : un élève mineur donne le numéro d'un parent, ou ne peut pas
+  // s'inscrire si le pays ferme l'inscription aux mineurs (le serveur vérifie aussi).
+  const age = parseAge(ageText);
+  const minor = age !== null && !isAdultAge(COUNTRY, age);
+  const minorClosed = minor && !teacher && COUNTRY.minorSignUp === "closed";
+  const needsGuardian = minor && !teacher && COUNTRY.minorSignUp === "parental_notice";
   const choice = (on: boolean) =>
     `cursor-pointer rounded-lg border px-2 py-2 text-center ${
       on ? "border-primary bg-primary-soft font-semibold dark:bg-primary-strong/25" : "border-neutral-300 dark:border-neutral-700"
@@ -78,6 +84,23 @@ export function SignUpForm() {
         />
       </Field>
 
+      <Field label={t.auth.fields.age} hint={t.auth.fields.ageHint} error={err("age")}>
+        <TextInput
+          name="age"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          maxLength={3}
+          autoComplete="off"
+          value={ageText}
+          onChange={(event) => setAgeText(event.target.value.replace(/[^0-9]/g, ""))}
+          invalid={Boolean(err("age"))}
+          required
+        />
+      </Field>
+      {minorClosed && !err("age") ? <FormMessage tone="error">{t.auth.errors.minorClosed}</FormMessage> : null}
+      {minor && teacher && !err("age") ? <FormMessage tone="error">{t.auth.errors.teacherMinor}</FormMessage> : null}
+
       <fieldset className="flex flex-col gap-2 text-sm">
         <legend className="mb-1 font-medium">{t.auth.fields.role}</legend>
         <div className="grid grid-cols-2 gap-2">
@@ -119,20 +142,7 @@ export function SignUpForm() {
         ) : null}
       </fieldset>
 
-      {minor ? (
-        <label className="flex items-start gap-2 text-sm">
-          <input
-            type="checkbox"
-            name="isAdult"
-            className="mt-1"
-            checked={adult}
-            onChange={(event) => setAdult(event.target.checked)}
-          />
-          <span>{t.auth.fields.isAdult}</span>
-        </label>
-      ) : null}
-
-      {minor && !adult ? (
+      {needsGuardian ? (
         <Field
           label={t.auth.fields.guardianPhone}
           hint={t.auth.fields.guardianPhoneHint}

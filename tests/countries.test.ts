@@ -5,7 +5,9 @@ import {
   countryFromPhone,
   isCycleOpen,
   isTutorLanguageOffered,
-  requiresParentalConsent,
+  isAdultAge,
+  getCountry,
+  parseAge,
   toE164,
 } from "@/config/countries";
 
@@ -48,9 +50,14 @@ describe("pays", () => {
     expect(isTutorLanguageOffered("CI", "wo")).toBe(false);
   });
 
-  it("exige le consentement parental pour le collège et le lycée", () => {
-    expect(requiresParentalConsent("college")).toBe(true);
-    expect(requiresParentalConsent("lycee")).toBe(true);
-    expect(requiresParentalConsent("universite")).toBe(false);
+  it("lit l'âge déclaré et la majorité du pays", () => {
+    expect(parseAge("17")).toBe(17);
+    expect(parseAge(" 40 ")).toBe(40);
+    expect(parseAge("4")).toBeNull();
+    expect(parseAge("abc")).toBeNull();
+    const sn = getCountry("SN")!;
+    expect(isAdultAge(sn, 17)).toBe(false);
+    expect(isAdultAge(sn, 18)).toBe(true);
+    expect(sn.minorSignUp).toBe("parental_notice");
   });
 });
