@@ -2,12 +2,14 @@ import { Suspense } from "react";
 
 import { BottomNav, NavBar } from "@/components/app/bottom-nav";
 import { IdleSignOut } from "@/components/auth/idle-sign-out";
+import { OfflineBanner } from "@/components/offline/offline-banner";
 
 /** Espace connecté : menu permanent (marge entre le menu latéral et le contenu sur ordinateur) ; chaque page lit la session elle-même, derrière un Suspense. */
 export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
     <>
       <IdleSignOut />
+      <OfflineBanner />
       <Suspense fallback={<NavBar pathname={null} />}>
         <BottomNav />
       </Suspense>

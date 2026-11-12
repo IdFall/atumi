@@ -3,6 +3,7 @@
 import { useFormStatus } from "react-dom";
 
 import { useT } from "@/i18n/client";
+import { clearOfflineData } from "@/lib/offline";
 import { signOutAction } from "@/server/auth/actions";
 
 const STYLES = {
@@ -40,7 +41,8 @@ function Button({ tone }: { tone: keyof typeof STYLES | "icon" }) {
 /** Bouton de déconnexion : montre tout de suite que le clic est pris en compte. */
 export function SignOutButton({ tone = "light" }: { tone?: keyof typeof STYLES | "icon" }) {
   return (
-    <form action={signOutAction}>
+    // Les pages gardées pour le hors ligne sont effacées avant de quitter.
+    <form action={signOutAction} onSubmit={() => void clearOfflineData()}>
       <Button tone={tone} />
     </form>
   );

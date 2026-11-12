@@ -3,6 +3,7 @@
 import { useEffect, useTransition } from "react";
 
 import { ACTIVITY_STORAGE_KEY, INACTIVITY_LIMIT_MS, isInactive } from "@/config/session";
+import { clearOfflineData, OFFLINE_PATH } from "@/lib/offline";
 import { inactiveSignOutAction } from "@/server/auth/actions";
 
 const EVENTS = ["pointerdown", "keydown", "wheel", "touchstart", "scroll"] as const;
@@ -39,6 +40,14 @@ export function IdleSignOut() {
     let lastSaved = 0;
     let signingOut = false;
 
+    // Page relue hors ligne (copie de l'appareil, sans passer par le proxy) après
+    // plus d'une heure sans activité : on efface les copies comme le ferait la déconnexion.
+    const previous = readLast();
+    if (!navigator.onLine && previous !== null && isInactive(previous, memory, INACTIVITY_LIMIT_MS)) {
+      void clearOfflineData().then(() => window.location.replace(OFFLINE_PATH));
+      return;
+    }
+
     // Une activité plus ancienne dans un autre onglet ne doit pas déconnecter tout de suite à l'ouverture.
     saveLast(memory);
 
@@ -57,6 +66,7 @@ export function IdleSignOut() {
       const last = Math.max(memory, shared ?? 0);
       if (isInactive(last, Date.now(), INACTIVITY_LIMIT_MS)) {
         signingOut = true;
+        void clearOfflineData();
         startTransition(() => inactiveSignOutAction());
       }
     };

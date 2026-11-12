@@ -20,6 +20,7 @@ export type HelpArticleId =
   | "bibliotheque"
   | "recherche"
   | "enseignants"
+  | "hors-ligne"
   | "compte"
   | "confidentialite";
 
@@ -195,6 +196,16 @@ Organiser : agenda, emploi du temps et Ma bibliothèque pour ranger vos PDF.
 Pas encore disponible : espace classe, suivi individuel des élèves, correction de copies.`,
     },
     {
+      id: "hors-ligne",
+      title: "Utiliser ATUMI sans connexion",
+      body: `ATUMI a besoin d'Internet pour le Prof NEO, les quiz, l'import de cours, la recherche web, les appels et le paiement : ces parties ne marchent pas hors ligne.
+Sans connexion, tu peux relire les pages déjà ouvertes sur cet appareil : synthèses, cours, quiz corrigés, réponses du Prof NEO, agenda, emploi du temps, Recherche (dont les outils : calculatrice, conversions, tableau périodique, formules) et les livres de Ma bibliothèque déjà lus. Un bandeau « Pas de connexion » s'affiche alors en haut de l'écran.
+Pour préparer une révision sans réseau : quand tu es connecté, ouvre les synthèses et corrections dont tu auras besoin. ATUMI garde les 60 dernières pages ouvertes et les 5 derniers livres lus.
+Une page jamais ouverte sur l'appareil affiche « Pas de connexion », avec la liste de ce qui est disponible et le bouton « Réessayer ».
+Ce que tu as noté hors ligne n'est pas enregistré : attends la connexion pour ajouter une échéance ou répondre à un quiz.
+Sécurité : les pages gardées restent sur ton appareil et sont effacées quand tu te déconnectes, ou après 1 h sans activité. Elles ne marchent que dans le navigateur ou l'appli installée où tu les as ouvertes.`,
+    },
+    {
       id: "compte",
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
@@ -329,6 +340,16 @@ Class challenge (Teacher plan only): students only see their own score, neither 
 Go deeper: Prof NEO (Explanation, Go deeper into the chapter, General knowledge modes) and web search with sources help you prepare an explanation, an example or a diagram.
 Get organised: planner, timetable and My library for your PDFs.
 Not available yet: class space, individual student tracking, marking work.`,
+    },
+    {
+      id: "hors-ligne",
+      title: "Using ATUMI without a connection",
+      body: `ATUMI needs the Internet for Prof NEO, quizzes, course imports, web search, calls and payment: these parts do not work offline.
+Without a connection, you can reread pages already opened on this device: summaries, courses, corrected quizzes, Prof NEO answers, planner, timetable, Search (including the tools: calculator, conversions, periodic table, formulas) and books from My library you already read. A "No connection" banner then shows at the top of the screen.
+To prepare revision without a network: while online, open the summaries and corrections you will need. ATUMI keeps the last 60 pages opened and the last 5 books read.
+A page never opened on the device shows "No connection", with the list of what is available and a "Try again" button.
+Anything entered offline is not saved: wait for the connection to add a deadline or answer a quiz.
+Security: saved pages stay on your device and are erased when you sign out, or after 1 hour without activity. They only work in the browser or installed app where you opened them.`,
     },
     {
       id: "compte",
