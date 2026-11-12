@@ -30,8 +30,18 @@ export interface CountryConfig {
   teacherCycles: readonly Cycle[];
   /** Langues proposées pour le professeur IA, la première étant celle par défaut. */
   tutorLanguages: readonly TutorLanguage[];
+  /** Âge de la majorité, comparé à l'âge déclaré à l'inscription. */
+  adultAge: number;
+  /**
+   * Élève mineur à l'inscription : `parental_notice` = inscription avec le numéro
+   * d'un parent, prévenu par WhatsApp et qui peut refuser ; `closed` = pas
+   * d'inscription, un parent majeur ouvre le compte.
+   */
+  minorSignUp: MinorSignUp;
   isActive: boolean;
 }
+
+export type MinorSignUp = "parental_notice" | "closed";
 
 const V1_CYCLES: readonly Cycle[] = ["lycee", "universite"];
 /** Enseignants : tous les niveaux, du primaire à l'université (Idrissa, 2026-11-12). */
@@ -58,6 +68,8 @@ export const COUNTRIES: readonly CountryConfig[] = [
     teacherCycles: TEACHER_CYCLES,
     // Wolof en attente (décision du 2026-11-09) : remettre "wo" ici pour le rouvrir.
     tutorLanguages: ["fr", "en"],
+    adultAge: 18,
+    minorSignUp: "parental_notice",
     isActive: true,
   },
   {
@@ -71,6 +83,8 @@ export const COUNTRIES: readonly CountryConfig[] = [
     openCycles: V1_CYCLES,
     teacherCycles: TEACHER_CYCLES,
     tutorLanguages: ["fr", "en"],
+    adultAge: 18,
+    minorSignUp: "parental_notice",
     isActive: false,
   },
   {
@@ -84,6 +98,8 @@ export const COUNTRIES: readonly CountryConfig[] = [
     openCycles: V1_CYCLES,
     teacherCycles: TEACHER_CYCLES,
     tutorLanguages: ["fr", "en"],
+    adultAge: 18,
+    minorSignUp: "parental_notice",
     isActive: false,
   },
   {
@@ -97,6 +113,8 @@ export const COUNTRIES: readonly CountryConfig[] = [
     openCycles: V1_CYCLES,
     teacherCycles: TEACHER_CYCLES,
     tutorLanguages: ["fr", "en"],
+    adultAge: 18,
+    minorSignUp: "parental_notice",
     isActive: false,
   },
 ];
@@ -181,7 +199,16 @@ export function countryFromPhone(e164: string): CountryConfig | undefined {
     .find((c) => e164.startsWith(c.phonePrefix));
 }
 
-/** Collégiens et lycéens, souvent mineurs : accord parental requis. */
-export function requiresParentalConsent(cycle: Cycle): boolean {
-  return cycle === "college" || cycle === "lycee";
+/** Âge déclaré à l'inscription : nombre entier plausible, sinon null. */
+export const MIN_SIGN_UP_AGE = 5;
+export const MAX_SIGN_UP_AGE = 120;
+export function parseAge(value: unknown): number | null {
+  const raw = typeof value === "number" ? String(value) : typeof value === "string" ? value.trim() : "";
+  if (!/^[0-9]{1,3}$/.test(raw)) return null;
+  const age = Number(raw);
+  return age >= MIN_SIGN_UP_AGE && age <= MAX_SIGN_UP_AGE ? age : null;
+}
+
+export function isAdultAge(country: CountryConfig, age: number): boolean {
+  return age >= country.adultAge;
 }

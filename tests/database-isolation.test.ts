@@ -114,6 +114,27 @@ describe("inscription", () => {
     );
   });
 
+  it("âge déclaré : un étudiant mineur a besoin d'un parent, l'âge est gardé dans le consentement", async () => {
+    await asService();
+    await expect(insertUser({ username: "cheikh", cycle: "universite", age: 17, cgu_accepted: true })).rejects.toThrow(
+      /ACCORD_PARENTAL/,
+    );
+    await insertUser({ username: "cheikh", cycle: "universite", age: 17, guardian_phone: "+221770000000", cgu_accepted: true });
+    const minor = await db.query<{ kind: string; age: number | null }>(
+      `select kind, (evidence ->> 'age')::int as age from public.consents where user_id = '${C}' and kind <> 'cgu'`,
+    );
+    expect(minor.rows).toEqual([{ kind: "parental", age: 17 }]);
+    expect((await db.query(`select 1 from public.parental_notices where user_id = '${C}'`)).rows).toHaveLength(1);
+    await db.exec(`delete from auth.users where id = '${C}'`);
+
+    await insertUser({ username: "cheikh", cycle: "universite", age: 22, is_adult: true, cgu_accepted: true });
+    const adult = await db.query<{ kind: string; age: number | null }>(
+      `select kind, (evidence ->> 'age')::int as age from public.consents where user_id = '${C}' and kind <> 'cgu'`,
+    );
+    expect(adult.rows).toEqual([{ kind: "majorite", age: 22 }]);
+    await db.exec(`delete from auth.users where id = '${C}'`);
+  });
+
   it("refuse le collège, pas encore ouvert en V1", async () => {
     await asService();
     await expect(

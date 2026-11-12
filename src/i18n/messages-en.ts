@@ -148,7 +148,7 @@ export const en: Messages = {
           title: "3. Your account",
           body: [
             "Sign-up asks for a username, an email or phone number, a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
-            "A high school student under 18 gives the phone number of a parent or guardian. This parent is notified on WhatsApp and can refuse the sign-up; a refusal suspends the account.",
+            "Sign-up asks for your age. A student under 18 gives the phone number of a parent or guardian; a teacher account is for adults only. This parent is notified on WhatsApp and can refuse the sign-up; a refusal suspends the account.",
             "For your security, ATUMI signs you out after 1 hour without activity.",
           ],
         },
@@ -233,8 +233,8 @@ export const en: Messages = {
         {
           title: "2. Data collected",
           body: [
-            "Account: username, email or phone number, password (stored encrypted, never readable), country, level, role (student or teacher), language, profile photo if you add one, and the date you accepted these texts.",
-            "High school student under 18: phone number of a parent or guardian, and their possible answer.",
+            "Account: username, email or phone number, password (stored encrypted, never readable), declared age, country, level, role (student or teacher), language, profile photo if you add one, and the date you accepted these texts.",
+            "Student under 18: phone number of a parent or guardian, and their possible answer.",
             "Studies: imported courses (PDF, Word, photos), books added to your library, summaries, quizzes and results, conversations with the teacher, searches, planner and timetable. For a call, only the written transcript is kept: no audio or video recording is stored; camera images, if you turn it on, are only passed to the teacher during the call.",
             "Payments: chosen plan, amount, payment method (Wave or Orange Money), number used and transaction reference. ATUMI never receives your PIN.",
             "Technical: sign-in logs, AI usage (amount of text processed, without the content) and messages sent to the team.",
@@ -285,7 +285,7 @@ export const en: Messages = {
         {
           title: "9. Minors",
           body: [
-            "High school students under 18 can sign up; the parent or guardian given is notified and can refuse the sign-up. A parent can also ask for access to their minor child's data or its deletion by writing to ifallcv@gmail.com.",
+            "Students under 18 (age declared at sign-up) can sign up; the parent or guardian given is notified and can refuse the sign-up. A parent can also ask for access to their minor child's data or its deletion by writing to ifallcv@gmail.com.",
           ],
         },
         {
@@ -320,7 +320,8 @@ export const en: Messages = {
       cycleTeacher: "Level you teach",
       guardianPhone: "Phone number of a parent or guardian",
       guardianPhoneHint: "Your parent receives a message telling them about your sign-up, with a way to refuse it.",
-      isAdult: "I am 18 or older",
+      age: "Age",
+      ageHint: "In years, using digits.",
       acceptCgu: "I accept the {terms} and the {privacy}.",
       acceptCguTerms: "terms of use and sale",
       acceptCguPrivacy: "privacy policy",
@@ -361,6 +362,10 @@ export const en: Messages = {
       passwordRequired: "Enter your password.",
       cycleRequired: "Choose your level of study.",
       cycleNotOpen: "ATUMI is open to high school and university students for now.",
+      ageRequired: "Enter your age.",
+      ageInvalid: "Enter your age in years, using digits.",
+      teacherMinor: "A teacher account is for people aged 18 or over.",
+      minorClosed: "Sign-up is not open to minors. Ask a parent who is an adult to open an account for you.",
       guardianPhoneRequired: "Enter the number of a parent or guardian.",
       guardianPhoneSameAsUser: "The parent's number must be different from yours.",
       cguRequired: "You must accept the terms to continue.",
