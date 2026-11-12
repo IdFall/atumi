@@ -86,7 +86,7 @@ export const en: Messages = {
   },
   about: {
     title: "Who is AtumiNeo?",
-    nameMeaning: "In AtumiNeo, the “I” stands for Intelligent: knowledge built point by point, with you. “Neo” comes from Prof NEO, your AI tutor.",
+    nameMeaning: "In AtumiNeo, the “I” stands for Intelligent: knowledge built point by point, with you. “Neo” stands for new and for innovation, and echoes Prof NEO, your AI tutor.",
     intro: "AtumiNeo is a revision app with an AI teacher, designed for high school and university students.",
     missionTitle: "Our goal",
     mission:

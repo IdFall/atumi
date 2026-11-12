@@ -92,7 +92,7 @@ const fr = {
   /** Présentation d'AtumiNeo et de Prof NEO (page /a-propos et article d'aide). */
   about: {
     title: "Qui est AtumiNeo ?",
-    nameMeaning: "Dans AtumiNeo, le « I » veut dire Intelligent : un savoir qui se construit point par point, avec toi. « Neo » rappelle Prof NEO, ton professeur IA.",
+    nameMeaning: "Dans AtumiNeo, le « I » veut dire Intelligent : un savoir qui se construit point par point, avec toi. « Neo » évoque le nouveau et l'innovation, et rappelle Prof NEO, ton professeur IA.",
     intro: "AtumiNeo est une application de révision avec un professeur IA, pensée pour les lycéens et les étudiants.",
     missionTitle: "Notre objectif",
     mission:
