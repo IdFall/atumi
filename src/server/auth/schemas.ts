@@ -79,13 +79,14 @@ export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseRe
   const password = typeof input.password === "string" ? input.password : "";
   if (password.length < 8 || password.length > 72) errors.password = "passwordLength";
 
-  // Seuls les cycles ouverts dans le pays sont acceptés (V1 : lycée et université).
+  const role = text(input.role) === "enseignant" ? "enseignant" : "eleve";
+
+  // Seuls les cycles ouverts dans le pays sont acceptés : V1, lycée et université
+  // pour un élève ; du primaire à l'université pour un enseignant.
   const rawCycle = text(input.cycle);
-  const cycleOk = isCycleOpen(countryCode, rawCycle);
+  const cycleOk = isCycleOpen(countryCode, rawCycle, role);
   if (!cycleOk) errors.cycle = rawCycle ? "cycleNotOpen" : "cycleRequired";
   const cycle = rawCycle as Cycle;
-
-  const role = text(input.role) === "enseignant" ? "enseignant" : "eleve";
 
   // Lycéen majeur (case « 18 ans ou plus ») ou enseignant : pas de numéro de parent.
   const needsConsent = role === "eleve" && cycleOk && requiresParentalConsent(cycle);

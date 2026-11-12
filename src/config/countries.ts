@@ -6,10 +6,13 @@
  * La source de vérité des niveaux d'étude est la table `education_levels`.
  */
 
-export type Cycle = "college" | "lycee" | "universite";
+export type Cycle = "primaire" | "college" | "lycee" | "ecole_superieure" | "universite";
 
 /** Tous les cycles connus, dans l'ordre d'affichage. */
-export const ALL_CYCLES: readonly Cycle[] = ["college", "lycee", "universite"];
+export const ALL_CYCLES: readonly Cycle[] = ["primaire", "college", "lycee", "ecole_superieure", "universite"];
+
+/** Rôle choisi à l'inscription (`profiles.role`). */
+export type Role = "eleve" | "enseignant";
 
 export type PaymentMethod = "wave" | "orange_money" | "free_money" | "mtn_momo" | "moov_money" | "card";
 
@@ -23,12 +26,16 @@ export interface CountryConfig {
   paymentMethods: PaymentMethod[];
   /** Cycles ouverts à l'inscription. V1 : lycée et université (le collège viendra plus tard). */
   openCycles: readonly Cycle[];
+  /** Niveaux qu'un enseignant peut choisir (niveau où il enseigne). */
+  teacherCycles: readonly Cycle[];
   /** Langues proposées pour le professeur IA, la première étant celle par défaut. */
   tutorLanguages: readonly TutorLanguage[];
   isActive: boolean;
 }
 
 const V1_CYCLES: readonly Cycle[] = ["lycee", "universite"];
+/** Enseignants : tous les niveaux, du primaire à l'université (Idrissa, 2026-11-12). */
+const TEACHER_CYCLES: readonly Cycle[] = ALL_CYCLES;
 
 /** Langues de l'interface (dictionnaires de src/i18n). */
 export type Locale = "fr" | "en";
@@ -48,6 +55,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Dakar",
     paymentMethods: ["wave", "orange_money", "free_money"],
     openCycles: V1_CYCLES,
+    teacherCycles: TEACHER_CYCLES,
     // Wolof en attente (décision du 2026-11-09) : remettre "wo" ici pour le rouvrir.
     tutorLanguages: ["fr", "en"],
     isActive: true,
@@ -61,6 +69,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Abidjan",
     paymentMethods: ["wave", "orange_money", "mtn_momo", "moov_money"],
     openCycles: V1_CYCLES,
+    teacherCycles: TEACHER_CYCLES,
     tutorLanguages: ["fr", "en"],
     isActive: false,
   },
@@ -73,6 +82,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Bamako",
     paymentMethods: ["orange_money", "moov_money"],
     openCycles: V1_CYCLES,
+    teacherCycles: TEACHER_CYCLES,
     tutorLanguages: ["fr", "en"],
     isActive: false,
   },
@@ -85,6 +95,7 @@ export const COUNTRIES: readonly CountryConfig[] = [
     timezone: "Africa/Douala",
     paymentMethods: ["orange_money", "mtn_momo"],
     openCycles: V1_CYCLES,
+    teacherCycles: TEACHER_CYCLES,
     tutorLanguages: ["fr", "en"],
     isActive: false,
   },
@@ -131,9 +142,16 @@ export function isTutorLanguageOffered(countryCode: string, language: string): l
   return getCountry(countryCode)?.tutorLanguages.includes(language as TutorLanguage) ?? false;
 }
 
-/** Vrai si le cycle est ouvert à l'inscription dans ce pays. */
-export function isCycleOpen(countryCode: string, cycle: string): cycle is Cycle {
-  return getCountry(countryCode)?.openCycles.includes(cycle as Cycle) ?? false;
+/** Niveaux proposés à l'inscription dans ce pays, selon le rôle choisi. */
+export function cyclesFor(countryCode: string, role: Role = "eleve"): readonly Cycle[] {
+  const country = getCountry(countryCode);
+  if (!country) return [];
+  return role === "enseignant" ? country.teacherCycles : country.openCycles;
+}
+
+/** Vrai si le cycle est ouvert à l'inscription dans ce pays, pour ce rôle. */
+export function isCycleOpen(countryCode: string, cycle: string, role: Role = "eleve"): cycle is Cycle {
+  return cyclesFor(countryCode, role).includes(cycle as Cycle);
 }
 
 /**

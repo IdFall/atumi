@@ -121,6 +121,19 @@ describe("inscription", () => {
     ).rejects.toThrow(/NIVEAU_NON_OUVERT/);
   });
 
+  it("laisse un enseignant choisir du primaire à l'université, pas un élève", async () => {
+    await asService();
+    await expect(
+      insertUser({ username: "cheikh", cycle: "primaire", guardian_phone: "+221770000000", cgu_accepted: true }),
+    ).rejects.toThrow(/NIVEAU_NON_OUVERT/);
+    for (const cycle of ["primaire", "college", "ecole_superieure"]) {
+      await insertUser({ username: "cheikh", cycle, role: "enseignant", cgu_accepted: true });
+      const row = await db.query<{ cycle: string; role: string }>(`select cycle, role from public.profiles where id = '${C}'`);
+      expect(row.rows).toEqual([{ cycle, role: "enseignant" }]);
+      await db.exec(`delete from auth.users where id = '${C}'`);
+    }
+  });
+
   it("refuse une inscription sans acceptation des CGU", async () => {
     await asService();
     await expect(insertUser({ username: "cheikh", cycle: "universite" })).rejects.toThrow(/CGU/);
