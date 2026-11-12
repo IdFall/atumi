@@ -113,9 +113,10 @@ Enseignants : ATUMI convient aussi aux enseignants (choix « Enseignant » à l'
       body: `Sur le tableau de bord, appuie sur « Importer un cours ». Choisis un module, ou crée-en un, puis un chapitre si tu veux.
 Formats acceptés : PDF et Word (.docx), 20 Mo maximum, et photos de cours (JPG, PNG, WebP), une photo par page. Sur téléphone, le bouton « Prendre une photo de la page » ouvre l'appareil photo. Si ce bouton n'apparaît pas, la lecture des photos n'est pas encore activée : importe un PDF ou un Word.
 Pour une photo nette : page à plat, bien éclairée, sans reflet ni flash, entière dans le cadre, téléphone immobile au-dessus de la page.
+Dès que la photo est prise, ATUMI vérifie sa netteté sur ton téléphone, en une seconde et sans rien envoyer : « Photo nette : tu peux l'importer », ou bien « Ta photo semble floue » ou « trop sombre », avec le bouton « Reprendre la photo ». Si le texte te paraît lisible, tu peux appuyer sur « Importer quand même ».
 Après l'import, ATUMI lit ton document, en général en moins d'une minute. Ensuite tu peux demander une synthèse, faire un quiz ou poser des questions au professeur sur ce cours.
 Pour relire un document importé, ouvre son module dans « Mes cours » et appuie sur le nom du document : il s'affiche dans ATUMI. Le bouton « Fermer » te ramène au module, et « Télécharger » l'enregistre sur ton appareil.
-Si la photo est floue, coupée, trop sombre ou ne montre pas de cours, ATUMI te demande de la reprendre : importe la nouvelle photo. Un document qui n'a pas pu être lu ne compte pas dans ton nombre d'imports, même pendant l'essai.
+Après l'import, ATUMI relit la photo : si elle est floue, coupée, trop sombre ou ne montre pas de cours, il te demande de la reprendre : importe la nouvelle photo. Un document qui n'a pas pu être lu ne compte pas dans ton nombre d'imports, même pendant l'essai.
 Si le fichier est refusé, vérifie son format et sa taille. Un PDF scanné (une image de page, sans texte sélectionnable) ne peut pas être lu : prends plutôt les pages en photo.
 Dans « Mes cours », chaque module indique l'étape suivante : importer un cours, lecture en cours, ou « Faire la synthèse et le quiz ».
 Pour renommer ou supprimer un module, un chapitre ou un document, utilise les boutons « Modifier » et « Supprimer » dans « Mes cours ». Supprimer un chapitre supprime aussi ses documents. La suppression est définitive et ne redonne pas d'import : un document supprimé reste compté dans ton forfait.`,
@@ -259,9 +260,10 @@ Teachers: ATUMI also suits teachers ("A teacher" at sign-up), with the same plan
       body: `On the dashboard, tap "Import a course". Choose a module, or create one, then a chapter if you want.
 Accepted formats: PDF and Word (.docx), 20 MB maximum, and course photos (JPG, PNG, WebP), one photo per page. On a phone, the "Take a photo of the page" button opens the camera. If this button does not appear, reading photos is not enabled yet: import a PDF or Word file.
 For a sharp photo: page flat, well lit, no glare or flash, fully in the frame, phone held still above the page.
+As soon as the photo is taken, ATUMI checks it is sharp on your phone, in a second and without sending anything: "Sharp photo: you can import it", or "Your photo looks blurry" or "too dark", with a "Retake the photo" button. If the text looks readable to you, you can tap "Import anyway".
 After the import, ATUMI reads your document, usually in less than a minute. Then you can ask for a summary, take a quiz or ask the teacher questions about this course.
 To read an imported document again, open its module in "My courses" and tap the document's name: it opens in ATUMI. The "Close" button takes you back to the module, and "Download" saves it on your device.
-If the photo is blurry, cut off, too dark or does not show a course, ATUMI asks you to retake it: import the new photo. A document that could not be read does not count in your number of imports, even during the trial.
+After the import, ATUMI reads the photo again: if it is blurry, cut off, too dark or does not show a course, it asks you to retake it: import the new photo. A document that could not be read does not count in your number of imports, even during the trial.
 If the file is rejected, check its format and size. A scanned PDF (an image of a page, with no selectable text) cannot be read: take photos of the pages instead.
 In "My courses", each module shows the next step: import a course, reading in progress, or "Get the summary and the quiz".
 To rename or delete a module, a chapter or a document, use the "Edit" and "Delete" buttons in "My courses". Deleting a chapter also deletes its documents. Deleting cannot be undone and does not give an import back: a deleted document still counts in your plan.`,
