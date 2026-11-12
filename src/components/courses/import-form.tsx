@@ -265,7 +265,8 @@ export function ImportForm({
               name="file"
               accept={photosEnabled ? `${DOCUMENT_ACCEPT},${PHOTO_ACCEPT}` : DOCUMENT_ACCEPT}
               className="sr-only"
-              onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+              onClick={(e) => (e.currentTarget.value = "")}
+                onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
             />
           </label>
           {photosEnabled ? (
@@ -290,6 +291,7 @@ export function ImportForm({
                 accept={PHOTO_ACCEPT}
                 capture="environment"
                 className="sr-only"
+                onClick={(e) => (e.currentTarget.value = "")}
                 onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
               />
             </label>
@@ -318,13 +320,21 @@ export function ImportForm({
                     accept={PHOTO_ACCEPT}
                     capture="environment"
                     className="sr-only"
-                    onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+                    onClick={(e) => (e.currentTarget.value = "")}
+                onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
                   />
                 </label>
                 <p className="text-xs text-neutral-600 dark:text-neutral-300">{t.import.quality.anywayHint}</p>
               </>
             ) : null}
             {quality === null ? <p>{t.import.photoNotice}</p> : null}
+            <button
+              type="button"
+              onClick={() => pickFile(null)}
+              className="self-start text-sm font-medium text-neutral-600 underline underline-offset-2 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+            >
+              {t.import.quality.cancel}
+            </button>
           </div>
         </div>
       ) : null}

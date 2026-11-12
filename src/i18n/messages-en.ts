@@ -953,6 +953,7 @@ export const en: Messages = {
       dark: "Your photo is too dark: retake it with more light, without flash.",
       retake: "Retake the photo",
       importAnyway: "Import anyway",
+      cancel: "Cancel (remove this photo)",
       anywayHint: "If the text looks readable to you, you can import it anyway: ATUMI will read it again before the summary.",
       preview: "Preview of your photo",
     },
