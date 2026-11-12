@@ -20,6 +20,10 @@ export interface OfferedPlan {
   callMinutesLimit: number | null;
   /** Abonnement : espace (cours + bibliothèque) ; recharge : espace ajouté. null = sans limite. */
   storageBytes: number | null;
+  /** Forfait Enseignant : défi classe (correction publiée par le professeur). */
+  classMode: boolean;
+  /** Parties gardées par défi. */
+  challengePlayLimit: number;
 }
 
 /** Forfaits et recharges en vente dans le pays (les forfaits actifs sont lisibles par RLS). */
@@ -28,7 +32,7 @@ export async function listOfferedPlans(countryCode: string): Promise<OfferedPlan
   const { data, error } = await supabase
     .from("plans")
     .select(
-      "code, kind, label, price_minor, currency, duration_days, quiz_limit, quiz_question_limit, document_limit, tutor_message_limit, research_daily_limit, call_minutes_limit, library_bytes_limit",
+      "code, kind, label, price_minor, currency, duration_days, quiz_limit, quiz_question_limit, document_limit, tutor_message_limit, research_daily_limit, call_minutes_limit, library_bytes_limit, class_mode, challenge_play_limit",
     )
     .eq("country_code", countryCode)
     .in("kind", ["abonnement", "recharge"])
@@ -48,6 +52,8 @@ export async function listOfferedPlans(countryCode: string): Promise<OfferedPlan
     researchDailyLimit: p.research_daily_limit,
     callMinutesLimit: p.call_minutes_limit,
     storageBytes: p.library_bytes_limit === null ? null : Number(p.library_bytes_limit),
+    classMode: Boolean(p.class_mode),
+    challengePlayLimit: p.challenge_play_limit ?? 100,
   }));
 }
 

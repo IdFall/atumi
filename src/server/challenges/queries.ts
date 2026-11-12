@@ -17,11 +17,21 @@ export interface PublicChallenge {
   open: boolean;
   username: string;
   subject: string;
-  /** Bonnes réponses de l'élève qui a lancé le défi. */
-  correct: number;
+  /** Bonnes réponses de l'auteur du défi ; null pour un défi classe (score du professeur caché). */
+  correct: number | null;
   total: number;
   /** Sans les réponses attendues. */
   questions: ChallengeQuestion[];
+  /** Défi classe (forfait Enseignant) : correction montrée seulement après publication. */
+  classMode: boolean;
+  /** Défi classe dont la correction est publiée : réponses attendues par question. */
+  correction: ChallengeCorrection[] | null;
+}
+
+export interface ChallengeCorrection {
+  id: string;
+  expected: number;
+  explanation: string | null;
 }
 
 interface StoredChallengeQuestion extends ChallengeQuestion {
@@ -40,7 +50,7 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
   const service = createServiceClient();
   const { data: challenge } = await service
     .from("quiz_challenges")
-    .select("id, user_id, quiz_id, expires_at, closed_at")
+    .select("id, user_id, quiz_id, expires_at, closed_at, class_mode, correction_published_at")
     .eq("id", challengeId)
     .maybeSingle();
   if (!challenge) return null;
@@ -80,14 +90,21 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
     expectedAnswer: q.expected_answer,
     explanation: q.explanation,
   }));
+  const classMode = Boolean(challenge.class_mode);
+  const published = classMode && challenge.correction_published_at !== null;
   return {
     id: challenge.id,
-    open: isChallengeOpen(challenge, Date.now()),
+    // Correction publiée : plus personne ne joue, le lien montre la correction.
+    open: !published && isChallengeOpen(challenge, Date.now()),
     username: profile.username,
     subject: chapter?.title ?? mod?.name ?? "",
-    correct: correctFromScore(attempt.score, stored.length),
+    correct: classMode ? null : correctFromScore(attempt.score, stored.length),
     total: stored.length,
     questions: stored.map(({ id, prompt, choices }) => ({ id, prompt, choices })),
+    classMode,
+    correction: published
+      ? stored.map((q) => ({ id: q.id, expected: q.expectedAnswer as number, explanation: q.explanation }))
+      : null,
     stored,
   };
 }
@@ -113,20 +130,40 @@ export interface MyChallenge {
   open: boolean;
   expiresAt: string;
   plays: ChallengePlayView[];
+  classMode: boolean;
+  playLimit: number;
+  correctionPublishedAt: string | null;
+  /** Chapitre ou module du quiz, pour le message WhatsApp de la correction. */
+  subject: string;
 }
 
 /** Défi d'un quiz de l'élève connecté, avec les parties de ses amis (RLS). */
 export async function getMyChallenge(quizId: string): Promise<MyChallenge | null> {
   if (!z.uuid().safeParse(quizId).success) return null;
   const supabase = await createUserClient();
-  const { data } = await supabase
+  const [{ data }, { data: quiz }] = await Promise.all([
+    supabase
     .from("quiz_challenges")
-    .select("id, expires_at, closed_at, quiz_challenge_plays(player_name, correct, total, created_at)")
+    .select("id, expires_at, closed_at, class_mode, play_limit, correction_published_at, quiz_challenge_plays(player_name, correct, total, created_at)")
     .eq("quiz_id", quizId)
-    .maybeSingle();
+    .maybeSingle(),
+    supabase.from("quizzes").select("modules(name), chapters(title)").eq("id", quizId).maybeSingle(),
+  ]);
   if (!data) return null;
+  const mod = quiz?.modules as unknown as { name: string } | null;
+  const chapter = quiz?.chapters as unknown as { title: string } | null;
   const plays = (data.quiz_challenge_plays ?? [])
     .map((p) => ({ playerName: p.player_name, correct: p.correct, total: p.total, createdAt: p.created_at }))
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-  return { id: data.id, open: isChallengeOpen(data, Date.now()), expiresAt: data.expires_at, plays };
+  const correctionPublishedAt = data.class_mode ? (data.correction_published_at as string | null) : null;
+  return {
+    id: data.id,
+    open: !correctionPublishedAt && isChallengeOpen(data, Date.now()),
+    expiresAt: data.expires_at,
+    plays,
+    classMode: Boolean(data.class_mode),
+    playLimit: data.play_limit ?? 100,
+    correctionPublishedAt,
+    subject: chapter?.title ?? mod?.name ?? "",
+  };
 }

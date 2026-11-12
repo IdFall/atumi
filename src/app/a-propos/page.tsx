@@ -50,6 +50,11 @@ export default async function AboutPage() {
         </ul>
       </section>
 
+      <section className="flex flex-col gap-2">
+        <h2 className="text-lg font-semibold">{t.about.teachersTitle}</h2>
+        <p className="text-neutral-700 dark:text-neutral-200">{t.about.teachers}</p>
+      </section>
+
       <section id="prof" className="flex scroll-mt-6 flex-col gap-3 rounded-xl border border-neutral-200 p-4 dark:border-neutral-800">
         <div className="flex items-center gap-3">
           <Image src="/prof-atumi.svg" alt={t.tutor.avatarAlt} width={56} height={56} />

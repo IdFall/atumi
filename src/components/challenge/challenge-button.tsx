@@ -13,7 +13,16 @@ import { createChallengeAction } from "@/server/challenges/actions";
  * message prêt à copier et des liens directs vers WhatsApp (application ou
  * WhatsApp Web sur ordinateur), pour ne jamais rester bloqué.
  */
-export function ChallengeButton({ quizId, label = "button" }: { quizId: string; label?: "button" | "shareAgain" | "relaunch" }) {
+export function ChallengeButton({
+  quizId,
+  label = "button",
+  classMode = false,
+}: {
+  quizId: string;
+  label?: "button" | "shareAgain" | "relaunch";
+  /** Défi classe déjà créé : avertissement adapté au professeur. */
+  classMode?: boolean;
+}) {
   const c = useT().challenge;
   const [pending, startTransition] = useTransition();
   const [failed, setFailed] = useState(false);
@@ -30,7 +39,8 @@ export function ChallengeButton({ quizId, label = "button" }: { quizId: string; 
         return;
       }
       const url = `${window.location.origin}${challengePath(result.id)}`;
-      const text = fill(c.shareText, { correct: result.correct, total: result.total, subject: result.subject, url });
+      const values = { correct: result.correct ?? 0, total: result.total, subject: result.subject, url };
+      const text = fill(result.classMode ? c.classShareText : c.shareText, values);
       const mobile = isMobileUserAgent(navigator.userAgent);
       setMessage({ text, mobile });
       if (mobile && navigator.share) {
@@ -66,7 +76,7 @@ export function ChallengeButton({ quizId, label = "button" }: { quizId: string; 
         </svg>
         {pending ? c.preparing : c[label]}
       </button>
-      <p className="text-center text-xs text-neutral-600 dark:text-neutral-300">{c.privacy}</p>
+      <p className="text-center text-xs text-neutral-600 dark:text-neutral-300">{classMode ? c.classPrivacy : c.privacy}</p>
       {failed ? (
         <p role="alert" className="text-center text-sm text-red-700 dark:text-red-400">
           {c.error}

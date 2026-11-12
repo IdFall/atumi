@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
 import { defaultCountry, requiresParentalConsent, type Cycle } from "@/config/countries";
@@ -14,6 +14,12 @@ export function SignUpForm() {
   const t = useT();
   const [state, formAction, pending] = useActionState<FormState, FormData>(signUpAction, {});
   const [role, setRole] = useState<string>(state.values?.role === "enseignant" ? "enseignant" : "eleve");
+  // Lien « Créer mon compte enseignant » (/inscription?role=enseignant) : lu après le premier rendu,
+  // la page d'inscription reste statique.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!state.values && new URLSearchParams(window.location.search).get("role") === "enseignant") setRole("enseignant");
+  }, [state.values]);
   const [cycle, setCycle] = useState<string>(state.values?.cycle ?? "");
   const [adult, setAdult] = useState<boolean>(state.values?.isAdult === "on");
   const err = (name: string) => {

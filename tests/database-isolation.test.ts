@@ -818,6 +818,39 @@ describe("isolation des données entre utilisateurs", () => {
     await expect(db.exec(`select public.record_challenge_play('${id}', 'Awa', 1, 5)`)).rejects.toThrow(/DEFI_TERMINE/);
   });
 
+  it("forfait Enseignant : défi classe et 300 parties par défi, réglages lus par le serveur seul", async () => {
+    await asService();
+    const quizA = (await db.query<{ id: string }>(`select id from public.quizzes where user_id = '${A}' limit 1`)).rows[0].id;
+    expect((await db.query(`select class_mode, play_limit from public.challenge_settings('${A}')`)).rows).toEqual([
+      { class_mode: false, play_limit: 100 },
+    ]);
+    await db.exec(`insert into public.subscriptions (user_id, plan_code, status, amount_minor, currency, payment_provider,
+      payment_reference, starts_at, ends_at)
+      values ('${A}', 'sn-enseignant', 'active', 12000, 'XOF', 'wave', 'WV-PROF', now() - interval '1 day', now() + interval '29 days')`);
+    expect((await db.query(`select class_mode, play_limit from public.challenge_settings('${A}')`)).rows).toEqual([
+      { class_mode: true, play_limit: 300 },
+    ]);
+    // Ni l'élève ni un visiteur ne lisent ces réglages eux-mêmes.
+    await asUser(A);
+    await expect(db.query(`select * from public.challenge_settings('${A}')`)).rejects.toThrow();
+
+    // Le nombre de parties gardées suit le défi.
+    await asService();
+    const id = (
+      await db.query<{ id: string }>(`
+        update public.quiz_challenges set class_mode = true, play_limit = 2, closed_at = null, expires_at = now() + interval '7 days'
+        where quiz_id = '${quizA}' returning id`)
+    ).rows[0].id;
+    await db.exec(`delete from public.quiz_challenge_plays where challenge_id = '${id}'`);
+    for (const name of ["Awa", "Binta", "Coumba"]) await db.exec(`select public.record_challenge_play('${id}', '${name}', 3, 5)`);
+    expect((await db.query(`select 1 from public.quiz_challenge_plays where challenge_id = '${id}'`)).rows).toHaveLength(2);
+    // La publication reste réservée au serveur.
+    await asUser(A);
+    await expect(db.exec(`update public.quiz_challenges set correction_published_at = now()`)).rejects.toThrow();
+    await asService();
+    await db.exec(`delete from public.subscriptions where payment_reference = 'WV-PROF'`);
+  });
+
   it("les textes partagés sont écrits par le serveur, limités par 24 h, visibles par leur seul auteur", async () => {
     await asUser(A);
     await expect(
