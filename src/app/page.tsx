@@ -7,6 +7,7 @@ import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { SynthesisContent } from "@/components/study/synthesis-content";
 import { getT } from "@/i18n/server";
 import { WHATSAPP_ICON } from "@/lib/challenge";
+import { Logo } from "@/components/brand/logo";
 
 /**
  * Accueil public, version claire : fond lumineux avec des halos de couleur
@@ -30,9 +31,8 @@ export default async function Home() {
 
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pb-16 pt-5 sm:px-6 lg:pb-24">
           <nav className="flex items-center justify-between gap-3">
-            <p className="flex items-center gap-2 text-lg font-extrabold tracking-[0.2em] text-primary-strong dark:text-lavande">
-              <span aria-hidden="true" className="atumi-logo-dot h-7 w-7 rounded-full" />
-              {t.app.name}
+            <p>
+              <Logo label={t.app.name} className="text-4xl" />
             </p>
             <div className="flex items-center gap-3">
               <Link href="/a-propos" className="hidden text-sm font-medium text-primary-strong underline-offset-4 hover:underline sm:inline dark:text-lavande">

@@ -5,6 +5,7 @@ import { BackLink } from "@/components/about/back-link";
 import { Hero } from "@/components/layout/hero";
 import { LegalLinks } from "@/components/legal/legal-page";
 import { getT } from "@/i18n/server";
+import { Logo } from "@/components/brand/logo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -19,7 +20,9 @@ export default async function AboutPage() {
       <BackLink label={t.about.back} />
 
       <Hero>
-        <p className="text-sm font-semibold tracking-wide text-lavande">{t.app.name}</p>
+        <p>
+          <Logo label={t.app.name} tone="dark" className="text-3xl" />
+        </p>
         <h1 className="text-3xl font-bold leading-tight">{t.about.title}</h1>
         <p className="text-base text-white/85">{t.about.intro}</p>
         <p className="text-sm font-medium text-lavande">{t.about.nameMeaning}</p>
