@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { ChallengePlay, Invitation } from "@/components/challenge/challenge-play";
+import { ChallengeCorrectionView, ChallengePlay, Invitation } from "@/components/challenge/challenge-play";
 import { fill } from "@/i18n/format";
 import { getT } from "@/i18n/server";
 import { getPublicChallenge } from "@/server/challenges/queries";
@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: PageProps<"/defi/[challengeId
   const { challengeId } = await params;
   const challenge = await getPublicChallenge(challengeId);
   if (!challenge) return { title: t.app.name };
-  const values = { username: challenge.username, correct: challenge.correct, total: challenge.total, subject: challenge.subject };
-  const title = fill(t.challenge.metaTitle, values);
-  const description = fill(t.challenge.metaDescription, values);
+  const values = { username: challenge.username, correct: challenge.correct ?? 0, total: challenge.total, subject: challenge.subject };
+  const title = fill(challenge.classMode ? t.challenge.classMetaTitle : t.challenge.metaTitle, values);
+  const description = fill(challenge.classMode ? t.challenge.classMetaDescription : t.challenge.metaDescription, values);
   return { title, description, openGraph: { title, description, siteName: t.app.name }, robots: { index: false } };
 }
 
@@ -47,22 +47,29 @@ async function Challenge({ params }: { params: PageProps<"/defi/[challengeId]">[
       </>
     );
   }
-  const values = { username: challenge.username, correct: challenge.correct, total: challenge.total, subject: challenge.subject };
+  const values = { username: challenge.username, correct: challenge.correct ?? 0, total: challenge.total, subject: challenge.subject };
   return (
     <>
       <section className="atumi-cosmos relative flex flex-col items-center gap-2 overflow-hidden rounded-3xl px-5 py-6 text-center text-white shadow-lg shadow-primary/20">
         <Image src="/prof-atumi.svg" alt={t.tutor.avatarAlt} width={72} height={72} />
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{c.kicker}</p>
-        <h1 className="text-2xl font-bold">{fill(c.title, values)}</h1>
-        <p className="text-sm text-lavande">{fill(c.intro, values)}</p>
+        <h1 className="text-2xl font-bold">{fill(challenge.classMode ? c.classTitle : c.title, values)}</h1>
+        <p className="text-sm text-lavande">
+          {challenge.correction ? fill(c.correctionIntro, values) : fill(challenge.classMode ? c.classIntro : c.intro, values)}
+        </p>
       </section>
-      {challenge.open ? (
+      {challenge.correction ? (
+        <>
+          <ChallengeCorrectionView challenge={challenge} correction={challenge.correction} />
+          <Invitation />
+        </>
+      ) : challenge.open ? (
         <ChallengePlay challenge={challenge} />
       ) : (
         <>
           <p role="status" className="rounded-xl bg-primary-soft p-4 text-sm text-nuit dark:bg-primary-strong/25 dark:text-lavande">
             <strong className="block">{c.closed}</strong>
-            {fill(c.closedBody, values)}
+            {fill(challenge.classMode ? c.classClosedBody : c.closedBody, values)}
           </p>
           <Invitation />
         </>

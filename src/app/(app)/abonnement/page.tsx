@@ -73,8 +73,10 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
   const askedDuration = Number(one(params.duree));
   const duration = durations.includes(askedDuration) ? askedDuration : (durations[0] ?? 1);
   const shown = subscriptions.filter((p) => monthsOf(p) === duration);
-  // Le forfait le plus complet (le plus cher) de la durée affichée.
-  const topCode = shown.reduce<OfferedPlan | undefined>((best, p) => (!best || p.priceMinor > best.priceMinor ? p : best), undefined)?.code;
+  // Le forfait le plus complet (le plus cher) de la durée affichée, hors forfait Enseignant.
+  const topCode = shown
+    .filter((p) => !p.classMode)
+    .reduce<OfferedPlan | undefined>((best, p) => (!best || p.priceMinor > best.priceMinor ? p : best), undefined)?.code;
   // Le numéro de paiement n'apparaît qu'après le choix d'un forfait ou d'une recharge.
   const chosen = plans.find((p) => p.code === one(params.forfait));
   const subscribed = access.state === "subscribed";
@@ -328,6 +330,7 @@ function PlanCard({
     fill(s.features.messages, { n: n(plan.tutorMessageLimit) }),
     plan.researchDailyLimit !== null ? fill(s.features.research, { n: plan.researchDailyLimit }) : null,
     plan.callMinutesLimit === 0 ? null : fill(callsAvailable ? s.features.calls : s.features.callsSoon, { n: n(plan.callMinutesLimit) }),
+    plan.classMode ? fill(s.features.classMode, { n: plan.challengePlayLimit }) : null,
   ].filter((f): f is string => f !== null);
 
   return (
@@ -339,6 +342,7 @@ function PlanCard({
       <div className="flex items-start justify-between gap-2">
         <h2 className="text-xl font-bold">{plan.label}</h2>
         {top ? <span className="shrink-0 rounded-full bg-primary px-2.5 py-1 text-xs font-bold text-white">{s.topPlan}</span> : null}
+        {plan.classMode ? <span className="shrink-0 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-nuit">{s.teacherPlan}</span> : null}
       </div>
       <p className="flex flex-wrap items-baseline gap-x-2">
         <strong className="text-3xl font-extrabold text-primary-strong dark:text-lavande">{formatMoney(plan.priceMinor, plan.currency, tag)}</strong>

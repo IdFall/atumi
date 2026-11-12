@@ -59,7 +59,7 @@ const fr = {
     teachers: {
       badge: "Vous êtes enseignant ?",
       title: "ATUMI aide aussi les enseignants",
-      intro: "Le même compte, les mêmes forfaits : ATUMI vous fait gagner du temps pour préparer, évaluer et organiser.",
+      intro: "ATUMI vous fait gagner du temps pour préparer, évaluer et organiser. Avec le forfait Enseignant, le défi classe cache votre score et la correction jusqu'à ce que vous la publiiez, pour 300 élèves par défi.",
       points: [
         { title: "Préparer ses cours plus vite", body: "Importez votre propre cours : vous obtenez une synthèse claire et des quiz prêts à l'emploi." },
         { title: "Évaluer sa classe gratuitement", body: "Avec le Défi WhatsApp, partagez un quiz dans le groupe de la classe. Les élèves répondent sans compte, et vous voyez leurs prénoms et leurs scores (jusqu'à 100 par défi, pendant 7 jours)." },
@@ -126,7 +126,7 @@ const fr = {
   /** Pages légales publiques : /conditions (CGU et CGV) et /confidentialite. */
   legal: {
     back: "Retour",
-    updated: "Dernière mise à jour : 11 novembre 2026",
+    updated: "Dernière mise à jour : 12 novembre 2026",
     termsLink: "Conditions d'utilisation et de vente",
     privacyLink: "Confidentialité",
     contactTitle: "Nous écrire",
@@ -168,7 +168,7 @@ const fr = {
         {
           title: "5. Forfaits et prix",
           body: [
-            "Les forfaits (Essentiel, Plus, Premium) sont les mêmes pour tous les utilisateurs. Ils s'achètent pour 1 mois ou 3 mois. Les prix, en francs CFA toutes taxes comprises, et ce que chaque forfait comprend (cours importés, quiz, messages, recherches, minutes d'appel, espace) sont affichés sur la page Abonnement au moment de l'achat.",
+            "Les forfaits Essentiel, Plus et Premium sont ouverts à tous les utilisateurs ; le forfait Enseignant y ajoute le défi classe (correction publiée par l'enseignant). Ils s'achètent pour 1 mois ou 3 mois. Les prix, en francs CFA toutes taxes comprises, et ce que chaque forfait comprend (cours importés, quiz, messages, recherches, minutes d'appel, espace) sont affichés sur la page Abonnement au moment de l'achat.",
             "Un forfait n'est jamais renouvelé automatiquement : à la fin de la période, tu choisis de reprendre ou non un forfait. Les quantités non utilisées ne sont pas reportées sur la période suivante.",
             "Les recharges (pass de minutes d'appel valable 3 jours, espace supplémentaire pour 30 jours) sont réservées aux abonnés. Les minutes ou l'espace non utilisés à la fin de leur durée sont perdus.",
             "ATUMI peut changer ses prix ; un changement ne s'applique jamais à une période déjà payée.",
@@ -919,6 +919,24 @@ const fr = {
     ctaBody: "Importe ton cours (PDF, Word ou photo) : ATUMI en fait une synthèse et des quiz, et Prof NEO répond à tes questions. 24 h d'essai gratuit.",
     cta: "Créer mon compte gratuitement",
     signIn: "J'ai déjà un compte",
+    classPrivacy: "Défi classe : chaque élève voit seulement son propre score. Votre score et la correction restent cachés jusqu'à ce que vous publiiez la correction.",
+    classShareText: "Quiz « {subject} » ({total} questions) sur ATUMI : réponds ici, sans compte 👉 {url}",
+    classResultsTitle: "Résultats de la classe",
+    classNoPlays: "Aucun élève n'a encore répondu. Partagez le lien dans le groupe WhatsApp de la classe.",
+    classCount: "Réponses : {n} sur {max} au plus.",
+    publish: "Publier la correction",
+    publishHint: "Le défi se ferme et le même lien montre la correction à tous les élèves.",
+    published: "Correction publiée le {date} : le lien montre maintenant la correction.",
+    shareCorrection: "Envoyer la correction sur WhatsApp",
+    correctionShareText: "La correction du quiz « {subject} » est disponible sur ATUMI 👉 {url}",
+    classMetaTitle: "Quiz « {subject} » sur ATUMI",
+    classMetaDescription: "{total} questions proposées par {username}. Réponds sans compte.",
+    classTitle: "Quiz de {username}",
+    classIntro: "{username} te propose le quiz « {subject} » : {total} questions, sans compte. La correction viendra plus tard.",
+    classResultBody: "Ton score est enregistré. {username} publiera la correction plus tard, sur ce même lien.",
+    classClosedBody: "{username} a fermé ce quiz. La correction n'est pas encore publiée : reviens plus tard sur ce lien.",
+    correctionTitle: "Correction du quiz",
+    correctionIntro: "{username} a publié la correction du quiz « {subject} ».",
   },
   import: {
     title: "Importer un cours",
@@ -1124,6 +1142,7 @@ const fr = {
       minutesLeft: "{n} min restantes",
     },
     topPlan: "Le plus complet",
+    teacherPlan: "Pour les enseignants",
     durationLabel: "Durée",
     oneMonth: "1 mois",
     months: "{n} mois",
@@ -1141,6 +1160,7 @@ const fr = {
       research: "{n} recherches web par jour",
       calls: "{n} min d'appel voix avec le Prof",
       callsSoon: "{n} min d'appel voix avec le Prof (bientôt)",
+      classMode: "Défi classe : vous publiez la correction quand vous voulez, jusqu'à {n} élèves par défi",
     },
     choose: "Choisir {plan}",
     chosen: "Forfait choisi",

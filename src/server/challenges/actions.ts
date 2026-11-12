@@ -10,7 +10,9 @@ import { computeScore, gradeAnswer } from "@/server/study/quiz";
 
 import { loadChallenge } from "./queries";
 
-export type CreateChallengeResult = { id: string; correct: number; total: number; subject: string } | { error: true };
+export type CreateChallengeResult =
+  | { id: string; correct: number | null; total: number; subject: string; classMode: boolean }
+  | { error: true };
 
 /**
  * Crée le défi d'un quiz déjà passé par l'élève, ou le relance (même lien,
@@ -31,6 +33,10 @@ export async function createChallengeAction(quizId: string): Promise<CreateChall
   if (!attempt) return { error: true };
 
   const service = createServiceClient();
+  // Réglages du forfait en cours (défi classe, parties gardées), figés dans le défi.
+  const { data: settings } = await service.rpc("challenge_settings", { p_user: userId });
+  const setting = (Array.isArray(settings) ? settings[0] : settings) as { class_mode: boolean; play_limit: number } | null;
+  const mode = { class_mode: Boolean(setting?.class_mode), play_limit: setting?.play_limit ?? 100 };
   const expiresAt = new Date(Date.now() + CHALLENGE_DAYS * 24 * 60 * 60 * 1000).toISOString();
   const { data: existing } = await service
     .from("quiz_challenges")
@@ -42,14 +48,14 @@ export async function createChallengeAction(quizId: string): Promise<CreateChall
   if (id) {
     const { error } = await service
       .from("quiz_challenges")
-      .update({ closed_at: null, expires_at: expiresAt })
+      .update({ closed_at: null, expires_at: expiresAt, correction_published_at: null, ...mode })
       .eq("id", id)
       .eq("user_id", userId);
     if (error) return { error: true };
   } else {
     const { data, error } = await service
       .from("quiz_challenges")
-      .insert({ user_id: userId, quiz_id: quizId, expires_at: expiresAt })
+      .insert({ user_id: userId, quiz_id: quizId, expires_at: expiresAt, ...mode })
       .select("id")
       .single();
     if (error || !data) return { error: true };
@@ -59,7 +65,7 @@ export async function createChallengeAction(quizId: string): Promise<CreateChall
   const challenge = await loadChallenge(id);
   if (!challenge) return { error: true };
   revalidatePath(`/quiz/${quizId}`);
-  return { id, correct: challenge.correct, total: challenge.total, subject: challenge.subject };
+  return { id, correct: challenge.correct, total: challenge.total, subject: challenge.subject, classMode: challenge.classMode };
 }
 
 /** L'élève arrête son défi avant la fin des 7 jours : le lien ne permet plus de jouer. */
@@ -76,6 +82,34 @@ export async function closeChallengeAction(formData: FormData): Promise<void> {
   if (typeof quizId === "string" && z.uuid().safeParse(quizId).success) revalidatePath(`/quiz/${quizId}`);
 }
 
+/**
+ * Défi classe : le professeur publie la correction. Le défi se ferme et le même
+ * lien montre la correction à tous.
+ */
+export async function publishCorrectionAction(formData: FormData): Promise<void> {
+  const userId = await requireUserId();
+  const challengeId = formData.get("challengeId");
+  const quizId = formData.get("quizId");
+  if (typeof challengeId !== "string" || !z.uuid().safeParse(challengeId).success) return;
+  const service = createServiceClient();
+  const { data: challenge } = await service
+    .from("quiz_challenges")
+    .select("closed_at")
+    .eq("id", challengeId)
+    .eq("user_id", userId)
+    .eq("class_mode", true)
+    .maybeSingle();
+  if (!challenge) return;
+  const now = new Date().toISOString();
+  await service
+    .from("quiz_challenges")
+    .update({ correction_published_at: now, closed_at: challenge.closed_at ?? now })
+    .eq("id", challengeId)
+    .eq("user_id", userId);
+  if (typeof quizId === "string" && z.uuid().safeParse(quizId).success) revalidatePath(`/quiz/${quizId}`);
+  revalidatePath(`/defi/${challengeId}`);
+}
+
 export interface ChallengeAnswer {
   response: number;
   expected: number;
@@ -85,6 +119,7 @@ export interface ChallengeAnswer {
 
 export interface PlayState {
   error?: "unanswered" | "noName" | "unknown" | "closed";
+  /** Défi classe : `answers` vide, la correction attend la publication du professeur. */
   result?: { correct: number; total: number; answers: Record<string, ChallengeAnswer> };
 }
 
@@ -125,5 +160,5 @@ export async function playChallengeAction(_prev: PlayState, formData: FormData):
   });
   // Arrêté pendant la partie : on ne montre pas la correction.
   if (error?.message.includes("ATUMI_DEFI_TERMINE")) return { error: "closed" };
-  return { result: { correct: score.correct, total: score.total, answers } };
+  return { result: { correct: score.correct, total: score.total, answers: challenge.classMode ? {} : answers } };
 }

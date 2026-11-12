@@ -9,7 +9,7 @@ import { useT } from "@/i18n/client";
 import { challengeOutcome, PLAYER_NAME_MAX } from "@/lib/challenge";
 import { MathText } from "@/components/study/math-text";
 import { playChallengeAction, type PlayState } from "@/server/challenges/actions";
-import type { PublicChallenge } from "@/server/challenges/queries";
+import type { ChallengeCorrection, PublicChallenge } from "@/server/challenges/queries";
 
 /** Partie de l'ami : les mêmes questions, puis le score comparé et l'invitation. */
 export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
@@ -18,9 +18,27 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
   const [state, action, pending] = useActionState<PlayState, FormData>(playChallengeAction, {});
   const names = { username: challenge.username };
 
+  if (state.result && challenge.correct === null) {
+    // Défi classe : seulement le score de l'élève ; la correction viendra du professeur.
+    const { correct, total } = state.result;
+    return (
+      <div className="flex flex-col gap-5">
+        <section role="status" className="flex flex-col gap-1 rounded-2xl bg-gradient-to-br from-primary to-electrique p-5 text-center text-white shadow-lg">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{c.resultTitle}</p>
+          <p className="text-4xl font-bold">
+            {correct}/{total}
+          </p>
+          <p className="text-sm text-lavande">{fill(c.classResultBody, names)}</p>
+        </section>
+        <Invitation />
+      </div>
+    );
+  }
+
   if (state.result) {
     const { correct, total, answers } = state.result;
-    const outcome = challengeOutcome(correct, challenge.correct);
+    const theirs = challenge.correct ?? 0;
+    const outcome = challengeOutcome(correct, theirs);
     return (
       <div className="flex flex-col gap-5">
         <section
@@ -34,7 +52,7 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
             {correct}/{total}
           </p>
           <p className="text-lg font-semibold">{fill(c[outcome], names)}</p>
-          <p className="text-sm text-lavande">{fill(c.versus, { ...names, mine: correct, theirs: challenge.correct, total })}</p>
+          <p className="text-sm text-lavande">{fill(c.versus, { ...names, mine: correct, theirs, total })}</p>
         </section>
 
         <Invitation />
@@ -138,6 +156,41 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
         {c.play}
       </button>
     </form>
+  );
+}
+
+/** Défi classe dont la correction est publiée : questions, bonne réponse et explication. */
+export function ChallengeCorrectionView({ challenge, correction }: { challenge: PublicChallenge; correction: ChallengeCorrection[] }) {
+  const t = useT();
+  const byId = new Map(correction.map((a) => [a.id, a]));
+  return (
+    <section className="flex flex-col gap-3">
+      <h2 className="text-lg font-bold">{t.challenge.correctionTitle}</h2>
+      <ol className="flex flex-col gap-3">
+        {challenge.questions.map((q, index) => {
+          const a = byId.get(q.id);
+          if (!a) return null;
+          return (
+            <li key={q.id} className="flex flex-col gap-1.5 rounded-xl border border-neutral-200 bg-white p-4 text-sm leading-relaxed dark:border-neutral-800 dark:bg-neutral-900">
+              <strong className="text-primary-strong dark:text-lavande">
+                {t.quiz.question} {index + 1}
+              </strong>
+              <span>
+                <MathText text={q.prompt} />
+              </span>
+              <span className="font-semibold text-green-800 dark:text-green-200">
+                ✓ <MathText text={q.choices[a.expected] ?? ""} />
+              </span>
+              {a.explanation ? (
+                <span className="text-neutral-700 dark:text-neutral-300">
+                  <MathText text={a.explanation} />
+                </span>
+              ) : null}
+            </li>
+          );
+        })}
+      </ol>
+    </section>
   );
 }
 

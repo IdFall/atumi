@@ -186,9 +186,10 @@ L'onglet « Outils » regroupe une calculatrice scientifique, des conversions d'
     {
       id: "enseignants",
       title: "ATUMI pour les enseignants",
-      body: `Les enseignants peuvent utiliser ATUMI : à l'inscription, choisissez « Enseignant » dans « Je suis », puis le niveau où vous enseignez (lycée ou université). Pas d'avis aux parents pour un enseignant. Les forfaits sont les mêmes que pour les élèves.
+      body: `Les enseignants peuvent utiliser ATUMI : à l'inscription, choisissez « Enseignant » dans « Je suis », puis le niveau où vous enseignez (lycée ou université). Pas d'avis aux parents pour un enseignant. Les forfaits Essentiel, Plus et Premium sont ouverts aux enseignants ; le forfait Enseignant contient tout le Premium et ajoute le défi classe.
 Préparer ses cours : importez votre propre cours (PDF, Word ou photo) pour obtenir une synthèse claire et des quiz prêts à l'emploi.
 Évaluer sa classe gratuitement : passez d'abord le quiz une fois vous-même, puis appuyez sur « Défier un ami sur WhatsApp » sous la correction et partagez le lien dans le groupe WhatsApp de la classe. Les élèves répondent sans compte et voient la correction ; vous voyez leurs prénoms et leurs scores sous votre correction (100 participations au plus par défi). Le défi reste ouvert 7 jours et peut être arrêté avant.
+Défi classe (forfait Enseignant seulement) : les élèves voient seulement leur propre score, ni le vôtre ni la correction ; jusqu'à 300 élèves par défi. Sous votre correction, « Résultats de la classe » liste les prénoms et scores. Quand vous voulez, appuyez sur « Publier la correction » : le défi se ferme et le même lien montre la correction à tous ; le bouton « Envoyer la correction sur WhatsApp » prévient la classe.
 Approfondir : Prof NEO (modes Explication, Approfondir le chapitre, Culture générale) et la recherche web avec ses sources aident à préparer une explication, un exemple ou un schéma.
 Organiser : agenda, emploi du temps et Ma bibliothèque pour ranger vos PDF.
 Pas encore disponible : espace classe, suivi individuel des élèves, correction de copies.`,
@@ -321,9 +322,10 @@ The "Tools" tab gathers a scientific calculator, unit conversions, the periodic 
     {
       id: "enseignants",
       title: "ATUMI for teachers",
-      body: `Teachers can use ATUMI: when signing up, choose "A teacher" under "I am", then the level you teach (high school or university). No parent notice for a teacher. Plans are the same as for students.
+      body: `Teachers can use ATUMI: when signing up, choose "A teacher" under "I am", then the level you teach (high school or university). No parent notice for a teacher. The Essentiel, Plus and Premium plans are open to teachers; the Teacher plan includes all of Premium and adds the class challenge.
 Prepare lessons: import your own course (PDF, Word or photo) to get a clear summary and ready-to-use quizzes.
 Assess your class for free: take the quiz once yourself first, then tap "Challenge a friend on WhatsApp" under the correction and share the link in the class WhatsApp group. Students answer without an account and see the correction; you see their first names and scores under your correction (100 plays at most per challenge). The challenge stays open 7 days and can be stopped earlier.
+Class challenge (Teacher plan only): students only see their own score, neither yours nor the correction; up to 300 students per challenge. Under your correction, "Class results" lists first names and scores. When you want, tap "Publish the correction": the challenge closes and the same link shows the correction to everyone; the "Send the correction on WhatsApp" button lets the class know.
 Go deeper: Prof NEO (Explanation, Go deeper into the chapter, General knowledge modes) and web search with sources help you prepare an explanation, an example or a diagram.
 Get organised: planner, timetable and My library for your PDFs.
 Not available yet: class space, individual student tracking, marking work.`,

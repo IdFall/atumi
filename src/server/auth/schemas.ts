@@ -3,7 +3,7 @@ import { z } from "zod";
 import { countryFromPhone, getCountry, isCycleOpen, requiresParentalConsent, toE164, type Cycle } from "@/config/countries";
 import type { AuthErrorKey } from "@/i18n/messages";
 
-export const CGU_VERSION = "2026-11-11";
+export const CGU_VERSION = "2026-11-12";
 
 export type Identifier = { kind: "email"; email: string } | { kind: "phone"; phone: string };
 
