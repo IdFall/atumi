@@ -11,6 +11,7 @@ import { getAiProvider } from "@/server/ai/provider";
 import { requireUserId } from "@/server/auth/session";
 import { enqueue } from "@/server/jobs/client";
 import { QUEUES } from "@/server/jobs/queues";
+import { helpMessageSchema, helpQuestionSchema } from "@/server/validation";
 
 import { articlesForCountry } from "./queries";
 
@@ -19,8 +20,8 @@ export interface HelpFormState {
   sent?: boolean;
 }
 
-const questionSchema = z.string().trim().min(1).max(1000);
-const messageSchema = z.string().trim().min(1).max(2000);
+const questionSchema = helpQuestionSchema;
+const messageSchema = helpMessageSchema;
 
 function field(formData: FormData, name: string): string {
   const value = formData.get(name);

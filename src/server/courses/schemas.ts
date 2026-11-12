@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import type { CoursesErrorKey, ImportErrorKey } from "@/i18n/messages";
+import { safeText } from "@/server/validation";
 import { ACCEPTED_MIME_TYPES, EXTENSION_BY_MIME, isImageMime, MAX_DOCUMENT_BYTES, MAX_IMAGE_BYTES } from "@/config/documents";
 
 export { EXTENSION_BY_MIME };
@@ -11,8 +12,8 @@ export type DocumentKind = (typeof DOCUMENT_KINDS)[number];
 /** Choix proposés à l'import (les exercices viendront avec le mode S'exercer). */
 export const IMPORT_KINDS = ["cours", "examen", "devoir"] as const satisfies readonly DocumentKind[];
 
-const moduleName = z.string().trim().min(1).max(120);
-const chapterTitle = z.string().trim().min(1).max(200);
+const moduleName = safeText(1, 120);
+const chapterTitle = safeText(1, 200);
 
 export function parseModuleName(value: unknown): { ok: true; name: string } | { ok: false; error: CoursesErrorKey } {
   const parsed = moduleName.safeParse(value);

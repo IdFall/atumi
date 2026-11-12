@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 import { isImageMime } from "@/config/documents";
 import type { CoursesErrorKey, ImportErrorKey } from "@/i18n/messages";
@@ -44,6 +45,7 @@ export async function createModuleAction(_prev: CoursesFormState, formData: Form
 export async function createChapterAction(_prev: CoursesFormState, formData: FormData): Promise<CoursesFormState> {
   const userId = await requireUserId();
   const moduleId = field(formData, "moduleId");
+  if (!z.uuid().safeParse(moduleId).success) return { error: "unknown" };
   const parsed = parseChapterTitle(field(formData, "title"));
   if (!parsed.ok) return { error: parsed.error };
 

@@ -9,12 +9,13 @@ import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { getAiProvider } from "@/server/ai/provider";
 import { askResearch } from "@/server/ai/research";
 import { getCurrentUser, requireUserId } from "@/server/auth/session";
+import { researchQuestionSchema } from "@/server/validation";
 
 export interface ResearchFormState {
   error?: ResearchErrorKey;
 }
 
-const questionSchema = z.string().trim().min(3).max(500);
+const questionSchema = researchQuestionSchema;
 
 function quotaError(message: string): ResearchErrorKey {
   if (message.includes("LULU_QUOTA_RECHERCHE_ATTEINT")) return "quotaReached";

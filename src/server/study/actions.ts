@@ -9,6 +9,7 @@ import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { getLocale } from "@/i18n/server";
 import { contestationReply } from "@/server/ai/tutor";
 import { requireUserId } from "@/server/auth/session";
+import { contestReasonSchema } from "@/server/validation";
 import { enqueue } from "@/server/jobs/client";
 import { QUEUES } from "@/server/jobs/queues";
 
@@ -213,7 +214,8 @@ export interface ContestState {
 export async function contestAnswerAction(_prev: ContestState, formData: FormData): Promise<ContestState> {
   const userId = await requireUserId();
   const answerId = field(formData, "answerId");
-  const reason = field(formData, "reason").trim().slice(0, 1000);
+  const reasonParsed = contestReasonSchema.safeParse(field(formData, "reason").slice(0, 2000));
+  const reason = reasonParsed.success ? reasonParsed.data : "";
   if (!z.uuid().safeParse(answerId).success) return { error: true };
 
   const supabase = await createUserClient();
