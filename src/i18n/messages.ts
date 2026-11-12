@@ -337,8 +337,10 @@ const fr = {
     },
     roles: { eleve: "Élève ou étudiant", enseignant: "Enseignant" },
     cycles: {
+      primaire: "Primaire",
       college: "Collège",
       lycee: "Lycée",
+      ecole_superieure: "École supérieure",
       universite: "Université",
     },
     submitSignUp: "Créer mon compte",

@@ -328,8 +328,10 @@ export const en: Messages = {
     },
     roles: { eleve: "A student", enseignant: "A teacher" },
     cycles: {
+      primaire: "Primary school",
       college: "Middle school",
       lycee: "High school",
+      ecole_superieure: "Higher education school",
       universite: "University",
     },
     submitSignUp: "Create my account",

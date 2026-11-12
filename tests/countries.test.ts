@@ -31,6 +31,14 @@ describe("pays", () => {
     expect(isCycleOpen("SN", "universite")).toBe(true);
     expect(isCycleOpen("SN", "college")).toBe(false);
     expect(isCycleOpen("SN", "maternelle")).toBe(false);
+    expect(isCycleOpen("SN", "primaire")).toBe(false);
+  });
+
+  it("propose à un enseignant tous les niveaux, du primaire à l'université", () => {
+    for (const cycle of ["primaire", "college", "lycee", "ecole_superieure", "universite"]) {
+      expect(isCycleOpen("SN", cycle, "enseignant")).toBe(true);
+    }
+    expect(isCycleOpen("SN", "maternelle", "enseignant")).toBe(false);
   });
 
   it("propose le français et l'anglais au Sénégal, le wolof restant en attente", () => {

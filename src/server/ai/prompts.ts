@@ -11,8 +11,10 @@ import type { SourcePassage } from "./types";
 export type TutorMode = "expliquer" | "approfondir" | "exercer" | "decouvrir";
 
 const CYCLE_LABEL: Record<Cycle, string> = {
+  primaire: "un élève du primaire",
   college: "un collégien",
   lycee: "un lycéen",
+  ecole_superieure: "un étudiant d'école supérieure",
   universite: "un étudiant",
 };
 

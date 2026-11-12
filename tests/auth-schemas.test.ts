@@ -48,6 +48,11 @@ describe("inscription", () => {
   it("un enseignant au lycée n'a pas besoin du numéro d'un parent", () => {
     const teacher = parseSignUp({ ...base, cycle: "lycee", role: "enseignant" }, "SN");
     expect(teacher.ok && teacher.data).toMatchObject({ role: "enseignant", cycle: "lycee", guardianPhone: null });
+    // Primaire et école supérieure : pour un enseignant seulement.
+    const primary = parseSignUp({ ...base, cycle: "primaire", role: "enseignant" }, "SN");
+    expect(primary.ok && primary.data).toMatchObject({ role: "enseignant", cycle: "primaire", guardianPhone: null });
+    expect(parseSignUp({ ...base, cycle: "ecole_superieure", role: "enseignant" }, "SN").ok).toBe(true);
+    expect(parseSignUp({ ...base, cycle: "primaire" }, "SN")).toEqual({ ok: false, errors: { cycle: "cycleNotOpen" } });
     // Valeur inconnue : élève.
     const other = parseSignUp({ ...base, role: "admin" }, "SN");
     expect(other.ok && other.data.role).toBe("eleve");
