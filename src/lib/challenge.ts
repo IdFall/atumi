@@ -16,7 +16,13 @@ export function isChallengeOpen(challenge: { closed_at: string | null; expires_a
 
 /** Prénom de l'ami : espaces resserrés, 20 caractères au plus ; null s'il est vide. */
 export function cleanPlayerName(raw: string): string | null {
-  const name = raw.replace(/\s+/g, " ").trim().slice(0, PLAYER_NAME_MAX).trim();
+  // Caractères de contrôle et marques de direction retirés (prénom affiché à l'élève).
+  const name = raw
+    .replace(/[\u0000-\u001F\u007F\u200B-\u200F\u2028-\u202E\u2066-\u2069\uFEFF]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, PLAYER_NAME_MAX)
+    .trim();
   return name.length > 0 ? name : null;
 }
 

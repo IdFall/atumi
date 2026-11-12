@@ -17,6 +17,7 @@ import { getAiProvider } from "@/server/ai/provider";
 import { askFurther } from "@/server/ai/research";
 import { askTutor } from "@/server/ai/tutor";
 import { requireUserId } from "@/server/auth/session";
+import { TUTOR_MODES, tutorInputSchema } from "@/server/validation";
 
 import { resolveBoardImages } from "./board-images";
 import { findPassages } from "./passages";
@@ -27,17 +28,11 @@ export interface TutorFormState {
   error?: TutorErrorKey;
 }
 
-const MODES = ["expliquer", "approfondir", "exercer", "decouvrir"] as const satisfies readonly TutorMode[];
+TUTOR_MODES satisfies readonly TutorMode[];
 /** Nombre de messages récents renvoyés au modèle comme historique. */
 const HISTORY_SIZE = 10;
 
-const inputSchema = z.object({
-  conversationId: z.union([z.uuid(), z.literal("")]),
-  mode: z.enum(MODES),
-  moduleId: z.union([z.uuid(), z.literal("")]),
-  chapterId: z.union([z.uuid(), z.literal("")]),
-  text: z.string().trim().min(1).max(4000),
-});
+const inputSchema = tutorInputSchema;
 
 function field(formData: FormData, name: string): string {
   const value = formData.get(name);

@@ -2,6 +2,7 @@
 
 import { createServiceClient } from "@/lib/supabase/server";
 import { requireUserId } from "@/server/auth/session";
+import { sharedTextSchema } from "@/server/validation";
 
 export type CreateShareResult = { id: string } | { error: "quota" | "unknown" };
 
@@ -12,9 +13,11 @@ export type CreateShareResult = { id: string } | { error: "quota" | "unknown" };
  */
 export async function createSharedTextAction(title: string, markdown: string): Promise<CreateShareResult> {
   const userId = await requireUserId();
-  const cleanTitle = title.trim().slice(0, 200);
-  const content = markdown.trim();
-  if (!cleanTitle || !content || content.length > 60_000) return { error: "unknown" };
+  // Appel direct possible avec n'importe quelles valeurs : tout est revérifié ici.
+  const parsed = sharedTextSchema.safeParse({ title: typeof title === "string" ? title.slice(0, 2000) : title, content: markdown });
+  if (!parsed.success) return { error: "unknown" };
+  const cleanTitle = parsed.data.title.slice(0, 200);
+  const content = parsed.data.content;
   const { data, error } = await createServiceClient()
     .from("shared_texts")
     .insert({ user_id: userId, title: cleanTitle, content_md: content })

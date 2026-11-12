@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import type { AgendaErrorKey } from "@/i18n/messages";
+import { safeText } from "@/server/validation";
 
 export const EVENT_KINDS = ["devoir", "examen", "autre"] as const;
 export type EventKind = (typeof EVENT_KINDS)[number];
@@ -9,10 +10,10 @@ const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
 
 const eventSchema = z.object({
   kind: z.enum(EVENT_KINDS),
-  title: z.string().trim().min(1).max(200),
+  title: safeText(1, 200),
   dueOn: z.iso.date(),
   dueTime: z.union([z.literal(""), time]).transform((v) => (v === "" ? null : v)),
-  note: z.string().trim().max(1000).transform((v) => (v === "" ? null : v)),
+  note: safeText(0, 1000).transform((v) => (v === "" ? null : v)),
 });
 
 const slotSchema = z
@@ -20,8 +21,8 @@ const slotSchema = z
     weekday: z.coerce.number().int().min(1).max(7),
     startsAt: time,
     endsAt: time,
-    label: z.string().trim().min(1).max(120),
-    place: z.string().trim().max(80).transform((v) => (v === "" ? null : v)),
+    label: safeText(1, 120),
+    place: safeText(0, 80).transform((v) => (v === "" ? null : v)),
   })
   .refine((s) => s.endsAt > s.startsAt, { path: ["endsAt"] });
 

@@ -1,22 +1,18 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 import type { SubscribeErrorKey } from "@/i18n/messages";
 import { createUserClient } from "@/lib/supabase/server";
 import { requireUserId } from "@/server/auth/session";
+import { paymentRequestSchema } from "@/server/validation";
 
 export interface PaymentRequestState {
   error?: SubscribeErrorKey;
   sent?: boolean;
 }
 
-const schema = z.object({
-  planCode: z.string().min(1).max(60),
-  provider: z.string().regex(/^[a-z_]{2,30}$/),
-  reference: z.string().trim().min(3).max(80),
-});
+const schema = paymentRequestSchema;
 
 function field(formData: FormData, name: string): string {
   const value = formData.get(name);
