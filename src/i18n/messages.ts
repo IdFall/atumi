@@ -962,6 +962,7 @@ const fr = {
       dark: "Ta photo est trop sombre : reprends-la avec plus de lumière, sans flash.",
       retake: "Reprendre la photo",
       importAnyway: "Importer quand même",
+      cancel: "Annuler (retirer cette photo)",
       anywayHint: "Si le texte te paraît lisible, tu peux l'importer quand même : ATUMI la relira avant la synthèse.",
       preview: "Aperçu de ta photo",
     },
