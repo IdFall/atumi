@@ -1,8 +1,9 @@
-import { serverEnv } from "@/lib/env";
 import { createUserClient } from "@/lib/supabase/server";
 
+import { voiceAllowedForMe } from "./access";
+
 export interface CallSettings {
-  /** Service de voix configuré (clé Gemini présente). */
+  /** Service de voix configuré (clé Gemini) et ouvert à cet utilisateur (`voiceAllowedForMe`). */
   available: boolean;
   /** Forfait ou essai en cours. */
   hasAccess: boolean;
@@ -12,7 +13,7 @@ export interface CallSettings {
 
 /** Ce que l'interface doit savoir pour proposer (ou non) un appel avec le professeur. */
 export async function getCallSettings(): Promise<CallSettings> {
-  const available = Boolean(serverEnv().GEMINI_API_KEY);
+  const available = await voiceAllowedForMe();
   const supabase = await createUserClient();
   const { data } = await supabase.rpc("call_quota");
   const row = (data as { seconds_remaining: number | null }[] | null)?.[0];

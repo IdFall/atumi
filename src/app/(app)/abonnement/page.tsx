@@ -10,11 +10,11 @@ import { formatBytes } from "@/config/library";
 import { fill } from "@/i18n/format";
 import { DATE_LOCALES, type Messages } from "@/i18n/messages";
 import { getLocale, getT } from "@/i18n/server";
-import { serverEnv } from "@/lib/env";
 import { formatMoney } from "@/lib/money";
 import { getCurrentUser } from "@/server/auth/session";
 import { paymentNumbers } from "@/server/billing/numbers";
 import { getMyUsage, listMyPaymentRequests, listOfferedPlans, type MyUsage, type OfferedPlan } from "@/server/billing/queries";
+import { voiceOpenToAll } from "@/server/calls/access";
 import { getAccess } from "@/server/courses/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -65,7 +65,8 @@ async function SubscribeContent({ searchParams }: { searchParams: PageProps<"/ab
   const [plans, requests] = await Promise.all([listOfferedPlans(user.countryCode), listMyPaymentRequests()]);
   const s = t.subscribe;
   const tag = DATE_LOCALES[locale];
-  const callsAvailable = Boolean(serverEnv().GEMINI_API_KEY);
+  // Appels annoncés « bientôt » tant qu'ils ne sont pas ouverts à tous (clé gratuite).
+  const callsAvailable = voiceOpenToAll();
 
   const subscriptions = plans.filter((p) => p.kind === "abonnement");
   const recharges = plans.filter((p) => p.kind === "recharge");

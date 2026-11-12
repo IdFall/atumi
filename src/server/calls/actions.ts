@@ -13,6 +13,7 @@ import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { callSystemPrompt, type TutorMode } from "@/server/ai/prompts";
 import { createVoiceToken } from "@/server/ai/voice";
 import { requireUserId } from "@/server/auth/session";
+import { voiceAllowedForMe } from "@/server/calls/access";
 
 /**
  * Appels avec le Prof NEO. Le serveur crée l'appel (minutes du forfait
@@ -62,7 +63,7 @@ export async function startCallAction(raw: z.input<typeof startSchema>): Promise
   const input = parsed.data;
 
   const env = serverEnv();
-  if (!env.GEMINI_API_KEY) return { ok: false, error: "unavailable" };
+  if (!env.GEMINI_API_KEY || !(await voiceAllowedForMe())) return { ok: false, error: "unavailable" };
 
   const supabase = await createUserClient();
   const service = createServiceClient();
