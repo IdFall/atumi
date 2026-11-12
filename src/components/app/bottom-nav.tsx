@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { useT } from "@/i18n/client";
+import { Logo } from "@/components/brand/logo";
 
 type NavKey = "home" | "courses" | "library" | "import" | "tutor" | "call" | "agenda" | "timetable" | "search" | "subscribe" | "help";
 
@@ -59,8 +60,8 @@ export function NavBar({ pathname }: { pathname: string | null }) {
   return (
     <>
       <header className="flex items-center justify-between border-b border-neutral-200 px-4 py-2 md:hidden dark:border-neutral-800">
-        <Link href="/tableau-de-bord" className="text-sm font-bold tracking-wide text-primary dark:text-lavande">
-          {t.app.name}
+        <Link href="/tableau-de-bord" className="py-1">
+          <Logo label={t.app.name} className="text-2xl" />
         </Link>
         <div className="flex items-center gap-2">
           <Link
@@ -127,8 +128,8 @@ export function NavBar({ pathname }: { pathname: string | null }) {
         aria-label={t.nav.label}
         className="fixed inset-y-0 left-0 z-10 hidden w-56 flex-col gap-6 bg-nuit px-4 py-6 text-white md:flex"
       >
-        <Link href="/tableau-de-bord" className="px-3 text-lg font-bold tracking-wide text-lavande">
-          {t.app.name}
+        <Link href="/tableau-de-bord" className="self-start px-3">
+          <Logo label={t.app.name} tone="dark" className="text-3xl" />
         </Link>
         <ul className="flex flex-col gap-1">
           {ITEMS.map((item) => {

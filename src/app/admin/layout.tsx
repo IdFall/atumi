@@ -6,6 +6,7 @@ import { AdminNav, AdminNavList } from "@/components/admin/admin-nav";
 import { IdleSignOut } from "@/components/auth/idle-sign-out";
 import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/server/admin/queries";
+import { Logo } from "@/components/brand/logo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
@@ -24,7 +25,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
       <IdleSignOut />
       <aside className="flex flex-col gap-3 bg-nuit px-4 py-4 text-white lg:sticky lg:top-0 lg:h-screen lg:gap-6 lg:py-7">
         <div className="px-3">
-          <p className="text-base font-bold tracking-widest">{t.app.name}</p>
+          <Logo label={t.app.name} tone="dark" className="text-2xl" />
           <p className="text-xs text-neutral-300">{t.admin.title}</p>
         </div>
         <Suspense fallback={<AdminNavList pathname={null} />}>

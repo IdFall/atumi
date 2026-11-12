@@ -141,7 +141,3 @@ body {
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse at 40% 30%, black 25%, transparent 70%);
 }
-.atumi-logo-dot {
-  background: radial-gradient(circle at 30% 30%, #b9a8f2, #7557d9 45%, #4c6bff 75%, #13b8c8);
-  box-shadow: 0 0 18px rgb(117 87 217 / 0.45);
-}
