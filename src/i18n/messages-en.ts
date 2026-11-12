@@ -279,6 +279,7 @@ export const en: Messages = {
           title: "8. Cookies",
           body: [
             "ATUMI only uses necessary cookies: your sign-in session, the time of your last activity (for automatic sign-out) and your language. No advertising or audience measurement cookies.",
+            "Offline mode: pages you opened and the last books you read are kept on your device only, so you can reread them without a connection; they are erased when you sign out or after 1 hour without activity.",
           ],
         },
         {
@@ -1426,6 +1427,26 @@ export const en: Messages = {
       unknownRequest: "Request already handled or not found.",
       invalidNumber: "Check the numbers entered.",
       unknown: "An error occurred. Try again.",
+    },
+  },
+  offline: {
+    title: "No connection",
+    intro: "ATUMI needs the Internet for Prof NEO, quizzes, imports and web search. Meanwhile, reread what you have already opened on this device.",
+    banner: "No connection: you are seeing pages already opened on this device.",
+    savedTitle: "Already opened on this device",
+    savedEmpty: "No saved pages yet. Once online, open your summaries, corrections or planner: they will stay readable without a connection.",
+    works: "Offline, you can reread the summaries, courses, corrected quizzes and Prof answers you already opened, your planner and timetable, books you already read and the tools (calculator, conversions, periodic table).",
+    retry: "Try again",
+    sections: {
+      dashboard: "Home",
+      courses: "My courses",
+      quiz: "Quizzes",
+      tutor: "Prof NEO",
+      agenda: "Planner",
+      timetable: "Timetable",
+      search: "Search and tools",
+      library: "My library",
+      help: "Help",
     },
   },
   locale: {

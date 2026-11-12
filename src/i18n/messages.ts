@@ -288,6 +288,7 @@ const fr = {
           title: "8. Cookies",
           body: [
             "ATUMI n'utilise que des cookies nécessaires : ta session de connexion, l'heure de ta dernière activité (pour la déconnexion automatique) et ta langue. Aucun cookie de publicité ni de mesure d'audience.",
+            "Mode hors ligne : les pages que tu as ouvertes et les derniers livres lus sont gardés sur ton appareil seulement, pour les relire sans connexion ; ils sont effacés à la déconnexion ou après 1 h sans activité.",
           ],
         },
         {
@@ -1439,6 +1440,26 @@ const fr = {
       unknownRequest: "Demande déjà traitée ou introuvable.",
       invalidNumber: "Vérifie les nombres saisis.",
       unknown: "Une erreur est survenue. Réessaie.",
+    },
+  },
+  offline: {
+    title: "Pas de connexion",
+    intro: "ATUMI a besoin d'Internet pour le Prof NEO, les quiz, l'import et la recherche web. En attendant, relis ce que tu as déjà ouvert sur cet appareil.",
+    banner: "Pas de connexion : tu vois les pages déjà ouvertes sur cet appareil.",
+    savedTitle: "Déjà ouvert sur cet appareil",
+    savedEmpty: "Aucune page gardée pour l'instant. Une fois connecté, ouvre tes synthèses, tes corrections ou ton agenda : ils resteront lisibles sans connexion.",
+    works: "Hors ligne, tu peux relire tes synthèses, tes cours, tes quiz corrigés et les réponses du Prof déjà ouverts, ton agenda et ton emploi du temps, les livres déjà lus et les outils (calculatrice, conversions, tableau périodique).",
+    retry: "Réessayer",
+    sections: {
+      dashboard: "Accueil",
+      courses: "Mes cours",
+      quiz: "Quiz",
+      tutor: "Prof NEO",
+      agenda: "Agenda",
+      timetable: "Emploi du temps",
+      search: "Recherche et outils",
+      library: "Ma bibliothèque",
+      help: "Aide",
     },
   },
   locale: {
