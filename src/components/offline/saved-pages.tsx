@@ -16,7 +16,7 @@ function pageTitle(html: string, fallback: string): string {
   const raw = match?.[1]?.trim();
   if (!raw) return fallback;
   const text = new DOMParser().parseFromString(raw, "text/html").documentElement.textContent ?? raw;
-  return text.replace(/\s·\sATUMI$/, "").trim() || fallback;
+  return text.replace(/\s·\s(?:ATUMI|AtumiNeo)$/, "").trim() || fallback;
 }
 
 async function readSavedPages(): Promise<SavedPage[]> {

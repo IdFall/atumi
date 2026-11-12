@@ -44,9 +44,9 @@ export const MAX_SOURCE_CHARS = 60_000;
 
 export const STUDY_FAILURES = {
   noContent: "Aucun document lisible dans ce chapitre pour l'instant.",
-  refused: "ATUMI n'a pas pu traiter ce contenu.",
+  refused: "AtumiNeo n'a pas pu traiter ce contenu.",
   invalid: "La génération n'a pas abouti. Réessaie dans un instant.",
-  aiDisabled: "Le service d'IA d'ATUMI n'est pas encore activé. Réessaie plus tard.",
+  aiDisabled: "Le service d'IA d'AtumiNeo n'est pas encore activé. Réessaie plus tard.",
 } as const;
 
 /** Sans clé d'API, inutile de relancer : la ligne est clôturée tout de suite. */

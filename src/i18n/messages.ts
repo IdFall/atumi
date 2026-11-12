@@ -8,14 +8,14 @@ import { en } from "./messages-en";
  */
 const fr = {
   app: {
-    name: "ATUMI",
+    name: "AtumiNeo",
     tagline: "Ton compagnon d'apprentissage, du lycée à l'université.",
   },
   home: {
-    slogan: "Avec ATUMI, développe tes capacités.",
+    slogan: "Avec AtumiNeo, développe tes capacités.",
     badge: "Ton professeur IA, 24 h/24",
     heroIntro:
-      "Importe tes cours (PDF, Word ou photo). ATUMI en fait une synthèse, Prof NEO t'explique au tableau ce que tu ne comprends pas, et les quiz te font progresser.",
+      "Importe tes cours (PDF, Word ou photo). AtumiNeo en fait une synthèse, Prof NEO t'explique au tableau ce que tu ne comprends pas, et les quiz te font progresser.",
     stats: [
       { value: "PDF · Word · Photo", label: "tes cours, tels quels" },
       { value: "FR · EN", label: "le Prof parle ta langue" },
@@ -51,15 +51,15 @@ const fr = {
     quoteOpen: "« ",
     quoteClose: " »",
     quote: "La connaissance a un prix : celui de l'effort.",
-    quoteNote: "ATUMI t'aide à le payer chaque jour, à ton rythme.",
+    quoteNote: "AtumiNeo t'aide à le payer chaque jour, à ton rythme.",
     trial: "Essai gratuit de 24 heures, qui démarre à ton premier import.",
     signUp: "Créer mon compte",
     signIn: "Me connecter",
-    aboutLink: "Qui est ATUMI ?",
+    aboutLink: "Qui est AtumiNeo ?",
     teachers: {
       badge: "Vous êtes enseignant ?",
-      title: "ATUMI aide aussi les enseignants",
-      intro: "ATUMI vous fait gagner du temps pour préparer, évaluer et organiser. Avec le forfait Enseignant, le défi classe cache votre score et la correction jusqu'à ce que vous la publiiez, pour 300 élèves par défi.",
+      title: "AtumiNeo aide aussi les enseignants",
+      intro: "AtumiNeo vous fait gagner du temps pour préparer, évaluer et organiser. Avec le forfait Enseignant, le défi classe cache votre score et la correction jusqu'à ce que vous la publiiez, pour 300 élèves par défi.",
       points: [
         { title: "Préparer ses cours plus vite", body: "Importez votre propre cours : vous obtenez une synthèse claire et des quiz prêts à l'emploi." },
         { title: "Évaluer sa classe gratuitement", body: "Avec le Défi WhatsApp, partagez un quiz dans le groupe de la classe. Les élèves répondent sans compte, et vous voyez leurs prénoms et leurs scores (jusqu'à 100 par défi, pendant 7 jours)." },
@@ -89,21 +89,21 @@ const fr = {
       mockShare: "Défier un ami sur WhatsApp",
     },
   },
-  /** Présentation d'ATUMI et de Prof NEO (page /a-propos et article d'aide). */
+  /** Présentation d'AtumiNeo et de Prof NEO (page /a-propos et article d'aide). */
   about: {
-    title: "Qui est ATUMI ?",
-    nameMeaning: "Le « I » d'ATUMI veut dire Intelligent : un savoir qui se construit point par point, avec toi.",
-    intro: "ATUMI est une application de révision avec un professeur IA, pensée pour les lycéens et les étudiants.",
+    title: "Qui est AtumiNeo ?",
+    nameMeaning: "Dans AtumiNeo, le « I » veut dire Intelligent : un savoir qui se construit point par point, avec toi. « Neo » rappelle Prof NEO, ton professeur IA.",
+    intro: "AtumiNeo est une application de révision avec un professeur IA, pensée pour les lycéens et les étudiants.",
     missionTitle: "Notre objectif",
     mission:
       "Aider chaque élève et chaque étudiant à comprendre ses cours et à réussir ses examens, à son rythme, à partir de ses propres documents.",
-    roleTitle: "Ce que fait ATUMI",
+    roleTitle: "Ce que fait AtumiNeo",
     roles: [
       "Il lit les cours que tu importes et en fait une synthèse claire.",
       "Il te fait réviser avec des quiz tirés de ton cours, corrigés tout de suite.",
       "Il te donne un professeur IA disponible à toute heure, qui cite les pages de ton cours.",
     ],
-    limitsTitle: "Ce qu'ATUMI ne fait pas",
+    limitsTitle: "Ce qu'AtumiNeo ne fait pas",
     limits: [
       "Il ne fait pas tes devoirs à ta place : il t'aide à les réussir toi-même.",
       "Il ne remplace pas tes professeurs : il t'accompagne entre deux cours.",
@@ -120,7 +120,7 @@ const fr = {
     profRule: "Sa règle d'or : te faire réfléchir avant de te donner la réponse.",
     profLanguages: "Tu choisis la langue de ses réponses parmi celles proposées dans ton pays.",
     teachersTitle: "Et pour les enseignants ?",
-    teachers: "Un enseignant utilise ATUMI avec les mêmes forfaits : il importe ses propres cours pour obtenir synthèses et quiz, évalue sa classe avec le Défi WhatsApp (les élèves répondent sans compte, il voit leurs scores), prépare ses explications avec Prof NEO et la recherche web, et organise son agenda et sa bibliothèque.",
+    teachers: "Un enseignant utilise AtumiNeo avec les mêmes forfaits : il importe ses propres cours pour obtenir synthèses et quiz, évalue sa classe avec le Défi WhatsApp (les élèves répondent sans compte, il voit leurs scores), prépare ses explications avec Prof NEO et la recherche web, et organise son agenda et sa bibliothèque.",
     back: "Retour",
   },
   /** Pages légales publiques : /conditions (CGU et CGV) et /confidentialite. */
@@ -134,20 +134,20 @@ const fr = {
     terms: {
       title: "Conditions d'utilisation et de vente",
       intro:
-        "Ces conditions s'appliquent à toute personne qui crée un compte ATUMI, utilise l'application ou achète un forfait. En cochant la case à l'inscription, tu les acceptes.",
+        "Ces conditions s'appliquent à toute personne qui crée un compte AtumiNeo, utilise l'application ou achète un forfait. En cochant la case à l'inscription, tu les acceptes.",
       sections: [
         {
-          title: "1. Qui édite ATUMI",
+          title: "1. Qui édite AtumiNeo",
           body: [
-            "ATUMI est un service édité par Idrissa Fall, entrepreneur individuel, Grand Dakar, Dakar (Sénégal). Contact : ifallcv@gmail.com.",
+            "AtumiNeo est un service édité par Idrissa Fall, entrepreneur individuel, Grand Dakar, Dakar (Sénégal). Contact : ifallcv@gmail.com.",
             "L'application est hébergée par Vercel Inc. (site), Supabase Inc. (comptes et données) et Railway Corp. (traitements en arrière-plan).",
           ],
         },
         {
           title: "2. Le service",
           body: [
-            "ATUMI aide les lycéens, les étudiants et les enseignants à réviser : import de cours (PDF, Word, photos), synthèses, quiz, échanges avec le professeur IA « Prof NEO », recherche, bibliothèque, agenda et, selon le forfait, appels vocaux avec le professeur.",
-            "Les réponses sont produites par une intelligence artificielle. Elles peuvent contenir des erreurs : vérifie-les avec ton cours ou ton enseignant. ATUMI ne remplace pas un enseignant et ne garantit aucun résultat à un examen.",
+            "AtumiNeo aide les lycéens, les étudiants et les enseignants à réviser : import de cours (PDF, Word, photos), synthèses, quiz, échanges avec le professeur IA « Prof NEO », recherche, bibliothèque, agenda et, selon le forfait, appels vocaux avec le professeur.",
+            "Les réponses sont produites par une intelligence artificielle. Elles peuvent contenir des erreurs : vérifie-les avec ton cours ou ton enseignant. AtumiNeo ne remplace pas un enseignant et ne garantit aucun résultat à un examen.",
             "Pour un exercice, le professeur ne donne la solution qu'après ta propre tentative. Une contestation de correction reçoit une réponse fixe qui t'invite à refaire le quiz ou à voir un enseignant.",
           ],
         },
@@ -156,7 +156,7 @@ const fr = {
           body: [
             "L'inscription demande un nom d'utilisateur, un e-mail ou un numéro de téléphone, un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
             "L'inscription demande ton âge. Un élève de moins de 18 ans indique le numéro d'un parent ou tuteur ; un compte enseignant est réservé aux majeurs. Ce parent est prévenu par WhatsApp et peut refuser l'inscription ; un refus suspend le compte.",
-            "Pour ta sécurité, ATUMI te déconnecte après 1 h sans activité.",
+            "Pour ta sécurité, AtumiNeo te déconnecte après 1 h sans activité.",
           ],
         },
         {
@@ -171,51 +171,51 @@ const fr = {
             "Les forfaits Essentiel, Plus et Premium sont ouverts à tous les utilisateurs ; le forfait Enseignant y ajoute le défi classe (correction publiée par l'enseignant). Ils s'achètent pour 1 mois ou 3 mois. Les prix, en francs CFA toutes taxes comprises, et ce que chaque forfait comprend (cours importés, quiz, messages, recherches, minutes d'appel, espace) sont affichés sur la page Abonnement au moment de l'achat.",
             "Un forfait n'est jamais renouvelé automatiquement : à la fin de la période, tu choisis de reprendre ou non un forfait. Les quantités non utilisées ne sont pas reportées sur la période suivante.",
             "Les recharges (pass de minutes d'appel valable 3 jours, espace supplémentaire pour 30 jours) sont réservées aux abonnés. Les minutes ou l'espace non utilisés à la fin de leur durée sont perdus.",
-            "ATUMI peut changer ses prix ; un changement ne s'applique jamais à une période déjà payée.",
+            "AtumiNeo peut changer ses prix ; un changement ne s'applique jamais à une période déjà payée.",
           ],
         },
         {
           title: "6. Paiement et activation",
           body: [
-            "Le paiement se fait par Wave ou Orange Money au numéro affiché sur la page Abonnement. Tu déclares ensuite ton paiement dans ATUMI avec la référence de la transaction. L'équipe vérifie le paiement puis active le forfait ou la recharge ; la période commence à cette activation.",
+            "Le paiement se fait par Wave ou Orange Money au numéro affiché sur la page Abonnement. Tu déclares ensuite ton paiement dans AtumiNeo avec la référence de la transaction. L'équipe vérifie le paiement puis active le forfait ou la recharge ; la période commence à cette activation.",
             "Un paiement introuvable ou d'un montant différent n'est pas validé : l'équipe te le signale et t'aide à régulariser. Garde le message de confirmation de Wave ou d'Orange Money.",
           ],
         },
         {
           title: "7. Remboursement",
           body: [
-            "Le service commence dès l'activation, à ta demande. Une période commencée n'est pas remboursée, sauf en cas d'erreur de paiement (paiement en double, montant trop élevé, forfait jamais activé) ou d'indisponibilité prolongée d'ATUMI de son fait. Dans ces cas, écris à ifallcv@gmail.com dans les 14 jours : le remboursement se fait sur le même moyen de paiement.",
+            "Le service commence dès l'activation, à ta demande. Une période commencée n'est pas remboursée, sauf en cas d'erreur de paiement (paiement en double, montant trop élevé, forfait jamais activé) ou d'indisponibilité prolongée d'AtumiNeo de son fait. Dans ces cas, écris à ifallcv@gmail.com dans les 14 jours : le remboursement se fait sur le même moyen de paiement.",
           ],
         },
         {
           title: "8. Tes contenus",
           body: [
-            "Tu restes propriétaire des documents que tu importes. Tu dois avoir le droit de les utiliser pour tes révisions. Tu autorises ATUMI à les conserver et à les traiter (y compris par ses prestataires d'IA) dans le seul but de te rendre le service. Ils ne sont ni publiés ni montrés à d'autres utilisateurs.",
+            "Tu restes propriétaire des documents que tu importes. Tu dois avoir le droit de les utiliser pour tes révisions. Tu autorises AtumiNeo à les conserver et à les traiter (y compris par ses prestataires d'IA) dans le seul but de te rendre le service. Ils ne sont ni publiés ni montrés à d'autres utilisateurs.",
             "Ce que tu choisis de partager (défi quiz, texte partagé sur WhatsApp) devient lisible par toute personne qui a le lien, pendant la durée indiquée.",
           ],
         },
         {
           title: "9. Ce qui est interdit",
           body: [
-            "Utiliser ATUMI pour tricher pendant un examen ou un devoir surveillé ; importer des contenus illicites, haineux, violents ou à caractère sexuel ; harceler quelqu'un ; revendre ou partager l'accès ; contourner les limites des forfaits ou utiliser des robots ; tenter d'accéder aux données d'autres personnes.",
+            "Utiliser AtumiNeo pour tricher pendant un examen ou un devoir surveillé ; importer des contenus illicites, haineux, violents ou à caractère sexuel ; harceler quelqu'un ; revendre ou partager l'accès ; contourner les limites des forfaits ou utiliser des robots ; tenter d'accéder aux données d'autres personnes.",
           ],
         },
         {
-          title: "10. Propriété d'ATUMI",
+          title: "10. Propriété d'AtumiNeo",
           body: [
-            "Le nom ATUMI, le personnage Prof NEO, l'application et les livres offerts par ATUMI sont protégés. Tu peux les utiliser pour tes révisions personnelles, sans les copier ni les revendre.",
+            "Le nom AtumiNeo, le personnage Prof NEO, l'application et les livres offerts par AtumiNeo sont protégés. Tu peux les utiliser pour tes révisions personnelles, sans les copier ni les revendre.",
           ],
         },
         {
           title: "11. Disponibilité et responsabilité",
           body: [
-            "ATUMI fait de son mieux pour que le service soit disponible et fiable, sans pouvoir le garantir en permanence (maintenance, panne d'un prestataire, réseau). ATUMI n'est pas responsable d'une décision prise sur la seule base d'une réponse de l'IA, ni de la perte de fichiers dont tu n'as pas gardé de copie.",
+            "AtumiNeo fait de son mieux pour que le service soit disponible et fiable, sans pouvoir le garantir en permanence (maintenance, panne d'un prestataire, réseau). AtumiNeo n'est pas responsable d'une décision prise sur la seule base d'une réponse de l'IA, ni de la perte de fichiers dont tu n'as pas gardé de copie.",
           ],
         },
         {
           title: "12. Suspension et fin du compte",
           body: [
-            "En cas de non-respect de ces conditions, ATUMI peut suspendre ou fermer un compte, après t'avoir prévenu sauf urgence. Tu peux demander la fermeture de ton compte à tout moment depuis le centre d'aide ou par e-mail.",
+            "En cas de non-respect de ces conditions, AtumiNeo peut suspendre ou fermer un compte, après t'avoir prévenu sauf urgence. Tu peux demander la fermeture de ton compte à tout moment depuis le centre d'aide ou par e-mail.",
             "À la fin d'un abonnement, tes contenus restent dans ton compte ; il faut un forfait actif pour continuer à t'en servir pleinement.",
           ],
         },
@@ -231,12 +231,12 @@ const fr = {
     privacy: {
       title: "Politique de confidentialité",
       intro:
-        "Cette page explique quelles données ATUMI recueille, pourquoi, avec qui elles sont partagées et quels sont tes droits, conformément à la loi sénégalaise n° 2008-12 sur la protection des données à caractère personnel.",
+        "Cette page explique quelles données AtumiNeo recueille, pourquoi, avec qui elles sont partagées et quels sont tes droits, conformément à la loi sénégalaise n° 2008-12 sur la protection des données à caractère personnel.",
       sections: [
         {
           title: "1. Responsable du traitement",
           body: [
-            "Idrissa Fall, éditeur d'ATUMI, Grand Dakar, Dakar (Sénégal). Contact : ifallcv@gmail.com.",
+            "Idrissa Fall, éditeur d'AtumiNeo, Grand Dakar, Dakar (Sénégal). Contact : ifallcv@gmail.com.",
           ],
         },
         {
@@ -245,9 +245,9 @@ const fr = {
             "Compte : nom d'utilisateur, e-mail ou numéro de téléphone, mot de passe (enregistré chiffré, jamais lisible), âge déclaré, pays, niveau, rôle (élève ou enseignant), langue, photo de profil si tu en ajoutes une, et la date d'acceptation de ces textes.",
             "Élève mineur : numéro de téléphone d'un parent ou tuteur, et sa réponse éventuelle.",
             "Études : cours importés (PDF, Word, photos), livres ajoutés à ta bibliothèque, synthèses, quiz et résultats, conversations avec le professeur, recherches, agenda et emploi du temps. Pour un appel, seule la transcription écrite est gardée : aucun enregistrement audio ou vidéo n'est conservé ; les images de la caméra, si tu l'actives, sont seulement transmises au professeur pendant l'appel.",
-            "Paiements : forfait choisi, montant, moyen de paiement (Wave ou Orange Money), numéro utilisé et référence de la transaction. ATUMI ne reçoit jamais ton code secret.",
+            "Paiements : forfait choisi, montant, moyen de paiement (Wave ou Orange Money), numéro utilisé et référence de la transaction. AtumiNeo ne reçoit jamais ton code secret.",
             "Technique : journaux de connexion, consommation de l'IA (nombre de mots traités, sans le contenu) et messages envoyés à l'équipe.",
-            "ATUMI ne demande jamais le nom de ton établissement et ne recueille ni ta position, ni tes contacts.",
+            "AtumiNeo ne demande jamais le nom de ton établissement et ne recueille ni ta position, ni tes contacts.",
           ],
         },
         {
@@ -260,21 +260,21 @@ const fr = {
         {
           title: "4. Qui les voit",
           body: [
-            "Tes cours, synthèses, quiz, conversations et livres ne sont visibles que par toi. L'équipe d'ATUMI voit ton compte, ton forfait, tes paiements, tes messages à l'équipe et ta consommation, mais pas tes cours ni tes conversations.",
+            "Tes cours, synthèses, quiz, conversations et livres ne sont visibles que par toi. L'équipe d'AtumiNeo voit ton compte, ton forfait, tes paiements, tes messages à l'équipe et ta consommation, mais pas tes cours ni tes conversations.",
             "Ce que tu choisis de partager est visible par ceux qui ont le lien : un défi quiz montre les questions, ton score et ton nom d'utilisateur (7 jours) ; un texte partagé sur WhatsApp est lisible sans ton nom pendant 30 jours.",
           ],
         },
         {
           title: "5. Les prestataires",
           body: [
-            "Pour fonctionner, ATUMI fait appel à des prestataires qui traitent certaines données pour son compte : Supabase (base de données et fichiers), Vercel (site) et Railway (traitements) pour l'hébergement ; Anthropic (modèle Claude) pour les réponses écrites, les synthèses, les quiz et la recherche web ; Google (Gemini) pour les appels vocaux ; Resend (e-mails) et Meta (WhatsApp) pour les messages à l'équipe et l'avis aux parents ; Wikimedia (Wikipédia, Wiktionnaire, Commons) pour les définitions et les images, sans aucune donnée te concernant.",
-            "Ces prestataires sont situés hors du Sénégal (notamment aux États-Unis et en Europe). ATUMI choisit des prestataires qui s'engagent par contrat à protéger les données et à ne pas les utiliser pour leur propre compte, et ne leur envoie que ce qui est nécessaire.",
+            "Pour fonctionner, AtumiNeo fait appel à des prestataires qui traitent certaines données pour son compte : Supabase (base de données et fichiers), Vercel (site) et Railway (traitements) pour l'hébergement ; Anthropic (modèle Claude) pour les réponses écrites, les synthèses, les quiz et la recherche web ; Google (Gemini) pour les appels vocaux ; Resend (e-mails) et Meta (WhatsApp) pour les messages à l'équipe et l'avis aux parents ; Wikimedia (Wikipédia, Wiktionnaire, Commons) pour les définitions et les images, sans aucune donnée te concernant.",
+            "Ces prestataires sont situés hors du Sénégal (notamment aux États-Unis et en Europe). AtumiNeo choisit des prestataires qui s'engagent par contrat à protéger les données et à ne pas les utiliser pour leur propre compte, et ne leur envoie que ce qui est nécessaire.",
           ],
         },
         {
           title: "6. Durée de conservation",
           body: [
-            "Tes contenus sont gardés tant que ton compte existe, ou jusqu'à ce que tu les supprimes. ATUMI peut supprimer les fichiers d'un compte sans forfait depuis plus de 12 mois, après t'avoir prévenu au moins 30 jours avant.",
+            "Tes contenus sont gardés tant que ton compte existe, ou jusqu'à ce que tu les supprimes. AtumiNeo peut supprimer les fichiers d'un compte sans forfait depuis plus de 12 mois, après t'avoir prévenu au moins 30 jours avant.",
             "Après la fermeture de ton compte, tes données sont supprimées dans les 30 jours, sauf les traces de paiement, gardées le temps exigé par la loi pour la comptabilité.",
           ],
         },
@@ -287,7 +287,7 @@ const fr = {
         {
           title: "8. Cookies",
           body: [
-            "ATUMI n'utilise que des cookies nécessaires : ta session de connexion, l'heure de ta dernière activité (pour la déconnexion automatique) et ta langue. Aucun cookie de publicité ni de mesure d'audience.",
+            "AtumiNeo n'utilise que des cookies nécessaires : ta session de connexion, l'heure de ta dernière activité (pour la déconnexion automatique) et ta langue. Aucun cookie de publicité ni de mesure d'audience.",
             "Mode hors ligne : les pages que tu as ouvertes et les derniers livres lus sont gardés sur ton appareil seulement, pour les relire sans connexion ; ils sont effacés à la déconnexion ou après 1 h sans activité.",
           ],
         },
@@ -366,11 +366,11 @@ const fr = {
       usernameTaken: "Ce nom d'utilisateur est déjà pris.",
       identifierInvalid: "Saisis une adresse e-mail ou un numéro de téléphone valide.",
       identifierTaken: "Un compte existe déjà avec cet e-mail ou ce numéro.",
-      countryNotOpen: "ATUMI n'est pas encore disponible dans ce pays.",
+      countryNotOpen: "AtumiNeo n'est pas encore disponible dans ce pays.",
       passwordLength: "Le mot de passe doit contenir entre 8 et 72 caractères.",
       passwordRequired: "Saisis ton mot de passe.",
       cycleRequired: "Choisis ton niveau d'étude.",
-      cycleNotOpen: "ATUMI est ouvert aux lycéens et aux étudiants pour le moment.",
+      cycleNotOpen: "AtumiNeo est ouvert aux lycéens et aux étudiants pour le moment.",
       ageRequired: "Indique ton âge.",
       ageInvalid: "Saisis ton âge en années, avec des chiffres.",
       teacherMinor: "Un compte enseignant est réservé aux personnes de 18 ans ou plus.",
@@ -395,16 +395,16 @@ const fr = {
     seeAll: "Tout voir",
     reminders: "À ne pas oublier",
     seeAgenda: "Voir l'agenda",
-    slogan: "Avec ATUMI, développe tes capacités.",
-    station: "Ta station ATUMI",
-    askPlaceholder: "Demande à ATUMI…",
+    slogan: "Avec AtumiNeo, développe tes capacités.",
+    station: "Ta station AtumiNeo",
+    askPlaceholder: "Demande à AtumiNeo…",
     satellites: { tutor: "Prof NEO", import: "Importer", search: "Rechercher", agenda: "Agenda", library: "Bibliothèque" },
     missionTitle: "Ta prochaine mission",
     missions: {
       overdue: "En retard : {title}. Fais-le maintenant ou marque-le comme fait.",
       dueSoon: "À rendre bientôt : {title}. Prépare-le dès aujourd'hui.",
       study: "Ton cours « {title} » est prêt : lance la synthèse et le quiz.",
-      reading: "ATUMI lit ton cours « {title} ». Reviens dans quelques minutes.",
+      reading: "AtumiNeo lit ton cours « {title} ». Reviens dans quelques minutes.",
       import: "Importe ton premier cours (PDF, Word ou photo) pour réveiller ton Prof.",
     },
     missionCta: { overdue: "Ouvrir l'agenda", dueSoon: "Ouvrir l'agenda", study: "Réviser", reading: "Voir le cours", import: "Importer un cours" },
@@ -430,16 +430,16 @@ const fr = {
         "Je t'aide à comprendre tes cours et à réussir tes examens, à ton rythme. Importe un cours : j'en fais une synthèse, des quiz corrigés tout de suite, et je réponds à tes questions en citant tes pages.",
       modesTitle: "Ce que je fais avec toi",
       cta: "Parler au Prof NEO",
-      more: "En savoir plus sur ATUMI",
+      more: "En savoir plus sur AtumiNeo",
     },
   },
   agenda: {
     title: "Agenda",
-    intro: "Note tes devoirs et tes dates d'examen : ATUMI te les rappelle.",
+    intro: "Note tes devoirs et tes dates d'examen : AtumiNeo te les rappelle.",
     timetableTitle: "Emploi du temps",
     timetableIntro: "Tes cours de la semaine, jour par jour. Tu peux l'envoyer à un parent ou à un camarade sur WhatsApp.",
     share: "Partager sur WhatsApp",
-    shareHeading: "Mon emploi du temps (ATUMI)",
+    shareHeading: "Mon emploi du temps (AtumiNeo)",
     kinds: { devoir: "Devoir", examen: "Examen", autre: "Autre" },
     reminders: {
       overdue: "En retard",
@@ -557,7 +557,7 @@ const fr = {
       noMinutes: "Tu n'as plus de minutes d'appel sur ton forfait.",
       accessExpired: "Ton accès a expiré. Choisis un forfait pour appeler le Prof.",
       unknown: "L'appel n'a pas pu démarrer. Réessaie.",
-      microphone: "ATUMI n'a pas accès à ton micro (ou à ta caméra). Autorise-le dans ton navigateur, puis réessaie.",
+      microphone: "AtumiNeo n'a pas accès à ton micro (ou à ta caméra). Autorise-le dans ton navigateur, puis réessaie.",
       connection: "L'appel a été coupé (connexion). La transcription est gardée dans ta conversation.",
     },
   },
@@ -664,7 +664,7 @@ const fr = {
     },
     dictionary: {
       title: "Dictionnaire et encyclopédie",
-      hint: "La définition (Wiktionnaire) et l'article (Wikipédia) s'affichent ici, dans ATUMI.",
+      hint: "La définition (Wiktionnaire) et l'article (Wikipédia) s'affichent ici, dans AtumiNeo.",
       loading: "Recherche…",
       notFound: "Aucun résultat pour ce mot. Vérifie l'orthographe ou essaie un mot plus simple.",
       unavailable: "Le dictionnaire ne répond pas pour le moment. Réessaie dans un instant.",
@@ -693,8 +693,8 @@ const fr = {
   },
   library: {
     title: "Ma bibliothèque",
-    intro: "Tes livres et tes documents PDF, rangés au même endroit et lisibles dans ATUMI.",
-    offeredTitle: "Offert par ATUMI",
+    intro: "Tes livres et tes documents PDF, rangés au même endroit et lisibles dans AtumiNeo.",
+    offeredTitle: "Offert par AtumiNeo",
     offeredBy: "Offert à tous les élèves",
     pages: "{n} pages",
     mineTitle: "Mes livres",
@@ -782,7 +782,7 @@ const fr = {
     nextStep: {
       importLabel: "À faire : importer un cours",
       importAction: "Importer un cours",
-      readingLabel: "ATUMI lit ton cours…",
+      readingLabel: "AtumiNeo lit ton cours…",
       readingHint: "La synthèse et le quiz seront disponibles dès la fin de la lecture.",
       studyLabel: "Prêt à réviser",
       studyAction: "Faire la synthèse et le quiz",
@@ -820,7 +820,7 @@ const fr = {
   study: {
     synthesisTitle: "Synthèse",
     wholeModule: "Tout le module",
-    synthesisPending: "ATUMI prépare ta synthèse à partir de ton cours. Cela prend en général une minute.",
+    synthesisPending: "AtumiNeo prépare ta synthèse à partir de ton cours. Cela prend en général une minute.",
     synthesisFailed: "La synthèse n'a pas pu être préparée.",
     synthesisNone: "Pas encore de synthèse pour ce chapitre.",
     synthesisNoDocument: "Importe d'abord un cours dans ce chapitre : la synthèse sera préparée dès qu'il sera lu.",
@@ -848,18 +848,18 @@ const fr = {
     copied: "Copié !",
     share: "Partager",
     copyFallback: "Copie ce texte :",
-    readMore: "Lire la suite sur ATUMI",
+    readMore: "Lire la suite sur AtumiNeo",
     preparing: "Préparation…",
     quota: "Tu as atteint la limite de 30 partages longs par jour. Utilise « Copier ».",
     error: "Le partage n'a pas pu être préparé. Utilise « Copier ».",
   },
   sharedPage: {
-    kicker: "Partagé depuis ATUMI",
+    kicker: "Partagé depuis AtumiNeo",
     expired: "Ce partage n'est plus disponible (il dure 30 jours).",
   },
   quiz: {
     title: "Quiz",
-    preparing: "ATUMI prépare tes questions…",
+    preparing: "AtumiNeo prépare tes questions…",
     failed: "Le quiz n'a pas pu être préparé. Il ne compte pas dans ton forfait.",
     question: "Question",
     submit: "Valider mes réponses",
@@ -909,10 +909,10 @@ const fr = {
     closed: "Ce défi est terminé.",
     closedBody: "{username} a arrêté ce défi, ou ses 7 jours sont passés. Crée ton compte : tu pourras lancer tes propres défis.",
     error: "Le défi n'a pas pu être créé. Réessaie dans un instant.",
-    shareText: "J'ai eu {correct}/{total} au quiz « {subject} » sur ATUMI. Prof NEO te défie de faire mieux 👉 {url}",
-    metaTitle: "{username} te défie sur ATUMI",
+    shareText: "J'ai eu {correct}/{total} au quiz « {subject} » sur AtumiNeo. Prof NEO te défie de faire mieux 👉 {url}",
+    metaTitle: "{username} te défie sur AtumiNeo",
     metaDescription: "{correct}/{total} au quiz « {subject} ». À toi de jouer, sans compte !",
-    kicker: "Défi ATUMI",
+    kicker: "Défi AtumiNeo",
     title: "{username} te défie !",
     intro: "{username} a eu {correct}/{total} au quiz « {subject} ». Prof NEO te lance le même défi : {total} questions, sans compte.",
     play: "Valider mes réponses",
@@ -924,11 +924,11 @@ const fr = {
     lose: "{username} garde la tête. Revanche ?",
     versus: "Toi {mine}/{total} · {username} {theirs}/{total}",
     ctaTitle: "Révise tes propres cours avec Prof NEO",
-    ctaBody: "Importe ton cours (PDF, Word ou photo) : ATUMI en fait une synthèse et des quiz, et Prof NEO répond à tes questions. 24 h d'essai gratuit.",
+    ctaBody: "Importe ton cours (PDF, Word ou photo) : AtumiNeo en fait une synthèse et des quiz, et Prof NEO répond à tes questions. 24 h d'essai gratuit.",
     cta: "Créer mon compte gratuitement",
     signIn: "J'ai déjà un compte",
     classPrivacy: "Défi classe : chaque élève voit seulement son propre score. Votre score et la correction restent cachés jusqu'à ce que vous publiiez la correction.",
-    classShareText: "Quiz « {subject} » ({total} questions) sur ATUMI : réponds ici, sans compte 👉 {url}",
+    classShareText: "Quiz « {subject} » ({total} questions) sur AtumiNeo : réponds ici, sans compte 👉 {url}",
     classResultsTitle: "Résultats de la classe",
     classNoPlays: "Aucun élève n'a encore répondu. Partagez le lien dans le groupe WhatsApp de la classe.",
     classCount: "Réponses : {n} sur {max} au plus.",
@@ -936,8 +936,8 @@ const fr = {
     publishHint: "Le défi se ferme et le même lien montre la correction à tous les élèves.",
     published: "Correction publiée le {date} : le lien montre maintenant la correction.",
     shareCorrection: "Envoyer la correction sur WhatsApp",
-    correctionShareText: "La correction du quiz « {subject} » est disponible sur ATUMI 👉 {url}",
-    classMetaTitle: "Quiz « {subject} » sur ATUMI",
+    correctionShareText: "La correction du quiz « {subject} » est disponible sur AtumiNeo 👉 {url}",
+    classMetaTitle: "Quiz « {subject} » sur AtumiNeo",
     classMetaDescription: "{total} questions proposées par {username}. Réponds sans compte.",
     classTitle: "Quiz de {username}",
     classIntro: "{username} te propose le quiz « {subject} » : {total} questions, sans compte. La correction viendra plus tard.",
@@ -961,16 +961,16 @@ const fr = {
     formats: "Formats acceptés : PDF et Word (.docx), 20 Mo maximum.",
     formatsWithPhotos: "Formats acceptés : PDF, Word (.docx) et photos (JPG, PNG, WebP). Une photo par page.",
     photoTips: "Pour une photo nette : page à plat, bien éclairée, sans reflet, entière dans le cadre, téléphone immobile.",
-    photoNotice: "ATUMI vérifie la photo. Si elle est floue ou coupée, il te demandera de la reprendre.",
+    photoNotice: "AtumiNeo vérifie la photo. Si elle est floue ou coupée, il te demandera de la reprendre.",
     quality: {
-      checking: "ATUMI vérifie la netteté de ta photo…",
+      checking: "AtumiNeo vérifie la netteté de ta photo…",
       ok: "Photo nette : tu peux l'importer.",
       blurry: "Ta photo semble floue : reprends-la. Tiens le téléphone immobile, bien au-dessus de la page à plat.",
       dark: "Ta photo est trop sombre : reprends-la avec plus de lumière, sans flash.",
       retake: "Reprendre la photo",
       importAnyway: "Importer quand même",
       cancel: "Annuler (retirer cette photo)",
-      anywayHint: "Si le texte te paraît lisible, tu peux l'importer quand même : ATUMI la relira avant la synthèse.",
+      anywayHint: "Si le texte te paraît lisible, tu peux l'importer quand même : AtumiNeo la relira avant la synthèse.",
       preview: "Aperçu de ta photo",
     },
     preparingPhoto: "Préparation de la photo…",
@@ -978,9 +978,9 @@ const fr = {
     submit: "Importer",
     uploading: "Envoi du fichier…",
     registering: "Enregistrement…",
-    done: "Document importé. ATUMI le lit, cela prend en général moins d'une minute.",
+    done: "Document importé. AtumiNeo le lit, cela prend en général moins d'une minute.",
     fromLibraryTitle: "Importer dans Mes cours",
-    fromLibraryIntro: "ATUMI copie ce livre dans tes cours : tu pourras en faire une synthèse, un quiz et poser tes questions au Prof NEO. Cela compte comme un import de ton forfait.",
+    fromLibraryIntro: "AtumiNeo copie ce livre dans tes cours : tu pourras en faire une synthèse, un quiz et poser tes questions au Prof NEO. Cela compte comme un import de ton forfait.",
     book: "Livre",
     copying: "Copie du livre…",
     errors: {
@@ -1104,10 +1104,10 @@ const fr = {
   help: {
     title: "Centre d'aide",
     link: "Centre d'aide",
-    intro: "Une question sur ATUMI ? L'assistant répond tout de suite.",
+    intro: "Une question sur AtumiNeo ? L'assistant répond tout de suite.",
     featured: "Questions fréquentes",
     back: "← Centre d'aide",
-    placeholder: "Pose ta question sur ATUMI…",
+    placeholder: "Pose ta question sur AtumiNeo…",
     send: "Envoyer",
     thinking: "L'assistant cherche la réponse…",
     unavailable: "L'assistant d'aide est momentanément indisponible. Consulte les questions fréquentes ou écris à l'équipe.",
@@ -1121,7 +1121,7 @@ const fr = {
     contactCta: "Écrire à l'équipe",
     contactPlaceholder: "Explique ta demande. Pour un problème de compte, indique ton nom d'utilisateur.",
     contactSend: "Envoyer à l'équipe",
-    contactSent: "Message envoyé : l'équipe ATUMI l'a bien reçu et te recontactera.",
+    contactSent: "Message envoyé : l'équipe AtumiNeo l'a bien reçu et te recontactera.",
     errors: {
       empty: "Écris ta question.",
       quotaReached: "Tu as atteint la limite de questions pour aujourd'hui. Réessaie demain.",
@@ -1131,16 +1131,16 @@ const fr = {
   /** Page du parent (lien reçu par WhatsApp) : il peut refuser l'inscription de son enfant. */
   parental: {
     title: "Inscription de votre enfant",
-    intro: "Votre enfant s'est inscrit sur ATUMI sous le nom « {username} » et vous a indiqué comme parent ou tuteur.",
+    intro: "Votre enfant s'est inscrit sur AtumiNeo sous le nom « {username} » et vous a indiqué comme parent ou tuteur.",
     points: [
-      "ATUMI est une application de révision : votre enfant importe ses cours et révise avec des synthèses, des quiz et un professeur IA.",
+      "AtumiNeo est une application de révision : votre enfant importe ses cours et révise avec des synthèses, des quiz et un professeur IA.",
       "Nous ne demandons jamais le nom de son établissement. Ses cours et ses conversations restent privés.",
       "Après un essai gratuit de 24 heures, l'accès demande un forfait payant.",
     ],
     nothingToDo: "Si vous êtes d'accord, vous n'avez rien à faire.",
     refuseHint: "Si vous refusez, le compte de votre enfant sera suspendu.",
     refuse: "Je refuse cette inscription",
-    refused: "Votre refus est enregistré : le compte « {username} » est suspendu. Pour toute question, écrivez à l'équipe ATUMI.",
+    refused: "Votre refus est enregistré : le compte « {username} » est suspendu. Pour toute question, écrivez à l'équipe AtumiNeo.",
     unknown: "Ce lien n'est pas valide. Vérifiez qu'il est complet.",
     suspended: "Un parent a refusé ton inscription : ton compte est suspendu. Écris à l'équipe depuis le centre d'aide si c'est une erreur.",
   },
@@ -1193,7 +1193,7 @@ const fr = {
     copy: "Copier",
     copied: "Copié",
     step1: "1. Envoie le montant",
-    numbersIntro: "Aux numéros de l'équipe ATUMI :",
+    numbersIntro: "Aux numéros de l'équipe AtumiNeo :",
     noNumbers: "Le numéro de paiement n'est pas encore affiché ici : écris à l'équipe depuis le centre d'aide, elle te le donnera.",
     step2: "2. Indique ton paiement",
     step3: "3. L'équipe vérifie ton paiement et active ton forfait ou ta recharge. Tu le vois ici dès que c'est fait.",
@@ -1236,7 +1236,7 @@ const fr = {
     dash: "—",
     overview: {
       title: "Vue d'ensemble",
-      intro: "Le fonctionnement d'ATUMI en chiffres, sur la période choisie.",
+      intro: "Le fonctionnement d'AtumiNeo en chiffres, sur la période choisie.",
       users: "Élèves inscrits",
       usersNew: "+{n} sur la période",
       trials: "Essais en cours",
@@ -1462,7 +1462,7 @@ const fr = {
   },
   offline: {
     title: "Pas de connexion",
-    intro: "ATUMI a besoin d'Internet pour le Prof NEO, les quiz, l'import et la recherche web. En attendant, relis ce que tu as déjà ouvert sur cet appareil.",
+    intro: "AtumiNeo a besoin d'Internet pour le Prof NEO, les quiz, l'import et la recherche web. En attendant, relis ce que tu as déjà ouvert sur cet appareil.",
     banner: "Pas de connexion : tu vois les pages déjà ouvertes sur cet appareil.",
     savedTitle: "Déjà ouvert sur cet appareil",
     savedEmpty: "Aucune page gardée pour l'instant. Une fois connecté, ouvre tes synthèses, tes corrections ou ton agenda : ils resteront lisibles sans connexion.",

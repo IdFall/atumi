@@ -35,7 +35,7 @@ export type SupportResult = "sent" | "already_sent" | "not_configured" | "missin
 export function buildTeamNotification(request: SupportRequest): TeamNotification {
   const date = new Date(request.createdAt).toISOString().slice(0, 16).replace("T", " ");
   return {
-    subject: `[ATUMI] Demande d'aide n° ${request.id} de ${request.username}`,
+    subject: `[AtumiNeo] Demande d'aide n° ${request.id} de ${request.username}`,
     text: [
       `Demande n° ${request.id} — ${date} UTC`,
       `Utilisateur : ${request.username}`,
