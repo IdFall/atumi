@@ -16,6 +16,12 @@ const serverSchema = publicSchema.extend({
   /** Appels voix avec le Prof NEO (Gemini Live). Sans clé, les appels ne sont pas proposés. */
   GEMINI_API_KEY: z.string().min(1).optional(),
   ATUMI_VOICE_MODEL: z.string().min(1).default("gemini-3.8-live"),
+  /**
+   * « true » : appels ouverts à tous les abonnés. Sinon (défaut), réservés aux
+   * comptes de l'équipe : à n'ouvrir qu'une fois la facturation Google activée,
+   * la formule gratuite laissant Google se servir des conversations.
+   */
+  ATUMI_VOICE_OPEN: z.enum(["true", "false"]).default("false"),
 });
 
 export type PublicEnv = z.infer<typeof publicSchema>;
