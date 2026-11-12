@@ -325,7 +325,7 @@ const fr = {
       password: "Mot de passe",
       passwordHint: "8 caractères minimum.",
       role: "Je suis",
-      cycle: "Niveau d'étude en cours",
+      cycle: "Niveau d'étude",
       cycleTeacher: "Niveau où tu enseignes",
       guardianPhone: "Téléphone d'un parent ou tuteur",
       guardianPhoneHint: "Ton parent reçoit un message qui le prévient de ton inscription et lui permet de la refuser.",

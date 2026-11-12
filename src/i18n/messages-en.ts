@@ -316,7 +316,7 @@ export const en: Messages = {
       password: "Password",
       passwordHint: "At least 8 characters.",
       role: "I am",
-      cycle: "Current level of study",
+      cycle: "Level of study",
       cycleTeacher: "Level you teach",
       guardianPhone: "Phone number of a parent or guardian",
       guardianPhoneHint: "Your parent receives a message telling them about your sign-up, with a way to refuse it.",
