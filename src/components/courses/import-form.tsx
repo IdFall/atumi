@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { checkFile, isImageMime, resolveMime } from "@/config/documents";
 import { LIBRARY_IMPORT_MAX_PAGES } from "@/config/library";
 import { useT } from "@/i18n/client";
 import { fill } from "@/i18n/format";
 import type { ImportErrorKey } from "@/i18n/messages";
+import { checkPhotoQuality, type PhotoQuality } from "@/lib/photo-quality";
 import { preparePhoto } from "@/lib/prepare-photo";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
 import { registerDocumentAction } from "@/server/courses/actions";
@@ -68,11 +69,34 @@ export function ImportForm({
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<ImportErrorKey | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
+  // Contrôle de netteté d'une photo, tout de suite après la prise de vue.
+  const [quality, setQuality] = useState<PhotoQuality | "checking" | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const picked = useRef<File | null>(null);
 
-  function pickFile(picked: File | null) {
-    setFile(picked);
+  const previewUrl = useRef<string | null>(null);
+
+  // L'aperçu est libéré quand on quitte la page.
+  useEffect(() => () => {
+    if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
+  }, []);
+
+  function pickFile(next: File | null) {
+    picked.current = next;
+    setFile(next);
     setError(null);
+    if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
+    previewUrl.current = next && isPhoto(next) ? URL.createObjectURL(next) : null;
+    setPreview(previewUrl.current);
+    if (!next || !isPhoto(next) || !photosEnabled) return setQuality(null);
+    setQuality("checking");
+    void checkPhotoQuality(next).then((result) => {
+      // Une autre photo a pu être choisie entre-temps.
+      if (picked.current === next) setQuality(result);
+    });
   }
+
+  const photoToRetake = quality === "blurry" || quality === "dark";
 
   const chapters = modules.find((m) => m.id === moduleId)?.chapters ?? [];
   const busy = phase !== "idle";
@@ -275,7 +299,34 @@ export function ImportForm({
       )}
 
       {file && isPhoto(file) ? (
-        <p className="rounded-xl bg-primary-soft p-3 text-sm dark:bg-primary-strong/25">{t.import.photoNotice}</p>
+        <div className="flex gap-3 rounded-xl border border-neutral-200 bg-white p-3 text-sm dark:border-neutral-800 dark:bg-nuit">
+          {preview ? (
+            // Aperçu local (adresse blob:), sans passer par l'optimiseur d'images.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={preview} alt={t.import.quality.preview} className="size-20 shrink-0 rounded-lg object-cover" />
+          ) : null}
+          <div className="flex min-w-0 flex-col gap-2" aria-live="polite">
+            {quality === "checking" ? <p>{t.import.quality.checking}</p> : null}
+            {quality === "ok" ? <p className="font-semibold text-green-700 dark:text-green-400">✓ {t.import.quality.ok}</p> : null}
+            {photoToRetake ? (
+              <>
+                <p className="font-semibold text-orange-800 dark:text-orange-300">{t.import.quality[quality]}</p>
+                <label className="flex min-h-11 cursor-pointer items-center justify-center rounded-lg bg-primary px-4 font-semibold text-white">
+                  {t.import.quality.retake}
+                  <input
+                    type="file"
+                    accept={PHOTO_ACCEPT}
+                    capture="environment"
+                    className="sr-only"
+                    onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+                  />
+                </label>
+                <p className="text-xs text-neutral-600 dark:text-neutral-300">{t.import.quality.anywayHint}</p>
+              </>
+            ) : null}
+            {quality === null ? <p>{t.import.photoNotice}</p> : null}
+          </div>
+        </div>
       ) : null}
 
       {firstImport ? (
@@ -290,8 +341,16 @@ export function ImportForm({
         </p>
       ) : null}
 
-      <button type="submit" disabled={busy} className="rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60">
-        {phase === "idle" ? t.import.submit : t.import[PHASE_LABELS[phase]]}
+      <button
+        type="submit"
+        disabled={busy || quality === "checking"}
+        className={`rounded-xl px-4 py-3 font-semibold disabled:opacity-60 ${
+          photoToRetake
+            ? "border border-neutral-300 bg-white text-neutral-800 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+            : "bg-primary text-white"
+        }`}
+      >
+        {phase !== "idle" ? t.import[PHASE_LABELS[phase]] : photoToRetake ? t.import.quality.importAnyway : t.import.submit}
       </button>
     </form>
   );
