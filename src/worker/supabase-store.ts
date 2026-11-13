@@ -249,14 +249,14 @@ export function supabaseSupportStore(db: SupabaseClient): SupportStore {
       if (error) throw error;
       if (!data) return null;
       const [{ data: profile }, { data: account }] = await Promise.all([
-        db.from("profiles").select("username").eq("id", data.user_id).maybeSingle(),
+        db.from("profiles").select("username, full_name").eq("id", data.user_id).maybeSingle(),
         db.auth.admin.getUserById(data.user_id),
       ]);
       const user = account?.user;
       return {
         id: data.id,
         userId: data.user_id,
-        username: profile?.username ?? "inconnu",
+        username: profile ? (profile.full_name ? `${profile.full_name} (${profile.username})` : profile.username) : "inconnu",
         contact: user?.email || (user?.phone ? `+${user.phone.replace(/^\+/, "")}` : null),
         message: data.message,
         createdAt: data.created_at,
@@ -285,10 +285,10 @@ export function supabaseParentStore(db: SupabaseClient): ParentStore {
         .maybeSingle();
       if (error) throw error;
       if (!data) return null;
-      const { data: profile } = await db.from("profiles").select("username").eq("id", userId).maybeSingle();
+      const { data: profile } = await db.from("profiles").select("username, full_name").eq("id", userId).maybeSingle();
       return {
         userId: data.user_id,
-        username: profile?.username ?? "",
+        username: profile?.full_name ?? profile?.username ?? "",
         guardianPhone: data.guardian_phone_e164,
         token: data.token,
         sentAt: data.sent_at,

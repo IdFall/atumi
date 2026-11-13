@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import { getCountry } from "@/config/countries";
-import { parseIdentifier, parseSignIn, parseSignUp } from "@/server/auth/schemas";
+import { firstNameOf, parseIdentifier, parseSignIn, parseSignUp, usernameBase } from "@/server/auth/schemas";
 
 const base = {
-  username: "Awa_Diop",
+  fullName: "  Awa   Diop ",
   identifier: "awa@exemple.sn",
   password: "motdepasse",
+  passwordConfirm: "motdepasse",
   cycle: "universite",
   age: "20",
   acceptCgu: "on",
@@ -22,12 +23,12 @@ describe("identifiant", () => {
 });
 
 describe("inscription", () => {
-  it("accepte un étudiant et met le pseudo en minuscules", () => {
+  it("accepte un étudiant et range les espaces du nom", () => {
     const result = parseSignUp(base, "SN");
     expect(result).toEqual({
       ok: true,
       data: {
-        username: "awa_diop",
+        fullName: "Awa Diop",
         identifier: { kind: "email", email: "awa@exemple.sn" },
         password: "motdepasse",
         cycle: "universite",
@@ -118,11 +119,11 @@ describe("inscription", () => {
   });
 
   it("signale chaque champ invalide", () => {
-    const result = parseSignUp({ username: "a", identifier: "", password: "court", cycle: "", acceptCgu: null }, "SN");
+    const result = parseSignUp({ fullName: "a", identifier: "", password: "court", cycle: "", acceptCgu: null }, "SN");
     expect(result).toEqual({
       ok: false,
       errors: {
-        username: "usernameInvalid",
+        fullName: "fullNameInvalid",
         identifier: "identifierInvalid",
         password: "passwordLength",
         age: "ageRequired",
@@ -140,5 +141,39 @@ describe("connexion", () => {
       errors: { identifier: "identifierInvalid", password: "passwordRequired" },
     });
     expect(parseSignIn({ identifier: "771234567", password: "secret123" }, "SN").ok).toBe(true);
+  });
+});
+
+describe("prénom et nom", () => {
+  it("accepte majuscules, minuscules, accents, espaces, trait d'union et apostrophe", () => {
+    for (const fullName of ["Idrissa Fall", "idrissa fall", "AWA DIOP", "Ndèye Fatou Ndiaye", "Mame-Diarra N'Diaye", "Aïssatou Bâ"]) {
+      const result = parseSignUp({ ...base, fullName }, "SN");
+      expect(result.ok, fullName).toBe(true);
+    }
+  });
+
+  it("demande le prénom et le nom, en lettres", () => {
+    expect(parseSignUp({ ...base, fullName: "" }, "SN")).toEqual({ ok: false, errors: { fullName: "fullNameRequired" } });
+    for (const fullName of ["Awa", "Awa D1op", "Awa_Diop", "Awa Diop!", "-Awa Diop", "Awa " + "x".repeat(60)]) {
+      expect(parseSignUp({ ...base, fullName }, "SN")).toEqual({ ok: false, errors: { fullName: "fullNameInvalid" } });
+    }
+  });
+
+  it("vérifie la confirmation du mot de passe", () => {
+    expect(parseSignUp({ ...base, passwordConfirm: "motdepassf" }, "SN")).toEqual({
+      ok: false,
+      errors: { passwordConfirm: "passwordMismatch" },
+    });
+    expect(parseSignUp({ ...base, passwordConfirm: undefined }, "SN").ok).toBe(false);
+  });
+
+  it("tire l'identifiant technique du nom", () => {
+    expect(usernameBase("Idrissa Fall")).toBe("idrissa.fall");
+    expect(usernameBase("Ndèye Fatou N'Diaye")).toBe("ndeye.fatou.n.diaye");
+    expect(usernameBase("Aïssatou Bâ")).toBe("aissatou.ba");
+    expect(usernameBase("Bo Ba")).toBe("bo.ba");
+    expect(usernameBase("Abdoulaye Mamadou Alpha Diallo")).toMatch(/^[a-z0-9_.]{3,24}$/);
+    expect(usernameBase("李 王")).toBe("eleve");
+    expect(firstNameOf(" Awa  Diop ")).toBe("Awa");
   });
 });

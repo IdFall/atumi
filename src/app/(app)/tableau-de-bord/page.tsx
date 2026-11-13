@@ -48,7 +48,7 @@ async function Dashboard() {
   return (
     <DashboardView
       userId={user.id}
-      username={user.username}
+      username={user.fullName ?? user.username}
       avatarUrl={avatarUrl}
       cycle={user.cycle}
       access={access}

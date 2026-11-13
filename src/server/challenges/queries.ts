@@ -3,6 +3,7 @@ import "server-only";
 import { z } from "zod";
 
 import { correctFromScore, isChallengeOpen } from "@/lib/challenge";
+import { firstNameOf } from "@/server/auth/schemas";
 import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 
 export interface ChallengeQuestion {
@@ -63,7 +64,7 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
       .eq("id", challenge.quiz_id)
       .eq("user_id", userId)
       .maybeSingle(),
-    service.from("profiles").select("username").eq("id", userId).maybeSingle(),
+    service.from("profiles").select("username, full_name").eq("id", userId).maybeSingle(),
     service
       .from("quiz_questions")
       .select("id, kind, prompt, choices, expected_answer, explanation")
@@ -96,7 +97,8 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
     id: challenge.id,
     // Correction publiée : plus personne ne joue, le lien montre la correction.
     open: !published && isChallengeOpen(challenge, Date.now()),
-    username: profile.username,
+    // Lien public : le prénom seulement (jamais le nom de famille).
+    username: profile.full_name ? firstNameOf(profile.full_name) : profile.username,
     subject: chapter?.title ?? mod?.name ?? "",
     correct: classMode ? null : correctFromScore(attempt.score, stored.length),
     total: stored.length,

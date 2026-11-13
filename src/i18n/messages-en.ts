@@ -119,7 +119,7 @@ export const en: Messages = {
   },
   legal: {
     back: "Back",
-    updated: "Last updated: November 12, 2026",
+    updated: "Last updated: November 13, 2026",
     termsLink: "Terms of use and sale",
     privacyLink: "Privacy",
     contactTitle: "Contact us",
@@ -147,7 +147,7 @@ export const en: Messages = {
         {
           title: "3. Your account",
           body: [
-            "Sign-up asks for a username, an email or phone number, a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
+            "Sign-up asks for your first and last name, an email or phone number, a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
             "Sign-up asks for your age. A student under 18 gives the phone number of a parent or guardian; a teacher account is for adults only. This parent is notified on WhatsApp and can refuse the sign-up; a refusal suspends the account.",
             "For your security, AtumiNeo signs you out after 1 hour without activity.",
           ],
@@ -233,7 +233,7 @@ export const en: Messages = {
         {
           title: "2. Data collected",
           body: [
-            "Account: username, email or phone number, password (stored encrypted, never readable), declared age, country, level, role (student or teacher), language, profile photo if you add one, and the date you accepted these texts.",
+            "Account: first and last name, email or phone number, password (stored encrypted, never readable), declared age, country, level, role (student or teacher), language, profile photo if you add one, and the date you accepted these texts.",
             "Student under 18: phone number of a parent or guardian, and their possible answer.",
             "Studies: imported courses (PDF, Word, photos), books added to your library, summaries, quizzes and results, conversations with the teacher, searches, planner and timetable. For a call, only the written transcript is kept: no audio or video recording is stored; camera images, if you turn it on, are only passed to the teacher during the call.",
             "Payments: chosen plan, amount, payment method (Wave or Orange Money), number used and transaction reference. AtumiNeo never receives your PIN.",
@@ -252,7 +252,7 @@ export const en: Messages = {
           title: "4. Who sees it",
           body: [
             "Your courses, summaries, quizzes, conversations and books are visible to you only. The AtumiNeo team sees your account, plan, payments, messages to the team and usage, but not your courses or conversations.",
-            "What you choose to share is visible to those who have the link: a quiz challenge shows the questions, your score and your username (7 days); a text shared on WhatsApp can be read without your name for 30 days.",
+            "What you choose to share is visible to those who have the link: a quiz challenge shows the questions, your score and your first name (7 days); a text shared on WhatsApp can be read without your name for 30 days.",
           ],
         },
         {
@@ -310,11 +310,12 @@ export const en: Messages = {
     backHome: "Back",
     verifyTitle: "Confirm your number",
     fields: {
-      username: "Username",
-      usernameHint: "3 to 32 characters: lowercase letters, digits, dot or underscore.",
+      fullName: "First and last name",
+      fullNameHint: "E.g. Awa Diop. Letters, upper or lower case, and spaces.",
       identifier: "Email or phone number",
       password: "Password",
       passwordHint: "At least 8 characters.",
+      passwordConfirm: "Confirm the password",
       role: "I am",
       cycle: "Level of study",
       cycleTeacher: "Level you teach",
@@ -353,13 +354,14 @@ export const en: Messages = {
     backToSignIn: "Back to sign in",
     checkEmail: "Your account is created. Open the link sent by email to activate it.",
     errors: {
-      usernameInvalid: "This username is not valid.",
-      usernameTaken: "This username is already taken.",
+      fullNameRequired: "Enter your first and last name.",
+      fullNameInvalid: "Write your first and last name, using letters only (e.g. Awa Diop).",
       identifierInvalid: "Enter a valid email address or phone number.",
       identifierTaken: "An account already exists with this email or number.",
       countryNotOpen: "AtumiNeo is not available in this country yet.",
       passwordLength: "The password must be 8 to 72 characters long.",
       passwordRequired: "Enter your password.",
+      passwordMismatch: "The two passwords do not match.",
       cycleRequired: "Choose your level of study.",
       cycleNotOpen: "AtumiNeo is open to high school and university students for now.",
       ageRequired: "Enter your age.",
@@ -369,7 +371,7 @@ export const en: Messages = {
       guardianPhoneRequired: "Enter the number of a parent or guardian.",
       guardianPhoneSameAsUser: "The parent's number must be different from yours.",
       cguRequired: "You must accept the terms to continue.",
-      invalidCredentials: "Wrong username or password.",
+      invalidCredentials: "Wrong email, phone number or password.",
       invalidCode: "Wrong or expired code.",
       resetPhoneUnsupported: "Reset by SMS is coming soon. For now, use the account's email address.",
       resetLinkExpired: "This link has expired or was already used. Ask for a new link.",
@@ -877,7 +879,7 @@ export const en: Messages = {
   challenge: {
     button: "Challenge a friend on WhatsApp",
     preparing: "Preparing the challenge…",
-    privacy: "Your questions, score and username will be visible to anyone who gets the link. The challenge lasts 7 days; you can stop it earlier.",
+    privacy: "Your questions, score and first name will be visible to anyone who gets the link. The challenge lasts 7 days; you can stop it earlier.",
     linkReady: "Your challenge link:",
     copyLink: "Copy the message",
     linkCopied: "Message copied! Paste it in WhatsApp.",
@@ -1109,7 +1111,7 @@ export const en: Messages = {
     thanks: "Thanks for your feedback.",
     contactTitle: "No answer to your question?",
     contactCta: "Write to the team",
-    contactPlaceholder: "Explain your request. For an account problem, give your username.",
+    contactPlaceholder: "Explain your request. For an account problem, give your first and last name.",
     contactSend: "Send to the team",
     contactSent: "Message sent: the AtumiNeo team has received it and will get back to you.",
     errors: {

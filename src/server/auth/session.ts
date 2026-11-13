@@ -8,6 +8,8 @@ import { createUserClient } from "@/lib/supabase/server";
 export interface CurrentUser {
   id: string;
   username: string;
+  /** Prénom et nom saisis à l'inscription (vide pour les comptes plus anciens). */
+  fullName: string | null;
   cycle: Cycle;
   countryCode: string;
   /** Élève ou enseignant (choisi à l'inscription). */
@@ -27,7 +29,7 @@ export async function getCurrentUser(): Promise<CurrentUser> {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username, cycle, country_code, role")
+    .select("username, full_name, cycle, country_code, role")
     .eq("id", userId)
     .single();
   if (!profile) redirect("/connexion");
@@ -35,6 +37,7 @@ export async function getCurrentUser(): Promise<CurrentUser> {
   return {
     id: userId,
     username: profile.username,
+    fullName: profile.full_name ?? null,
     cycle: profile.cycle as Cycle,
     countryCode: profile.country_code,
     role: profile.role === "enseignant" ? "enseignant" : "eleve",

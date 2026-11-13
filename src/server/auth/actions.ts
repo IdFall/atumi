@@ -10,7 +10,9 @@ import { createServiceClient, createUserClient } from "@/lib/supabase/server";
 import { enqueue } from "@/server/jobs/client";
 import { QUEUES } from "@/server/jobs/queues";
 
-import { CGU_VERSION, parseIdentifier, parseSignIn, parseSignUp } from "./schemas";
+import { randomInt } from "node:crypto";
+
+import { CGU_VERSION, parseIdentifier, parseSignIn, parseSignUp, usernameBase } from "./schemas";
 
 export interface FormState {
   errors?: Partial<Record<string, AuthErrorKey>>;
@@ -29,7 +31,7 @@ function field(formData: FormData, name: string): string {
 
 export async function signUpAction(_prev: FormState, formData: FormData): Promise<FormState> {
   const values = {
-    username: field(formData, "username"),
+    fullName: field(formData, "fullName"),
     identifier: field(formData, "identifier"),
     cycle: field(formData, "cycle"),
     role: field(formData, "role"),
@@ -37,21 +39,25 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     age: field(formData, "age"),
   };
   const parsed = parseSignUp(
-    { ...values, password: field(formData, "password"), acceptCgu: formData.get("acceptCgu") },
+    {
+      ...values,
+      password: field(formData, "password"),
+      passwordConfirm: field(formData, "passwordConfirm"),
+      acceptCgu: formData.get("acceptCgu"),
+    },
     DEFAULT_COUNTRY,
   );
   if (!parsed.ok) return { errors: parsed.errors, values };
   const input = parsed.data;
 
-  // Message clair si le pseudo est pris (sinon la base refuserait l'inscription sans détail).
-  const { count } = await createServiceClient()
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .eq("username", input.username);
-  if (count) return { errors: { username: "usernameTaken" }, values };
+  // Identifiant technique tiré du nom, rendu unique par des chiffres si besoin
+  // (deux élèves peuvent porter le même nom).
+  const username = await freeUsername(usernameBase(input.fullName));
+  if (!username) return { formError: "unknown", values };
 
   const metadata = {
-    username: input.username,
+    username,
+    full_name: input.fullName,
     cycle: input.cycle,
     role: input.role,
     country_code: input.countryCode,
@@ -99,6 +105,21 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     redirect(`/verification?telephone=${encodeURIComponent(input.identifier.phone)}`);
   }
   return { notice: "checkEmail" };
+}
+
+/** Premier identifiant libre : la base, puis la base suivie de 4 chiffres tirés au hasard. */
+async function freeUsername(base: string): Promise<string | null> {
+  const service = createServiceClient();
+  const candidates = [base, ...Array.from({ length: 5 }, () => `${base}${randomInt(1000, 10000)}`)];
+  for (const candidate of candidates) {
+    const { count, error } = await service
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .eq("username", candidate);
+    if (error) return null;
+    if (!count) return candidate;
+  }
+  return null;
 }
 
 export async function signInAction(_prev: FormState, formData: FormData): Promise<FormState> {
