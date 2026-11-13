@@ -92,3 +92,7 @@ export function parsePlanForm(
   if (q !== null && (q < 3 || q > 30)) return { ok: false, error: "invalidNumber" };
   return { ok: true, plan: { ...parsed.data, priceMinor, isActive: get("isActive") === "on" } };
 }
+
+/** Rôles proposés à la création d'un compte par un administrateur (back office). */
+export const ADMIN_CREATE_ROLES = ["eleve", "enseignant", "admin"] as const;
+export type AdminCreateRole = (typeof ADMIN_CREATE_ROLES)[number];

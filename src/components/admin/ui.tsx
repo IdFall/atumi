@@ -128,8 +128,5 @@ export async function ActionNotice({ ok, error }: { ok?: unknown; error?: unknow
   return null;
 }
 
-export const inputClass =
-  "rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950";
-export const buttonClass = "rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-strong";
-export const secondaryButtonClass =
-  "rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-sm dark:border-neutral-700 dark:bg-neutral-900";
+// Classes partagées avec les formulaires client du back office (sans import serveur).
+export { buttonClass, inputClass, secondaryButtonClass } from "./styles";

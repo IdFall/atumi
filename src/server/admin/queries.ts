@@ -1,6 +1,6 @@
 import "server-only";
 
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { cache } from "react";
 
 import { createUserClient } from "@/lib/supabase/server";
@@ -11,13 +11,17 @@ import { createUserClient } from "@/lib/supabase/server";
  * (`require_admin`) et ne renvoie ni cours, ni quiz, ni conversation.
  */
 
-/** Garde des pages /admin : connexion obligatoire, puis rôle administrateur (sinon 404). */
-export const requireAdmin = cache(async (): Promise<void> => {
+/**
+ * Garde des pages /admin : connexion obligatoire, puis rôle administrateur.
+ * Renvoie false pour un compte sans ce rôle (la page affiche « Réservé aux
+ * administrateurs ») ; chaque lecture est de toute façon refusée par la base.
+ */
+export const requireAdmin = cache(async (): Promise<boolean> => {
   const supabase = await createUserClient();
   const { data } = await supabase.auth.getClaims();
   if (!data?.claims?.sub) redirect("/connexion");
   const { data: isAdmin } = await supabase.rpc("is_admin");
-  if (isAdmin !== true) notFound();
+  return isAdmin === true;
 });
 
 async function rpc<T>(name: string, args?: Record<string, unknown>): Promise<T> {
