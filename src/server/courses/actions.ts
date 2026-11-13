@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { isImageMime } from "@/config/documents";
@@ -12,7 +11,7 @@ import { requireUserId } from "@/server/auth/session";
 import { enqueue } from "@/server/jobs/client";
 import { QUEUES } from "@/server/jobs/queues";
 
-import { parseChapterTitle, parseImport, parseModuleName } from "./schemas";
+import { parseChapterTitle, parseImport } from "./schemas";
 
 export interface CoursesFormState {
   error?: CoursesErrorKey;
@@ -23,23 +22,6 @@ export interface CoursesFormState {
 function field(formData: FormData, name: string): string {
   const value = formData.get(name);
   return typeof value === "string" ? value : "";
-}
-
-export async function createModuleAction(_prev: CoursesFormState, formData: FormData): Promise<CoursesFormState> {
-  const userId = await requireUserId();
-  const parsed = parseModuleName(field(formData, "name"));
-  if (!parsed.ok) return { error: parsed.error };
-
-  const supabase = await createUserClient();
-  const { data, error } = await supabase
-    .from("modules")
-    .insert({ user_id: userId, name: parsed.name })
-    .select("id")
-    .single();
-  if (error) return { error: "unknown" };
-
-  revalidatePath("/cours");
-  redirect(`/cours/${data.id}`);
 }
 
 export async function createChapterAction(_prev: CoursesFormState, formData: FormData): Promise<CoursesFormState> {

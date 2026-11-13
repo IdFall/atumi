@@ -2,11 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { InlineCreateForm } from "@/components/courses/inline-create-form";
 import { ModuleCard } from "@/components/courses/module-card";
 import { PendingRefresh } from "@/components/courses/pending-refresh";
 import { getT } from "@/i18n/server";
-import { createModuleAction } from "@/server/courses/actions";
 import { FILE_CATEGORIES } from "@/config/documents";
 import { listModules, listMyFiles } from "@/server/courses/queries";
 
@@ -37,7 +35,10 @@ export default async function CoursesPage() {
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
         <ModuleList />
       </Suspense>
-      <InlineCreateForm action={createModuleAction} fieldName="name" label={t.courses.newModule} placeholder={t.courses.newModulePlaceholder} />
+      {/* Un module se crée depuis « Importer » (« + Nouveau module »), avec son premier cours. */}
+      <Link href="/importer" className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white hover:bg-primary-strong">
+        {t.courses.nextStep.importAction}
+      </Link>
       <Suspense fallback={null}>
         <FilesByType />
       </Suspense>

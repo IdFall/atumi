@@ -821,7 +821,6 @@ const fr = {
     empty: "Aucun module pour l'instant. Importe un cours pour commencer.",
     chapters: { one: "chapitre", other: "chapitres" },
     documents: { one: "document", other: "documents" },
-    newModule: "Nouveau module",
     newModuleName: "Nom du module",
     newModulePlaceholder: "Par exemple : Analyse 2",
     create: "Créer",

@@ -812,7 +812,6 @@ export const en: Messages = {
     empty: "No module yet. Import a course to get started.",
     chapters: { one: "chapter", other: "chapters" },
     documents: { one: "document", other: "documents" },
-    newModule: "New module",
     newModuleName: "Module name",
     newModulePlaceholder: "For example: Calculus 2",
     create: "Create",
