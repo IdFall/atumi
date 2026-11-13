@@ -361,6 +361,8 @@ const fr = {
     newPasswordTitle: "Nouveau mot de passe",
     newPasswordSubmit: "Enregistrer le mot de passe",
     backToSignIn: "Retour à la connexion",
+    resendConfirmation: "Renvoyer le lien de confirmation",
+    confirmationResent: "Si ce compte attend sa confirmation, un nouveau lien vient de partir. Ouvre-le, puis reconnecte-toi.",
     checkEmail: "Ton compte est créé. Ouvre le lien envoyé par e-mail pour l'activer.",
     errors: {
       fullNameRequired: "Indique ton prénom et ton nom.",
@@ -371,6 +373,7 @@ const fr = {
       passwordLength: "Le mot de passe doit contenir entre 8 et 72 caractères.",
       passwordRequired: "Saisis ton mot de passe.",
       passwordMismatch: "Les deux mots de passe ne sont pas identiques.",
+      emailNotConfirmed: "Ton adresse e-mail n'est pas encore confirmée. Ouvre le lien reçu à l'inscription (regarde aussi dans les courriers indésirables), puis reconnecte-toi.",
       cycleRequired: "Choisis ton niveau d'étude.",
       cycleNotOpen: "AtumiNeo est ouvert aux lycéens et aux étudiants pour le moment.",
       ageRequired: "Indique ton âge.",
