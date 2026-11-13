@@ -6,12 +6,11 @@ import { redirect } from "next/navigation";
 import { defaultCountry } from "@/config/countries";
 import { INACTIVE_PARAM } from "@/config/session";
 import type { AuthErrorKey } from "@/i18n/messages";
-import { createServiceClient, createUserClient } from "@/lib/supabase/server";
+import { createUserClient } from "@/lib/supabase/server";
 import { enqueue } from "@/server/jobs/client";
 import { QUEUES } from "@/server/jobs/queues";
 
-import { randomInt } from "node:crypto";
-
+import { freeUsername } from "./username";
 import { CGU_VERSION, parseIdentifier, parseSignIn, parseSignUp, usernameBase } from "./schemas";
 
 export interface FormState {
@@ -106,21 +105,6 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
   }
   // L'adresse revient pour l'écran « Confirme ton adresse e-mail ».
   return { notice: "checkEmail", values: { identifier: input.identifier.email } };
-}
-
-/** Premier identifiant libre : la base, puis la base suivie de 4 chiffres tirés au hasard. */
-async function freeUsername(base: string): Promise<string | null> {
-  const service = createServiceClient();
-  const candidates = [base, ...Array.from({ length: 5 }, () => `${base}${randomInt(1000, 10000)}`)];
-  for (const candidate of candidates) {
-    const { count, error } = await service
-      .from("profiles")
-      .select("id", { count: "exact", head: true })
-      .eq("username", candidate);
-    if (error) return null;
-    if (!count) return candidate;
-  }
-  return null;
 }
 
 export async function signInAction(_prev: FormState, formData: FormData): Promise<FormState> {

@@ -11,6 +11,7 @@ type NavKey = Exclude<keyof Messages["admin"]["nav"], "label">;
 const ITEMS: readonly { href: string; key: NavKey }[] = [
   { href: "/admin", key: "overview" },
   { href: "/admin/eleves", key: "users" },
+  { href: "/admin/nouveau-compte", key: "create" },
   { href: "/admin/forfaits", key: "plans" },
   { href: "/admin/messages", key: "messages" },
   { href: "/admin/ia", key: "ai" },
