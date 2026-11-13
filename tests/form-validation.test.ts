@@ -72,26 +72,27 @@ describe("texte saisi (safeText)", () => {
 
 describe("inscription et connexion", () => {
   const base = {
-    username: "awa_diop",
+    fullName: "Awa Diop",
     identifier: "awa@exemple.sn",
     password: "motdepasse",
+    passwordConfirm: "motdepasse",
     cycle: "universite",
     age: "20",
     acceptCgu: "on",
   };
 
-  it("refuse un nom d'utilisateur avec du code ou des caractères invisibles", () => {
-    for (const username of ["<script>", "awa diop", "awa\u0000", "awa\u202E", "a'--", "ab", "a".repeat(33)]) {
-      const result = parseSignUp({ ...base, username }, "SN");
+  it("refuse un prénom et nom avec du code ou des caractères invisibles", () => {
+    for (const fullName of ["<script>", "Awa <b>Diop</b>", "Awa\u0000 Diop", "Awa\u202E Diop", "Awa Diop'--", "ab", "Awa Diop;", "a".repeat(61)]) {
+      const result = parseSignUp({ ...base, fullName }, "SN");
       expect(result.ok).toBe(false);
-      if (!result.ok) expect(result.errors.username).toBe("usernameInvalid");
+      if (!result.ok) expect(result.errors.fullName).toBe("fullNameInvalid");
     }
   });
 
   it("refuse des champs d'un mauvais type sans planter", () => {
     for (const value of WRONG_TYPES) {
       const result = parseSignUp(
-        { username: value, identifier: value, password: value, cycle: value, age: value, acceptCgu: value },
+        { fullName: value, identifier: value, password: value, cycle: value, age: value, acceptCgu: value },
         "SN",
       );
       expect(result.ok).toBe(false);

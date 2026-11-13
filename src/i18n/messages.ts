@@ -126,7 +126,7 @@ const fr = {
   /** Pages légales publiques : /conditions (CGU et CGV) et /confidentialite. */
   legal: {
     back: "Retour",
-    updated: "Dernière mise à jour : 12 novembre 2026",
+    updated: "Dernière mise à jour : 13 novembre 2026",
     termsLink: "Conditions d'utilisation et de vente",
     privacyLink: "Confidentialité",
     contactTitle: "Nous écrire",
@@ -154,7 +154,7 @@ const fr = {
         {
           title: "3. Ton compte",
           body: [
-            "L'inscription demande un nom d'utilisateur, un e-mail ou un numéro de téléphone, un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
+            "L'inscription demande ton prénom et ton nom, un e-mail ou un numéro de téléphone, un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
             "L'inscription demande ton âge. Un élève de moins de 18 ans indique le numéro d'un parent ou tuteur ; un compte enseignant est réservé aux majeurs. Ce parent est prévenu par WhatsApp et peut refuser l'inscription ; un refus suspend le compte.",
             "Pour ta sécurité, AtumiNeo te déconnecte après 1 h sans activité.",
           ],
@@ -242,7 +242,7 @@ const fr = {
         {
           title: "2. Les données recueillies",
           body: [
-            "Compte : nom d'utilisateur, e-mail ou numéro de téléphone, mot de passe (enregistré chiffré, jamais lisible), âge déclaré, pays, niveau, rôle (élève ou enseignant), langue, photo de profil si tu en ajoutes une, et la date d'acceptation de ces textes.",
+            "Compte : prénom et nom, e-mail ou numéro de téléphone, mot de passe (enregistré chiffré, jamais lisible), âge déclaré, pays, niveau, rôle (élève ou enseignant), langue, photo de profil si tu en ajoutes une, et la date d'acceptation de ces textes.",
             "Élève mineur : numéro de téléphone d'un parent ou tuteur, et sa réponse éventuelle.",
             "Études : cours importés (PDF, Word, photos), livres ajoutés à ta bibliothèque, synthèses, quiz et résultats, conversations avec le professeur, recherches, agenda et emploi du temps. Pour un appel, seule la transcription écrite est gardée : aucun enregistrement audio ou vidéo n'est conservé ; les images de la caméra, si tu l'actives, sont seulement transmises au professeur pendant l'appel.",
             "Paiements : forfait choisi, montant, moyen de paiement (Wave ou Orange Money), numéro utilisé et référence de la transaction. AtumiNeo ne reçoit jamais ton code secret.",
@@ -261,7 +261,7 @@ const fr = {
           title: "4. Qui les voit",
           body: [
             "Tes cours, synthèses, quiz, conversations et livres ne sont visibles que par toi. L'équipe d'AtumiNeo voit ton compte, ton forfait, tes paiements, tes messages à l'équipe et ta consommation, mais pas tes cours ni tes conversations.",
-            "Ce que tu choisis de partager est visible par ceux qui ont le lien : un défi quiz montre les questions, ton score et ton nom d'utilisateur (7 jours) ; un texte partagé sur WhatsApp est lisible sans ton nom pendant 30 jours.",
+            "Ce que tu choisis de partager est visible par ceux qui ont le lien : un défi quiz montre les questions, ton score et ton prénom (7 jours) ; un texte partagé sur WhatsApp est lisible sans ton nom pendant 30 jours.",
           ],
         },
         {
@@ -319,11 +319,12 @@ const fr = {
     backHome: "Retour",
     verifyTitle: "Confirmer ton numéro",
     fields: {
-      username: "Nom d'utilisateur",
-      usernameHint: "3 à 32 caractères : lettres minuscules, chiffres, point ou tiret bas.",
+      fullName: "Prénom et nom",
+      fullNameHint: "Ex. : Awa Diop. Lettres, majuscules ou minuscules, et espaces.",
       identifier: "E-mail ou numéro de téléphone",
       password: "Mot de passe",
       passwordHint: "8 caractères minimum.",
+      passwordConfirm: "Confirme le mot de passe",
       role: "Je suis",
       cycle: "Niveau d'étude",
       cycleTeacher: "Niveau où tu enseignes",
@@ -362,13 +363,14 @@ const fr = {
     backToSignIn: "Retour à la connexion",
     checkEmail: "Ton compte est créé. Ouvre le lien envoyé par e-mail pour l'activer.",
     errors: {
-      usernameInvalid: "Ce nom d'utilisateur n'est pas valide.",
-      usernameTaken: "Ce nom d'utilisateur est déjà pris.",
+      fullNameRequired: "Indique ton prénom et ton nom.",
+      fullNameInvalid: "Écris ton prénom et ton nom, avec des lettres seulement (ex. : Awa Diop).",
       identifierInvalid: "Saisis une adresse e-mail ou un numéro de téléphone valide.",
       identifierTaken: "Un compte existe déjà avec cet e-mail ou ce numéro.",
       countryNotOpen: "AtumiNeo n'est pas encore disponible dans ce pays.",
       passwordLength: "Le mot de passe doit contenir entre 8 et 72 caractères.",
       passwordRequired: "Saisis ton mot de passe.",
+      passwordMismatch: "Les deux mots de passe ne sont pas identiques.",
       cycleRequired: "Choisis ton niveau d'étude.",
       cycleNotOpen: "AtumiNeo est ouvert aux lycéens et aux étudiants pour le moment.",
       ageRequired: "Indique ton âge.",
@@ -886,7 +888,7 @@ const fr = {
   challenge: {
     button: "Défier un ami sur WhatsApp",
     preparing: "Préparation du défi…",
-    privacy: "Tes questions, ton score et ton nom d'utilisateur seront visibles par ceux qui reçoivent le lien. Le défi dure 7 jours ; tu peux l'arrêter avant.",
+    privacy: "Tes questions, ton score et ton prénom seront visibles par ceux qui reçoivent le lien. Le défi dure 7 jours ; tu peux l'arrêter avant.",
     linkReady: "Ton lien de défi :",
     copyLink: "Copier le message",
     linkCopied: "Message copié ! Colle-le dans WhatsApp.",
@@ -1119,7 +1121,7 @@ const fr = {
     thanks: "Merci pour ton avis.",
     contactTitle: "Pas de réponse à ta question ?",
     contactCta: "Écrire à l'équipe",
-    contactPlaceholder: "Explique ta demande. Pour un problème de compte, indique ton nom d'utilisateur.",
+    contactPlaceholder: "Explique ta demande. Pour un problème de compte, indique ton prénom et ton nom.",
     contactSend: "Envoyer à l'équipe",
     contactSent: "Message envoyé : l'équipe AtumiNeo l'a bien reçu et te recontactera.",
     errors: {

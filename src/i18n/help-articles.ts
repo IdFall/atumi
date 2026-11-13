@@ -129,7 +129,7 @@ Le bouton « Faire un quiz » prépare un QCM tiré de ton cours. Chaque quiz se
 Un quiz dont la préparation a échoué ne compte pas dans ton forfait.
 Si tu n'es pas d'accord avec une correction, tu peux la contester : AtumiNeo te propose de refaire un quiz sur d'autres questions ou d'en parler avec un professeur.
 Partager sur WhatsApp : le bouton « WhatsApp » sous une réponse du Prof, une recherche ou une synthèse ouvre WhatsApp avec le texte. Un texte très long part en version courte, suivie de « Lire la suite sur AtumiNeo » : le texte complet est alors lisible sans compte par ceux qui ont le lien, pendant 30 jours, sans ton nom (30 partages longs par jour au plus).
-Défi entre amis : après la correction, « Défier un ami sur WhatsApp » envoie un lien. Ton ami passe les mêmes questions sans créer de compte, puis voit son score à côté du tien. Ceux qui reçoivent le lien voient tes questions, ton score et ton nom d'utilisateur, rien d'autre. Sous la correction, « Ils ont relevé ton défi » te montre le prénom et le score de chaque ami. Le défi dure 7 jours ; « Arrêter le défi » le termine avant, et tu peux le relancer avec le même lien. Le défi ne compte pas dans ton forfait.`,
+Défi entre amis : après la correction, « Défier un ami sur WhatsApp » envoie un lien. Ton ami passe les mêmes questions sans créer de compte, puis voit son score à côté du tien. Ceux qui reçoivent le lien voient tes questions, ton score et ton prénom, rien d'autre. Sous la correction, « Ils ont relevé ton défi » te montre le prénom et le score de chaque ami. Le défi dure 7 jours ; « Arrêter le défi » le termine avant, et tu peux le relancer avec le même lien. Le défi ne compte pas dans ton forfait.`,
     },
     {
       id: "professeur",
@@ -210,7 +210,7 @@ Sécurité : les pages gardées restent sur ton appareil et sont effacées quand
       id: "compte",
       title: "Mon compte et mon mot de passe",
       body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
-Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton nom d'utilisateur.
+Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton prénom et ton nom.
 Pour te déconnecter : sur téléphone, l'icône de sortie en haut à droite de l'écran ; sur ordinateur, « Me déconnecter » en bas du menu.
 Photo de profil (facultative) : sur l'accueil, appuie sur le rond avec tes initiales pour ajouter ta photo (JPG, PNG ou WebP), puis dessus à nouveau pour la changer ou la retirer. Elle est recadrée en carré et reste privée : toi seul la vois.
 Pour protéger ton compte, AtumiNeo te déconnecte automatiquement après 1 h sans activité (appli fermée ou laissée ouverte sans y toucher). Il suffit de te reconnecter.
@@ -222,7 +222,7 @@ L'inscription demande ton âge. Un élève de moins de 18 ans indique le numéro
     {
       id: "confidentialite",
       title: "Mes données",
-      body: `Tes cours, tes synthèses, tes quiz et tes conversations avec le professeur ne sont visibles que par toi, sauf un quiz que tu choisis de partager en défi (questions, score et nom d'utilisateur).
+      body: `Tes cours, tes synthèses, tes quiz et tes conversations avec le professeur ne sont visibles que par toi, sauf un quiz que tu choisis de partager en défi (questions, score et prénom).
 AtumiNeo ne demande jamais le nom de ton établissement.
 Tes documents servent uniquement à t'aider : ils ne sont ni publiés ni partagés avec d'autres utilisateurs.
 Le détail (données recueillies, prestataires, durée de conservation, tes droits) est dans la politique de confidentialité, page /confidentialite ; les règles d'utilisation, de paiement et de remboursement sont dans les conditions, page /conditions. Pour accéder à tes données, les corriger ou les supprimer, ou fermer ton compte : écris à l'équipe depuis le centre d'aide.`,
@@ -276,7 +276,7 @@ The "Take a quiz" button prepares a multiple-choice quiz from your course. Each 
 A quiz whose preparation failed does not count in your plan.
 If you disagree with a correction, you can dispute it: AtumiNeo suggests taking a new quiz with other questions or talking it over with a teacher.
 Share on WhatsApp: the "WhatsApp" button under a teacher's answer, a search or a summary opens WhatsApp with the text. A very long text is sent shortened, followed by "Read more on AtumiNeo": the full text can then be read without an account by anyone with the link, for 30 days, without your name (at most 30 long shares per day).
-Challenge a friend: after the correction, "Challenge a friend on WhatsApp" sends a link. Your friend takes the same questions without creating an account, then sees their score next to yours. People who get the link see your questions, your score and your username, nothing else. Under the correction, "They took your challenge" shows each friend's name and score. The challenge lasts 7 days; "Stop the challenge" ends it earlier, and you can restart it with the same link. The challenge does not count against your plan.`,
+Challenge a friend: after the correction, "Challenge a friend on WhatsApp" sends a link. Your friend takes the same questions without creating an account, then sees their score next to yours. People who get the link see your questions, your score and your first name, nothing else. Under the correction, "They took your challenge" shows each friend's name and score. The challenge lasts 7 days; "Stop the challenge" ends it earlier, and you can restart it with the same link. The challenge does not count against your plan.`,
     },
     {
       id: "professeur",
@@ -357,7 +357,7 @@ Security: saved pages stay on your device and are erased when you sign out, or a
       id: "compte",
       title: "My account and password",
       body: `To sign in, use your email or phone number with your password, from the sign-in page.
-Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your username.
+Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your first and last name.
 To sign out: on a phone, the exit icon at the top right of the screen; on a computer, "Sign out" at the bottom of the menu.
 Profile photo (optional): on the home page, tap the circle with your initials to add your photo (JPG, PNG or WebP), then tap it again to change or remove it. It is cropped to a square and stays private: only you can see it.
 To protect your account, AtumiNeo signs you out automatically after 1 hour without activity (app closed or left open untouched). Just sign in again.
@@ -368,7 +368,7 @@ AtumiNeo is open to high school and university students. Sign-up asks for your a
     {
       id: "confidentialite",
       title: "My data",
-      body: `Your courses, summaries, quizzes and conversations with the teacher are visible only to you, except a quiz you choose to share as a challenge (questions, score and username).
+      body: `Your courses, summaries, quizzes and conversations with the teacher are visible only to you, except a quiz you choose to share as a challenge (questions, score and first name).
 AtumiNeo never asks for the name of your school.
 Your documents are used only to help you: they are neither published nor shared with other users.
 The details (data collected, providers, retention, your rights) are in the privacy policy, page /confidentialite; the rules for use, payment and refunds are in the terms, page /conditions. To access, correct or delete your data, or close your account: write to the team from the help centre.`,

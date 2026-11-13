@@ -58,7 +58,7 @@ beforeAll(async () => {
     grant select, insert, update, delete on all tables in schema storage to authenticated;
     grant execute on all functions in schema auth, storage to authenticated;
     insert into auth.users (id, email, raw_user_meta_data) values
-      ('${A}', 'a@exemple.sn', '{"username": "awa", "cycle": "universite", "cgu_accepted": true, "cgu_version": "2026-11"}'),
+      ('${A}', 'a@exemple.sn', '{"username": "awa", "full_name": "  Awa   Diop ", "cycle": "universite", "cgu_accepted": true, "cgu_version": "2026-11"}'),
       ('${B}', 'b@exemple.sn', '{"username": "bakary", "cycle": "lycee", "guardian_phone": "+221770000000", "cgu_accepted": true}');
     insert into public.modules (id, user_id, name) values
       ('${MODULE_A}', '${A}', 'Maths A'), ('${MODULE_B}', '${B}', 'Maths B');
@@ -88,10 +88,10 @@ function insertUser(meta: Record<string, unknown>) {
 describe("inscription", () => {
   it("crée le profil et le consentement aux CGU", async () => {
     await asUser(A);
-    const profile = await db.query<{ username: string; country_code: string; cycle: string }>(
-      `select username, country_code, cycle from public.profiles`,
+    const profile = await db.query<{ username: string; full_name: string | null; country_code: string; cycle: string }>(
+      `select username, full_name, country_code, cycle from public.profiles`,
     );
-    expect(profile.rows).toEqual([{ username: "awa", country_code: "SN", cycle: "universite" }]);
+    expect(profile.rows).toEqual([{ username: "awa", full_name: "Awa Diop", country_code: "SN", cycle: "universite" }]);
     const consents = await db.query<{ kind: string }>(`select kind from public.consents`);
     expect(consents.rows.map((r) => r.kind)).toEqual(["cgu"]);
   });
@@ -105,6 +105,15 @@ describe("inscription", () => {
       { kind: "cgu", guardian_phone_e164: null },
       { kind: "parental", guardian_phone_e164: "+221770000000" },
     ]);
+  });
+
+  it("refuse un prénom et nom trop long ou avec des caractères de contrôle", async () => {
+    await asService();
+    for (const fullName of ["A".repeat(61), "Awa\u0007 Diop"]) {
+      await expect(
+        insertUser({ username: "cheikh", full_name: fullName, cycle: "universite", is_adult: true, age: 20, cgu_accepted: true }),
+      ).rejects.toThrow();
+    }
   });
 
   it("refuse un mineur sans accord parental", async () => {

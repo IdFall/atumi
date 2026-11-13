@@ -3,7 +3,7 @@ import { z } from "zod";
 import { countryFromPhone, getCountry, isAdultAge, isCycleOpen, parseAge, toE164, type Cycle } from "@/config/countries";
 import type { AuthErrorKey } from "@/i18n/messages";
 
-export const CGU_VERSION = "2026-11-12";
+export const CGU_VERSION = "2026-11-13";
 
 export type Identifier = { kind: "email"; email: string } | { kind: "phone"; phone: string };
 
@@ -27,10 +27,11 @@ export type FieldErrors<F extends string> = Partial<Record<F, AuthErrorKey>>;
 
 export type ParseResult<T, F extends string> = { ok: true; data: T } | { ok: false; errors: FieldErrors<F> };
 
-type SignUpField = "username" | "identifier" | "password" | "age" | "cycle" | "guardianPhone" | "acceptCgu";
+type SignUpField = "fullName" | "identifier" | "password" | "passwordConfirm" | "age" | "cycle" | "guardianPhone" | "acceptCgu";
 
 export interface SignUpData {
-  username: string;
+  /** Prénom et nom, tels que saisis (espaces ramenés à un seul). */
+  fullName: string;
   identifier: Identifier;
   password: string;
   cycle: Cycle;
@@ -45,9 +46,10 @@ export interface SignUpData {
 }
 
 export interface SignUpInput {
-  username?: unknown;
+  fullName?: unknown;
   identifier?: unknown;
   password?: unknown;
+  passwordConfirm?: unknown;
   cycle?: unknown;
   role?: unknown;
   guardianPhone?: unknown;
@@ -55,7 +57,39 @@ export interface SignUpInput {
   acceptCgu?: unknown;
 }
 
-const USERNAME = /^[a-z0-9_.]{3,32}$/;
+/**
+ * Prénom et nom : lettres (accents compris), majuscules ou minuscules, espaces,
+ * trait d'union et apostrophe ; au moins deux lettres, 60 caractères au plus.
+ */
+const FULL_NAME = /^\p{L}[\p{L}\p{M} '’-]{0,58}[\p{L}\p{M}]$/u;
+
+/** Ramène les espaces à un seul et retire ceux du début et de la fin. */
+export function normalizeFullName(raw: string): string {
+  return raw.normalize("NFC").replace(/\s+/g, " ").trim();
+}
+
+/** Prénom affiché aux autres (défi public) : le premier mot du nom. */
+export function firstNameOf(fullName: string): string {
+  return normalizeFullName(fullName).split(" ")[0] ?? "";
+}
+
+/**
+ * Identifiant technique dérivé du nom (« Idrissa Fall » → « idrissa.fall ») :
+ * sans accents, en minuscules, 3 à 32 caractères (format exigé par la base).
+ * Le serveur ajoute des chiffres s'il est déjà pris.
+ */
+export function usernameBase(fullName: string): string {
+  const slug = fullName
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ".")
+    .replace(/^\.+|\.+$/g, "")
+    .slice(0, 24)
+    .replace(/\.+$/, "");
+  if (slug.length >= 3) return slug;
+  return slug ? `eleve.${slug}` : "eleve";
+}
 
 function text(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -64,8 +98,9 @@ function text(value: unknown): string {
 export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseResult<SignUpData, SignUpField> {
   const errors: FieldErrors<SignUpField> = {};
 
-  const username = text(input.username).toLowerCase();
-  if (!USERNAME.test(username)) errors.username = "usernameInvalid";
+  const fullName = normalizeFullName(typeof input.fullName === "string" ? input.fullName : "");
+  if (!fullName) errors.fullName = "fullNameRequired";
+  else if (!FULL_NAME.test(fullName) || !fullName.includes(" ")) errors.fullName = "fullNameInvalid";
 
   const identifier = parseIdentifier(text(input.identifier), defaultCountry);
   if (!identifier) errors.identifier = "identifierInvalid";
@@ -80,6 +115,7 @@ export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseRe
 
   const password = typeof input.password === "string" ? input.password : "";
   if (password.length < 8 || password.length > 72) errors.password = "passwordLength";
+  else if (input.passwordConfirm !== password) errors.passwordConfirm = "passwordMismatch";
 
   const role = text(input.role) === "enseignant" ? "enseignant" : "eleve";
 
@@ -115,7 +151,7 @@ export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseRe
   if (Object.keys(errors).length > 0 || !identifier || !country || age === null) {
     return { ok: false, errors };
   }
-  return { ok: true, data: { username, identifier, password, cycle, role, countryCode, guardianPhone, age, isAdult } };
+  return { ok: true, data: { fullName, identifier, password, cycle, role, countryCode, guardianPhone, age, isAdult } };
 }
 
 type SignInField = "identifier" | "password";

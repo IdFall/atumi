@@ -51,13 +51,14 @@ export function SignUpForm() {
     <form action={formAction} className="flex flex-col gap-4" noValidate>
       {state.formError ? <FormMessage tone="error">{t.auth.errors[state.formError]}</FormMessage> : null}
 
-      <Field label={t.auth.fields.username} hint={t.auth.fields.usernameHint} error={err("username")}>
+      <Field label={t.auth.fields.fullName} hint={t.auth.fields.fullNameHint} error={err("fullName")}>
         <TextInput
-          name="username"
-          autoComplete="username"
-          autoCapitalize="none"
-          defaultValue={state.values?.username}
-          invalid={Boolean(err("username"))}
+          name="fullName"
+          autoComplete="name"
+          autoCapitalize="words"
+          maxLength={60}
+          defaultValue={state.values?.fullName}
+          invalid={Boolean(err("fullName"))}
           required
         />
       </Field>
@@ -84,6 +85,17 @@ export function SignUpForm() {
         />
       </Field>
 
+      <Field label={t.auth.fields.passwordConfirm} error={err("passwordConfirm")}>
+        <TextInput
+          name="passwordConfirm"
+          type="password"
+          autoComplete="new-password"
+          minLength={8}
+          invalid={Boolean(err("passwordConfirm"))}
+          required
+        />
+      </Field>
+
       <Field label={t.auth.fields.age} hint={t.auth.fields.ageHint} error={err("age")}>
         <TextInput
           name="age"
@@ -101,12 +113,17 @@ export function SignUpForm() {
       {minorClosed && !err("age") ? <FormMessage tone="error">{t.auth.errors.minorClosed}</FormMessage> : null}
       {minor && teacher && !err("age") ? <FormMessage tone="error">{t.auth.errors.teacherMinor}</FormMessage> : null}
 
+      {/* Rôle et niveau partent par ces champs cachés : après un envoi refusé,
+          React vide les boutons radio du formulaire alors que le choix reste affiché. */}
+      <input type="hidden" name="role" value={role} />
+      <input type="hidden" name="cycle" value={cycle} />
+
       <fieldset className="flex flex-col gap-2 text-sm">
         <legend className="mb-1 font-medium">{t.auth.fields.role}</legend>
         <div className="grid grid-cols-2 gap-2">
           {(["eleve", "enseignant"] as const).map((value) => (
             <label key={value} className={choice(role === value)}>
-              <input type="radio" name="role" value={value} className="sr-only" checked={role === value} onChange={() => {
+              <input type="radio" name="roleChoice" value={value} className="sr-only" checked={role === value} onChange={() => {
                   setRole(value);
                   // Un niveau réservé aux enseignants (primaire, collège…) n'est plus proposé à un élève.
                   if (value === "eleve" && !STUDENT_CYCLES.includes(cycle as Cycle)) setCycle("");
@@ -125,7 +142,7 @@ export function SignUpForm() {
             <label key={value} className={choice(cycle === value)}>
               <input
                 type="radio"
-                name="cycle"
+                name="cycleChoice"
                 value={value}
                 className="sr-only"
                 checked={cycle === value}
