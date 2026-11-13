@@ -32,6 +32,7 @@ const PAGE_PREFIXES = [
   "/tableau-de-bord",
   "/cours",
   "/quiz",
+  "/syntheses",
   "/professeur",
   "/agenda",
   "/emploi-du-temps",

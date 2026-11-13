@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { checkFile, DOCX_MIME, PDF_MIME, resolveMime } from "@/config/documents";
+import { checkFile, DOCX_MIME, fileCategory, FILE_CATEGORIES, PDF_MIME, resolveMime } from "@/config/documents";
 import { NEW, parseImport } from "@/server/courses/schemas";
 
 const USER = "00000000-0000-0000-0000-00000000000a";
@@ -96,5 +96,14 @@ describe("enregistrement d'un document importé", () => {
     expect(result.ok && result.data.title).toBe("page-12");
     expect(parseImport({ ...photo, storagePath: `${USER}/${FILE_ID}.png` }, USER)).toEqual({ ok: false, error: "fileType" });
     expect(parseImport({ ...photo, sizeBytes: String(6 * 1024 * 1024) }, USER)).toEqual({ ok: false, error: "imageTooLarge" });
+  });
+});
+
+describe("Mes fichiers : catégories", () => {
+  it("range chaque fichier dans PDF, Word ou image", () => {
+    expect(FILE_CATEGORIES).toEqual(["pdf", "word", "image"]);
+    expect(fileCategory(PDF_MIME)).toBe("pdf");
+    expect(fileCategory(DOCX_MIME)).toBe("word");
+    for (const mime of ["image/jpeg", "image/png", "image/webp"]) expect(fileCategory(mime)).toBe("image");
   });
 });

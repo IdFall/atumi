@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
@@ -73,6 +74,9 @@ export function ImportForm({
   const [quality, setQuality] = useState<PhotoQuality | "checking" | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const picked = useRef<File | null>(null);
+  // Après « Enregistrer » : les champs sont remis à zéro et un message renvoie vers le module.
+  const [savedModuleId, setSavedModuleId] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const previewUrl = useRef<string | null>(null);
 
@@ -85,6 +89,10 @@ export function ImportForm({
     picked.current = next;
     setFile(next);
     setError(null);
+    if (next) setSavedModuleId(null);
+    // Un PDF ou un Word trop lourd, ou d'un autre format, est signalé tout de suite
+    // (une photo est réduite avant l'envoi : sa taille est vérifiée après).
+    if (next && !isPhoto(next)) setError(checkFile(next));
     if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
     previewUrl.current = next && isPhoto(next) ? URL.createObjectURL(next) : null;
     setPreview(previewUrl.current);
@@ -97,6 +105,18 @@ export function ImportForm({
   }
 
   const photoToRetake = quality === "blurry" || quality === "dark";
+  // Fichier choisi et vérifié dans le navigateur : il reste à l'enregistrer.
+  const readyToSave =
+    !book && phase === "idle" && file !== null && error === null && quality !== "checking" && !photoToRetake && (!isPhoto(file) || photosEnabled);
+
+  /** Remet le formulaire comme à l'ouverture de la page, après un enregistrement réussi. */
+  function resetForm() {
+    formRef.current?.reset();
+    setModuleId(initialModuleId || NEW);
+    setChapterId(initialChapterId);
+    setKind("cours");
+    pickFile(null);
+  }
 
   const chapters = modules.find((m) => m.id === moduleId)?.chapters ?? [];
   const busy = phase !== "idle";
@@ -164,15 +184,24 @@ export function ImportForm({
       sizeBytes: String(upload.size),
     }).catch(() => ({ ok: false as const, error: "unknown" as const }));
 
-    if (!result.ok) {
-      setPhase("idle");
-      return setError(result.error);
-    }
-    router.push(`/cours/${result.moduleId}`);
+    setPhase("idle");
+    if (!result.ok) return setError(result.error);
+    resetForm();
+    setSavedModuleId(result.moduleId);
+    // Nouveau module ou chapitre, fin de l'essai non commencé : la page se met à jour.
+    router.refresh();
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
+    <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
+      {savedModuleId ? (
+        <div role="status" className="flex flex-col gap-2 rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-100">
+          <p className="font-semibold">✓ {t.import.saved}</p>
+          <Link href={`/cours/${savedModuleId}`} className="self-start font-semibold underline underline-offset-2">
+            {t.import.seeInCourses} ›
+          </Link>
+        </div>
+      ) : null}
       <label className="flex flex-col gap-1 text-sm">
         <span className="font-medium">{t.import.module}</span>
         <select
@@ -345,6 +374,12 @@ export function ImportForm({
         </p>
       ) : null}
 
+      {readyToSave ? (
+        <p role="status" className="rounded-lg bg-green-50 p-3 text-sm font-semibold text-green-800 dark:bg-green-950 dark:text-green-200">
+          ✓ {t.import.readyToSave}
+        </p>
+      ) : null}
+
       {error ? (
         <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
           {fill(t.import.errors[error], { max: LIBRARY_IMPORT_MAX_PAGES })}
@@ -360,7 +395,7 @@ export function ImportForm({
             : "bg-primary text-white"
         }`}
       >
-        {phase !== "idle" ? t.import[PHASE_LABELS[phase]] : photoToRetake ? t.import.quality.importAnyway : t.import.submit}
+        {phase !== "idle" ? t.import[PHASE_LABELS[phase]] : photoToRetake ? t.import.quality.importAnyway : book ? t.import.submit : t.import.save}
       </button>
     </form>
   );

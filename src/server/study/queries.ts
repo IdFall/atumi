@@ -170,3 +170,46 @@ export async function getQuizView(quizId: string): Promise<QuizView | null> {
   view.correction = { answers, correct: values.filter((a) => a.isCorrect).length, total: view.questions.length };
   return view;
 }
+
+export interface MySynthesisItem {
+  id: string;
+  moduleId: string;
+  chapterId: string | null;
+  moduleName: string;
+  chapterTitle: string | null;
+  status: GenerationStatus;
+  updatedAt: string;
+}
+
+/**
+ * Page « Mes synthèses » : la dernière synthèse de chaque chapitre (ou du module
+ * entier), celle que montre la page Synthèse. Les versions plus anciennes sont cachées.
+ */
+export async function listMySyntheses(): Promise<MySynthesisItem[]> {
+  const supabase = await createUserClient();
+  const { data, error } = await supabase
+    .from("syntheses")
+    .select("id, module_id, chapter_id, status, updated_at, modules(name), chapters(title)")
+    .order("created_at", { ascending: false })
+    .limit(500);
+  if (error) throw error;
+  const seen = new Set<string>();
+  const items: MySynthesisItem[] = [];
+  for (const s of data ?? []) {
+    const key = `${s.module_id}:${s.chapter_id ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const mod = s.modules as unknown as { name: string } | null;
+    const chapter = s.chapters as unknown as { title: string } | null;
+    items.push({
+      id: s.id,
+      moduleId: s.module_id,
+      chapterId: s.chapter_id,
+      moduleName: mod?.name ?? "",
+      chapterTitle: chapter?.title ?? null,
+      status: effectiveStatus(s.status, s.updated_at),
+      updatedAt: s.updated_at,
+    });
+  }
+  return items;
+}
