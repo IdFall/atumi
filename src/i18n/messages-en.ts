@@ -352,6 +352,8 @@ export const en: Messages = {
     newPasswordTitle: "New password",
     newPasswordSubmit: "Save the password",
     backToSignIn: "Back to sign in",
+    resendConfirmation: "Resend the confirmation link",
+    confirmationResent: "If this account is waiting for confirmation, a new link has just been sent. Open it, then sign in again.",
     checkEmail: "Your account is created. Open the link sent by email to activate it.",
     errors: {
       fullNameRequired: "Enter your first and last name.",
@@ -362,6 +364,7 @@ export const en: Messages = {
       passwordLength: "The password must be 8 to 72 characters long.",
       passwordRequired: "Enter your password.",
       passwordMismatch: "The two passwords do not match.",
+      emailNotConfirmed: "Your email address is not confirmed yet. Open the link you received when you signed up (check your spam folder too), then sign in again.",
       cycleRequired: "Choose your level of study.",
       cycleNotOpen: "AtumiNeo is open to high school and university students for now.",
       ageRequired: "Enter your age.",

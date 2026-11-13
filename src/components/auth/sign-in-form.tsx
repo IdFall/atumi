@@ -5,7 +5,7 @@ import { useActionState } from "react";
 
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
 import { useT } from "@/i18n/client";
-import { signInAction, type FormState } from "@/server/auth/actions";
+import { resendConfirmationAction, signInAction, type FormState } from "@/server/auth/actions";
 
 export function SignInForm() {
   const t = useT();
@@ -18,6 +18,7 @@ export function SignInForm() {
   return (
     <form action={formAction} className="flex flex-col gap-4" noValidate>
       {state.formError ? <FormMessage tone="error">{t.auth.errors[state.formError]}</FormMessage> : null}
+      {state.formError === "emailNotConfirmed" ? <ResendConfirmation /> : null}
 
       <Field label={t.auth.fields.identifier} error={err("identifier")}>
         <TextInput
@@ -49,5 +50,23 @@ export function SignInForm() {
         {t.auth.toSignUp}
       </Link>
     </form>
+  );
+}
+
+/** Compte e-mail pas encore confirmé : renvoie le lien d'activation à l'adresse saisie au-dessus. */
+function ResendConfirmation() {
+  const t = useT();
+  const [state, resendAction, pending] = useActionState<FormState, FormData>(resendConfirmationAction, {});
+  if (state.notice === "confirmationResent") return <FormMessage tone="info">{t.auth.confirmationResent}</FormMessage>;
+  return (
+    <button
+      type="submit"
+      formAction={resendAction}
+      formNoValidate
+      disabled={pending}
+      className="-mt-2 self-start text-sm font-semibold text-primary underline disabled:opacity-60 dark:text-lavande"
+    >
+      {t.auth.resendConfirmation}
+    </button>
   );
 }

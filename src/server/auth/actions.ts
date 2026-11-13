@@ -17,7 +17,7 @@ import { CGU_VERSION, parseIdentifier, parseSignIn, parseSignUp, usernameBase } 
 export interface FormState {
   errors?: Partial<Record<string, AuthErrorKey>>;
   formError?: AuthErrorKey;
-  notice?: "checkEmail" | "resetSent";
+  notice?: "checkEmail" | "resetSent" | "confirmationResent";
   /** Valeurs à réafficher (jamais le mot de passe). */
   values?: Record<string, string>;
 }
@@ -134,9 +134,36 @@ export async function signInAction(_prev: FormState, formData: FormData): Promis
       ? await supabase.auth.signInWithPassword({ email: identifier.email, password })
       : await supabase.auth.signInWithPassword({ phone: identifier.phone, password });
 
-  // Même message quel que soit le motif, pour ne pas révéler qu'un compte existe.
-  if (error) return { formError: "invalidCredentials", values };
+  if (error) {
+    // Ces deux refus n'arrivent qu'avec le bon mot de passe : les dire ne révèle rien
+    // à quelqu'un qui ne le connaît pas.
+    if (error.code === "email_not_confirmed") return { formError: "emailNotConfirmed", values };
+    if (error.code === "phone_not_confirmed" && identifier.kind === "phone") {
+      redirect(`/verification?telephone=${encodeURIComponent(identifier.phone)}`);
+    }
+    // Sinon, même message quel que soit le motif, pour ne pas révéler qu'un compte existe.
+    return { formError: "invalidCredentials", values };
+  }
   redirect("/tableau-de-bord");
+}
+
+/**
+ * Renvoie le lien de confirmation d'un compte e-mail pas encore activé.
+ * La réponse est la même que le compte existe ou non.
+ */
+export async function resendConfirmationAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const values = { identifier: field(formData, "identifier") };
+  const identifier = parseIdentifier(values.identifier, DEFAULT_COUNTRY);
+  if (identifier?.kind !== "email") return { errors: { identifier: "identifierInvalid" }, values };
+
+  const supabase = await createUserClient();
+  const origin = (await headers()).get("origin") ?? "";
+  await supabase.auth.resend({
+    type: "signup",
+    email: identifier.email,
+    options: { emailRedirectTo: `${origin}/auth/confirmation` },
+  });
+  return { notice: "confirmationResent", values };
 }
 
 export async function verifyPhoneAction(_prev: FormState, formData: FormData): Promise<FormState> {
