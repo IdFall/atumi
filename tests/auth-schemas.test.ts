@@ -104,6 +104,7 @@ describe("inscription", () => {
     const result = parseSignUp(
       { ...base, identifier: "771234567", cycle: "lycee", age: "15", guardianPhone: "+221771234567" },
       "SN",
+      { phoneSignUpOpen: true },
     );
     expect(result).toEqual({ ok: false, errors: { guardianPhone: "guardianPhoneSameAsUser" } });
   });
@@ -114,8 +115,15 @@ describe("inscription", () => {
   });
 
   it("refuse un numéro d'un pays pas encore ouvert", () => {
-    const result = parseSignUp({ ...base, identifier: "+2250701020304" }, "SN");
+    const result = parseSignUp({ ...base, identifier: "+2250701020304" }, "SN", { phoneSignUpOpen: true });
     expect(result).toEqual({ ok: false, errors: { identifier: "countryNotOpen" } });
+  });
+
+  it("inscription par téléphone en pause : un numéro est refusé avec un message clair", () => {
+    expect(parseSignUp({ ...base, identifier: "77 123 45 67" }, "SN")).toEqual({
+      ok: false,
+      errors: { identifier: "phoneSignUpPaused" },
+    });
   });
 
   it("signale chaque champ invalide", () => {
@@ -124,7 +132,7 @@ describe("inscription", () => {
       ok: false,
       errors: {
         fullName: "fullNameInvalid",
-        identifier: "identifierInvalid",
+        identifier: "emailInvalid",
         password: "passwordLength",
         age: "ageRequired",
         cycle: "cycleRequired",

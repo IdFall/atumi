@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 
+import { CheckEmailPanel } from "@/components/auth/check-email";
 import { Field, FormMessage, SubmitButton, TextInput } from "@/components/ui/form";
 import { defaultCountry, isAdultAge, parseAge, type Cycle } from "@/config/countries";
 import { useT } from "@/i18n/client";
@@ -31,7 +32,7 @@ export function SignUpForm() {
   };
 
   if (state.notice === "checkEmail") {
-    return <FormMessage tone="info">{t.auth.checkEmail}</FormMessage>;
+    return <CheckEmailPanel email={state.values?.identifier.trim().toLowerCase() ?? ""} />;
   }
 
   const teacher = role === "enseignant";
@@ -63,9 +64,11 @@ export function SignUpForm() {
         />
       </Field>
 
-      <Field label={t.auth.fields.identifier} error={err("identifier")}>
+      <Field label={t.auth.fields.email} hint={t.auth.fields.emailHint} error={err("identifier")}>
         <TextInput
           name="identifier"
+          type="email"
+          inputMode="email"
           autoComplete="email"
           autoCapitalize="none"
           defaultValue={state.values?.identifier}

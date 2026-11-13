@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { countryFromPhone, getCountry, isAdultAge, isCycleOpen, parseAge, toE164, type Cycle } from "@/config/countries";
+import { PHONE_SIGN_UP_OPEN } from "@/config/sign-up";
 import type { AuthErrorKey } from "@/i18n/messages";
 
 export const CGU_VERSION = "2026-11-13";
@@ -95,15 +96,23 @@ function text(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-export function parseSignUp(input: SignUpInput, defaultCountry: string): ParseResult<SignUpData, SignUpField> {
+export function parseSignUp(
+  input: SignUpInput,
+  defaultCountry: string,
+  { phoneSignUpOpen = PHONE_SIGN_UP_OPEN }: { phoneSignUpOpen?: boolean } = {},
+): ParseResult<SignUpData, SignUpField> {
   const errors: FieldErrors<SignUpField> = {};
 
   const fullName = normalizeFullName(typeof input.fullName === "string" ? input.fullName : "");
   if (!fullName) errors.fullName = "fullNameRequired";
   else if (!FULL_NAME.test(fullName) || !fullName.includes(" ")) errors.fullName = "fullNameInvalid";
 
-  const identifier = parseIdentifier(text(input.identifier), defaultCountry);
-  if (!identifier) errors.identifier = "identifierInvalid";
+  const parsedIdentifier = parseIdentifier(text(input.identifier), defaultCountry);
+  if (!parsedIdentifier) errors.identifier = "emailInvalid";
+  // Inscription par téléphone en pause : un numéro est refusé avec un message clair.
+  const phonePaused = parsedIdentifier?.kind === "phone" && !phoneSignUpOpen;
+  if (phonePaused) errors.identifier = "phoneSignUpPaused";
+  const identifier = phonePaused ? null : parsedIdentifier;
 
   // Le pays vient de l'indicatif quand on s'inscrit par téléphone.
   let countryCode = defaultCountry;
