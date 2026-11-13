@@ -62,3 +62,14 @@ export function mimeFromName(name: string): AcceptedMimeType | "" {
   if (lower.endsWith(".webp")) return WEBP_MIME;
   return "";
 }
+
+/** Catégories de « Mes fichiers » (page Mes cours), dans l'ordre d'affichage. */
+export const FILE_CATEGORIES = ["pdf", "word", "image"] as const;
+export type FileCategory = (typeof FILE_CATEGORIES)[number];
+
+/** Catégorie d'un fichier importé selon son type. */
+export function fileCategory(mimeType: string): FileCategory {
+  if ((IMAGE_MIME_TYPES as readonly string[]).includes(mimeType)) return "image";
+  if (mimeType === DOCX_MIME) return "word";
+  return "pdf";
+}

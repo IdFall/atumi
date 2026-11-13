@@ -3,6 +3,7 @@ import "server-only";
 import { nextStep, type NextStep } from "@/lib/next-step";
 import { createUserClient } from "@/lib/supabase/server";
 
+import { fileCategory, type FileCategory } from "@/config/documents";
 import { downloadName } from "@/lib/document-view";
 
 import type { DocumentKind } from "./schemas";
@@ -185,4 +186,34 @@ function byPosition(a: { position: number; created_at: string }, b: { position: 
 
 function minutesUntil(iso: string): number {
   return Math.max(0, Math.round((Date.parse(iso) - Date.now()) / 60_000));
+}
+
+export interface CourseFile {
+  id: string;
+  title: string;
+  moduleId: string;
+  moduleName: string;
+  chapterTitle: string | null;
+  status: DocumentStatus;
+  category: FileCategory;
+}
+
+/** Tous les fichiers importés, du plus récent au plus ancien, pour « Mes fichiers » (page Mes cours). */
+export async function listMyFiles(): Promise<CourseFile[]> {
+  const supabase = await createUserClient();
+  const { data, error } = await supabase
+    .from("documents")
+    .select("id, title, mime_type, status, module_id, modules(name), chapters(title)")
+    .order("created_at", { ascending: false })
+    .limit(500);
+  if (error) throw error;
+  return (data ?? []).map((d) => ({
+    id: d.id,
+    title: d.title,
+    moduleId: d.module_id,
+    moduleName: (d.modules as unknown as { name: string } | null)?.name ?? "",
+    chapterTitle: (d.chapters as unknown as { title: string } | null)?.title ?? null,
+    status: d.status as DocumentStatus,
+    category: fileCategory(d.mime_type),
+  }));
 }

@@ -114,10 +114,12 @@ Enseignants : AtumiNeo convient aussi aux enseignants (choix « Enseignant » à
 Formats acceptés : PDF et Word (.docx), 20 Mo maximum, et photos de cours (JPG, PNG, WebP), une photo par page. Sur téléphone, le bouton « Prendre une photo de la page » ouvre l'appareil photo. Si ce bouton n'apparaît pas, la lecture des photos n'est pas encore activée : importe un PDF ou un Word.
 Pour une photo nette : page à plat, bien éclairée, sans reflet ni flash, entière dans le cadre, téléphone immobile au-dessus de la page.
 Dès que la photo est prise, AtumiNeo vérifie sa netteté sur ton téléphone, en une seconde et sans rien envoyer : « Photo nette : tu peux l'importer », ou bien « Ta photo semble floue » ou « trop sombre », avec le bouton « Reprendre la photo ». Si le texte te paraît lisible, tu peux appuyer sur « Importer quand même ». « Annuler » retire la photo choisie, nette ou non, sans rien importer.
-Après l'import, AtumiNeo lit ton document, en général en moins d'une minute. Ensuite tu peux demander une synthèse, faire un quiz ou poser des questions au professeur sur ce cours.
+Une fois le fichier choisi et vérifié, le message « Fichier bien importé, merci d'enregistrer » s'affiche : appuie sur « Enregistrer ». Le fichier part dans « Mes cours » et le formulaire se vide pour un autre import ; le lien « Voir dans Mes cours » ouvre le module.
+Après l'enregistrement, AtumiNeo lit ton document, en général en moins d'une minute. Ensuite tu peux demander une synthèse, faire un quiz ou poser des questions au professeur sur ce cours.
 Pour relire un document importé, ouvre son module dans « Mes cours » et appuie sur le nom du document : il s'affiche dans AtumiNeo. Le bouton « Fermer » te ramène au module, et « Télécharger » l'enregistre sur ton appareil.
 Après l'import, AtumiNeo relit la photo : si elle est floue, coupée, trop sombre ou ne montre pas de cours, il te demande de la reprendre : importe la nouvelle photo. Un document qui n'a pas pu être lu ne compte pas dans ton nombre d'imports, même pendant l'essai.
 Si le fichier est refusé, vérifie son format et sa taille. Un PDF scanné (une image de page, sans texte sélectionnable) ne peut pas être lu : prends plutôt les pages en photo.
+En bas de « Mes cours », « Mes fichiers » range tous tes fichiers importés en trois catégories : Fichiers PDF, Fichiers Word et Fichiers image. Appuie sur un fichier pour l'ouvrir.
 Dans « Mes cours », chaque module indique l'étape suivante : importer un cours, lecture en cours, ou « Faire la synthèse et le quiz ».
 Pour renommer ou supprimer un module, un chapitre ou un document, utilise les boutons « Modifier » et « Supprimer » dans « Mes cours ». Supprimer un chapitre supprime aussi ses documents. La suppression est définitive et ne redonne pas d'import : un document supprimé reste compté dans ton forfait.`,
     },
@@ -131,7 +133,8 @@ Si tu n'es pas d'accord avec une correction, tu peux la contester : AtumiNeo te 
 Partager sur WhatsApp : le bouton « WhatsApp » sous une réponse du Prof, une recherche ou une synthèse ouvre WhatsApp avec le texte. Un texte très long part en version courte, suivie de « Lire la suite sur AtumiNeo » : le texte complet est alors lisible sans compte par ceux qui ont le lien, pendant 30 jours, sans ton nom (30 partages longs par jour au plus).
 Défi entre amis : après la correction, « Défier un ami sur WhatsApp » envoie un lien. Ton ami passe les mêmes questions sans créer de compte, puis voit son score à côté du tien. Ceux qui reçoivent le lien voient tes questions, ton score et ton prénom, rien d'autre. Sous la correction, « Ils ont relevé ton défi » te montre le prénom et le score de chaque ami. Le défi dure 7 jours ; « Arrêter le défi » le termine avant, et tu peux le relancer avec le même lien. Le défi ne compte pas dans ton forfait.
 Compte enseignant : le bouton devient « Partager en quiz d'entraînement sur WhatsApp ». Tes élèves voient les questions, leur note et la correction, jamais ta note, et aucun classement face à toi. Avec le forfait Enseignant, le défi classe cache aussi la correction jusqu'à ce que tu la publies.
-Mes quiz : la page « Mes quiz » (menu sur ordinateur, bouton en haut de « Mes cours » sur téléphone) liste tous tes quiz, ta note et les liens encore ouverts, avec « Arrêter » pour fermer un lien.`,
+Mes quiz : la page « Mes quiz » (menu sur ordinateur, bouton en haut de « Mes cours » sur téléphone) liste tous tes quiz, ta note et les liens encore ouverts, avec « Arrêter » pour fermer un lien et « Supprimer » pour effacer un quiz (sa note et son lien partent avec lui ; il reste compté dans ton forfait).
+Mes synthèses : la page « Mes synthèses » (menu sur ordinateur, bouton en haut de « Mes cours » sur téléphone) liste la synthèse de chaque chapitre, avec « Ouvrir » pour la relire et « Supprimer » pour l'effacer. Tu peux en refaire une depuis le cours.`,
     },
     {
       id: "professeur",
@@ -263,10 +266,12 @@ Teachers: AtumiNeo also suits teachers ("A teacher" at sign-up), with the same p
 Accepted formats: PDF and Word (.docx), 20 MB maximum, and course photos (JPG, PNG, WebP), one photo per page. On a phone, the "Take a photo of the page" button opens the camera. If this button does not appear, reading photos is not enabled yet: import a PDF or Word file.
 For a sharp photo: page flat, well lit, no glare or flash, fully in the frame, phone held still above the page.
 As soon as the photo is taken, AtumiNeo checks it is sharp on your phone, in a second and without sending anything: "Sharp photo: you can import it", or "Your photo looks blurry" or "too dark", with a "Retake the photo" button. If the text looks readable to you, you can tap "Import anyway". "Cancel" removes the chosen photo, sharp or not, without importing anything.
-After the import, AtumiNeo reads your document, usually in less than a minute. Then you can ask for a summary, take a quiz or ask the teacher questions about this course.
+Once the file is chosen and checked, the message "File imported, please save it" appears: tap "Save". The file goes to "My courses" and the form is cleared for another import; the "See in My courses" link opens the module.
+After saving, AtumiNeo reads your document, usually in less than a minute. Then you can ask for a summary, take a quiz or ask the teacher questions about this course.
 To read an imported document again, open its module in "My courses" and tap the document's name: it opens in AtumiNeo. The "Close" button takes you back to the module, and "Download" saves it on your device.
 After the import, AtumiNeo reads the photo again: if it is blurry, cut off, too dark or does not show a course, it asks you to retake it: import the new photo. A document that could not be read does not count in your number of imports, even during the trial.
 If the file is rejected, check its format and size. A scanned PDF (an image of a page, with no selectable text) cannot be read: take photos of the pages instead.
+At the bottom of "My courses", "My files" sorts all your imported files into three categories: PDF files, Word files and Image files. Tap a file to open it.
 In "My courses", each module shows the next step: import a course, reading in progress, or "Get the summary and the quiz".
 To rename or delete a module, a chapter or a document, use the "Edit" and "Delete" buttons in "My courses". Deleting a chapter also deletes its documents. Deleting cannot be undone and does not give an import back: a deleted document still counts in your plan.`,
     },
@@ -280,7 +285,8 @@ If you disagree with a correction, you can dispute it: AtumiNeo suggests taking 
 Share on WhatsApp: the "WhatsApp" button under a teacher's answer, a search or a summary opens WhatsApp with the text. A very long text is sent shortened, followed by "Read more on AtumiNeo": the full text can then be read without an account by anyone with the link, for 30 days, without your name (at most 30 long shares per day).
 Challenge a friend: after the correction, "Challenge a friend on WhatsApp" sends a link. Your friend takes the same questions without creating an account, then sees their score next to yours. People who get the link see your questions, your score and your first name, nothing else. Under the correction, "They took your challenge" shows each friend's name and score. The challenge lasts 7 days; "Stop the challenge" ends it earlier, and you can restart it with the same link. The challenge does not count against your plan.
 Teacher account: the button becomes "Share as a practice quiz on WhatsApp". Your students see the questions, their mark and the correction, never your mark, and no ranking against you. With the Teacher plan, the class challenge also hides the correction until you publish it.
-My quizzes: the "My quizzes" page (menu on computer, button at the top of "My courses" on phone) lists all your quizzes, your mark and the links still open, with "Stop" to close a link.`,
+My quizzes: the "My quizzes" page (menu on computer, button at the top of "My courses" on phone) lists all your quizzes, your mark and the links still open, with "Stop" to close a link and "Delete" to remove a quiz (its mark and link go with it; it still counts in your plan).
+My summaries: the "My summaries" page (menu on computer, button at the top of "My courses" on phone) lists the summary of each chapter, with "Open" to read it again and "Delete" to remove it. You can make a new one from the course.`,
     },
     {
       id: "professeur",

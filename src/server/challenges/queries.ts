@@ -228,7 +228,8 @@ export async function listMyQuizzes(): Promise<MyQuizItem[]> {
       id: q.id,
       subject: chapter?.title ?? mod?.name ?? "",
       createdAt: q.created_at,
-      status: q.status as MyQuizItem["status"],
+      // Une préparation bloquée plus de 15 min a été abandonnée par le worker.
+      status: (q.status === "generating" && now - Date.parse(q.created_at) > 15 * 60 * 1000 ? "failed" : q.status) as MyQuizItem["status"],
       result: attempt ? { correct: answers.filter((a) => a.is_correct === true).length, total: answers.length } : null,
       challenge: c
         ? {

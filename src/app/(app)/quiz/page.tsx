@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { fill } from "@/i18n/format";
 import { DATE_LOCALES } from "@/i18n/messages";
 import { getLocale, getT } from "@/i18n/server";
+import { DeleteStudyButton } from "@/components/study/delete-study-button";
 import { closeChallengeAction } from "@/server/challenges/actions";
 import { listMyQuizzes, type MyQuizItem } from "@/server/challenges/queries";
 
@@ -90,33 +91,44 @@ async function QuizRow({ quiz, dateOf }: { quiz: MyQuizItem; dateOf: (iso: strin
       : c.open
         ? fill(q.linkOpen, { date: dateOf(c.expiresAt), n: c.plays })
         : fill(q.linkClosed, { n: c.plays });
+  // Une préparation en cours n'est pas supprimable : le worker écrit encore le quiz.
+  const running = quiz.status === "generating";
   return (
-    <li className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span title={quiz.subject} className="line-clamp-2 break-words font-semibold">
-          {quiz.subject || t.quiz.title}
-        </span>
-        <span className="text-xs text-neutral-600 dark:text-neutral-300">
-          {dateOf(quiz.createdAt)} · {status}
-        </span>
-        <span className={`text-xs ${c?.open ? "font-medium text-green-700 dark:text-green-400" : "text-neutral-500 dark:text-neutral-400"}`}>
-          {link}
-        </span>
+    <li className="flex flex-col gap-2 rounded-xl border border-neutral-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900">
+      <div className="flex items-center gap-3">
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span title={quiz.subject} className="line-clamp-2 break-words font-semibold">
+            {quiz.subject || t.quiz.title}
+          </span>
+          <span className="text-xs text-neutral-600 dark:text-neutral-300">
+            {dateOf(quiz.createdAt)} · {status}
+          </span>
+          <span className={`text-xs ${c?.open ? "font-medium text-green-700 dark:text-green-400" : "text-neutral-500 dark:text-neutral-400"}`}>
+            {link}
+          </span>
+        </div>
+        <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center">
+          <Link href={`/quiz/${quiz.id}`} className="rounded-lg bg-primary px-3 py-1.5 text-sm font-semibold text-white">
+            {q.open}
+          </Link>
+          {c?.open ? (
+            <form action={closeChallengeAction}>
+              <input type="hidden" name="challengeId" value={c.id} />
+              <input type="hidden" name="quizId" value={quiz.id} />
+              <button type="submit" className="rounded-lg px-3 py-1.5 text-sm font-semibold text-red-700 dark:text-red-400">
+                {q.stop}
+              </button>
+            </form>
+          ) : null}
+        </div>
       </div>
-      <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center">
-        <Link href={`/quiz/${quiz.id}`} className="rounded-lg bg-primary px-3 py-1.5 text-sm font-semibold text-white">
-          {q.open}
-        </Link>
-        {c?.open ? (
-          <form action={closeChallengeAction}>
-            <input type="hidden" name="challengeId" value={c.id} />
-            <input type="hidden" name="quizId" value={quiz.id} />
-            <button type="submit" className="rounded-lg px-3 py-1.5 text-sm font-semibold text-red-700 dark:text-red-400">
-              {q.stop}
-            </button>
-          </form>
-        ) : null}
-      </div>
+      {running ? null : (
+        <DeleteStudyButton
+          kind="quiz"
+          id={quiz.id}
+          warning={fill(t.studyDelete.quizWarning, { name: quiz.subject || t.quiz.title })}
+        />
+      )}
     </li>
   );
 }

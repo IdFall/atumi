@@ -14,6 +14,7 @@ export type OfflineSection =
   | "dashboard"
   | "courses"
   | "quiz"
+  | "syntheses"
   | "tutor"
   | "agenda"
   | "timetable"
@@ -25,6 +26,7 @@ const SECTIONS: readonly [string, OfflineSection][] = [
   ["/tableau-de-bord", "dashboard"],
   ["/cours", "courses"],
   ["/quiz", "quiz"],
+  ["/syntheses", "syntheses"],
   ["/professeur", "tutor"],
   ["/agenda", "agenda"],
   ["/emploi-du-temps", "timetable"],
