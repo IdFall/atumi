@@ -154,7 +154,7 @@ const fr = {
         {
           title: "3. Ton compte",
           body: [
-            "L'inscription demande ton prénom et ton nom, un e-mail ou un numéro de téléphone, un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
+            "L'inscription demande ton prénom et ton nom, une adresse e-mail (l'inscription par numéro de téléphone arrive bientôt), un mot de passe, ton niveau et si tu es élève ou enseignant. Les informations doivent être exactes. Un compte est personnel : ne partage pas tes identifiants.",
             "L'inscription demande ton âge. Un élève de moins de 18 ans indique le numéro d'un parent ou tuteur ; un compte enseignant est réservé aux majeurs. Ce parent est prévenu par WhatsApp et peut refuser l'inscription ; un refus suspend le compte.",
             "Pour ta sécurité, AtumiNeo te déconnecte après 1 h sans activité.",
           ],
@@ -322,6 +322,8 @@ const fr = {
       fullName: "Prénom et nom",
       fullNameHint: "Ex. : Awa Diop. Lettres, majuscules ou minuscules, et espaces.",
       identifier: "E-mail ou numéro de téléphone",
+      email: "Adresse e-mail",
+      emailHint: "Un lien de confirmation y sera envoyé. L'inscription par numéro de téléphone arrive bientôt.",
       password: "Mot de passe",
       passwordHint: "8 caractères minimum.",
       passwordConfirm: "Confirme le mot de passe",
@@ -378,6 +380,8 @@ const fr = {
       fullNameRequired: "Indique ton prénom et ton nom.",
       fullNameInvalid: "Écris ton prénom et ton nom, avec des lettres seulement (ex. : Awa Diop).",
       identifierInvalid: "Saisis une adresse e-mail ou un numéro de téléphone valide.",
+      emailInvalid: "Saisis une adresse e-mail valide (ex. : awa.diop@gmail.com).",
+      phoneSignUpPaused: "L'inscription par numéro de téléphone est en pause pour le moment. Inscris-toi avec ton adresse e-mail.",
       identifierTaken: "Un compte existe déjà avec cet e-mail ou ce numéro.",
       countryNotOpen: "AtumiNeo n'est pas encore disponible dans ce pays.",
       passwordLength: "Le mot de passe doit contenir entre 8 et 72 caractères.",

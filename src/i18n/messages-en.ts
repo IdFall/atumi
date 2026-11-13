@@ -147,7 +147,7 @@ export const en: Messages = {
         {
           title: "3. Your account",
           body: [
-            "Sign-up asks for your first and last name, an email or phone number, a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
+            "Sign-up asks for your first and last name, an email address (sign-up with a phone number is coming soon), a password, your level and whether you are a student or a teacher. The information must be accurate. An account is personal: do not share your credentials.",
             "Sign-up asks for your age. A student under 18 gives the phone number of a parent or guardian; a teacher account is for adults only. This parent is notified on WhatsApp and can refuse the sign-up; a refusal suspends the account.",
             "For your security, AtumiNeo signs you out after 1 hour without activity.",
           ],
@@ -313,6 +313,8 @@ export const en: Messages = {
       fullName: "First and last name",
       fullNameHint: "E.g. Awa Diop. Letters, upper or lower case, and spaces.",
       identifier: "Email or phone number",
+      email: "Email address",
+      emailHint: "A confirmation link will be sent there. Sign-up with a phone number is coming soon.",
       password: "Password",
       passwordHint: "At least 8 characters.",
       passwordConfirm: "Confirm the password",
@@ -369,6 +371,8 @@ export const en: Messages = {
       fullNameRequired: "Enter your first and last name.",
       fullNameInvalid: "Write your first and last name, using letters only (e.g. Awa Diop).",
       identifierInvalid: "Enter a valid email address or phone number.",
+      emailInvalid: "Enter a valid email address (e.g. awa.diop@gmail.com).",
+      phoneSignUpPaused: "Sign-up with a phone number is paused for now. Sign up with your email address.",
       identifierTaken: "An account already exists with this email or number.",
       countryNotOpen: "AtumiNeo is not available in this country yet.",
       passwordLength: "The password must be 8 to 72 characters long.",

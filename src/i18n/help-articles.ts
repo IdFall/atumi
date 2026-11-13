@@ -209,7 +209,7 @@ Sécurité : les pages gardées restent sur ton appareil et sont effacées quand
     {
       id: "compte",
       title: "Mon compte et mon mot de passe",
-      body: `Pour te connecter, utilise ton e-mail ou ton numéro de téléphone avec ton mot de passe, depuis la page de connexion.
+      body: `Pour te connecter, utilise ton adresse e-mail et ton mot de passe, depuis la page de connexion. L'inscription se fait avec une adresse e-mail : ouvre le lien de confirmation reçu (regarde aussi dans les courriers indésirables), sinon la connexion est refusée ; « Renvoyer le lien de confirmation » en envoie un nouveau. L'inscription par numéro de téléphone arrive bientôt.
 Mot de passe oublié : sur la page de connexion, appuie sur « Mot de passe oublié ? » et saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe. Pour un compte créé avec un numéro de téléphone, la réinitialisation par SMS arrive bientôt : en attendant, écris à l'équipe en précisant ton prénom et ton nom.
 Pour te déconnecter : sur téléphone, l'icône de sortie en haut à droite de l'écran ; sur ordinateur, « Me déconnecter » en bas du menu.
 Photo de profil (facultative) : sur l'accueil, appuie sur le rond avec tes initiales pour ajouter ta photo (JPG, PNG ou WebP), puis dessus à nouveau pour la changer ou la retirer. Elle est recadrée en carré et reste privée : toi seul la vois.
@@ -356,7 +356,7 @@ Security: saved pages stay on your device and are erased when you sign out, or a
     {
       id: "compte",
       title: "My account and password",
-      body: `To sign in, use your email or phone number with your password, from the sign-in page.
+      body: `To sign in, use your email address and password, from the sign-in page. Sign-up uses an email address: open the confirmation link you receive (check your spam folder too), otherwise sign-in is refused; "Resend the confirmation link" sends a new one. Sign-up with a phone number is coming soon.
 Forgot your password: on the sign-in page, tap "Forgot your password?" and enter your account's email address. You will receive a link to choose a new password. For an account created with a phone number, reset by SMS is coming soon: meanwhile, write to the team and give your first and last name.
 To sign out: on a phone, the exit icon at the top right of the screen; on a computer, "Sign out" at the bottom of the menu.
 Profile photo (optional): on the home page, tap the circle with your initials to add your photo (JPG, PNG or WebP), then tap it again to change or remove it. It is cropped to a square and stays private: only you can see it.

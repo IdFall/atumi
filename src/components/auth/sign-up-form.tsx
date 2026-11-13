@@ -64,9 +64,11 @@ export function SignUpForm() {
         />
       </Field>
 
-      <Field label={t.auth.fields.identifier} error={err("identifier")}>
+      <Field label={t.auth.fields.email} hint={t.auth.fields.emailHint} error={err("identifier")}>
         <TextInput
           name="identifier"
+          type="email"
+          inputMode="email"
           autoComplete="email"
           autoCapitalize="none"
           defaultValue={state.values?.identifier}
