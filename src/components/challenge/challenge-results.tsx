@@ -1,6 +1,7 @@
 import { fill } from "@/i18n/format";
 import { DATE_LOCALES } from "@/i18n/messages";
 import { getLocale, getT } from "@/i18n/server";
+import { getCurrentUser } from "@/server/auth/session";
 import { closeChallengeAction, publishCorrectionAction } from "@/server/challenges/actions";
 import type { MyChallenge } from "@/server/challenges/queries";
 
@@ -22,8 +23,10 @@ export async function ChallengeResults({
 }) {
   const t = await getT();
   const c = t.challenge;
-  const locale = await getLocale();
-  if (!challenge) return <ChallengeButton quizId={quizId} />;
+  const [locale, user] = await Promise.all([getLocale(), getCurrentUser()]);
+  // Compte enseignant : quiz d'entraînement, jamais de « t'a battu » face à ses élèves.
+  const teacher = user.role === "enseignant";
+  if (!challenge) return <ChallengeButton quizId={quizId} teacher={teacher} />;
 
   const dateOf = (iso: string) => new Date(iso).toLocaleDateString(DATE_LOCALES[locale], { day: "numeric", month: "long" });
   const date = dateOf(challenge.expiresAt);
@@ -31,7 +34,7 @@ export async function ChallengeResults({
   return (
     <section className="flex flex-col gap-3 rounded-2xl border border-primary/20 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
       <div className="flex flex-col gap-0.5">
-        <h2 className="text-lg font-semibold">{classMode ? c.classResultsTitle : c.resultsTitle}</h2>
+        <h2 className="text-lg font-semibold">{classMode ? c.classResultsTitle : teacher ? c.practiceResultsTitle : c.resultsTitle}</h2>
         <p className="text-xs text-neutral-600 dark:text-neutral-300">
           {challenge.correctionPublishedAt
             ? fill(c.published, { date: dateOf(challenge.correctionPublishedAt) })
@@ -44,14 +47,14 @@ export async function ChallengeResults({
         ) : null}
       </div>
       {challenge.plays.length === 0 ? (
-        <p className="text-sm text-neutral-600 dark:text-neutral-300">{classMode ? c.classNoPlays : c.noPlays}</p>
+        <p className="text-sm text-neutral-600 dark:text-neutral-300">{classMode ? c.classNoPlays : teacher ? c.practiceNoPlays : c.noPlays}</p>
       ) : (
         <ul className="flex flex-col divide-y divide-neutral-200 dark:divide-neutral-800">
           {challenge.plays.map((play, i) => (
             <li key={`${play.createdAt}-${i}`} className="flex items-center justify-between gap-3 py-2 text-sm">
               <span className="min-w-0 truncate font-medium">{play.playerName}</span>
               <span className="flex shrink-0 items-center gap-2">
-                {classMode ? null : play.correct > myCorrect ? (
+                {classMode || teacher ? null : play.correct > myCorrect ? (
                   <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-semibold text-orange-800 dark:bg-orange-950 dark:text-orange-200">{c.beatYou}</span>
                 ) : play.correct === myCorrect ? (
                   <span className="rounded-full bg-primary-soft px-2 py-0.5 text-xs font-semibold text-primary-strong dark:bg-primary-strong/25 dark:text-lavande">{c.tie}</span>
@@ -67,7 +70,7 @@ export async function ChallengeResults({
       {challenge.correctionPublishedAt ? (
         <ShareCorrectionLink challengeId={challenge.id} subject={challenge.subject} />
       ) : (
-        <ChallengeButton quizId={quizId} label={challenge.open ? "shareAgain" : "relaunch"} classMode={classMode} />
+        <ChallengeButton quizId={quizId} label={challenge.open ? "shareAgain" : "relaunch"} classMode={classMode} teacher={teacher} />
       )}
       {classMode && !challenge.correctionPublishedAt ? (
         <form action={publishCorrectionAction} className="flex flex-col gap-1">

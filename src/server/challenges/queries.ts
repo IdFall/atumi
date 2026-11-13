@@ -25,6 +25,12 @@ export interface PublicChallenge {
   questions: ChallengeQuestion[];
   /** Défi classe (forfait Enseignant) : correction montrée seulement après publication. */
   classMode: boolean;
+  /**
+   * Quiz d'entraînement partagé par un compte enseignant sans le forfait
+   * Enseignant : le score du professeur n'est jamais montré ni comparé ;
+   * l'élève voit sa note et la correction tout de suite.
+   */
+  practice: boolean;
   /** Défi classe dont la correction est publiée : réponses attendues par question. */
   correction: ChallengeCorrection[] | null;
 }
@@ -64,7 +70,7 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
       .eq("id", challenge.quiz_id)
       .eq("user_id", userId)
       .maybeSingle(),
-    service.from("profiles").select("username, full_name").eq("id", userId).maybeSingle(),
+    service.from("profiles").select("username, full_name, role").eq("id", userId).maybeSingle(),
     service
       .from("quiz_questions")
       .select("id, kind, prompt, choices, expected_answer, explanation")
@@ -92,6 +98,8 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
     explanation: q.explanation,
   }));
   const classMode = Boolean(challenge.class_mode);
+  // Un professeur ne se mesure pas à ses élèves : son score reste caché.
+  const practice = !classMode && profile.role === "enseignant";
   const published = classMode && challenge.correction_published_at !== null;
   return {
     id: challenge.id,
@@ -100,10 +108,11 @@ export async function loadChallenge(challengeId: string): Promise<(PublicChallen
     // Lien public : le prénom seulement (jamais le nom de famille).
     username: profile.full_name ? firstNameOf(profile.full_name) : profile.username,
     subject: chapter?.title ?? mod?.name ?? "",
-    correct: classMode ? null : correctFromScore(attempt.score, stored.length),
+    correct: classMode || practice ? null : correctFromScore(attempt.score, stored.length),
     total: stored.length,
     questions: stored.map(({ id, prompt, choices }) => ({ id, prompt, choices })),
     classMode,
+    practice,
     correction: published
       ? stored.map((q) => ({ id: q.id, expected: q.expectedAnswer as number, explanation: q.explanation }))
       : null,
@@ -168,4 +177,69 @@ export async function getMyChallenge(quizId: string): Promise<MyChallenge | null
     correctionPublishedAt,
     subject: chapter?.title ?? mod?.name ?? "",
   };
+}
+
+export interface MyQuizItem {
+  id: string;
+  subject: string;
+  createdAt: string;
+  status: "generating" | "ready" | "failed";
+  /** Note de l'élève, une fois le quiz passé. */
+  result: { correct: number; total: number } | null;
+  challenge: {
+    id: string;
+    open: boolean;
+    expiresAt: string;
+    classMode: boolean;
+    correctionPublished: boolean;
+    plays: number;
+  } | null;
+}
+
+/** Tous les quiz de l'utilisateur connecté (RLS), du plus récent au plus ancien, avec leur défi. */
+export async function listMyQuizzes(): Promise<MyQuizItem[]> {
+  const supabase = await createUserClient();
+  const { data, error } = await supabase
+    .from("quizzes")
+    .select(
+      "id, status, created_at, modules(name), chapters(title), quiz_attempts(submitted_at, quiz_answers(is_correct)), quiz_challenges(id, expires_at, closed_at, class_mode, correction_published_at, quiz_challenge_plays(id))",
+    )
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  const now = Date.now();
+  return (data ?? []).map((q) => {
+    const mod = q.modules as unknown as { name: string } | null;
+    const chapter = q.chapters as unknown as { title: string } | null;
+    const attempts = (q.quiz_attempts ?? []) as unknown as { submitted_at: string | null; quiz_answers: { is_correct: boolean | null }[] }[];
+    const attempt = attempts.find((a) => a.submitted_at);
+    const answers = attempt?.quiz_answers ?? [];
+    const challenges = (q.quiz_challenges ?? []) as unknown as {
+      id: string;
+      expires_at: string;
+      closed_at: string | null;
+      class_mode: boolean;
+      correction_published_at: string | null;
+      quiz_challenge_plays: { id: string }[] | null;
+    }[];
+    const c = challenges[0];
+    const published = Boolean(c?.class_mode && c.correction_published_at);
+    return {
+      id: q.id,
+      subject: chapter?.title ?? mod?.name ?? "",
+      createdAt: q.created_at,
+      status: q.status as MyQuizItem["status"],
+      result: attempt ? { correct: answers.filter((a) => a.is_correct === true).length, total: answers.length } : null,
+      challenge: c
+        ? {
+            id: c.id,
+            open: !published && isChallengeOpen(c, now),
+            expiresAt: c.expires_at,
+            classMode: Boolean(c.class_mode),
+            correctionPublished: published,
+            plays: c.quiz_challenge_plays?.length ?? 0,
+          }
+        : null,
+    };
+  });
 }

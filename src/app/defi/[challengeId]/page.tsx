@@ -15,8 +15,12 @@ export async function generateMetadata({ params }: PageProps<"/defi/[challengeId
   const challenge = await getPublicChallenge(challengeId);
   if (!challenge) return { title: t.app.name };
   const values = { username: challenge.username, correct: challenge.correct ?? 0, total: challenge.total, subject: challenge.subject };
-  const title = fill(challenge.classMode ? t.challenge.classMetaTitle : t.challenge.metaTitle, values);
-  const description = fill(challenge.classMode ? t.challenge.classMetaDescription : t.challenge.metaDescription, values);
+  const c = t.challenge;
+  const title = fill(challenge.classMode ? c.classMetaTitle : challenge.practice ? c.practiceMetaTitle : c.metaTitle, values);
+  const description = fill(
+    challenge.classMode ? c.classMetaDescription : challenge.practice ? c.practiceMetaDescription : c.metaDescription,
+    values,
+  );
   return { title, description, openGraph: { title, description, siteName: t.app.name }, robots: { index: false } };
 }
 
@@ -52,10 +56,16 @@ async function Challenge({ params }: { params: PageProps<"/defi/[challengeId]">[
     <>
       <section className="atumi-cosmos relative flex flex-col items-center gap-2 overflow-hidden rounded-3xl px-5 py-6 text-center text-white shadow-lg shadow-primary/20">
         <Image src="/prof-atumi.svg" alt={t.tutor.avatarAlt} width={72} height={72} />
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{c.kicker}</p>
-        <h1 className="text-2xl font-bold">{fill(challenge.classMode ? c.classTitle : c.title, values)}</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+          {challenge.classMode || challenge.practice ? c.practiceKicker : c.kicker}
+        </p>
+        <h1 className="text-2xl font-bold">
+          {fill(challenge.classMode ? c.classTitle : challenge.practice ? c.practiceTitle : c.title, values)}
+        </h1>
         <p className="text-sm text-lavande">
-          {challenge.correction ? fill(c.correctionIntro, values) : fill(challenge.classMode ? c.classIntro : c.intro, values)}
+          {challenge.correction
+            ? fill(c.correctionIntro, values)
+            : fill(challenge.classMode ? c.classIntro : challenge.practice ? c.practiceIntro : c.intro, values)}
         </p>
       </section>
       {challenge.correction ? (
@@ -69,7 +79,7 @@ async function Challenge({ params }: { params: PageProps<"/defi/[challengeId]">[
         <>
           <p role="status" className="rounded-xl bg-primary-soft p-4 text-sm text-nuit dark:bg-primary-strong/25 dark:text-lavande">
             <strong className="block">{c.closed}</strong>
-            {fill(challenge.classMode ? c.classClosedBody : c.closedBody, values)}
+            {fill(challenge.classMode ? c.classClosedBody : challenge.practice ? c.practiceClosedBody : c.closedBody, values)}
           </p>
           <Invitation />
         </>

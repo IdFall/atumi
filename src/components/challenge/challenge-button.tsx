@@ -17,11 +17,14 @@ export function ChallengeButton({
   quizId,
   label = "button",
   classMode = false,
+  teacher = false,
 }: {
   quizId: string;
   label?: "button" | "shareAgain" | "relaunch";
   /** Défi classe déjà créé : avertissement adapté au professeur. */
   classMode?: boolean;
+  /** Compte enseignant : quiz d'entraînement, sans sa note dans le message ni sur le lien. */
+  teacher?: boolean;
 }) {
   const c = useT().challenge;
   const [pending, startTransition] = useTransition();
@@ -40,7 +43,7 @@ export function ChallengeButton({
       }
       const url = `${window.location.origin}${challengePath(result.id)}`;
       const values = { correct: result.correct ?? 0, total: result.total, subject: result.subject, url };
-      const text = fill(result.classMode ? c.classShareText : c.shareText, values);
+      const text = fill(result.classMode ? c.classShareText : result.practice ? c.practiceShareText : c.shareText, values);
       const mobile = isMobileUserAgent(navigator.userAgent);
       setMessage({ text, mobile });
       if (mobile && navigator.share) {
@@ -74,9 +77,9 @@ export function ChallengeButton({
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d={WHATSAPP_ICON} />
         </svg>
-        {pending ? c.preparing : c[label]}
+        {pending ? c.preparing : teacher && label === "button" ? c.practiceButton : c[label]}
       </button>
-      <p className="text-center text-xs text-neutral-600 dark:text-neutral-300">{classMode ? c.classPrivacy : c.privacy}</p>
+      <p className="text-center text-xs text-neutral-600 dark:text-neutral-300">{classMode ? c.classPrivacy : teacher ? c.practicePrivacy : c.privacy}</p>
       {failed ? (
         <p role="alert" className="text-center text-sm text-red-700 dark:text-red-400">
           {c.error}
