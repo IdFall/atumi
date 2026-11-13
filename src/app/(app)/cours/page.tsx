@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
 import { InlineCreateForm } from "@/components/courses/inline-create-form";
@@ -17,7 +18,13 @@ export default async function CoursesPage() {
   const t = await getT();
   return (
     <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-4 py-8">
-      <h1 className="text-2xl font-bold">{t.courses.title}</h1>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold">{t.courses.title}</h1>
+        {/* « Mes quiz » est dans le menu latéral sur ordinateur ; ce lien sert aussi sur téléphone. */}
+        <Link href="/quiz" className="shrink-0 rounded-lg border border-primary/30 px-3 py-1.5 text-sm font-semibold text-primary-strong dark:text-lavande">
+          {t.nav.quizzes}
+        </Link>
+      </div>
       <Suspense fallback={<p>{t.dashboard.loading}</p>}>
         <ModuleList />
       </Suspense>

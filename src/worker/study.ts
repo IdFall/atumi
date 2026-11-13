@@ -80,7 +80,7 @@ export async function generateSynthesis(
     tier: "standard",
     system: synthesisSystemPrompt(job.cycle),
     messages: [{ role: "user", content: synthesisUserTurn(passages) }],
-    maxTokens: 8000,
+    maxTokens: 12000,
   });
   if (result.status === "unavailable") {
     if (!isPermanentlyUnavailable(result.reason)) throw new TemporaryAiError(result.reason);

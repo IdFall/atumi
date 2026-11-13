@@ -18,7 +18,7 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
   const [state, action, pending] = useActionState<PlayState, FormData>(playChallengeAction, {});
   const names = { username: challenge.username };
 
-  if (state.result && challenge.correct === null) {
+  if (state.result && challenge.classMode) {
     // Défi classe : seulement le score de l'élève ; la correction viendra du professeur.
     const { correct, total } = state.result;
     return (
@@ -37,8 +37,9 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
 
   if (state.result) {
     const { correct, total, answers } = state.result;
-    const theirs = challenge.correct ?? 0;
-    const outcome = challengeOutcome(correct, theirs);
+    // Quiz d'entraînement d'un professeur : jamais de comparaison avec sa note.
+    const theirs = challenge.correct;
+    const outcome = theirs === null ? null : challengeOutcome(correct, theirs);
     return (
       <div className="flex flex-col gap-5">
         <section
@@ -51,8 +52,14 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
           <p className="text-4xl font-bold">
             {correct}/{total}
           </p>
-          <p className="text-lg font-semibold">{fill(c[outcome], names)}</p>
-          <p className="text-sm text-lavande">{fill(c.versus, { ...names, mine: correct, theirs, total })}</p>
+          {outcome === null || theirs === null ? (
+            <p className="text-sm text-lavande">{fill(c.practiceResultBody, names)}</p>
+          ) : (
+            <>
+              <p className="text-lg font-semibold">{fill(c[outcome], names)}</p>
+              <p className="text-sm text-lavande">{fill(c.versus, { ...names, mine: correct, theirs, total })}</p>
+            </>
+          )}
         </section>
 
         <Invitation />
@@ -149,7 +156,7 @@ export function ChallengePlay({ challenge }: { challenge: PublicChallenge }) {
       ))}
       {state.error ? (
         <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
-          {state.error === "closed" ? fill(c.closedBody, names) : c[state.error]}
+          {state.error === "closed" ? fill(challenge.practice ? c.practiceClosedBody : c.closedBody, names) : c[state.error]}
         </p>
       ) : null}
       <button type="submit" disabled={pending} className="rounded-xl bg-primary px-4 py-3 font-semibold text-white disabled:opacity-60">

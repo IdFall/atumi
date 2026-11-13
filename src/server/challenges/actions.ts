@@ -11,7 +11,7 @@ import { computeScore, gradeAnswer } from "@/server/study/quiz";
 import { loadChallenge } from "./queries";
 
 export type CreateChallengeResult =
-  | { id: string; correct: number | null; total: number; subject: string; classMode: boolean }
+  | { id: string; correct: number | null; total: number; subject: string; classMode: boolean; practice: boolean }
   | { error: true };
 
 /**
@@ -65,7 +65,15 @@ export async function createChallengeAction(quizId: string): Promise<CreateChall
   const challenge = await loadChallenge(id);
   if (!challenge) return { error: true };
   revalidatePath(`/quiz/${quizId}`);
-  return { id, correct: challenge.correct, total: challenge.total, subject: challenge.subject, classMode: challenge.classMode };
+  revalidatePath("/quiz");
+  return {
+    id,
+    correct: challenge.correct,
+    total: challenge.total,
+    subject: challenge.subject,
+    classMode: challenge.classMode,
+    practice: challenge.practice,
+  };
 }
 
 /** L'élève arrête son défi avant la fin des 7 jours : le lien ne permet plus de jouer. */
@@ -80,6 +88,7 @@ export async function closeChallengeAction(formData: FormData): Promise<void> {
     .eq("id", challengeId)
     .eq("user_id", userId);
   if (typeof quizId === "string" && z.uuid().safeParse(quizId).success) revalidatePath(`/quiz/${quizId}`);
+  revalidatePath("/quiz");
 }
 
 /**
@@ -108,6 +117,7 @@ export async function publishCorrectionAction(formData: FormData): Promise<void>
     .eq("user_id", userId);
   if (typeof quizId === "string" && z.uuid().safeParse(quizId).success) revalidatePath(`/quiz/${quizId}`);
   revalidatePath(`/defi/${challengeId}`);
+  revalidatePath("/quiz");
 }
 
 export interface ChallengeAnswer {
