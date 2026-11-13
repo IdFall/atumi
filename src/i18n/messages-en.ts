@@ -1294,7 +1294,7 @@ export const en: Messages = {
     nav: {
       label: "Administration menu",
       overview: "Overview",
-      users: "Students",
+      users: "Users",
       create: "Create a user",
       plans: "Plans and payments",
       messages: "Messages to the team",
@@ -1374,7 +1374,7 @@ export const en: Messages = {
       calls: "Calls with the teacher",
       callsHint: "{minutes} minutes in total",
       contestations: "Correction disputes",
-      studentsTitle: "Students",
+      studentsTitle: "Users",
       byCycle: "By level",
       byLanguage: "Teacher language",
       helpTitle: "Help centre",
@@ -1389,7 +1389,7 @@ export const en: Messages = {
       percent: "{n}%",
     },
     users: {
-      title: "Students",
+      title: "Users",
       intro: "Accounts, current access and activity volume. Contact details are masked.",
       search: "Search a username",
       searchButton: "Search",
@@ -1536,7 +1536,7 @@ export const en: Messages = {
       title: "Log",
       intro: "Every administration action, with its author.",
       empty: "No action yet.",
-      columns: { date: "Date", admin: "By", action: "Action", target: "Student", details: "Details" },
+      columns: { date: "Date", admin: "By", action: "Action", target: "User", details: "Details" },
       actions: {
         compte_cree: "Account created",
         forfait_cree: "Plan created",

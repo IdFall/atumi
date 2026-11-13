@@ -1307,7 +1307,7 @@ const fr = {
     nav: {
       label: "Menu de l'administration",
       overview: "Vue d'ensemble",
-      users: "Élèves",
+      users: "Utilisateurs",
       create: "Créer un utilisateur",
       plans: "Forfaits et paiements",
       messages: "Messages à l'équipe",
@@ -1387,7 +1387,7 @@ const fr = {
       calls: "Appels avec le Prof",
       callsHint: "{minutes} minutes au total",
       contestations: "Contestations de correction",
-      studentsTitle: "Élèves",
+      studentsTitle: "Utilisateurs",
       byCycle: "Par niveau",
       byLanguage: "Langue du Prof",
       helpTitle: "Centre d'aide",
@@ -1402,7 +1402,7 @@ const fr = {
       percent: "{n} %",
     },
     users: {
-      title: "Élèves",
+      title: "Utilisateurs",
       intro: "Comptes, droit en cours et volume d'activité. Les contacts sont masqués.",
       search: "Rechercher un nom d'utilisateur",
       searchButton: "Rechercher",
@@ -1549,7 +1549,7 @@ const fr = {
       title: "Journal",
       intro: "Chaque action d'administration, avec son auteur.",
       empty: "Aucune action pour l'instant.",
-      columns: { date: "Date", admin: "Par", action: "Action", target: "Élève", details: "Détails" },
+      columns: { date: "Date", admin: "Par", action: "Action", target: "Utilisateur", details: "Détails" },
       actions: {
         forfait_cree: "Forfait créé",
         forfait_modifie: "Forfait modifié",
