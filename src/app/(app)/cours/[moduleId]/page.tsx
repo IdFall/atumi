@@ -81,6 +81,8 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
                     {t.nav.import}
                   </Link>
                 </div>
+                <DocumentList moduleId={detail.id} documents={chapter.documents} />
+                {/* Sous les documents du chapitre : on voit d'abord ce qui sera révisé. */}
                 {chapter.documents.some((d) => d.status === "ready") ? (
                   <Link
                     href={studyPath(detail.id, chapter.id)}
@@ -89,7 +91,6 @@ async function ModuleDetail({ params }: { params: PageProps<"/cours/[moduleId]">
                     {t.courses.nextStep.studyAction} ›
                   </Link>
                 ) : null}
-                <DocumentList moduleId={detail.id} documents={chapter.documents} />
               </li>
             ))}
           </ul>
