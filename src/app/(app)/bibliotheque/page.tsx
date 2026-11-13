@@ -134,7 +134,7 @@ async function LibraryContent() {
                 <li key={book.id} className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900">
                   <BookIcon tone="mine" />
                   <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="truncate font-semibold">{book.title}</span>
+                    <span title={book.title} className="line-clamp-2 break-words font-semibold">{book.title}</span>
                     <span className="text-xs text-neutral-600 dark:text-neutral-300">{formatBytes(book.sizeBytes, tag)}</span>
                   </div>
                   <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center">
