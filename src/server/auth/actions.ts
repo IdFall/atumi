@@ -104,7 +104,8 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
   if (input.identifier.kind === "phone") {
     redirect(`/verification?telephone=${encodeURIComponent(input.identifier.phone)}`);
   }
-  return { notice: "checkEmail" };
+  // L'adresse revient pour l'écran « Confirme ton adresse e-mail ».
+  return { notice: "checkEmail", values: { identifier: input.identifier.email } };
 }
 
 /** Premier identifiant libre : la base, puis la base suivie de 4 chiffres tirés au hasard. */

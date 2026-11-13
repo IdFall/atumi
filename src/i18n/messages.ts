@@ -364,6 +364,16 @@ const fr = {
     resendConfirmation: "Renvoyer le lien de confirmation",
     confirmationResent: "Si ce compte attend sa confirmation, un nouveau lien vient de partir. Ouvre-le, puis reconnecte-toi.",
     checkEmail: "Ton compte est créé. Ouvre le lien envoyé par e-mail pour l'activer.",
+    confirmEmail: {
+      title: "Plus qu'une étape : confirme ton adresse e-mail",
+      sentTo: "Ton compte est créé, mais il n'est pas encore actif. Nous venons d'envoyer un lien de confirmation à {email}.",
+      sentToUnknown: "Ton compte est créé, mais il n'est pas encore actif. Nous venons de t'envoyer un lien de confirmation par e-mail.",
+      step1: "Ouvre ta boîte e-mail (Gmail, Yahoo, Outlook…).",
+      step2: "Ouvre le message de confirmation et appuie sur le lien qu'il contient.",
+      step3: "Reviens ici et connecte-toi avec ton e-mail et ton mot de passe.",
+      spam: "Rien reçu après quelques minutes ? Regarde dans les courriers indésirables (spam) ou l'onglet « Promotions », puis renvoie le lien.",
+      toSignIn: "J'ai confirmé, me connecter",
+    },
     errors: {
       fullNameRequired: "Indique ton prénom et ton nom.",
       fullNameInvalid: "Écris ton prénom et ton nom, avec des lettres seulement (ex. : Awa Diop).",

@@ -355,6 +355,16 @@ export const en: Messages = {
     resendConfirmation: "Resend the confirmation link",
     confirmationResent: "If this account is waiting for confirmation, a new link has just been sent. Open it, then sign in again.",
     checkEmail: "Your account is created. Open the link sent by email to activate it.",
+    confirmEmail: {
+      title: "One last step: confirm your email address",
+      sentTo: "Your account is created, but it is not active yet. We have just sent a confirmation link to {email}.",
+      sentToUnknown: "Your account is created, but it is not active yet. We have just sent you a confirmation link by email.",
+      step1: "Open your mailbox (Gmail, Yahoo, Outlook…).",
+      step2: "Open the confirmation message and tap the link inside.",
+      step3: "Come back here and sign in with your email and password.",
+      spam: "Nothing after a few minutes? Check your spam folder or the \"Promotions\" tab, then resend the link.",
+      toSignIn: "I have confirmed, sign in",
+    },
     errors: {
       fullNameRequired: "Enter your first and last name.",
       fullNameInvalid: "Write your first and last name, using letters only (e.g. Awa Diop).",
