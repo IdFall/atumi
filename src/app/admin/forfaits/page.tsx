@@ -154,7 +154,7 @@ async function PlansContent() {
               <tr key={s.id}>
                 <td className="whitespace-nowrap">{f.dateTime(s.created_at)}</td>
                 <td>
-                  <Link href={`/admin/eleves?q=${encodeURIComponent(s.username ?? "")}&eleve=${s.user_id}`} className="font-semibold text-primary dark:text-lavande">
+                  <Link href={`/admin/utilisateurs?q=${encodeURIComponent(s.username ?? "")}&utilisateur=${s.user_id}`} className="font-semibold text-primary dark:text-lavande">
                     {s.username ?? t.admin.dash}
                   </Link>
                 </td>

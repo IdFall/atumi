@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
     "/bibliotheque/*/importer": ["./content/bibliotheque/**/*"],
   },
   partialPrefetching: true,
+  // Ancienne adresse de la page « Utilisateurs » du back office.
+  async redirects() {
+    return [{ source: "/admin/eleves", destination: "/admin/utilisateurs", permanent: true }];
+  },
   // Service worker du mode hors ligne : toujours relu, pour que les mises à jour arrivent vite.
   async headers() {
     return [

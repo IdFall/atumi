@@ -20,11 +20,13 @@ import { listParentalNotices, listPlans, listSubscriptions, listUsers, type Admi
 import { MANUAL_PROVIDERS } from "@/server/admin/schemas";
 
 /** Élèves : comptes, droit en cours, activité ; fiche avec paiements et attribution d'un forfait. */
-export default async function AdminUsersPage({ searchParams }: PageProps<"/admin/eleves">) {
+export default async function AdminUsersPage({ searchParams }: PageProps<"/admin/utilisateurs">) {
   const t = await getT();
   const params = await searchParams;
   const search = typeof params.q === "string" ? params.q.slice(0, 32) : "";
-  const selected = typeof params.eleve === "string" ? params.eleve : null;
+  // « eleve » : ancien nom du paramètre, gardé pour les liens déjà enregistrés.
+  const picked = params.utilisateur ?? params.eleve;
+  const selected = typeof picked === "string" ? picked : null;
   return (
     <>
       <PageHeader title={t.admin.users.title} intro={t.admin.users.intro}>
@@ -59,7 +61,7 @@ async function UsersContent({ search, selected }: { search: string; selected: st
 
   return (
     <>
-      {current ? <UserDetail user={current} returnTo={`/admin/eleves?${query}eleve=${current.user_id}`} closeHref={`/admin/eleves${search ? `?q=${encodeURIComponent(search)}` : ""}`} /> : null}
+      {current ? <UserDetail user={current} returnTo={`/admin/utilisateurs?${query}utilisateur=${current.user_id}`} closeHref={`/admin/utilisateurs${search ? `?q=${encodeURIComponent(search)}` : ""}`} /> : null}
       <Card title={fill(u.count, { n: f.n(users.length) })}>
         {users.length === 0 ? (
           <p className="text-sm text-neutral-600 dark:text-neutral-300">{u.empty}</p>
@@ -84,7 +86,7 @@ async function UsersContent({ search, selected }: { search: string; selected: st
                 <td className="whitespace-nowrap">{f.date(user.created_at)}</td>
                 <td className="whitespace-nowrap">{f.date(user.last_activity)}</td>
                 <td>
-                  <Link href={`/admin/eleves?${query}eleve=${user.user_id}`} className="font-semibold text-primary dark:text-lavande">
+                  <Link href={`/admin/utilisateurs?${query}utilisateur=${user.user_id}`} className="font-semibold text-primary dark:text-lavande">
                     {u.open}
                   </Link>
                 </td>
@@ -254,7 +256,7 @@ async function ParentalNotices() {
                 {n.account_suspended ? (
                   <form action={reopenAccountAction}>
                     <input type="hidden" name="userId" value={n.user_id} />
-                    <input type="hidden" name="returnTo" value="/admin/eleves" />
+                    <input type="hidden" name="returnTo" value="/admin/utilisateurs" />
                     <button type="submit" className={secondaryButtonClass}>
                       {u.reopen}
                     </button>
