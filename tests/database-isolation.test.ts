@@ -361,7 +361,7 @@ describe("isolation des données entre utilisateurs", () => {
     const usage = await db.query(
       `select documents_used, document_limit, tutor_message_limit, quiz_question_limit from public.plan_usage()`,
     );
-    expect(usage.rows).toEqual([{ documents_used: 1, document_limit: 1, tutor_message_limit: 3, quiz_question_limit: 5 }]);
+    expect(usage.rows).toEqual([{ documents_used: 1, document_limit: 1, tutor_message_limit: 3, quiz_question_limit: 10 }]);
 
     // Photo illisible (document en échec) : elle ne compte pas, l'élève peut la reprendre.
     await asService();
