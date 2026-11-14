@@ -177,6 +177,7 @@ Le « Guide IA pour l'Élève et l'Étudiant 2.0 » est offert par AtumiNeo dans
 Abonné : tu peux lire, télécharger, ajouter tes propres PDF (50 Mo au plus par fichier) et les supprimer. Ton espace dépend de ton forfait et est partagé avec tes cours importés ; la barre d'espace montre ce qui est utilisé. Pour plus de place, supprime des fichiers ou prends une recharge d'espace sur la page Abonnement.
 Pendant l'essai gratuit : tu peux ouvrir la page et lire les livres offerts, en lecture seule, sans téléchargement ni ajout.
 Pour réviser un livre avec le Prof NEO (synthèse, quiz, questions), utilise « Importer » (ou « Importer dans Mes cours » sur la page du livre) : choisis le module et le chapitre, AtumiNeo le copie dans tes cours. Cela compte comme un import de ton forfait (pendant l'essai, c'est ton unique import). Un livre de plus de 60 pages ne peut pas être importé en entier : importe plutôt le chapitre que tu révises.
+Écouter un livre : sur la page d'un livre PDF ou d'un cours PDF ou Word, « Écouter » fait lire le texte à voix haute par la voix de ton téléphone ou de ton ordinateur (vitesse, voix française ou anglaise, page de départ, Pause et Reprendre). Gratuit et sans décompte du forfait. Un PDF scanné (sans texte) ne peut pas être lu à voix haute.
 Tes livres ne sont visibles que par toi.`,
     },
     {
@@ -329,6 +330,7 @@ The "Guide IA pour l'Élève et l'Étudiant 2.0" (in French) is offered by Atumi
 Subscriber: you can read, download, add your own PDFs (50 MB at most per file) and delete them. Your space depends on your plan and is shared with your imported courses; the space bar shows what is used. For more room, delete files or buy a space top-up on the Subscription page.
 During the free trial: you can open the page and read the offered books, read-only, with no download or upload.
 To revise a book with Prof NEO (summary, quiz, questions), use "Import" (or "Import into My courses" on the book page): choose the module and chapter, and AtumiNeo copies it into your courses. It counts as one import of your plan (during the trial, it is your only import). A book of more than 60 pages cannot be imported whole: import the chapter you are revising instead.
+Listening to a book: on the page of a PDF book or a PDF or Word course, "Listen" reads the text aloud with your phone's or computer's voice (speed, French or English voice, starting page, Pause and Resume). Free and not counted against your plan. A scanned PDF (no text) cannot be read aloud.
 Your books are visible only to you.`,
     },
     {

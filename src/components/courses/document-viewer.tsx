@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { ReadAloud } from "@/components/courses/read-aloud";
 import { isSafeImageSource, isSafeLink, type ViewerKind } from "@/lib/document-view";
 
 interface Labels {
@@ -15,12 +16,19 @@ interface Labels {
  * - PDF : chaque page est dessinée dans un canevas (pdf.js, livré avec unpdf) ;
  * - Word : converti en HTML dans le navigateur (mammoth), puis nettoyé ;
  * - photo : affichée telle quelle.
+ * PDF et Word ont en plus « Écouter le document » (voix du navigateur, `ReadAloud`).
  * Le fichier ne quitte pas le navigateur : il est lu depuis un lien signé de courte durée.
  */
 export function DocumentViewer({ kind, url, title, labels }: { kind: ViewerKind; url: string; title: string; labels: Labels }) {
   if (kind === "image") return <ImageView url={url} title={title} labels={labels} />;
-  if (kind === "pdf") return <PdfView url={url} labels={labels} />;
-  if (kind === "docx") return <DocxView url={url} labels={labels} />;
+  if (kind === "pdf" || kind === "docx") {
+    return (
+      <div className="flex flex-col gap-3">
+        <ReadAloud kind={kind} url={url} />
+        {kind === "pdf" ? <PdfView url={url} labels={labels} /> : <DocxView url={url} labels={labels} />}
+      </div>
+    );
+  }
   return <Failed labels={labels} />;
 }
 
