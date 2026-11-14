@@ -32,7 +32,7 @@ describe("centre d'aide", () => {
     const essai = senegal.find((a) => a.id === "essai")!.body;
     expect(essai).toContain("24 heures");
     expect(essai).toContain("1 document");
-    expect(essai).toContain("1 quiz de 5 questions");
+    expect(essai).toContain("1 quiz de 10 questions");
     expect(essai).toContain("3 messages au professeur");
   });
 

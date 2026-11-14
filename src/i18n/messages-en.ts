@@ -155,7 +155,7 @@ export const en: Messages = {
         {
           title: "4. Free trial",
           body: [
-            "The trial lasts 24 hours from your first course import. It includes 1 import, 1 quiz of 5 questions and 3 messages to the teacher, with no calls. There is only one trial per phone number (one per account for an email account). Afterwards, a plan is needed to continue.",
+            "The trial lasts 24 hours from your first course import. It includes 1 import, 1 quiz of 10 questions and 3 messages to the teacher, with no calls. There is only one trial per phone number (one per account for an email account). Afterwards, a plan is needed to continue.",
           ],
         },
         {

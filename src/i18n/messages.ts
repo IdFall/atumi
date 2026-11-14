@@ -162,7 +162,7 @@ const fr = {
         {
           title: "4. Essai gratuit",
           body: [
-            "L'essai dure 24 heures à partir de ton premier import de cours. Il comprend 1 import, 1 quiz de 5 questions et 3 messages au professeur, sans appel. Il y a un seul essai par numéro de téléphone (un par compte pour un compte e-mail). À la fin, un forfait est nécessaire pour continuer.",
+            "L'essai dure 24 heures à partir de ton premier import de cours. Il comprend 1 import, 1 quiz de 10 questions et 3 messages au professeur, sans appel. Il y a un seul essai par numéro de téléphone (un par compte pour un compte e-mail). À la fin, un forfait est nécessaire pour continuer.",
           ],
         },
         {

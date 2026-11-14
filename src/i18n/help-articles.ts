@@ -94,7 +94,7 @@ function helpArticlesFr(context: HelpContext): HelpArticle[] {
       id: "essai",
       title: "Mon essai gratuit",
       body: `L'essai gratuit dure 24 heures. Il démarre à ton premier import de cours, pas à l'inscription.
-Pendant l'essai, tu peux : importer 1 document, faire 1 quiz de 5 questions et envoyer 3 messages au professeur. Les appels avec le professeur ne sont pas inclus dans l'essai.
+Pendant l'essai, tu peux : importer 1 document, faire 1 quiz de 10 questions et envoyer 3 messages au professeur. Les appels avec le professeur ne sont pas inclus dans l'essai.
 Il y a un seul essai par numéro de téléphone (un par compte pour un compte ouvert avec un e-mail).
 Le temps qui reste s'affiche en haut du tableau de bord. À la fin de l'essai, il faut un forfait pour continuer.`,
     },
@@ -247,7 +247,7 @@ function helpArticlesEn(context: HelpContext): HelpArticle[] {
       id: "essai",
       title: "My free trial",
       body: `The free trial lasts 24 hours. It starts with your first course import, not when you sign up.
-During the trial, you can: import 1 document, take 1 quiz of 5 questions and send 3 messages to the teacher. Calls with the teacher are not included in the trial.
+During the trial, you can: import 1 document, take 1 quiz of 10 questions and send 3 messages to the teacher. Calls with the teacher are not included in the trial.
 There is only one trial per phone number (one per account for an account opened with an email).
 The time left is shown at the top of the dashboard. When the trial ends, you need a plan to continue.`,
     },
